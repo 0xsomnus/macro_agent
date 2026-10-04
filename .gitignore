@@ -1,0 +1,50 @@
+# Local environments and machine-specific state
+.venv/
+venv/
+.cache/
+.local/
+.env
+.env.*
+!.env.example
+
+# Python bytecode, tooling, coverage, and builds
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.nox/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Web dependencies and incremental compiler output
+node_modules/
+*.tsbuildinfo
+
+# Local databases and runtime logs
+*.sqlite
+*.sqlite3
+*.sqlite-wal
+*.sqlite-shm
+*.sqlite-journal
+*.sqlite3-wal
+*.sqlite3-shm
+*.sqlite3-journal
+*.db
+*.log
+
+# OS and temporary editor files
+.DS_Store
+._*
+*.swp
+*.swo
+*~
+
+# Keep reviewed artifacts, SQL migrations, fixtures, and dependency locks tracked.
