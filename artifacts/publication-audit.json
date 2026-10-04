@@ -1,0 +1,4279 @@
+{
+  "synthetic": true,
+  "provider_calls": 0,
+  "provider_spend": 0,
+  "scope": "independent domain core and local SQLite adapter mechanics",
+  "race_proof": "Separate-connection tests prove ordering; this report is sequential.",
+  "scenarios": {
+    "correction_first": {
+      "old_analysis_current_disposition": "superseded",
+      "before_reassessment": {
+        "brief_id": "fixture-gold-release-brief",
+        "owner_id": "fixture-trader",
+        "generation": 0,
+        "changed_at": "2026-10-02T06:40:09+00:00",
+        "current_assessment_id": null,
+        "current_dependencies": [
+          {
+            "role": "activation",
+            "version_id": "fixture-approval-v1",
+            "digest": "610fb5f960655f74d01b7842bc79e5709a6a7e6b6f9cef0cae412cb6765cb817",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "budget",
+            "version_id": "fixture-budget-v1",
+            "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "compiled_thesis",
+            "version_id": "gold-compiled-v1",
+            "digest": "f18930e594374bf369eebd099d29262f9d25548cfacd15bc69f9f2f3c140da0b",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "coverage",
+            "version_id": "fixture-coverage-v1",
+            "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "entitlements",
+            "version_id": "fixture-entitlements-v1",
+            "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "event_revision",
+            "version_id": "fictional-release@2",
+            "digest": "d9d0eee4cc36be0b97f4260ae5b85ad04628901a48789c0f09ce2c9dd9a16cd7",
+            "known_at": "2026-10-02T06:40:09+00:00"
+          },
+          {
+            "role": "execution_graph",
+            "version_id": "fixture-execution_graph-v1",
+            "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "exposure",
+            "version_id": "fixture-paper-xau-v1",
+            "digest": "b04008a077cf6ec20c7c0e76c30b2c86572a14d9ebd633f0249957c962c614ef",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "knowledge",
+            "version_id": "fixture-reviewed-knowledge-v1",
+            "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "macro_context",
+            "version_id": "fixture-context-v1",
+            "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "model",
+            "version_id": "fixture-model-v1",
+            "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "prompt",
+            "version_id": "fixture-prompt-v1",
+            "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "rules",
+            "version_id": "spike-rules-v1",
+            "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "source_contract",
+            "version_id": "fixture-public-use-v1",
+            "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "source_manifest",
+            "version_id": "fixture-manifest-v1",
+            "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "user_thesis",
+            "version_id": "gold-thesis-v1",
+            "digest": "eed79a99946944bb37e5fb3ce146353037f59c666493efa462ff4785394ccbdd",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          }
+        ],
+        "assessments": [
+          {
+            "assessment_id": "analysis-r1",
+            "digest": "e68eb879d994278f4d7812537da781d91ad528ab24742a3167c65c2ee2ca5559",
+            "payload": {
+              "assessment_id": "analysis-r1",
+              "brief_id": "fixture-gold-release-brief",
+              "cutoff": "2026-10-02T06:30:05+00:00",
+              "dependencies": [
+                {
+                  "digest": "610fb5f960655f74d01b7842bc79e5709a6a7e6b6f9cef0cae412cb6765cb817",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "activation",
+                  "version_id": "fixture-approval-v1"
+                },
+                {
+                  "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "budget",
+                  "version_id": "fixture-budget-v1"
+                },
+                {
+                  "digest": "f18930e594374bf369eebd099d29262f9d25548cfacd15bc69f9f2f3c140da0b",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "compiled_thesis",
+                  "version_id": "gold-compiled-v1"
+                },
+                {
+                  "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "coverage",
+                  "version_id": "fixture-coverage-v1"
+                },
+                {
+                  "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "entitlements",
+                  "version_id": "fixture-entitlements-v1"
+                },
+                {
+                  "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+                  "known_at": "2026-10-02T06:30:05+00:00",
+                  "role": "event_revision",
+                  "version_id": "fictional-release@1"
+                },
+                {
+                  "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "execution_graph",
+                  "version_id": "fixture-execution_graph-v1"
+                },
+                {
+                  "digest": "b04008a077cf6ec20c7c0e76c30b2c86572a14d9ebd633f0249957c962c614ef",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "exposure",
+                  "version_id": "fixture-paper-xau-v1"
+                },
+                {
+                  "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "knowledge",
+                  "version_id": "fixture-reviewed-knowledge-v1"
+                },
+                {
+                  "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "macro_context",
+                  "version_id": "fixture-context-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "model",
+                  "version_id": "fixture-model-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "prompt",
+                  "version_id": "fixture-prompt-v1"
+                },
+                {
+                  "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "rules",
+                  "version_id": "spike-rules-v1"
+                },
+                {
+                  "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_contract",
+                  "version_id": "fixture-public-use-v1"
+                },
+                {
+                  "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_manifest",
+                  "version_id": "fixture-manifest-v1"
+                },
+                {
+                  "digest": "eed79a99946944bb37e5fb3ce146353037f59c666493efa462ff4785394ccbdd",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "user_thesis",
+                  "version_id": "gold-thesis-v1"
+                }
+              ],
+              "expectations": "unavailable",
+              "expected_generation": 0,
+              "facts": [
+                {
+                  "field": "reported_measure",
+                  "value": 3.1
+                }
+              ],
+              "kind": "supported_factual_notice",
+              "material_change": true,
+              "owner_id": "fixture-trader",
+              "portfolio_impact": "unresolved",
+              "run_id": "run:analysis-r1",
+              "screening": {
+                "broad_disruption": false,
+                "classifier_available": true,
+                "credible": true,
+                "novel": false,
+                "plausible_transmission": true,
+                "potential_severity": "high",
+                "resolved": true,
+                "thesis_impact": true,
+                "trade_impact": false,
+                "urgent": false
+              },
+              "snapshot_digest": "6c1ddfda30ae1646f5c9cc7098fe31e42c3dd55b861d691392d98552ffbf906c",
+              "snapshot_id": "snapshot:analysis-r1"
+            },
+            "decision": {
+              "status": "superseded",
+              "reasons": [
+                "changed:event_revision"
+              ],
+              "reassessment_required": true
+            },
+            "observed_dependencies": [
+              {
+                "digest": "610fb5f960655f74d01b7842bc79e5709a6a7e6b6f9cef0cae412cb6765cb817",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "activation",
+                "version_id": "fixture-approval-v1"
+              },
+              {
+                "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "budget",
+                "version_id": "fixture-budget-v1"
+              },
+              {
+                "digest": "f18930e594374bf369eebd099d29262f9d25548cfacd15bc69f9f2f3c140da0b",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "compiled_thesis",
+                "version_id": "gold-compiled-v1"
+              },
+              {
+                "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "coverage",
+                "version_id": "fixture-coverage-v1"
+              },
+              {
+                "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "entitlements",
+                "version_id": "fixture-entitlements-v1"
+              },
+              {
+                "digest": "d9d0eee4cc36be0b97f4260ae5b85ad04628901a48789c0f09ce2c9dd9a16cd7",
+                "known_at": "2026-10-02T06:40:09+00:00",
+                "role": "event_revision",
+                "version_id": "fictional-release@2"
+              },
+              {
+                "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "execution_graph",
+                "version_id": "fixture-execution_graph-v1"
+              },
+              {
+                "digest": "b04008a077cf6ec20c7c0e76c30b2c86572a14d9ebd633f0249957c962c614ef",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "exposure",
+                "version_id": "fixture-paper-xau-v1"
+              },
+              {
+                "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "knowledge",
+                "version_id": "fixture-reviewed-knowledge-v1"
+              },
+              {
+                "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "macro_context",
+                "version_id": "fixture-context-v1"
+              },
+              {
+                "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "model",
+                "version_id": "fixture-model-v1"
+              },
+              {
+                "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "prompt",
+                "version_id": "fixture-prompt-v1"
+              },
+              {
+                "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "rules",
+                "version_id": "spike-rules-v1"
+              },
+              {
+                "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "source_contract",
+                "version_id": "fixture-public-use-v1"
+              },
+              {
+                "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "source_manifest",
+                "version_id": "fixture-manifest-v1"
+              },
+              {
+                "digest": "eed79a99946944bb37e5fb3ce146353037f59c666493efa462ff4785394ccbdd",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "user_thesis",
+                "version_id": "gold-thesis-v1"
+              }
+            ],
+            "is_current": false,
+            "saved_at": "2026-10-02T06:40:10+00:00"
+          }
+        ],
+        "dependency_history": [
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "activation",
+            "version_id": "fixture-approval-v1",
+            "digest": "610fb5f960655f74d01b7842bc79e5709a6a7e6b6f9cef0cae412cb6765cb817",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "budget",
+            "version_id": "fixture-budget-v1",
+            "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "compiled_thesis",
+            "version_id": "gold-compiled-v1",
+            "digest": "f18930e594374bf369eebd099d29262f9d25548cfacd15bc69f9f2f3c140da0b",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "coverage",
+            "version_id": "fixture-coverage-v1",
+            "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "entitlements",
+            "version_id": "fixture-entitlements-v1",
+            "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "event_revision",
+            "version_id": "fictional-release@1",
+            "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+            "known_at": "2026-10-02T06:30:05+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "event_revision",
+            "version_id": "fictional-release@2",
+            "digest": "d9d0eee4cc36be0b97f4260ae5b85ad04628901a48789c0f09ce2c9dd9a16cd7",
+            "known_at": "2026-10-02T06:40:09+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "execution_graph",
+            "version_id": "fixture-execution_graph-v1",
+            "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "exposure",
+            "version_id": "fixture-paper-xau-v1",
+            "digest": "b04008a077cf6ec20c7c0e76c30b2c86572a14d9ebd633f0249957c962c614ef",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "knowledge",
+            "version_id": "fixture-reviewed-knowledge-v1",
+            "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "macro_context",
+            "version_id": "fixture-context-v1",
+            "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "model",
+            "version_id": "fixture-model-v1",
+            "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "prompt",
+            "version_id": "fixture-prompt-v1",
+            "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "rules",
+            "version_id": "spike-rules-v1",
+            "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "source_contract",
+            "version_id": "fixture-public-use-v1",
+            "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "source_manifest",
+            "version_id": "fixture-manifest-v1",
+            "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "user_thesis",
+            "version_id": "gold-thesis-v1",
+            "digest": "eed79a99946944bb37e5fb3ce146353037f59c666493efa462ff4785394ccbdd",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          }
+        ],
+        "brief_versions": [],
+        "notifications": [],
+        "reassessment": [
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "context_digest": "c47aa42f50ae144b8285c076ffe212c8dd0942e8ef6434bde551f53ced41f7e5",
+            "reason": "changed:event_revision",
+            "created_at": "2026-10-02T06:40:09+00:00",
+            "state": "pending",
+            "completed_at": null
+          }
+        ],
+        "audit": [
+          {
+            "sequence": 1,
+            "brief_id": "fixture-gold-release-brief",
+            "kind": "bootstrap",
+            "happened_at": "2026-10-02T06:30:05+00:00",
+            "detail": {
+              "dependencies": [
+                {
+                  "digest": "610fb5f960655f74d01b7842bc79e5709a6a7e6b6f9cef0cae412cb6765cb817",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "activation",
+                  "version_id": "fixture-approval-v1"
+                },
+                {
+                  "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "budget",
+                  "version_id": "fixture-budget-v1"
+                },
+                {
+                  "digest": "f18930e594374bf369eebd099d29262f9d25548cfacd15bc69f9f2f3c140da0b",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "compiled_thesis",
+                  "version_id": "gold-compiled-v1"
+                },
+                {
+                  "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "coverage",
+                  "version_id": "fixture-coverage-v1"
+                },
+                {
+                  "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "entitlements",
+                  "version_id": "fixture-entitlements-v1"
+                },
+                {
+                  "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+                  "known_at": "2026-10-02T06:30:05+00:00",
+                  "role": "event_revision",
+                  "version_id": "fictional-release@1"
+                },
+                {
+                  "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "execution_graph",
+                  "version_id": "fixture-execution_graph-v1"
+                },
+                {
+                  "digest": "b04008a077cf6ec20c7c0e76c30b2c86572a14d9ebd633f0249957c962c614ef",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "exposure",
+                  "version_id": "fixture-paper-xau-v1"
+                },
+                {
+                  "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "knowledge",
+                  "version_id": "fixture-reviewed-knowledge-v1"
+                },
+                {
+                  "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "macro_context",
+                  "version_id": "fixture-context-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "model",
+                  "version_id": "fixture-model-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "prompt",
+                  "version_id": "fixture-prompt-v1"
+                },
+                {
+                  "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "rules",
+                  "version_id": "spike-rules-v1"
+                },
+                {
+                  "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_contract",
+                  "version_id": "fixture-public-use-v1"
+                },
+                {
+                  "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_manifest",
+                  "version_id": "fixture-manifest-v1"
+                },
+                {
+                  "digest": "eed79a99946944bb37e5fb3ce146353037f59c666493efa462ff4785394ccbdd",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "user_thesis",
+                  "version_id": "gold-thesis-v1"
+                }
+              ],
+              "owner_id": "fixture-trader"
+            }
+          },
+          {
+            "sequence": 2,
+            "brief_id": "fixture-gold-release-brief",
+            "kind": "dependency_advanced",
+            "happened_at": "2026-10-02T06:40:09+00:00",
+            "detail": {
+              "canceled_intents": [],
+              "current": {
+                "digest": "d9d0eee4cc36be0b97f4260ae5b85ad04628901a48789c0f09ce2c9dd9a16cd7",
+                "known_at": "2026-10-02T06:40:09+00:00",
+                "role": "event_revision",
+                "version_id": "fictional-release@2"
+              },
+              "previous": {
+                "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+                "known_at": "2026-10-02T06:30:05+00:00",
+                "role": "event_revision",
+                "version_id": "fictional-release@1"
+              }
+            }
+          },
+          {
+            "sequence": 3,
+            "brief_id": "fixture-gold-release-brief",
+            "kind": "publication",
+            "happened_at": "2026-10-02T06:40:10+00:00",
+            "detail": {
+              "assessment_id": "analysis-r1",
+              "canceled_intents": [],
+              "intent_id": null,
+              "observed_dependencies": [
+                {
+                  "digest": "610fb5f960655f74d01b7842bc79e5709a6a7e6b6f9cef0cae412cb6765cb817",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "activation",
+                  "version_id": "fixture-approval-v1"
+                },
+                {
+                  "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "budget",
+                  "version_id": "fixture-budget-v1"
+                },
+                {
+                  "digest": "f18930e594374bf369eebd099d29262f9d25548cfacd15bc69f9f2f3c140da0b",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "compiled_thesis",
+                  "version_id": "gold-compiled-v1"
+                },
+                {
+                  "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "coverage",
+                  "version_id": "fixture-coverage-v1"
+                },
+                {
+                  "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "entitlements",
+                  "version_id": "fixture-entitlements-v1"
+                },
+                {
+                  "digest": "d9d0eee4cc36be0b97f4260ae5b85ad04628901a48789c0f09ce2c9dd9a16cd7",
+                  "known_at": "2026-10-02T06:40:09+00:00",
+                  "role": "event_revision",
+                  "version_id": "fictional-release@2"
+                },
+                {
+                  "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "execution_graph",
+                  "version_id": "fixture-execution_graph-v1"
+                },
+                {
+                  "digest": "b04008a077cf6ec20c7c0e76c30b2c86572a14d9ebd633f0249957c962c614ef",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "exposure",
+                  "version_id": "fixture-paper-xau-v1"
+                },
+                {
+                  "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "knowledge",
+                  "version_id": "fixture-reviewed-knowledge-v1"
+                },
+                {
+                  "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "macro_context",
+                  "version_id": "fixture-context-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "model",
+                  "version_id": "fixture-model-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "prompt",
+                  "version_id": "fixture-prompt-v1"
+                },
+                {
+                  "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "rules",
+                  "version_id": "spike-rules-v1"
+                },
+                {
+                  "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_contract",
+                  "version_id": "fixture-public-use-v1"
+                },
+                {
+                  "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_manifest",
+                  "version_id": "fixture-manifest-v1"
+                },
+                {
+                  "digest": "eed79a99946944bb37e5fb3ce146353037f59c666493efa462ff4785394ccbdd",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "user_thesis",
+                  "version_id": "gold-thesis-v1"
+                }
+              ],
+              "pinned_dependencies": [
+                {
+                  "digest": "610fb5f960655f74d01b7842bc79e5709a6a7e6b6f9cef0cae412cb6765cb817",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "activation",
+                  "version_id": "fixture-approval-v1"
+                },
+                {
+                  "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "budget",
+                  "version_id": "fixture-budget-v1"
+                },
+                {
+                  "digest": "f18930e594374bf369eebd099d29262f9d25548cfacd15bc69f9f2f3c140da0b",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "compiled_thesis",
+                  "version_id": "gold-compiled-v1"
+                },
+                {
+                  "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "coverage",
+                  "version_id": "fixture-coverage-v1"
+                },
+                {
+                  "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "entitlements",
+                  "version_id": "fixture-entitlements-v1"
+                },
+                {
+                  "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+                  "known_at": "2026-10-02T06:30:05+00:00",
+                  "role": "event_revision",
+                  "version_id": "fictional-release@1"
+                },
+                {
+                  "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "execution_graph",
+                  "version_id": "fixture-execution_graph-v1"
+                },
+                {
+                  "digest": "b04008a077cf6ec20c7c0e76c30b2c86572a14d9ebd633f0249957c962c614ef",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "exposure",
+                  "version_id": "fixture-paper-xau-v1"
+                },
+                {
+                  "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "knowledge",
+                  "version_id": "fixture-reviewed-knowledge-v1"
+                },
+                {
+                  "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "macro_context",
+                  "version_id": "fixture-context-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "model",
+                  "version_id": "fixture-model-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "prompt",
+                  "version_id": "fixture-prompt-v1"
+                },
+                {
+                  "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "rules",
+                  "version_id": "spike-rules-v1"
+                },
+                {
+                  "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_contract",
+                  "version_id": "fixture-public-use-v1"
+                },
+                {
+                  "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_manifest",
+                  "version_id": "fixture-manifest-v1"
+                },
+                {
+                  "digest": "eed79a99946944bb37e5fb3ce146353037f59c666493efa462ff4785394ccbdd",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "user_thesis",
+                  "version_id": "gold-thesis-v1"
+                }
+              ],
+              "reasons": [
+                "changed:event_revision"
+              ],
+              "run_id": "run:analysis-r1",
+              "status": "superseded"
+            }
+          }
+        ]
+      },
+      "after_reassessment": {
+        "brief_id": "fixture-gold-release-brief",
+        "owner_id": "fixture-trader",
+        "generation": 1,
+        "changed_at": "2026-10-02T06:40:11+00:00",
+        "current_assessment_id": "analysis-r2",
+        "current_dependencies": [
+          {
+            "role": "activation",
+            "version_id": "fixture-approval-v1",
+            "digest": "610fb5f960655f74d01b7842bc79e5709a6a7e6b6f9cef0cae412cb6765cb817",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "budget",
+            "version_id": "fixture-budget-v1",
+            "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "compiled_thesis",
+            "version_id": "gold-compiled-v1",
+            "digest": "f18930e594374bf369eebd099d29262f9d25548cfacd15bc69f9f2f3c140da0b",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "coverage",
+            "version_id": "fixture-coverage-v1",
+            "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "entitlements",
+            "version_id": "fixture-entitlements-v1",
+            "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "event_revision",
+            "version_id": "fictional-release@2",
+            "digest": "d9d0eee4cc36be0b97f4260ae5b85ad04628901a48789c0f09ce2c9dd9a16cd7",
+            "known_at": "2026-10-02T06:40:09+00:00"
+          },
+          {
+            "role": "execution_graph",
+            "version_id": "fixture-execution_graph-v1",
+            "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "exposure",
+            "version_id": "fixture-paper-xau-v1",
+            "digest": "b04008a077cf6ec20c7c0e76c30b2c86572a14d9ebd633f0249957c962c614ef",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "knowledge",
+            "version_id": "fixture-reviewed-knowledge-v1",
+            "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "macro_context",
+            "version_id": "fixture-context-v1",
+            "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "model",
+            "version_id": "fixture-model-v1",
+            "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "prompt",
+            "version_id": "fixture-prompt-v1",
+            "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "rules",
+            "version_id": "spike-rules-v1",
+            "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "source_contract",
+            "version_id": "fixture-public-use-v1",
+            "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "source_manifest",
+            "version_id": "fixture-manifest-v1",
+            "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "user_thesis",
+            "version_id": "gold-thesis-v1",
+            "digest": "eed79a99946944bb37e5fb3ce146353037f59c666493efa462ff4785394ccbdd",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          }
+        ],
+        "assessments": [
+          {
+            "assessment_id": "analysis-r1",
+            "digest": "e68eb879d994278f4d7812537da781d91ad528ab24742a3167c65c2ee2ca5559",
+            "payload": {
+              "assessment_id": "analysis-r1",
+              "brief_id": "fixture-gold-release-brief",
+              "cutoff": "2026-10-02T06:30:05+00:00",
+              "dependencies": [
+                {
+                  "digest": "610fb5f960655f74d01b7842bc79e5709a6a7e6b6f9cef0cae412cb6765cb817",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "activation",
+                  "version_id": "fixture-approval-v1"
+                },
+                {
+                  "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "budget",
+                  "version_id": "fixture-budget-v1"
+                },
+                {
+                  "digest": "f18930e594374bf369eebd099d29262f9d25548cfacd15bc69f9f2f3c140da0b",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "compiled_thesis",
+                  "version_id": "gold-compiled-v1"
+                },
+                {
+                  "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "coverage",
+                  "version_id": "fixture-coverage-v1"
+                },
+                {
+                  "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "entitlements",
+                  "version_id": "fixture-entitlements-v1"
+                },
+                {
+                  "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+                  "known_at": "2026-10-02T06:30:05+00:00",
+                  "role": "event_revision",
+                  "version_id": "fictional-release@1"
+                },
+                {
+                  "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "execution_graph",
+                  "version_id": "fixture-execution_graph-v1"
+                },
+                {
+                  "digest": "b04008a077cf6ec20c7c0e76c30b2c86572a14d9ebd633f0249957c962c614ef",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "exposure",
+                  "version_id": "fixture-paper-xau-v1"
+                },
+                {
+                  "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "knowledge",
+                  "version_id": "fixture-reviewed-knowledge-v1"
+                },
+                {
+                  "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "macro_context",
+                  "version_id": "fixture-context-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "model",
+                  "version_id": "fixture-model-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "prompt",
+                  "version_id": "fixture-prompt-v1"
+                },
+                {
+                  "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "rules",
+                  "version_id": "spike-rules-v1"
+                },
+                {
+                  "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_contract",
+                  "version_id": "fixture-public-use-v1"
+                },
+                {
+                  "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_manifest",
+                  "version_id": "fixture-manifest-v1"
+                },
+                {
+                  "digest": "eed79a99946944bb37e5fb3ce146353037f59c666493efa462ff4785394ccbdd",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "user_thesis",
+                  "version_id": "gold-thesis-v1"
+                }
+              ],
+              "expectations": "unavailable",
+              "expected_generation": 0,
+              "facts": [
+                {
+                  "field": "reported_measure",
+                  "value": 3.1
+                }
+              ],
+              "kind": "supported_factual_notice",
+              "material_change": true,
+              "owner_id": "fixture-trader",
+              "portfolio_impact": "unresolved",
+              "run_id": "run:analysis-r1",
+              "screening": {
+                "broad_disruption": false,
+                "classifier_available": true,
+                "credible": true,
+                "novel": false,
+                "plausible_transmission": true,
+                "potential_severity": "high",
+                "resolved": true,
+                "thesis_impact": true,
+                "trade_impact": false,
+                "urgent": false
+              },
+              "snapshot_digest": "6c1ddfda30ae1646f5c9cc7098fe31e42c3dd55b861d691392d98552ffbf906c",
+              "snapshot_id": "snapshot:analysis-r1"
+            },
+            "decision": {
+              "status": "superseded",
+              "reasons": [
+                "changed:event_revision"
+              ],
+              "reassessment_required": true
+            },
+            "observed_dependencies": [
+              {
+                "digest": "610fb5f960655f74d01b7842bc79e5709a6a7e6b6f9cef0cae412cb6765cb817",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "activation",
+                "version_id": "fixture-approval-v1"
+              },
+              {
+                "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "budget",
+                "version_id": "fixture-budget-v1"
+              },
+              {
+                "digest": "f18930e594374bf369eebd099d29262f9d25548cfacd15bc69f9f2f3c140da0b",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "compiled_thesis",
+                "version_id": "gold-compiled-v1"
+              },
+              {
+                "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "coverage",
+                "version_id": "fixture-coverage-v1"
+              },
+              {
+                "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "entitlements",
+                "version_id": "fixture-entitlements-v1"
+              },
+              {
+                "digest": "d9d0eee4cc36be0b97f4260ae5b85ad04628901a48789c0f09ce2c9dd9a16cd7",
+                "known_at": "2026-10-02T06:40:09+00:00",
+                "role": "event_revision",
+                "version_id": "fictional-release@2"
+              },
+              {
+                "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "execution_graph",
+                "version_id": "fixture-execution_graph-v1"
+              },
+              {
+                "digest": "b04008a077cf6ec20c7c0e76c30b2c86572a14d9ebd633f0249957c962c614ef",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "exposure",
+                "version_id": "fixture-paper-xau-v1"
+              },
+              {
+                "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "knowledge",
+                "version_id": "fixture-reviewed-knowledge-v1"
+              },
+              {
+                "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "macro_context",
+                "version_id": "fixture-context-v1"
+              },
+              {
+                "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "model",
+                "version_id": "fixture-model-v1"
+              },
+              {
+                "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "prompt",
+                "version_id": "fixture-prompt-v1"
+              },
+              {
+                "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "rules",
+                "version_id": "spike-rules-v1"
+              },
+              {
+                "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "source_contract",
+                "version_id": "fixture-public-use-v1"
+              },
+              {
+                "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "source_manifest",
+                "version_id": "fixture-manifest-v1"
+              },
+              {
+                "digest": "eed79a99946944bb37e5fb3ce146353037f59c666493efa462ff4785394ccbdd",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "user_thesis",
+                "version_id": "gold-thesis-v1"
+              }
+            ],
+            "is_current": false,
+            "saved_at": "2026-10-02T06:40:10+00:00"
+          },
+          {
+            "assessment_id": "analysis-r2",
+            "digest": "ca5a98a7764e50f154b7e8257c00679e00d2de6ec6e544828b481649ce1c3891",
+            "payload": {
+              "assessment_id": "analysis-r2",
+              "brief_id": "fixture-gold-release-brief",
+              "cutoff": "2026-10-02T06:40:09+00:00",
+              "dependencies": [
+                {
+                  "digest": "610fb5f960655f74d01b7842bc79e5709a6a7e6b6f9cef0cae412cb6765cb817",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "activation",
+                  "version_id": "fixture-approval-v1"
+                },
+                {
+                  "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "budget",
+                  "version_id": "fixture-budget-v1"
+                },
+                {
+                  "digest": "f18930e594374bf369eebd099d29262f9d25548cfacd15bc69f9f2f3c140da0b",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "compiled_thesis",
+                  "version_id": "gold-compiled-v1"
+                },
+                {
+                  "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "coverage",
+                  "version_id": "fixture-coverage-v1"
+                },
+                {
+                  "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "entitlements",
+                  "version_id": "fixture-entitlements-v1"
+                },
+                {
+                  "digest": "d9d0eee4cc36be0b97f4260ae5b85ad04628901a48789c0f09ce2c9dd9a16cd7",
+                  "known_at": "2026-10-02T06:40:09+00:00",
+                  "role": "event_revision",
+                  "version_id": "fictional-release@2"
+                },
+                {
+                  "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "execution_graph",
+                  "version_id": "fixture-execution_graph-v1"
+                },
+                {
+                  "digest": "b04008a077cf6ec20c7c0e76c30b2c86572a14d9ebd633f0249957c962c614ef",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "exposure",
+                  "version_id": "fixture-paper-xau-v1"
+                },
+                {
+                  "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "knowledge",
+                  "version_id": "fixture-reviewed-knowledge-v1"
+                },
+                {
+                  "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "macro_context",
+                  "version_id": "fixture-context-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "model",
+                  "version_id": "fixture-model-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "prompt",
+                  "version_id": "fixture-prompt-v1"
+                },
+                {
+                  "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "rules",
+                  "version_id": "spike-rules-v1"
+                },
+                {
+                  "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_contract",
+                  "version_id": "fixture-public-use-v1"
+                },
+                {
+                  "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_manifest",
+                  "version_id": "fixture-manifest-v1"
+                },
+                {
+                  "digest": "eed79a99946944bb37e5fb3ce146353037f59c666493efa462ff4785394ccbdd",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "user_thesis",
+                  "version_id": "gold-thesis-v1"
+                }
+              ],
+              "expectations": "unavailable",
+              "expected_generation": 0,
+              "facts": [
+                {
+                  "field": "reported_measure",
+                  "value": 3.0
+                }
+              ],
+              "kind": "supported_factual_notice",
+              "material_change": true,
+              "owner_id": "fixture-trader",
+              "portfolio_impact": "unresolved",
+              "run_id": "run:analysis-r2",
+              "screening": {
+                "broad_disruption": false,
+                "classifier_available": true,
+                "credible": true,
+                "novel": false,
+                "plausible_transmission": true,
+                "potential_severity": "high",
+                "resolved": true,
+                "thesis_impact": true,
+                "trade_impact": false,
+                "urgent": false
+              },
+              "snapshot_digest": "eb977848a7aa6d7b852f57d955af9e03092bec5bfd6193742c80282c5dc9d161",
+              "snapshot_id": "snapshot:analysis-r2"
+            },
+            "decision": {
+              "status": "current",
+              "reasons": [
+                "all_dependencies_current"
+              ],
+              "reassessment_required": false
+            },
+            "observed_dependencies": [
+              {
+                "digest": "610fb5f960655f74d01b7842bc79e5709a6a7e6b6f9cef0cae412cb6765cb817",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "activation",
+                "version_id": "fixture-approval-v1"
+              },
+              {
+                "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "budget",
+                "version_id": "fixture-budget-v1"
+              },
+              {
+                "digest": "f18930e594374bf369eebd099d29262f9d25548cfacd15bc69f9f2f3c140da0b",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "compiled_thesis",
+                "version_id": "gold-compiled-v1"
+              },
+              {
+                "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "coverage",
+                "version_id": "fixture-coverage-v1"
+              },
+              {
+                "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "entitlements",
+                "version_id": "fixture-entitlements-v1"
+              },
+              {
+                "digest": "d9d0eee4cc36be0b97f4260ae5b85ad04628901a48789c0f09ce2c9dd9a16cd7",
+                "known_at": "2026-10-02T06:40:09+00:00",
+                "role": "event_revision",
+                "version_id": "fictional-release@2"
+              },
+              {
+                "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "execution_graph",
+                "version_id": "fixture-execution_graph-v1"
+              },
+              {
+                "digest": "b04008a077cf6ec20c7c0e76c30b2c86572a14d9ebd633f0249957c962c614ef",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "exposure",
+                "version_id": "fixture-paper-xau-v1"
+              },
+              {
+                "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "knowledge",
+                "version_id": "fixture-reviewed-knowledge-v1"
+              },
+              {
+                "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "macro_context",
+                "version_id": "fixture-context-v1"
+              },
+              {
+                "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "model",
+                "version_id": "fixture-model-v1"
+              },
+              {
+                "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "prompt",
+                "version_id": "fixture-prompt-v1"
+              },
+              {
+                "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "rules",
+                "version_id": "spike-rules-v1"
+              },
+              {
+                "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "source_contract",
+                "version_id": "fixture-public-use-v1"
+              },
+              {
+                "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "source_manifest",
+                "version_id": "fixture-manifest-v1"
+              },
+              {
+                "digest": "eed79a99946944bb37e5fb3ce146353037f59c666493efa462ff4785394ccbdd",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "user_thesis",
+                "version_id": "gold-thesis-v1"
+              }
+            ],
+            "is_current": true,
+            "saved_at": "2026-10-02T06:40:11+00:00"
+          }
+        ],
+        "dependency_history": [
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "activation",
+            "version_id": "fixture-approval-v1",
+            "digest": "610fb5f960655f74d01b7842bc79e5709a6a7e6b6f9cef0cae412cb6765cb817",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "budget",
+            "version_id": "fixture-budget-v1",
+            "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "compiled_thesis",
+            "version_id": "gold-compiled-v1",
+            "digest": "f18930e594374bf369eebd099d29262f9d25548cfacd15bc69f9f2f3c140da0b",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "coverage",
+            "version_id": "fixture-coverage-v1",
+            "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "entitlements",
+            "version_id": "fixture-entitlements-v1",
+            "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "event_revision",
+            "version_id": "fictional-release@1",
+            "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+            "known_at": "2026-10-02T06:30:05+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "event_revision",
+            "version_id": "fictional-release@2",
+            "digest": "d9d0eee4cc36be0b97f4260ae5b85ad04628901a48789c0f09ce2c9dd9a16cd7",
+            "known_at": "2026-10-02T06:40:09+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "execution_graph",
+            "version_id": "fixture-execution_graph-v1",
+            "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "exposure",
+            "version_id": "fixture-paper-xau-v1",
+            "digest": "b04008a077cf6ec20c7c0e76c30b2c86572a14d9ebd633f0249957c962c614ef",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "knowledge",
+            "version_id": "fixture-reviewed-knowledge-v1",
+            "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "macro_context",
+            "version_id": "fixture-context-v1",
+            "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "model",
+            "version_id": "fixture-model-v1",
+            "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "prompt",
+            "version_id": "fixture-prompt-v1",
+            "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "rules",
+            "version_id": "spike-rules-v1",
+            "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "source_contract",
+            "version_id": "fixture-public-use-v1",
+            "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "source_manifest",
+            "version_id": "fixture-manifest-v1",
+            "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "user_thesis",
+            "version_id": "gold-thesis-v1",
+            "digest": "eed79a99946944bb37e5fb3ce146353037f59c666493efa462ff4785394ccbdd",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          }
+        ],
+        "brief_versions": [
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "generation": 1,
+            "assessment_id": "analysis-r2",
+            "saved_at": "2026-10-02T06:40:11+00:00"
+          }
+        ],
+        "notifications": [
+          {
+            "intent_id": "notice:b7747a4fa58f375d254685616c67b7f4d45bc37de822b76c66555c24a10f0a32",
+            "brief_id": "fixture-gold-release-brief",
+            "assessment_id": "analysis-r2",
+            "state": "pending",
+            "created_at": "2026-10-02T06:40:11+00:00",
+            "updated_at": "2026-10-02T06:40:11+00:00"
+          }
+        ],
+        "reassessment": [
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "context_digest": "c47aa42f50ae144b8285c076ffe212c8dd0942e8ef6434bde551f53ced41f7e5",
+            "reason": "changed:event_revision",
+            "created_at": "2026-10-02T06:40:09+00:00",
+            "state": "completed",
+            "completed_at": "2026-10-02T06:40:11+00:00"
+          }
+        ],
+        "audit": [
+          {
+            "sequence": 1,
+            "brief_id": "fixture-gold-release-brief",
+            "kind": "bootstrap",
+            "happened_at": "2026-10-02T06:30:05+00:00",
+            "detail": {
+              "dependencies": [
+                {
+                  "digest": "610fb5f960655f74d01b7842bc79e5709a6a7e6b6f9cef0cae412cb6765cb817",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "activation",
+                  "version_id": "fixture-approval-v1"
+                },
+                {
+                  "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "budget",
+                  "version_id": "fixture-budget-v1"
+                },
+                {
+                  "digest": "f18930e594374bf369eebd099d29262f9d25548cfacd15bc69f9f2f3c140da0b",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "compiled_thesis",
+                  "version_id": "gold-compiled-v1"
+                },
+                {
+                  "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "coverage",
+                  "version_id": "fixture-coverage-v1"
+                },
+                {
+                  "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "entitlements",
+                  "version_id": "fixture-entitlements-v1"
+                },
+                {
+                  "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+                  "known_at": "2026-10-02T06:30:05+00:00",
+                  "role": "event_revision",
+                  "version_id": "fictional-release@1"
+                },
+                {
+                  "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "execution_graph",
+                  "version_id": "fixture-execution_graph-v1"
+                },
+                {
+                  "digest": "b04008a077cf6ec20c7c0e76c30b2c86572a14d9ebd633f0249957c962c614ef",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "exposure",
+                  "version_id": "fixture-paper-xau-v1"
+                },
+                {
+                  "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "knowledge",
+                  "version_id": "fixture-reviewed-knowledge-v1"
+                },
+                {
+                  "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "macro_context",
+                  "version_id": "fixture-context-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "model",
+                  "version_id": "fixture-model-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "prompt",
+                  "version_id": "fixture-prompt-v1"
+                },
+                {
+                  "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "rules",
+                  "version_id": "spike-rules-v1"
+                },
+                {
+                  "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_contract",
+                  "version_id": "fixture-public-use-v1"
+                },
+                {
+                  "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_manifest",
+                  "version_id": "fixture-manifest-v1"
+                },
+                {
+                  "digest": "eed79a99946944bb37e5fb3ce146353037f59c666493efa462ff4785394ccbdd",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "user_thesis",
+                  "version_id": "gold-thesis-v1"
+                }
+              ],
+              "owner_id": "fixture-trader"
+            }
+          },
+          {
+            "sequence": 2,
+            "brief_id": "fixture-gold-release-brief",
+            "kind": "dependency_advanced",
+            "happened_at": "2026-10-02T06:40:09+00:00",
+            "detail": {
+              "canceled_intents": [],
+              "current": {
+                "digest": "d9d0eee4cc36be0b97f4260ae5b85ad04628901a48789c0f09ce2c9dd9a16cd7",
+                "known_at": "2026-10-02T06:40:09+00:00",
+                "role": "event_revision",
+                "version_id": "fictional-release@2"
+              },
+              "previous": {
+                "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+                "known_at": "2026-10-02T06:30:05+00:00",
+                "role": "event_revision",
+                "version_id": "fictional-release@1"
+              }
+            }
+          },
+          {
+            "sequence": 3,
+            "brief_id": "fixture-gold-release-brief",
+            "kind": "publication",
+            "happened_at": "2026-10-02T06:40:10+00:00",
+            "detail": {
+              "assessment_id": "analysis-r1",
+              "canceled_intents": [],
+              "intent_id": null,
+              "observed_dependencies": [
+                {
+                  "digest": "610fb5f960655f74d01b7842bc79e5709a6a7e6b6f9cef0cae412cb6765cb817",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "activation",
+                  "version_id": "fixture-approval-v1"
+                },
+                {
+                  "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "budget",
+                  "version_id": "fixture-budget-v1"
+                },
+                {
+                  "digest": "f18930e594374bf369eebd099d29262f9d25548cfacd15bc69f9f2f3c140da0b",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "compiled_thesis",
+                  "version_id": "gold-compiled-v1"
+                },
+                {
+                  "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "coverage",
+                  "version_id": "fixture-coverage-v1"
+                },
+                {
+                  "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "entitlements",
+                  "version_id": "fixture-entitlements-v1"
+                },
+                {
+                  "digest": "d9d0eee4cc36be0b97f4260ae5b85ad04628901a48789c0f09ce2c9dd9a16cd7",
+                  "known_at": "2026-10-02T06:40:09+00:00",
+                  "role": "event_revision",
+                  "version_id": "fictional-release@2"
+                },
+                {
+                  "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "execution_graph",
+                  "version_id": "fixture-execution_graph-v1"
+                },
+                {
+                  "digest": "b04008a077cf6ec20c7c0e76c30b2c86572a14d9ebd633f0249957c962c614ef",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "exposure",
+                  "version_id": "fixture-paper-xau-v1"
+                },
+                {
+                  "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "knowledge",
+                  "version_id": "fixture-reviewed-knowledge-v1"
+                },
+                {
+                  "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "macro_context",
+                  "version_id": "fixture-context-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "model",
+                  "version_id": "fixture-model-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "prompt",
+                  "version_id": "fixture-prompt-v1"
+                },
+                {
+                  "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "rules",
+                  "version_id": "spike-rules-v1"
+                },
+                {
+                  "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_contract",
+                  "version_id": "fixture-public-use-v1"
+                },
+                {
+                  "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_manifest",
+                  "version_id": "fixture-manifest-v1"
+                },
+                {
+                  "digest": "eed79a99946944bb37e5fb3ce146353037f59c666493efa462ff4785394ccbdd",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "user_thesis",
+                  "version_id": "gold-thesis-v1"
+                }
+              ],
+              "pinned_dependencies": [
+                {
+                  "digest": "610fb5f960655f74d01b7842bc79e5709a6a7e6b6f9cef0cae412cb6765cb817",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "activation",
+                  "version_id": "fixture-approval-v1"
+                },
+                {
+                  "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "budget",
+                  "version_id": "fixture-budget-v1"
+                },
+                {
+                  "digest": "f18930e594374bf369eebd099d29262f9d25548cfacd15bc69f9f2f3c140da0b",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "compiled_thesis",
+                  "version_id": "gold-compiled-v1"
+                },
+                {
+                  "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "coverage",
+                  "version_id": "fixture-coverage-v1"
+                },
+                {
+                  "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "entitlements",
+                  "version_id": "fixture-entitlements-v1"
+                },
+                {
+                  "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+                  "known_at": "2026-10-02T06:30:05+00:00",
+                  "role": "event_revision",
+                  "version_id": "fictional-release@1"
+                },
+                {
+                  "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "execution_graph",
+                  "version_id": "fixture-execution_graph-v1"
+                },
+                {
+                  "digest": "b04008a077cf6ec20c7c0e76c30b2c86572a14d9ebd633f0249957c962c614ef",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "exposure",
+                  "version_id": "fixture-paper-xau-v1"
+                },
+                {
+                  "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "knowledge",
+                  "version_id": "fixture-reviewed-knowledge-v1"
+                },
+                {
+                  "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "macro_context",
+                  "version_id": "fixture-context-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "model",
+                  "version_id": "fixture-model-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "prompt",
+                  "version_id": "fixture-prompt-v1"
+                },
+                {
+                  "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "rules",
+                  "version_id": "spike-rules-v1"
+                },
+                {
+                  "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_contract",
+                  "version_id": "fixture-public-use-v1"
+                },
+                {
+                  "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_manifest",
+                  "version_id": "fixture-manifest-v1"
+                },
+                {
+                  "digest": "eed79a99946944bb37e5fb3ce146353037f59c666493efa462ff4785394ccbdd",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "user_thesis",
+                  "version_id": "gold-thesis-v1"
+                }
+              ],
+              "reasons": [
+                "changed:event_revision"
+              ],
+              "run_id": "run:analysis-r1",
+              "status": "superseded"
+            }
+          },
+          {
+            "sequence": 4,
+            "brief_id": "fixture-gold-release-brief",
+            "kind": "publication",
+            "happened_at": "2026-10-02T06:40:11+00:00",
+            "detail": {
+              "assessment_id": "analysis-r2",
+              "canceled_intents": [],
+              "intent_id": "notice:b7747a4fa58f375d254685616c67b7f4d45bc37de822b76c66555c24a10f0a32",
+              "observed_dependencies": [
+                {
+                  "digest": "610fb5f960655f74d01b7842bc79e5709a6a7e6b6f9cef0cae412cb6765cb817",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "activation",
+                  "version_id": "fixture-approval-v1"
+                },
+                {
+                  "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "budget",
+                  "version_id": "fixture-budget-v1"
+                },
+                {
+                  "digest": "f18930e594374bf369eebd099d29262f9d25548cfacd15bc69f9f2f3c140da0b",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "compiled_thesis",
+                  "version_id": "gold-compiled-v1"
+                },
+                {
+                  "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "coverage",
+                  "version_id": "fixture-coverage-v1"
+                },
+                {
+                  "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "entitlements",
+                  "version_id": "fixture-entitlements-v1"
+                },
+                {
+                  "digest": "d9d0eee4cc36be0b97f4260ae5b85ad04628901a48789c0f09ce2c9dd9a16cd7",
+                  "known_at": "2026-10-02T06:40:09+00:00",
+                  "role": "event_revision",
+                  "version_id": "fictional-release@2"
+                },
+                {
+                  "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "execution_graph",
+                  "version_id": "fixture-execution_graph-v1"
+                },
+                {
+                  "digest": "b04008a077cf6ec20c7c0e76c30b2c86572a14d9ebd633f0249957c962c614ef",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "exposure",
+                  "version_id": "fixture-paper-xau-v1"
+                },
+                {
+                  "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "knowledge",
+                  "version_id": "fixture-reviewed-knowledge-v1"
+                },
+                {
+                  "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "macro_context",
+                  "version_id": "fixture-context-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "model",
+                  "version_id": "fixture-model-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "prompt",
+                  "version_id": "fixture-prompt-v1"
+                },
+                {
+                  "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "rules",
+                  "version_id": "spike-rules-v1"
+                },
+                {
+                  "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_contract",
+                  "version_id": "fixture-public-use-v1"
+                },
+                {
+                  "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_manifest",
+                  "version_id": "fixture-manifest-v1"
+                },
+                {
+                  "digest": "eed79a99946944bb37e5fb3ce146353037f59c666493efa462ff4785394ccbdd",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "user_thesis",
+                  "version_id": "gold-thesis-v1"
+                }
+              ],
+              "pinned_dependencies": [
+                {
+                  "digest": "610fb5f960655f74d01b7842bc79e5709a6a7e6b6f9cef0cae412cb6765cb817",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "activation",
+                  "version_id": "fixture-approval-v1"
+                },
+                {
+                  "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "budget",
+                  "version_id": "fixture-budget-v1"
+                },
+                {
+                  "digest": "f18930e594374bf369eebd099d29262f9d25548cfacd15bc69f9f2f3c140da0b",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "compiled_thesis",
+                  "version_id": "gold-compiled-v1"
+                },
+                {
+                  "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "coverage",
+                  "version_id": "fixture-coverage-v1"
+                },
+                {
+                  "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "entitlements",
+                  "version_id": "fixture-entitlements-v1"
+                },
+                {
+                  "digest": "d9d0eee4cc36be0b97f4260ae5b85ad04628901a48789c0f09ce2c9dd9a16cd7",
+                  "known_at": "2026-10-02T06:40:09+00:00",
+                  "role": "event_revision",
+                  "version_id": "fictional-release@2"
+                },
+                {
+                  "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "execution_graph",
+                  "version_id": "fixture-execution_graph-v1"
+                },
+                {
+                  "digest": "b04008a077cf6ec20c7c0e76c30b2c86572a14d9ebd633f0249957c962c614ef",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "exposure",
+                  "version_id": "fixture-paper-xau-v1"
+                },
+                {
+                  "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "knowledge",
+                  "version_id": "fixture-reviewed-knowledge-v1"
+                },
+                {
+                  "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "macro_context",
+                  "version_id": "fixture-context-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "model",
+                  "version_id": "fixture-model-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "prompt",
+                  "version_id": "fixture-prompt-v1"
+                },
+                {
+                  "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "rules",
+                  "version_id": "spike-rules-v1"
+                },
+                {
+                  "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_contract",
+                  "version_id": "fixture-public-use-v1"
+                },
+                {
+                  "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_manifest",
+                  "version_id": "fixture-manifest-v1"
+                },
+                {
+                  "digest": "eed79a99946944bb37e5fb3ce146353037f59c666493efa462ff4785394ccbdd",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "user_thesis",
+                  "version_id": "gold-thesis-v1"
+                }
+              ],
+              "reasons": [
+                "all_dependencies_current"
+              ],
+              "run_id": "run:analysis-r2",
+              "status": "current"
+            }
+          }
+        ]
+      }
+    },
+    "publication_first": {
+      "old_analysis_current_disposition": "superseded",
+      "before_reassessment": {
+        "brief_id": "fixture-gold-release-brief",
+        "owner_id": "fixture-trader",
+        "generation": 1,
+        "changed_at": "2026-10-02T06:40:09+00:00",
+        "current_assessment_id": null,
+        "current_dependencies": [
+          {
+            "role": "activation",
+            "version_id": "fixture-approval-v1",
+            "digest": "610fb5f960655f74d01b7842bc79e5709a6a7e6b6f9cef0cae412cb6765cb817",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "budget",
+            "version_id": "fixture-budget-v1",
+            "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "compiled_thesis",
+            "version_id": "gold-compiled-v1",
+            "digest": "f18930e594374bf369eebd099d29262f9d25548cfacd15bc69f9f2f3c140da0b",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "coverage",
+            "version_id": "fixture-coverage-v1",
+            "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "entitlements",
+            "version_id": "fixture-entitlements-v1",
+            "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "event_revision",
+            "version_id": "fictional-release@2",
+            "digest": "d9d0eee4cc36be0b97f4260ae5b85ad04628901a48789c0f09ce2c9dd9a16cd7",
+            "known_at": "2026-10-02T06:40:09+00:00"
+          },
+          {
+            "role": "execution_graph",
+            "version_id": "fixture-execution_graph-v1",
+            "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "exposure",
+            "version_id": "fixture-paper-xau-v1",
+            "digest": "b04008a077cf6ec20c7c0e76c30b2c86572a14d9ebd633f0249957c962c614ef",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "knowledge",
+            "version_id": "fixture-reviewed-knowledge-v1",
+            "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "macro_context",
+            "version_id": "fixture-context-v1",
+            "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "model",
+            "version_id": "fixture-model-v1",
+            "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "prompt",
+            "version_id": "fixture-prompt-v1",
+            "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "rules",
+            "version_id": "spike-rules-v1",
+            "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "source_contract",
+            "version_id": "fixture-public-use-v1",
+            "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "source_manifest",
+            "version_id": "fixture-manifest-v1",
+            "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "user_thesis",
+            "version_id": "gold-thesis-v1",
+            "digest": "eed79a99946944bb37e5fb3ce146353037f59c666493efa462ff4785394ccbdd",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          }
+        ],
+        "assessments": [
+          {
+            "assessment_id": "analysis-r1",
+            "digest": "e68eb879d994278f4d7812537da781d91ad528ab24742a3167c65c2ee2ca5559",
+            "payload": {
+              "assessment_id": "analysis-r1",
+              "brief_id": "fixture-gold-release-brief",
+              "cutoff": "2026-10-02T06:30:05+00:00",
+              "dependencies": [
+                {
+                  "digest": "610fb5f960655f74d01b7842bc79e5709a6a7e6b6f9cef0cae412cb6765cb817",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "activation",
+                  "version_id": "fixture-approval-v1"
+                },
+                {
+                  "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "budget",
+                  "version_id": "fixture-budget-v1"
+                },
+                {
+                  "digest": "f18930e594374bf369eebd099d29262f9d25548cfacd15bc69f9f2f3c140da0b",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "compiled_thesis",
+                  "version_id": "gold-compiled-v1"
+                },
+                {
+                  "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "coverage",
+                  "version_id": "fixture-coverage-v1"
+                },
+                {
+                  "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "entitlements",
+                  "version_id": "fixture-entitlements-v1"
+                },
+                {
+                  "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+                  "known_at": "2026-10-02T06:30:05+00:00",
+                  "role": "event_revision",
+                  "version_id": "fictional-release@1"
+                },
+                {
+                  "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "execution_graph",
+                  "version_id": "fixture-execution_graph-v1"
+                },
+                {
+                  "digest": "b04008a077cf6ec20c7c0e76c30b2c86572a14d9ebd633f0249957c962c614ef",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "exposure",
+                  "version_id": "fixture-paper-xau-v1"
+                },
+                {
+                  "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "knowledge",
+                  "version_id": "fixture-reviewed-knowledge-v1"
+                },
+                {
+                  "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "macro_context",
+                  "version_id": "fixture-context-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "model",
+                  "version_id": "fixture-model-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "prompt",
+                  "version_id": "fixture-prompt-v1"
+                },
+                {
+                  "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "rules",
+                  "version_id": "spike-rules-v1"
+                },
+                {
+                  "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_contract",
+                  "version_id": "fixture-public-use-v1"
+                },
+                {
+                  "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_manifest",
+                  "version_id": "fixture-manifest-v1"
+                },
+                {
+                  "digest": "eed79a99946944bb37e5fb3ce146353037f59c666493efa462ff4785394ccbdd",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "user_thesis",
+                  "version_id": "gold-thesis-v1"
+                }
+              ],
+              "expectations": "unavailable",
+              "expected_generation": 0,
+              "facts": [
+                {
+                  "field": "reported_measure",
+                  "value": 3.1
+                }
+              ],
+              "kind": "supported_factual_notice",
+              "material_change": true,
+              "owner_id": "fixture-trader",
+              "portfolio_impact": "unresolved",
+              "run_id": "run:analysis-r1",
+              "screening": {
+                "broad_disruption": false,
+                "classifier_available": true,
+                "credible": true,
+                "novel": false,
+                "plausible_transmission": true,
+                "potential_severity": "high",
+                "resolved": true,
+                "thesis_impact": true,
+                "trade_impact": false,
+                "urgent": false
+              },
+              "snapshot_digest": "6c1ddfda30ae1646f5c9cc7098fe31e42c3dd55b861d691392d98552ffbf906c",
+              "snapshot_id": "snapshot:analysis-r1"
+            },
+            "decision": {
+              "status": "current",
+              "reasons": [
+                "all_dependencies_current"
+              ],
+              "reassessment_required": false
+            },
+            "observed_dependencies": [
+              {
+                "digest": "610fb5f960655f74d01b7842bc79e5709a6a7e6b6f9cef0cae412cb6765cb817",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "activation",
+                "version_id": "fixture-approval-v1"
+              },
+              {
+                "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "budget",
+                "version_id": "fixture-budget-v1"
+              },
+              {
+                "digest": "f18930e594374bf369eebd099d29262f9d25548cfacd15bc69f9f2f3c140da0b",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "compiled_thesis",
+                "version_id": "gold-compiled-v1"
+              },
+              {
+                "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "coverage",
+                "version_id": "fixture-coverage-v1"
+              },
+              {
+                "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "entitlements",
+                "version_id": "fixture-entitlements-v1"
+              },
+              {
+                "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+                "known_at": "2026-10-02T06:30:05+00:00",
+                "role": "event_revision",
+                "version_id": "fictional-release@1"
+              },
+              {
+                "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "execution_graph",
+                "version_id": "fixture-execution_graph-v1"
+              },
+              {
+                "digest": "b04008a077cf6ec20c7c0e76c30b2c86572a14d9ebd633f0249957c962c614ef",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "exposure",
+                "version_id": "fixture-paper-xau-v1"
+              },
+              {
+                "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "knowledge",
+                "version_id": "fixture-reviewed-knowledge-v1"
+              },
+              {
+                "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "macro_context",
+                "version_id": "fixture-context-v1"
+              },
+              {
+                "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "model",
+                "version_id": "fixture-model-v1"
+              },
+              {
+                "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "prompt",
+                "version_id": "fixture-prompt-v1"
+              },
+              {
+                "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "rules",
+                "version_id": "spike-rules-v1"
+              },
+              {
+                "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "source_contract",
+                "version_id": "fixture-public-use-v1"
+              },
+              {
+                "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "source_manifest",
+                "version_id": "fixture-manifest-v1"
+              },
+              {
+                "digest": "eed79a99946944bb37e5fb3ce146353037f59c666493efa462ff4785394ccbdd",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "user_thesis",
+                "version_id": "gold-thesis-v1"
+              }
+            ],
+            "is_current": false,
+            "saved_at": "2026-10-02T06:30:05+00:00"
+          }
+        ],
+        "dependency_history": [
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "activation",
+            "version_id": "fixture-approval-v1",
+            "digest": "610fb5f960655f74d01b7842bc79e5709a6a7e6b6f9cef0cae412cb6765cb817",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "budget",
+            "version_id": "fixture-budget-v1",
+            "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "compiled_thesis",
+            "version_id": "gold-compiled-v1",
+            "digest": "f18930e594374bf369eebd099d29262f9d25548cfacd15bc69f9f2f3c140da0b",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "coverage",
+            "version_id": "fixture-coverage-v1",
+            "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "entitlements",
+            "version_id": "fixture-entitlements-v1",
+            "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "event_revision",
+            "version_id": "fictional-release@1",
+            "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+            "known_at": "2026-10-02T06:30:05+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "event_revision",
+            "version_id": "fictional-release@2",
+            "digest": "d9d0eee4cc36be0b97f4260ae5b85ad04628901a48789c0f09ce2c9dd9a16cd7",
+            "known_at": "2026-10-02T06:40:09+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "execution_graph",
+            "version_id": "fixture-execution_graph-v1",
+            "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "exposure",
+            "version_id": "fixture-paper-xau-v1",
+            "digest": "b04008a077cf6ec20c7c0e76c30b2c86572a14d9ebd633f0249957c962c614ef",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "knowledge",
+            "version_id": "fixture-reviewed-knowledge-v1",
+            "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "macro_context",
+            "version_id": "fixture-context-v1",
+            "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "model",
+            "version_id": "fixture-model-v1",
+            "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "prompt",
+            "version_id": "fixture-prompt-v1",
+            "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "rules",
+            "version_id": "spike-rules-v1",
+            "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "source_contract",
+            "version_id": "fixture-public-use-v1",
+            "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "source_manifest",
+            "version_id": "fixture-manifest-v1",
+            "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "user_thesis",
+            "version_id": "gold-thesis-v1",
+            "digest": "eed79a99946944bb37e5fb3ce146353037f59c666493efa462ff4785394ccbdd",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          }
+        ],
+        "brief_versions": [
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "generation": 1,
+            "assessment_id": "analysis-r1",
+            "saved_at": "2026-10-02T06:30:05+00:00"
+          }
+        ],
+        "notifications": [
+          {
+            "intent_id": "notice:0b84f1993e26c3dd7d6ea27ad6e7828af16c2d816f48ba9d3e5b6f65919c76bb",
+            "brief_id": "fixture-gold-release-brief",
+            "assessment_id": "analysis-r1",
+            "state": "canceled",
+            "created_at": "2026-10-02T06:30:05+00:00",
+            "updated_at": "2026-10-02T06:40:09+00:00"
+          }
+        ],
+        "reassessment": [
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "context_digest": "c47aa42f50ae144b8285c076ffe212c8dd0942e8ef6434bde551f53ced41f7e5",
+            "reason": "changed:event_revision",
+            "created_at": "2026-10-02T06:40:09+00:00",
+            "state": "pending",
+            "completed_at": null
+          }
+        ],
+        "audit": [
+          {
+            "sequence": 1,
+            "brief_id": "fixture-gold-release-brief",
+            "kind": "bootstrap",
+            "happened_at": "2026-10-02T06:30:05+00:00",
+            "detail": {
+              "dependencies": [
+                {
+                  "digest": "610fb5f960655f74d01b7842bc79e5709a6a7e6b6f9cef0cae412cb6765cb817",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "activation",
+                  "version_id": "fixture-approval-v1"
+                },
+                {
+                  "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "budget",
+                  "version_id": "fixture-budget-v1"
+                },
+                {
+                  "digest": "f18930e594374bf369eebd099d29262f9d25548cfacd15bc69f9f2f3c140da0b",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "compiled_thesis",
+                  "version_id": "gold-compiled-v1"
+                },
+                {
+                  "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "coverage",
+                  "version_id": "fixture-coverage-v1"
+                },
+                {
+                  "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "entitlements",
+                  "version_id": "fixture-entitlements-v1"
+                },
+                {
+                  "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+                  "known_at": "2026-10-02T06:30:05+00:00",
+                  "role": "event_revision",
+                  "version_id": "fictional-release@1"
+                },
+                {
+                  "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "execution_graph",
+                  "version_id": "fixture-execution_graph-v1"
+                },
+                {
+                  "digest": "b04008a077cf6ec20c7c0e76c30b2c86572a14d9ebd633f0249957c962c614ef",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "exposure",
+                  "version_id": "fixture-paper-xau-v1"
+                },
+                {
+                  "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "knowledge",
+                  "version_id": "fixture-reviewed-knowledge-v1"
+                },
+                {
+                  "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "macro_context",
+                  "version_id": "fixture-context-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "model",
+                  "version_id": "fixture-model-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "prompt",
+                  "version_id": "fixture-prompt-v1"
+                },
+                {
+                  "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "rules",
+                  "version_id": "spike-rules-v1"
+                },
+                {
+                  "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_contract",
+                  "version_id": "fixture-public-use-v1"
+                },
+                {
+                  "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_manifest",
+                  "version_id": "fixture-manifest-v1"
+                },
+                {
+                  "digest": "eed79a99946944bb37e5fb3ce146353037f59c666493efa462ff4785394ccbdd",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "user_thesis",
+                  "version_id": "gold-thesis-v1"
+                }
+              ],
+              "owner_id": "fixture-trader"
+            }
+          },
+          {
+            "sequence": 2,
+            "brief_id": "fixture-gold-release-brief",
+            "kind": "publication",
+            "happened_at": "2026-10-02T06:30:05+00:00",
+            "detail": {
+              "assessment_id": "analysis-r1",
+              "canceled_intents": [],
+              "intent_id": "notice:0b84f1993e26c3dd7d6ea27ad6e7828af16c2d816f48ba9d3e5b6f65919c76bb",
+              "observed_dependencies": [
+                {
+                  "digest": "610fb5f960655f74d01b7842bc79e5709a6a7e6b6f9cef0cae412cb6765cb817",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "activation",
+                  "version_id": "fixture-approval-v1"
+                },
+                {
+                  "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "budget",
+                  "version_id": "fixture-budget-v1"
+                },
+                {
+                  "digest": "f18930e594374bf369eebd099d29262f9d25548cfacd15bc69f9f2f3c140da0b",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "compiled_thesis",
+                  "version_id": "gold-compiled-v1"
+                },
+                {
+                  "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "coverage",
+                  "version_id": "fixture-coverage-v1"
+                },
+                {
+                  "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "entitlements",
+                  "version_id": "fixture-entitlements-v1"
+                },
+                {
+                  "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+                  "known_at": "2026-10-02T06:30:05+00:00",
+                  "role": "event_revision",
+                  "version_id": "fictional-release@1"
+                },
+                {
+                  "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "execution_graph",
+                  "version_id": "fixture-execution_graph-v1"
+                },
+                {
+                  "digest": "b04008a077cf6ec20c7c0e76c30b2c86572a14d9ebd633f0249957c962c614ef",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "exposure",
+                  "version_id": "fixture-paper-xau-v1"
+                },
+                {
+                  "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "knowledge",
+                  "version_id": "fixture-reviewed-knowledge-v1"
+                },
+                {
+                  "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "macro_context",
+                  "version_id": "fixture-context-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "model",
+                  "version_id": "fixture-model-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "prompt",
+                  "version_id": "fixture-prompt-v1"
+                },
+                {
+                  "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "rules",
+                  "version_id": "spike-rules-v1"
+                },
+                {
+                  "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_contract",
+                  "version_id": "fixture-public-use-v1"
+                },
+                {
+                  "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_manifest",
+                  "version_id": "fixture-manifest-v1"
+                },
+                {
+                  "digest": "eed79a99946944bb37e5fb3ce146353037f59c666493efa462ff4785394ccbdd",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "user_thesis",
+                  "version_id": "gold-thesis-v1"
+                }
+              ],
+              "pinned_dependencies": [
+                {
+                  "digest": "610fb5f960655f74d01b7842bc79e5709a6a7e6b6f9cef0cae412cb6765cb817",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "activation",
+                  "version_id": "fixture-approval-v1"
+                },
+                {
+                  "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "budget",
+                  "version_id": "fixture-budget-v1"
+                },
+                {
+                  "digest": "f18930e594374bf369eebd099d29262f9d25548cfacd15bc69f9f2f3c140da0b",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "compiled_thesis",
+                  "version_id": "gold-compiled-v1"
+                },
+                {
+                  "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "coverage",
+                  "version_id": "fixture-coverage-v1"
+                },
+                {
+                  "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "entitlements",
+                  "version_id": "fixture-entitlements-v1"
+                },
+                {
+                  "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+                  "known_at": "2026-10-02T06:30:05+00:00",
+                  "role": "event_revision",
+                  "version_id": "fictional-release@1"
+                },
+                {
+                  "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "execution_graph",
+                  "version_id": "fixture-execution_graph-v1"
+                },
+                {
+                  "digest": "b04008a077cf6ec20c7c0e76c30b2c86572a14d9ebd633f0249957c962c614ef",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "exposure",
+                  "version_id": "fixture-paper-xau-v1"
+                },
+                {
+                  "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "knowledge",
+                  "version_id": "fixture-reviewed-knowledge-v1"
+                },
+                {
+                  "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "macro_context",
+                  "version_id": "fixture-context-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "model",
+                  "version_id": "fixture-model-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "prompt",
+                  "version_id": "fixture-prompt-v1"
+                },
+                {
+                  "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "rules",
+                  "version_id": "spike-rules-v1"
+                },
+                {
+                  "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_contract",
+                  "version_id": "fixture-public-use-v1"
+                },
+                {
+                  "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_manifest",
+                  "version_id": "fixture-manifest-v1"
+                },
+                {
+                  "digest": "eed79a99946944bb37e5fb3ce146353037f59c666493efa462ff4785394ccbdd",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "user_thesis",
+                  "version_id": "gold-thesis-v1"
+                }
+              ],
+              "reasons": [
+                "all_dependencies_current"
+              ],
+              "run_id": "run:analysis-r1",
+              "status": "current"
+            }
+          },
+          {
+            "sequence": 3,
+            "brief_id": "fixture-gold-release-brief",
+            "kind": "dependency_advanced",
+            "happened_at": "2026-10-02T06:40:09+00:00",
+            "detail": {
+              "canceled_intents": [
+                "notice:0b84f1993e26c3dd7d6ea27ad6e7828af16c2d816f48ba9d3e5b6f65919c76bb"
+              ],
+              "current": {
+                "digest": "d9d0eee4cc36be0b97f4260ae5b85ad04628901a48789c0f09ce2c9dd9a16cd7",
+                "known_at": "2026-10-02T06:40:09+00:00",
+                "role": "event_revision",
+                "version_id": "fictional-release@2"
+              },
+              "previous": {
+                "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+                "known_at": "2026-10-02T06:30:05+00:00",
+                "role": "event_revision",
+                "version_id": "fictional-release@1"
+              }
+            }
+          }
+        ]
+      },
+      "after_reassessment": {
+        "brief_id": "fixture-gold-release-brief",
+        "owner_id": "fixture-trader",
+        "generation": 2,
+        "changed_at": "2026-10-02T06:40:11+00:00",
+        "current_assessment_id": "analysis-r2",
+        "current_dependencies": [
+          {
+            "role": "activation",
+            "version_id": "fixture-approval-v1",
+            "digest": "610fb5f960655f74d01b7842bc79e5709a6a7e6b6f9cef0cae412cb6765cb817",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "budget",
+            "version_id": "fixture-budget-v1",
+            "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "compiled_thesis",
+            "version_id": "gold-compiled-v1",
+            "digest": "f18930e594374bf369eebd099d29262f9d25548cfacd15bc69f9f2f3c140da0b",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "coverage",
+            "version_id": "fixture-coverage-v1",
+            "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "entitlements",
+            "version_id": "fixture-entitlements-v1",
+            "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "event_revision",
+            "version_id": "fictional-release@2",
+            "digest": "d9d0eee4cc36be0b97f4260ae5b85ad04628901a48789c0f09ce2c9dd9a16cd7",
+            "known_at": "2026-10-02T06:40:09+00:00"
+          },
+          {
+            "role": "execution_graph",
+            "version_id": "fixture-execution_graph-v1",
+            "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "exposure",
+            "version_id": "fixture-paper-xau-v1",
+            "digest": "b04008a077cf6ec20c7c0e76c30b2c86572a14d9ebd633f0249957c962c614ef",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "knowledge",
+            "version_id": "fixture-reviewed-knowledge-v1",
+            "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "macro_context",
+            "version_id": "fixture-context-v1",
+            "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "model",
+            "version_id": "fixture-model-v1",
+            "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "prompt",
+            "version_id": "fixture-prompt-v1",
+            "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "rules",
+            "version_id": "spike-rules-v1",
+            "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "source_contract",
+            "version_id": "fixture-public-use-v1",
+            "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "source_manifest",
+            "version_id": "fixture-manifest-v1",
+            "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "user_thesis",
+            "version_id": "gold-thesis-v1",
+            "digest": "eed79a99946944bb37e5fb3ce146353037f59c666493efa462ff4785394ccbdd",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          }
+        ],
+        "assessments": [
+          {
+            "assessment_id": "analysis-r1",
+            "digest": "e68eb879d994278f4d7812537da781d91ad528ab24742a3167c65c2ee2ca5559",
+            "payload": {
+              "assessment_id": "analysis-r1",
+              "brief_id": "fixture-gold-release-brief",
+              "cutoff": "2026-10-02T06:30:05+00:00",
+              "dependencies": [
+                {
+                  "digest": "610fb5f960655f74d01b7842bc79e5709a6a7e6b6f9cef0cae412cb6765cb817",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "activation",
+                  "version_id": "fixture-approval-v1"
+                },
+                {
+                  "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "budget",
+                  "version_id": "fixture-budget-v1"
+                },
+                {
+                  "digest": "f18930e594374bf369eebd099d29262f9d25548cfacd15bc69f9f2f3c140da0b",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "compiled_thesis",
+                  "version_id": "gold-compiled-v1"
+                },
+                {
+                  "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "coverage",
+                  "version_id": "fixture-coverage-v1"
+                },
+                {
+                  "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "entitlements",
+                  "version_id": "fixture-entitlements-v1"
+                },
+                {
+                  "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+                  "known_at": "2026-10-02T06:30:05+00:00",
+                  "role": "event_revision",
+                  "version_id": "fictional-release@1"
+                },
+                {
+                  "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "execution_graph",
+                  "version_id": "fixture-execution_graph-v1"
+                },
+                {
+                  "digest": "b04008a077cf6ec20c7c0e76c30b2c86572a14d9ebd633f0249957c962c614ef",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "exposure",
+                  "version_id": "fixture-paper-xau-v1"
+                },
+                {
+                  "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "knowledge",
+                  "version_id": "fixture-reviewed-knowledge-v1"
+                },
+                {
+                  "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "macro_context",
+                  "version_id": "fixture-context-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "model",
+                  "version_id": "fixture-model-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "prompt",
+                  "version_id": "fixture-prompt-v1"
+                },
+                {
+                  "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "rules",
+                  "version_id": "spike-rules-v1"
+                },
+                {
+                  "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_contract",
+                  "version_id": "fixture-public-use-v1"
+                },
+                {
+                  "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_manifest",
+                  "version_id": "fixture-manifest-v1"
+                },
+                {
+                  "digest": "eed79a99946944bb37e5fb3ce146353037f59c666493efa462ff4785394ccbdd",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "user_thesis",
+                  "version_id": "gold-thesis-v1"
+                }
+              ],
+              "expectations": "unavailable",
+              "expected_generation": 0,
+              "facts": [
+                {
+                  "field": "reported_measure",
+                  "value": 3.1
+                }
+              ],
+              "kind": "supported_factual_notice",
+              "material_change": true,
+              "owner_id": "fixture-trader",
+              "portfolio_impact": "unresolved",
+              "run_id": "run:analysis-r1",
+              "screening": {
+                "broad_disruption": false,
+                "classifier_available": true,
+                "credible": true,
+                "novel": false,
+                "plausible_transmission": true,
+                "potential_severity": "high",
+                "resolved": true,
+                "thesis_impact": true,
+                "trade_impact": false,
+                "urgent": false
+              },
+              "snapshot_digest": "6c1ddfda30ae1646f5c9cc7098fe31e42c3dd55b861d691392d98552ffbf906c",
+              "snapshot_id": "snapshot:analysis-r1"
+            },
+            "decision": {
+              "status": "current",
+              "reasons": [
+                "all_dependencies_current"
+              ],
+              "reassessment_required": false
+            },
+            "observed_dependencies": [
+              {
+                "digest": "610fb5f960655f74d01b7842bc79e5709a6a7e6b6f9cef0cae412cb6765cb817",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "activation",
+                "version_id": "fixture-approval-v1"
+              },
+              {
+                "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "budget",
+                "version_id": "fixture-budget-v1"
+              },
+              {
+                "digest": "f18930e594374bf369eebd099d29262f9d25548cfacd15bc69f9f2f3c140da0b",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "compiled_thesis",
+                "version_id": "gold-compiled-v1"
+              },
+              {
+                "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "coverage",
+                "version_id": "fixture-coverage-v1"
+              },
+              {
+                "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "entitlements",
+                "version_id": "fixture-entitlements-v1"
+              },
+              {
+                "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+                "known_at": "2026-10-02T06:30:05+00:00",
+                "role": "event_revision",
+                "version_id": "fictional-release@1"
+              },
+              {
+                "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "execution_graph",
+                "version_id": "fixture-execution_graph-v1"
+              },
+              {
+                "digest": "b04008a077cf6ec20c7c0e76c30b2c86572a14d9ebd633f0249957c962c614ef",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "exposure",
+                "version_id": "fixture-paper-xau-v1"
+              },
+              {
+                "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "knowledge",
+                "version_id": "fixture-reviewed-knowledge-v1"
+              },
+              {
+                "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "macro_context",
+                "version_id": "fixture-context-v1"
+              },
+              {
+                "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "model",
+                "version_id": "fixture-model-v1"
+              },
+              {
+                "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "prompt",
+                "version_id": "fixture-prompt-v1"
+              },
+              {
+                "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "rules",
+                "version_id": "spike-rules-v1"
+              },
+              {
+                "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "source_contract",
+                "version_id": "fixture-public-use-v1"
+              },
+              {
+                "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "source_manifest",
+                "version_id": "fixture-manifest-v1"
+              },
+              {
+                "digest": "eed79a99946944bb37e5fb3ce146353037f59c666493efa462ff4785394ccbdd",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "user_thesis",
+                "version_id": "gold-thesis-v1"
+              }
+            ],
+            "is_current": false,
+            "saved_at": "2026-10-02T06:30:05+00:00"
+          },
+          {
+            "assessment_id": "analysis-r2",
+            "digest": "7c35ea7ec5aef4ad4282e197e1b08c92ff1832cac93207559472ec26c83259f9",
+            "payload": {
+              "assessment_id": "analysis-r2",
+              "brief_id": "fixture-gold-release-brief",
+              "cutoff": "2026-10-02T06:40:09+00:00",
+              "dependencies": [
+                {
+                  "digest": "610fb5f960655f74d01b7842bc79e5709a6a7e6b6f9cef0cae412cb6765cb817",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "activation",
+                  "version_id": "fixture-approval-v1"
+                },
+                {
+                  "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "budget",
+                  "version_id": "fixture-budget-v1"
+                },
+                {
+                  "digest": "f18930e594374bf369eebd099d29262f9d25548cfacd15bc69f9f2f3c140da0b",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "compiled_thesis",
+                  "version_id": "gold-compiled-v1"
+                },
+                {
+                  "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "coverage",
+                  "version_id": "fixture-coverage-v1"
+                },
+                {
+                  "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "entitlements",
+                  "version_id": "fixture-entitlements-v1"
+                },
+                {
+                  "digest": "d9d0eee4cc36be0b97f4260ae5b85ad04628901a48789c0f09ce2c9dd9a16cd7",
+                  "known_at": "2026-10-02T06:40:09+00:00",
+                  "role": "event_revision",
+                  "version_id": "fictional-release@2"
+                },
+                {
+                  "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "execution_graph",
+                  "version_id": "fixture-execution_graph-v1"
+                },
+                {
+                  "digest": "b04008a077cf6ec20c7c0e76c30b2c86572a14d9ebd633f0249957c962c614ef",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "exposure",
+                  "version_id": "fixture-paper-xau-v1"
+                },
+                {
+                  "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "knowledge",
+                  "version_id": "fixture-reviewed-knowledge-v1"
+                },
+                {
+                  "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "macro_context",
+                  "version_id": "fixture-context-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "model",
+                  "version_id": "fixture-model-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "prompt",
+                  "version_id": "fixture-prompt-v1"
+                },
+                {
+                  "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "rules",
+                  "version_id": "spike-rules-v1"
+                },
+                {
+                  "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_contract",
+                  "version_id": "fixture-public-use-v1"
+                },
+                {
+                  "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_manifest",
+                  "version_id": "fixture-manifest-v1"
+                },
+                {
+                  "digest": "eed79a99946944bb37e5fb3ce146353037f59c666493efa462ff4785394ccbdd",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "user_thesis",
+                  "version_id": "gold-thesis-v1"
+                }
+              ],
+              "expectations": "unavailable",
+              "expected_generation": 1,
+              "facts": [
+                {
+                  "field": "reported_measure",
+                  "value": 3.0
+                }
+              ],
+              "kind": "supported_factual_notice",
+              "material_change": true,
+              "owner_id": "fixture-trader",
+              "portfolio_impact": "unresolved",
+              "run_id": "run:analysis-r2",
+              "screening": {
+                "broad_disruption": false,
+                "classifier_available": true,
+                "credible": true,
+                "novel": false,
+                "plausible_transmission": true,
+                "potential_severity": "high",
+                "resolved": true,
+                "thesis_impact": true,
+                "trade_impact": false,
+                "urgent": false
+              },
+              "snapshot_digest": "eb977848a7aa6d7b852f57d955af9e03092bec5bfd6193742c80282c5dc9d161",
+              "snapshot_id": "snapshot:analysis-r2"
+            },
+            "decision": {
+              "status": "current",
+              "reasons": [
+                "all_dependencies_current"
+              ],
+              "reassessment_required": false
+            },
+            "observed_dependencies": [
+              {
+                "digest": "610fb5f960655f74d01b7842bc79e5709a6a7e6b6f9cef0cae412cb6765cb817",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "activation",
+                "version_id": "fixture-approval-v1"
+              },
+              {
+                "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "budget",
+                "version_id": "fixture-budget-v1"
+              },
+              {
+                "digest": "f18930e594374bf369eebd099d29262f9d25548cfacd15bc69f9f2f3c140da0b",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "compiled_thesis",
+                "version_id": "gold-compiled-v1"
+              },
+              {
+                "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "coverage",
+                "version_id": "fixture-coverage-v1"
+              },
+              {
+                "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "entitlements",
+                "version_id": "fixture-entitlements-v1"
+              },
+              {
+                "digest": "d9d0eee4cc36be0b97f4260ae5b85ad04628901a48789c0f09ce2c9dd9a16cd7",
+                "known_at": "2026-10-02T06:40:09+00:00",
+                "role": "event_revision",
+                "version_id": "fictional-release@2"
+              },
+              {
+                "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "execution_graph",
+                "version_id": "fixture-execution_graph-v1"
+              },
+              {
+                "digest": "b04008a077cf6ec20c7c0e76c30b2c86572a14d9ebd633f0249957c962c614ef",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "exposure",
+                "version_id": "fixture-paper-xau-v1"
+              },
+              {
+                "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "knowledge",
+                "version_id": "fixture-reviewed-knowledge-v1"
+              },
+              {
+                "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "macro_context",
+                "version_id": "fixture-context-v1"
+              },
+              {
+                "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "model",
+                "version_id": "fixture-model-v1"
+              },
+              {
+                "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "prompt",
+                "version_id": "fixture-prompt-v1"
+              },
+              {
+                "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "rules",
+                "version_id": "spike-rules-v1"
+              },
+              {
+                "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "source_contract",
+                "version_id": "fixture-public-use-v1"
+              },
+              {
+                "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "source_manifest",
+                "version_id": "fixture-manifest-v1"
+              },
+              {
+                "digest": "eed79a99946944bb37e5fb3ce146353037f59c666493efa462ff4785394ccbdd",
+                "known_at": "2026-10-02T06:00:00+00:00",
+                "role": "user_thesis",
+                "version_id": "gold-thesis-v1"
+              }
+            ],
+            "is_current": true,
+            "saved_at": "2026-10-02T06:40:11+00:00"
+          }
+        ],
+        "dependency_history": [
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "activation",
+            "version_id": "fixture-approval-v1",
+            "digest": "610fb5f960655f74d01b7842bc79e5709a6a7e6b6f9cef0cae412cb6765cb817",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "budget",
+            "version_id": "fixture-budget-v1",
+            "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "compiled_thesis",
+            "version_id": "gold-compiled-v1",
+            "digest": "f18930e594374bf369eebd099d29262f9d25548cfacd15bc69f9f2f3c140da0b",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "coverage",
+            "version_id": "fixture-coverage-v1",
+            "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "entitlements",
+            "version_id": "fixture-entitlements-v1",
+            "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "event_revision",
+            "version_id": "fictional-release@1",
+            "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+            "known_at": "2026-10-02T06:30:05+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "event_revision",
+            "version_id": "fictional-release@2",
+            "digest": "d9d0eee4cc36be0b97f4260ae5b85ad04628901a48789c0f09ce2c9dd9a16cd7",
+            "known_at": "2026-10-02T06:40:09+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "execution_graph",
+            "version_id": "fixture-execution_graph-v1",
+            "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "exposure",
+            "version_id": "fixture-paper-xau-v1",
+            "digest": "b04008a077cf6ec20c7c0e76c30b2c86572a14d9ebd633f0249957c962c614ef",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "knowledge",
+            "version_id": "fixture-reviewed-knowledge-v1",
+            "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "macro_context",
+            "version_id": "fixture-context-v1",
+            "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "model",
+            "version_id": "fixture-model-v1",
+            "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "prompt",
+            "version_id": "fixture-prompt-v1",
+            "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "rules",
+            "version_id": "spike-rules-v1",
+            "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "source_contract",
+            "version_id": "fixture-public-use-v1",
+            "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "source_manifest",
+            "version_id": "fixture-manifest-v1",
+            "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "role": "user_thesis",
+            "version_id": "gold-thesis-v1",
+            "digest": "eed79a99946944bb37e5fb3ce146353037f59c666493efa462ff4785394ccbdd",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          }
+        ],
+        "brief_versions": [
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "generation": 1,
+            "assessment_id": "analysis-r1",
+            "saved_at": "2026-10-02T06:30:05+00:00"
+          },
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "generation": 2,
+            "assessment_id": "analysis-r2",
+            "saved_at": "2026-10-02T06:40:11+00:00"
+          }
+        ],
+        "notifications": [
+          {
+            "intent_id": "notice:0b84f1993e26c3dd7d6ea27ad6e7828af16c2d816f48ba9d3e5b6f65919c76bb",
+            "brief_id": "fixture-gold-release-brief",
+            "assessment_id": "analysis-r1",
+            "state": "canceled",
+            "created_at": "2026-10-02T06:30:05+00:00",
+            "updated_at": "2026-10-02T06:40:09+00:00"
+          },
+          {
+            "intent_id": "notice:b7747a4fa58f375d254685616c67b7f4d45bc37de822b76c66555c24a10f0a32",
+            "brief_id": "fixture-gold-release-brief",
+            "assessment_id": "analysis-r2",
+            "state": "pending",
+            "created_at": "2026-10-02T06:40:11+00:00",
+            "updated_at": "2026-10-02T06:40:11+00:00"
+          }
+        ],
+        "reassessment": [
+          {
+            "brief_id": "fixture-gold-release-brief",
+            "context_digest": "c47aa42f50ae144b8285c076ffe212c8dd0942e8ef6434bde551f53ced41f7e5",
+            "reason": "changed:event_revision",
+            "created_at": "2026-10-02T06:40:09+00:00",
+            "state": "completed",
+            "completed_at": "2026-10-02T06:40:11+00:00"
+          }
+        ],
+        "audit": [
+          {
+            "sequence": 1,
+            "brief_id": "fixture-gold-release-brief",
+            "kind": "bootstrap",
+            "happened_at": "2026-10-02T06:30:05+00:00",
+            "detail": {
+              "dependencies": [
+                {
+                  "digest": "610fb5f960655f74d01b7842bc79e5709a6a7e6b6f9cef0cae412cb6765cb817",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "activation",
+                  "version_id": "fixture-approval-v1"
+                },
+                {
+                  "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "budget",
+                  "version_id": "fixture-budget-v1"
+                },
+                {
+                  "digest": "f18930e594374bf369eebd099d29262f9d25548cfacd15bc69f9f2f3c140da0b",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "compiled_thesis",
+                  "version_id": "gold-compiled-v1"
+                },
+                {
+                  "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "coverage",
+                  "version_id": "fixture-coverage-v1"
+                },
+                {
+                  "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "entitlements",
+                  "version_id": "fixture-entitlements-v1"
+                },
+                {
+                  "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+                  "known_at": "2026-10-02T06:30:05+00:00",
+                  "role": "event_revision",
+                  "version_id": "fictional-release@1"
+                },
+                {
+                  "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "execution_graph",
+                  "version_id": "fixture-execution_graph-v1"
+                },
+                {
+                  "digest": "b04008a077cf6ec20c7c0e76c30b2c86572a14d9ebd633f0249957c962c614ef",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "exposure",
+                  "version_id": "fixture-paper-xau-v1"
+                },
+                {
+                  "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "knowledge",
+                  "version_id": "fixture-reviewed-knowledge-v1"
+                },
+                {
+                  "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "macro_context",
+                  "version_id": "fixture-context-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "model",
+                  "version_id": "fixture-model-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "prompt",
+                  "version_id": "fixture-prompt-v1"
+                },
+                {
+                  "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "rules",
+                  "version_id": "spike-rules-v1"
+                },
+                {
+                  "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_contract",
+                  "version_id": "fixture-public-use-v1"
+                },
+                {
+                  "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_manifest",
+                  "version_id": "fixture-manifest-v1"
+                },
+                {
+                  "digest": "eed79a99946944bb37e5fb3ce146353037f59c666493efa462ff4785394ccbdd",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "user_thesis",
+                  "version_id": "gold-thesis-v1"
+                }
+              ],
+              "owner_id": "fixture-trader"
+            }
+          },
+          {
+            "sequence": 2,
+            "brief_id": "fixture-gold-release-brief",
+            "kind": "publication",
+            "happened_at": "2026-10-02T06:30:05+00:00",
+            "detail": {
+              "assessment_id": "analysis-r1",
+              "canceled_intents": [],
+              "intent_id": "notice:0b84f1993e26c3dd7d6ea27ad6e7828af16c2d816f48ba9d3e5b6f65919c76bb",
+              "observed_dependencies": [
+                {
+                  "digest": "610fb5f960655f74d01b7842bc79e5709a6a7e6b6f9cef0cae412cb6765cb817",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "activation",
+                  "version_id": "fixture-approval-v1"
+                },
+                {
+                  "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "budget",
+                  "version_id": "fixture-budget-v1"
+                },
+                {
+                  "digest": "f18930e594374bf369eebd099d29262f9d25548cfacd15bc69f9f2f3c140da0b",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "compiled_thesis",
+                  "version_id": "gold-compiled-v1"
+                },
+                {
+                  "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "coverage",
+                  "version_id": "fixture-coverage-v1"
+                },
+                {
+                  "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "entitlements",
+                  "version_id": "fixture-entitlements-v1"
+                },
+                {
+                  "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+                  "known_at": "2026-10-02T06:30:05+00:00",
+                  "role": "event_revision",
+                  "version_id": "fictional-release@1"
+                },
+                {
+                  "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "execution_graph",
+                  "version_id": "fixture-execution_graph-v1"
+                },
+                {
+                  "digest": "b04008a077cf6ec20c7c0e76c30b2c86572a14d9ebd633f0249957c962c614ef",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "exposure",
+                  "version_id": "fixture-paper-xau-v1"
+                },
+                {
+                  "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "knowledge",
+                  "version_id": "fixture-reviewed-knowledge-v1"
+                },
+                {
+                  "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "macro_context",
+                  "version_id": "fixture-context-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "model",
+                  "version_id": "fixture-model-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "prompt",
+                  "version_id": "fixture-prompt-v1"
+                },
+                {
+                  "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "rules",
+                  "version_id": "spike-rules-v1"
+                },
+                {
+                  "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_contract",
+                  "version_id": "fixture-public-use-v1"
+                },
+                {
+                  "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_manifest",
+                  "version_id": "fixture-manifest-v1"
+                },
+                {
+                  "digest": "eed79a99946944bb37e5fb3ce146353037f59c666493efa462ff4785394ccbdd",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "user_thesis",
+                  "version_id": "gold-thesis-v1"
+                }
+              ],
+              "pinned_dependencies": [
+                {
+                  "digest": "610fb5f960655f74d01b7842bc79e5709a6a7e6b6f9cef0cae412cb6765cb817",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "activation",
+                  "version_id": "fixture-approval-v1"
+                },
+                {
+                  "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "budget",
+                  "version_id": "fixture-budget-v1"
+                },
+                {
+                  "digest": "f18930e594374bf369eebd099d29262f9d25548cfacd15bc69f9f2f3c140da0b",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "compiled_thesis",
+                  "version_id": "gold-compiled-v1"
+                },
+                {
+                  "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "coverage",
+                  "version_id": "fixture-coverage-v1"
+                },
+                {
+                  "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "entitlements",
+                  "version_id": "fixture-entitlements-v1"
+                },
+                {
+                  "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+                  "known_at": "2026-10-02T06:30:05+00:00",
+                  "role": "event_revision",
+                  "version_id": "fictional-release@1"
+                },
+                {
+                  "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "execution_graph",
+                  "version_id": "fixture-execution_graph-v1"
+                },
+                {
+                  "digest": "b04008a077cf6ec20c7c0e76c30b2c86572a14d9ebd633f0249957c962c614ef",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "exposure",
+                  "version_id": "fixture-paper-xau-v1"
+                },
+                {
+                  "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "knowledge",
+                  "version_id": "fixture-reviewed-knowledge-v1"
+                },
+                {
+                  "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "macro_context",
+                  "version_id": "fixture-context-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "model",
+                  "version_id": "fixture-model-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "prompt",
+                  "version_id": "fixture-prompt-v1"
+                },
+                {
+                  "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "rules",
+                  "version_id": "spike-rules-v1"
+                },
+                {
+                  "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_contract",
+                  "version_id": "fixture-public-use-v1"
+                },
+                {
+                  "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_manifest",
+                  "version_id": "fixture-manifest-v1"
+                },
+                {
+                  "digest": "eed79a99946944bb37e5fb3ce146353037f59c666493efa462ff4785394ccbdd",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "user_thesis",
+                  "version_id": "gold-thesis-v1"
+                }
+              ],
+              "reasons": [
+                "all_dependencies_current"
+              ],
+              "run_id": "run:analysis-r1",
+              "status": "current"
+            }
+          },
+          {
+            "sequence": 3,
+            "brief_id": "fixture-gold-release-brief",
+            "kind": "dependency_advanced",
+            "happened_at": "2026-10-02T06:40:09+00:00",
+            "detail": {
+              "canceled_intents": [
+                "notice:0b84f1993e26c3dd7d6ea27ad6e7828af16c2d816f48ba9d3e5b6f65919c76bb"
+              ],
+              "current": {
+                "digest": "d9d0eee4cc36be0b97f4260ae5b85ad04628901a48789c0f09ce2c9dd9a16cd7",
+                "known_at": "2026-10-02T06:40:09+00:00",
+                "role": "event_revision",
+                "version_id": "fictional-release@2"
+              },
+              "previous": {
+                "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+                "known_at": "2026-10-02T06:30:05+00:00",
+                "role": "event_revision",
+                "version_id": "fictional-release@1"
+              }
+            }
+          },
+          {
+            "sequence": 4,
+            "brief_id": "fixture-gold-release-brief",
+            "kind": "publication",
+            "happened_at": "2026-10-02T06:40:11+00:00",
+            "detail": {
+              "assessment_id": "analysis-r2",
+              "canceled_intents": [],
+              "intent_id": "notice:b7747a4fa58f375d254685616c67b7f4d45bc37de822b76c66555c24a10f0a32",
+              "observed_dependencies": [
+                {
+                  "digest": "610fb5f960655f74d01b7842bc79e5709a6a7e6b6f9cef0cae412cb6765cb817",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "activation",
+                  "version_id": "fixture-approval-v1"
+                },
+                {
+                  "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "budget",
+                  "version_id": "fixture-budget-v1"
+                },
+                {
+                  "digest": "f18930e594374bf369eebd099d29262f9d25548cfacd15bc69f9f2f3c140da0b",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "compiled_thesis",
+                  "version_id": "gold-compiled-v1"
+                },
+                {
+                  "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "coverage",
+                  "version_id": "fixture-coverage-v1"
+                },
+                {
+                  "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "entitlements",
+                  "version_id": "fixture-entitlements-v1"
+                },
+                {
+                  "digest": "d9d0eee4cc36be0b97f4260ae5b85ad04628901a48789c0f09ce2c9dd9a16cd7",
+                  "known_at": "2026-10-02T06:40:09+00:00",
+                  "role": "event_revision",
+                  "version_id": "fictional-release@2"
+                },
+                {
+                  "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "execution_graph",
+                  "version_id": "fixture-execution_graph-v1"
+                },
+                {
+                  "digest": "b04008a077cf6ec20c7c0e76c30b2c86572a14d9ebd633f0249957c962c614ef",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "exposure",
+                  "version_id": "fixture-paper-xau-v1"
+                },
+                {
+                  "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "knowledge",
+                  "version_id": "fixture-reviewed-knowledge-v1"
+                },
+                {
+                  "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "macro_context",
+                  "version_id": "fixture-context-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "model",
+                  "version_id": "fixture-model-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "prompt",
+                  "version_id": "fixture-prompt-v1"
+                },
+                {
+                  "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "rules",
+                  "version_id": "spike-rules-v1"
+                },
+                {
+                  "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_contract",
+                  "version_id": "fixture-public-use-v1"
+                },
+                {
+                  "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_manifest",
+                  "version_id": "fixture-manifest-v1"
+                },
+                {
+                  "digest": "eed79a99946944bb37e5fb3ce146353037f59c666493efa462ff4785394ccbdd",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "user_thesis",
+                  "version_id": "gold-thesis-v1"
+                }
+              ],
+              "pinned_dependencies": [
+                {
+                  "digest": "610fb5f960655f74d01b7842bc79e5709a6a7e6b6f9cef0cae412cb6765cb817",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "activation",
+                  "version_id": "fixture-approval-v1"
+                },
+                {
+                  "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "budget",
+                  "version_id": "fixture-budget-v1"
+                },
+                {
+                  "digest": "f18930e594374bf369eebd099d29262f9d25548cfacd15bc69f9f2f3c140da0b",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "compiled_thesis",
+                  "version_id": "gold-compiled-v1"
+                },
+                {
+                  "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "coverage",
+                  "version_id": "fixture-coverage-v1"
+                },
+                {
+                  "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "entitlements",
+                  "version_id": "fixture-entitlements-v1"
+                },
+                {
+                  "digest": "d9d0eee4cc36be0b97f4260ae5b85ad04628901a48789c0f09ce2c9dd9a16cd7",
+                  "known_at": "2026-10-02T06:40:09+00:00",
+                  "role": "event_revision",
+                  "version_id": "fictional-release@2"
+                },
+                {
+                  "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "execution_graph",
+                  "version_id": "fixture-execution_graph-v1"
+                },
+                {
+                  "digest": "b04008a077cf6ec20c7c0e76c30b2c86572a14d9ebd633f0249957c962c614ef",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "exposure",
+                  "version_id": "fixture-paper-xau-v1"
+                },
+                {
+                  "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "knowledge",
+                  "version_id": "fixture-reviewed-knowledge-v1"
+                },
+                {
+                  "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "macro_context",
+                  "version_id": "fixture-context-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "model",
+                  "version_id": "fixture-model-v1"
+                },
+                {
+                  "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "prompt",
+                  "version_id": "fixture-prompt-v1"
+                },
+                {
+                  "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "rules",
+                  "version_id": "spike-rules-v1"
+                },
+                {
+                  "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_contract",
+                  "version_id": "fixture-public-use-v1"
+                },
+                {
+                  "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "source_manifest",
+                  "version_id": "fixture-manifest-v1"
+                },
+                {
+                  "digest": "eed79a99946944bb37e5fb3ce146353037f59c666493efa462ff4785394ccbdd",
+                  "known_at": "2026-10-02T06:00:00+00:00",
+                  "role": "user_thesis",
+                  "version_id": "gold-thesis-v1"
+                }
+              ],
+              "reasons": [
+                "all_dependencies_current"
+              ],
+              "run_id": "run:analysis-r2",
+              "status": "current"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

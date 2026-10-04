@@ -1,0 +1,210 @@
+{
+  "synthetic": true,
+  "scope": "contract mechanics only",
+  "provider_calls": 0,
+  "provider_spend": 0,
+  "trace": [
+    {
+      "step": "user_approval",
+      "thesis_id": "gold-thesis-v1",
+      "interpretation_id": "gold-compiled-v1",
+      "text_hash": "eed79a99946944bb37e5fb3ce146353037f59c666493efa462ff4785394ccbdd",
+      "meaning_hash": "0eabba93ed4f871dea45f90f872b0b0b5cd6a36fae3e1f4fabf4bf1d1e5c91d6"
+    },
+    {
+      "step": "capture_and_screen",
+      "event": [
+        "fictional-release",
+        1
+      ],
+      "new_receipt": true,
+      "public_available_at": "2026-10-02T06:30:00Z",
+      "system_received_at": "2026-10-02T06:30:04Z",
+      "known_at": "2026-10-02T06:30:05Z",
+      "decision": {
+        "route": "investigate",
+        "early_notice": false,
+        "analysis_required": true,
+        "state": "potential_or_unresolved"
+      }
+    },
+    {
+      "step": "capture_and_screen",
+      "event": [
+        "fictional-release",
+        2
+      ],
+      "new_receipt": true,
+      "public_available_at": "2026-10-02T06:40:00Z",
+      "system_received_at": "2026-10-02T06:40:08Z",
+      "known_at": "2026-10-02T06:40:09Z",
+      "decision": {
+        "route": "investigate",
+        "early_notice": false,
+        "analysis_required": true,
+        "state": "potential_or_unresolved"
+      }
+    },
+    {
+      "step": "capture_and_screen",
+      "event": [
+        "fictional-port-disruption",
+        1
+      ],
+      "new_receipt": true,
+      "public_available_at": "2026-10-02T07:00:00Z",
+      "system_received_at": "2026-10-02T07:00:03Z",
+      "known_at": "2026-10-02T07:00:04Z",
+      "decision": {
+        "route": "investigate",
+        "early_notice": true,
+        "analysis_required": true,
+        "state": "potential_or_unresolved"
+      }
+    },
+    {
+      "step": "capture_and_screen",
+      "event": [
+        "fictional-unrelated-novelty",
+        1
+      ],
+      "new_receipt": true,
+      "public_available_at": "2026-10-02T07:10:00Z",
+      "system_received_at": "2026-10-02T07:10:02Z",
+      "known_at": "2026-10-02T07:10:03Z",
+      "decision": {
+        "route": "audit_only",
+        "early_notice": false,
+        "analysis_required": false,
+        "state": "resolved_low"
+      }
+    },
+    {
+      "step": "stale_analysis_blocked",
+      "reason": "stale source revision cannot become current"
+    },
+    {
+      "step": "send_before_ack_crash",
+      "intent_id": "notice:brief:fictional-port-disruption:gold-thesis-v1:qualified-disruption-notice"
+    },
+    {
+      "step": "retry_same_notice",
+      "external_identities": [
+        "notice:brief:fictional-port-disruption:gold-thesis-v1:qualified-disruption-notice"
+      ],
+      "unique_notices": 1
+    },
+    {
+      "step": "frozen_assessment_context",
+      "assessment": {
+        "assessment_id": "qualified-disruption-notice",
+        "at": "2026-10-02T07:10:03Z",
+        "brief_id": "brief:fictional-port-disruption:gold-thesis-v1",
+        "brief_version": "qualified-disruption-notice",
+        "context": {
+          "compiled_thesis_version": "gold-compiled-v1",
+          "coverage_contract_version": "fixture-coverage-v1",
+          "event_version": [
+            "fictional-port-disruption",
+            1
+          ],
+          "exposure_version": "fixture-paper-xau-v1",
+          "knowledge_version": "fixture-reviewed-knowledge-v1",
+          "macro_context_version": "fixture-context-v1",
+          "meaning_hash": "0eabba93ed4f871dea45f90f872b0b0b5cd6a36fae3e1f4fabf4bf1d1e5c91d6",
+          "model_version": null,
+          "prompt_version": null,
+          "rule_version": "spike-rules-v1",
+          "source_contract_version": "fixture-wire-use-v1",
+          "source_manifest_version": "fixture-manifest-v1",
+          "text_hash": "eed79a99946944bb37e5fb3ce146353037f59c666493efa462ff4785394ccbdd",
+          "user_thesis_version": "gold-thesis-v1",
+          "version_records": {
+            "coverage_contract_version": {
+              "content_hash": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+              "id": "fixture-coverage-v1",
+              "known_at": "2026-10-02T06:00:00Z"
+            },
+            "exposure_version": {
+              "content_hash": "b04008a077cf6ec20c7c0e76c30b2c86572a14d9ebd633f0249957c962c614ef",
+              "id": "fixture-paper-xau-v1",
+              "known_at": "2026-10-02T06:00:00Z"
+            },
+            "knowledge_version": {
+              "content_hash": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+              "id": "fixture-reviewed-knowledge-v1",
+              "known_at": "2026-10-02T06:00:00Z"
+            },
+            "macro_context_version": {
+              "content_hash": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+              "id": "fixture-context-v1",
+              "known_at": "2026-10-02T06:00:00Z"
+            },
+            "rule_version": {
+              "content_hash": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+              "id": "spike-rules-v1",
+              "known_at": "2026-10-02T06:00:00Z"
+            },
+            "source_contract_version": {
+              "content_hash": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+              "id": "fixture-wire-use-v1",
+              "known_at": "2026-10-02T06:00:00Z"
+            },
+            "source_manifest_version": {
+              "content_hash": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+              "id": "fixture-manifest-v1",
+              "known_at": "2026-10-02T06:00:00Z"
+            }
+          }
+        },
+        "expectations": "unavailable",
+        "facts": [
+          {
+            "field": "report",
+            "value": "Fictional major port disruption; portfolio consequences unverified."
+          }
+        ],
+        "kind": "qualified_notice",
+        "material_change": true,
+        "portfolio_impact": "unresolved",
+        "synthetic": true
+      }
+    },
+    {
+      "step": "accumulate_with_offsets",
+      "cutoff": "2026-10-02T08:05:00Z",
+      "result": {
+        "event_ids": [
+          "fixture-policy-a"
+        ],
+        "signed_fixture_score": 0.6,
+        "material": false
+      }
+    },
+    {
+      "step": "accumulate_with_offsets",
+      "cutoff": "2026-10-02T08:15:00Z",
+      "result": {
+        "event_ids": [
+          "fixture-policy-a",
+          "fixture-policy-b"
+        ],
+        "signed_fixture_score": 1.2,
+        "material": true
+      }
+    },
+    {
+      "step": "accumulate_with_offsets",
+      "cutoff": "2026-10-02T08:25:00Z",
+      "result": {
+        "event_ids": [
+          "fixture-offset-c",
+          "fixture-policy-a",
+          "fixture-policy-b"
+        ],
+        "signed_fixture_score": 0.5,
+        "material": false
+      }
+    }
+  ]
+}

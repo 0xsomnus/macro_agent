@@ -1,0 +1,3 @@
+# Supported LTS line, update patched versions through the lock file.
+Django>=5.2.17,<5.3
+psycopg[binary]>=3.2,<4

@@ -1,0 +1,94 @@
+{
+  "schema_version": "0.1.0",
+  "synthetic": true,
+  "context_bindings": {
+    "source_manifest_version": "fixture-manifest-v1",
+    "coverage_contract_version": "fixture-coverage-v1",
+    "exposure_version": "fixture-paper-xau-v1",
+    "macro_context_version": "fixture-context-v1",
+    "knowledge_version": "fixture-reviewed-knowledge-v1",
+    "rule_version": "spike-rules-v1"
+  },
+  "context_versions": [
+    {"id": "fixture-manifest-v1", "kind": "SourceManifest", "known_at": "2026-10-02T06:00:00Z", "content": {"sources": ["fixture-official", "fixture-permitted-wire"], "driver": "real_yields"}},
+    {"id": "fixture-coverage-v1", "kind": "CoverageContractVersion", "known_at": "2026-10-02T06:00:00Z", "content": {"status": "synthetic_only", "exclusions": ["live data", "expectations", "exhaustive news"]}},
+    {"id": "fixture-paper-xau-v1", "kind": "PositionContext", "known_at": "2026-10-02T06:00:00Z", "content": {"paper": true, "instrument_id": "fixture:xauusd", "underlying": "XAU", "direction": "long", "thesis_id": "gold-thesis-v1"}},
+    {"id": "fixture-context-v1", "kind": "MacroContextVersion", "known_at": "2026-10-02T06:00:00Z", "content": {"observations": [], "hypotheses": [], "unknowns": ["No market regime is asserted by this synthetic fixture."]}},
+    {"id": "fixture-reviewed-knowledge-v1", "kind": "SystemKnowledge", "known_at": "2026-10-02T06:00:00Z", "content": {"relationships": [], "reviewer": "fixture-human"}},
+    {"id": "spike-rules-v1", "kind": "RuleVersion", "known_at": "2026-10-02T06:00:00Z", "content": {"rules": "Control-flow laboratory only; no calibrated materiality classifier."}},
+    {"id": "fixture-public-use-v1", "kind": "SourceContractVersion", "known_at": "2026-10-02T06:00:00Z", "content": {"scope": "synthetic fixture only", "permitted_uses": ["capture", "display", "model"]}},
+    {"id": "fixture-wire-use-v1", "kind": "SourceContractVersion", "known_at": "2026-10-02T06:00:00Z", "content": {"scope": "synthetic fixture only", "permitted_uses": ["capture", "display", "model"]}}
+  ],
+  "thesis": {
+    "id": "gold-thesis-v1",
+    "owner_id": "fixture-trader",
+    "text": "I expect gold to benefit over the next several months if real yields decline. This is a paper thesis, not a trade recommendation.",
+    "approved_at": "2026-10-02T06:00:00Z"
+  },
+  "interpretation": {
+    "id": "gold-compiled-v1",
+    "drivers": ["real_yields"],
+    "horizon": "several months",
+    "invalidation_signposts": ["Real yields rise persistently without an offsetting supported driver."]
+  },
+  "events": [
+    {
+      "event_id": "fictional-release",
+      "revision": 1,
+      "public_available_at": "2026-10-02T06:30:00Z",
+      "system_received_at": "2026-10-02T06:30:04Z",
+      "known_at": "2026-10-02T06:30:05Z",
+      "source_id": "fixture-official",
+      "source_contract_version": "fixture-public-use-v1",
+      "family": "scheduled_macro",
+      "facts": {"reported_measure": 3.1, "units": "fixture_percent", "expectation": null},
+      "screening": {"resolved": true, "credible": true, "urgent": false, "potential_severity": "high", "thesis_impact": true, "trade_impact": false, "plausible_transmission": true, "broad_disruption": false, "novel": false, "classifier_available": true}
+    },
+    {
+      "event_id": "fictional-release",
+      "revision": 2,
+      "public_available_at": "2026-10-02T06:40:00Z",
+      "system_received_at": "2026-10-02T06:40:08Z",
+      "known_at": "2026-10-02T06:40:09Z",
+      "source_id": "fixture-official",
+      "source_contract_version": "fixture-public-use-v1",
+      "family": "scheduled_macro",
+      "facts": {"reported_measure": 3.0, "units": "fixture_percent", "expectation": null},
+      "screening": {"resolved": true, "credible": true, "urgent": false, "potential_severity": "high", "thesis_impact": true, "trade_impact": false, "plausible_transmission": true, "broad_disruption": false, "novel": false, "classifier_available": true}
+    },
+    {
+      "event_id": "fictional-port-disruption",
+      "revision": 1,
+      "public_available_at": "2026-10-02T07:00:00Z",
+      "system_received_at": "2026-10-02T07:00:03Z",
+      "known_at": "2026-10-02T07:00:04Z",
+      "source_id": "fixture-permitted-wire",
+      "source_contract_version": "fixture-wire-use-v1",
+      "family": "unexpected_news",
+      "facts": {"report": "Fictional major port disruption; portfolio consequences unverified."},
+      "screening": {"resolved": false, "credible": true, "urgent": true, "potential_severity": "high", "thesis_impact": false, "trade_impact": false, "plausible_transmission": true, "broad_disruption": true, "novel": true, "classifier_available": true}
+    },
+    {
+      "event_id": "fictional-unrelated-novelty",
+      "revision": 1,
+      "public_available_at": "2026-10-02T07:10:00Z",
+      "system_received_at": "2026-10-02T07:10:02Z",
+      "known_at": "2026-10-02T07:10:03Z",
+      "source_id": "fixture-permitted-wire",
+      "source_contract_version": "fixture-wire-use-v1",
+      "family": "unexpected_news",
+      "facts": {"report": "Fictional novel event with resolved low exposure significance."},
+      "screening": {"resolved": true, "credible": true, "urgent": false, "potential_severity": "low", "thesis_impact": false, "trade_impact": false, "plausible_transmission": false, "broad_disruption": false, "novel": true, "classifier_available": true}
+    }
+  ],
+  "accumulation": {
+    "window_seconds": 86400,
+    "threshold": 1.0,
+    "observations": [
+      {"event_id": "fixture-policy-a", "driver_id": "real_yields", "known_at": "2026-10-02T08:00:00Z", "signed_fixture_weight": 0.6},
+      {"event_id": "fixture-policy-a", "driver_id": "real_yields", "known_at": "2026-10-02T08:00:00Z", "signed_fixture_weight": 0.6},
+      {"event_id": "fixture-policy-b", "driver_id": "real_yields", "known_at": "2026-10-02T08:10:00Z", "signed_fixture_weight": 0.6},
+      {"event_id": "fixture-offset-c", "driver_id": "real_yields", "known_at": "2026-10-02T08:20:00Z", "signed_fixture_weight": -0.7}
+    ]
+  }
+}
