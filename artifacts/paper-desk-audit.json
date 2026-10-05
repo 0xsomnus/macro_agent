@@ -1,0 +1,4126 @@
+{
+  "synthetic": true,
+  "mode": "sequential_demonstration",
+  "provider_calls": 0,
+  "provider_spend": 0,
+  "owner_id": "3d5d64e2-90b6-43af-a25e-158c0f773b85",
+  "monitoring": "not_configured",
+  "observations": {
+    "position_changed_publication_blocked": true,
+    "old_assessment_retry_status": "superseded",
+    "proposal_preserved_current_brief": true,
+    "approval_changed_publication_blocked": true,
+    "old_approval_retry_is_current": false,
+    "position_closed_publication_blocked": true
+  },
+  "stages": [
+    {
+      "stage": "paper-desk-initial",
+      "state": {
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "generation": 1,
+        "changed_at": "2026-10-05T12:00:04+00:00",
+        "current_assessment_id": "paper-desk-initial",
+        "thesis_binding": {
+          "thesis_id": "7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d",
+          "status": "ready",
+          "admitted_approval_id": "9d87fbc9-f15f-4f79-aba4-48810cedd045",
+          "admitted_exposure_digest": "d6d9b9128cf9a24a97014ecabc780455d12be7d72892eb0ce172b5cac57ba387",
+          "input_observed_at": "2026-10-05T12:00:03+00:00",
+          "commit_time_measured": false
+        },
+        "current_dependencies": [
+          {
+            "role": "activation",
+            "version_id": "9d87fbc9-f15f-4f79-aba4-48810cedd045",
+            "digest": "e22f1f225844436a480b02a7c2aa6a2055fb0c6bb3ebb1e3d65f2f7e9baf7122",
+            "known_at": "2026-10-05T12:00:03+00:00"
+          },
+          {
+            "role": "budget",
+            "version_id": "fixture-budget-v1",
+            "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "compiled_thesis",
+            "version_id": "696573ea-3076-4e55-953f-978c8f4bcdb6",
+            "digest": "93495980f4bdd878eb61955d85781fc30813cdfb84722bd2e965d3869acc5c86",
+            "known_at": "2026-10-05T12:00:03+00:00"
+          },
+          {
+            "role": "coverage",
+            "version_id": "fixture-coverage-v1",
+            "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "entitlements",
+            "version_id": "fixture-entitlements-v1",
+            "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "event_revision",
+            "version_id": "fictional-release@1",
+            "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+            "known_at": "2026-10-02T06:30:05+00:00"
+          },
+          {
+            "role": "execution_graph",
+            "version_id": "fixture-execution_graph-v1",
+            "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "exposure",
+            "version_id": "exposure:7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d:d6d9b9128cf9a24a97014ecabc780455d12be7d72892eb0ce172b5cac57ba387",
+            "digest": "d6d9b9128cf9a24a97014ecabc780455d12be7d72892eb0ce172b5cac57ba387",
+            "known_at": "2026-10-05T12:00:03+00:00"
+          },
+          {
+            "role": "knowledge",
+            "version_id": "fixture-reviewed-knowledge-v1",
+            "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "macro_context",
+            "version_id": "fixture-context-v1",
+            "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "model",
+            "version_id": "fixture-model-v1",
+            "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "prompt",
+            "version_id": "fixture-prompt-v1",
+            "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "rules",
+            "version_id": "spike-rules-v1",
+            "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "source_contract",
+            "version_id": "fixture-public-use-v1",
+            "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "source_manifest",
+            "version_id": "fixture-manifest-v1",
+            "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "user_thesis",
+            "version_id": "3b70daa8-b542-44c4-8c26-11c6e7a1b663",
+            "digest": "6ece44b38da96fb2b862475cd2ca3762ecd15bc5fab13634f262b813f62bca51",
+            "known_at": "2026-10-05T12:00:03+00:00"
+          }
+        ],
+        "notifications": [
+          {
+            "intent_id": "notice:36649902b9c73b187f5f0d5050d0876ea1d735a858e8c9afb8614a5a43c0854d",
+            "brief_id": "paper-desk-synthetic-brief-v1",
+            "assessment_id": "paper-desk-initial",
+            "state": "pending",
+            "created_at": "2026-10-05T12:00:04+00:00",
+            "updated_at": "2026-10-05T12:00:04+00:00"
+          }
+        ]
+      }
+    },
+    {
+      "stage": "position_changed",
+      "state": {
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "generation": 1,
+        "changed_at": "2026-10-05T12:00:05+00:00",
+        "current_assessment_id": null,
+        "thesis_binding": {
+          "thesis_id": "7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d",
+          "status": "pending",
+          "admitted_approval_id": "9d87fbc9-f15f-4f79-aba4-48810cedd045",
+          "admitted_exposure_digest": "d6d9b9128cf9a24a97014ecabc780455d12be7d72892eb0ce172b5cac57ba387",
+          "input_observed_at": "2026-10-05T12:00:03+00:00",
+          "commit_time_measured": false
+        },
+        "current_dependencies": [
+          {
+            "role": "activation",
+            "version_id": "9d87fbc9-f15f-4f79-aba4-48810cedd045",
+            "digest": "e22f1f225844436a480b02a7c2aa6a2055fb0c6bb3ebb1e3d65f2f7e9baf7122",
+            "known_at": "2026-10-05T12:00:03+00:00"
+          },
+          {
+            "role": "budget",
+            "version_id": "fixture-budget-v1",
+            "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "compiled_thesis",
+            "version_id": "696573ea-3076-4e55-953f-978c8f4bcdb6",
+            "digest": "93495980f4bdd878eb61955d85781fc30813cdfb84722bd2e965d3869acc5c86",
+            "known_at": "2026-10-05T12:00:03+00:00"
+          },
+          {
+            "role": "coverage",
+            "version_id": "fixture-coverage-v1",
+            "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "entitlements",
+            "version_id": "fixture-entitlements-v1",
+            "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "event_revision",
+            "version_id": "fictional-release@1",
+            "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+            "known_at": "2026-10-02T06:30:05+00:00"
+          },
+          {
+            "role": "execution_graph",
+            "version_id": "fixture-execution_graph-v1",
+            "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "exposure",
+            "version_id": "exposure:7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d:d6d9b9128cf9a24a97014ecabc780455d12be7d72892eb0ce172b5cac57ba387",
+            "digest": "d6d9b9128cf9a24a97014ecabc780455d12be7d72892eb0ce172b5cac57ba387",
+            "known_at": "2026-10-05T12:00:03+00:00"
+          },
+          {
+            "role": "knowledge",
+            "version_id": "fixture-reviewed-knowledge-v1",
+            "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "macro_context",
+            "version_id": "fixture-context-v1",
+            "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "model",
+            "version_id": "fixture-model-v1",
+            "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "prompt",
+            "version_id": "fixture-prompt-v1",
+            "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "rules",
+            "version_id": "spike-rules-v1",
+            "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "source_contract",
+            "version_id": "fixture-public-use-v1",
+            "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "source_manifest",
+            "version_id": "fixture-manifest-v1",
+            "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "user_thesis",
+            "version_id": "3b70daa8-b542-44c4-8c26-11c6e7a1b663",
+            "digest": "6ece44b38da96fb2b862475cd2ca3762ecd15bc5fab13634f262b813f62bca51",
+            "known_at": "2026-10-05T12:00:03+00:00"
+          }
+        ],
+        "notifications": [
+          {
+            "intent_id": "notice:36649902b9c73b187f5f0d5050d0876ea1d735a858e8c9afb8614a5a43c0854d",
+            "brief_id": "paper-desk-synthetic-brief-v1",
+            "assessment_id": "paper-desk-initial",
+            "state": "canceled",
+            "created_at": "2026-10-05T12:00:04+00:00",
+            "updated_at": "2026-10-05T12:00:05+00:00"
+          }
+        ]
+      }
+    },
+    {
+      "stage": "paper-desk-resized",
+      "state": {
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "generation": 2,
+        "changed_at": "2026-10-05T12:00:09+00:00",
+        "current_assessment_id": "paper-desk-resized",
+        "thesis_binding": {
+          "thesis_id": "7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d",
+          "status": "ready",
+          "admitted_approval_id": "9d87fbc9-f15f-4f79-aba4-48810cedd045",
+          "admitted_exposure_digest": "7b6a945563495293b29b081f9e338f42c7fc050eca1180e1636a33bc1ae88f58",
+          "input_observed_at": "2026-10-05T12:00:07+00:00",
+          "commit_time_measured": false
+        },
+        "current_dependencies": [
+          {
+            "role": "activation",
+            "version_id": "9d87fbc9-f15f-4f79-aba4-48810cedd045",
+            "digest": "e22f1f225844436a480b02a7c2aa6a2055fb0c6bb3ebb1e3d65f2f7e9baf7122",
+            "known_at": "2026-10-05T12:00:03+00:00"
+          },
+          {
+            "role": "budget",
+            "version_id": "fixture-budget-v1",
+            "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "compiled_thesis",
+            "version_id": "696573ea-3076-4e55-953f-978c8f4bcdb6",
+            "digest": "93495980f4bdd878eb61955d85781fc30813cdfb84722bd2e965d3869acc5c86",
+            "known_at": "2026-10-05T12:00:03+00:00"
+          },
+          {
+            "role": "coverage",
+            "version_id": "fixture-coverage-v1",
+            "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "entitlements",
+            "version_id": "fixture-entitlements-v1",
+            "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "event_revision",
+            "version_id": "fictional-release@1",
+            "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+            "known_at": "2026-10-02T06:30:05+00:00"
+          },
+          {
+            "role": "execution_graph",
+            "version_id": "fixture-execution_graph-v1",
+            "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "exposure",
+            "version_id": "exposure:7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d:7b6a945563495293b29b081f9e338f42c7fc050eca1180e1636a33bc1ae88f58",
+            "digest": "7b6a945563495293b29b081f9e338f42c7fc050eca1180e1636a33bc1ae88f58",
+            "known_at": "2026-10-05T12:00:07+00:00"
+          },
+          {
+            "role": "knowledge",
+            "version_id": "fixture-reviewed-knowledge-v1",
+            "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "macro_context",
+            "version_id": "fixture-context-v1",
+            "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "model",
+            "version_id": "fixture-model-v1",
+            "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "prompt",
+            "version_id": "fixture-prompt-v1",
+            "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "rules",
+            "version_id": "spike-rules-v1",
+            "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "source_contract",
+            "version_id": "fixture-public-use-v1",
+            "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "source_manifest",
+            "version_id": "fixture-manifest-v1",
+            "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "user_thesis",
+            "version_id": "3b70daa8-b542-44c4-8c26-11c6e7a1b663",
+            "digest": "6ece44b38da96fb2b862475cd2ca3762ecd15bc5fab13634f262b813f62bca51",
+            "known_at": "2026-10-05T12:00:03+00:00"
+          }
+        ],
+        "notifications": [
+          {
+            "intent_id": "notice:36649902b9c73b187f5f0d5050d0876ea1d735a858e8c9afb8614a5a43c0854d",
+            "brief_id": "paper-desk-synthetic-brief-v1",
+            "assessment_id": "paper-desk-initial",
+            "state": "canceled",
+            "created_at": "2026-10-05T12:00:04+00:00",
+            "updated_at": "2026-10-05T12:00:05+00:00"
+          },
+          {
+            "intent_id": "notice:adfdca2fe29d3d8aa7ad891b2e48dcefb5531b8921434db65e94b2d2192886cf",
+            "brief_id": "paper-desk-synthetic-brief-v1",
+            "assessment_id": "paper-desk-resized",
+            "state": "pending",
+            "created_at": "2026-10-05T12:00:09+00:00",
+            "updated_at": "2026-10-05T12:00:09+00:00"
+          }
+        ]
+      }
+    },
+    {
+      "stage": "approval_changed",
+      "state": {
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "generation": 2,
+        "changed_at": "2026-10-05T12:00:11+00:00",
+        "current_assessment_id": null,
+        "thesis_binding": {
+          "thesis_id": "7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d",
+          "status": "pending",
+          "admitted_approval_id": "9d87fbc9-f15f-4f79-aba4-48810cedd045",
+          "admitted_exposure_digest": "7b6a945563495293b29b081f9e338f42c7fc050eca1180e1636a33bc1ae88f58",
+          "input_observed_at": "2026-10-05T12:00:07+00:00",
+          "commit_time_measured": false
+        },
+        "current_dependencies": [
+          {
+            "role": "activation",
+            "version_id": "9d87fbc9-f15f-4f79-aba4-48810cedd045",
+            "digest": "e22f1f225844436a480b02a7c2aa6a2055fb0c6bb3ebb1e3d65f2f7e9baf7122",
+            "known_at": "2026-10-05T12:00:03+00:00"
+          },
+          {
+            "role": "budget",
+            "version_id": "fixture-budget-v1",
+            "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "compiled_thesis",
+            "version_id": "696573ea-3076-4e55-953f-978c8f4bcdb6",
+            "digest": "93495980f4bdd878eb61955d85781fc30813cdfb84722bd2e965d3869acc5c86",
+            "known_at": "2026-10-05T12:00:03+00:00"
+          },
+          {
+            "role": "coverage",
+            "version_id": "fixture-coverage-v1",
+            "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "entitlements",
+            "version_id": "fixture-entitlements-v1",
+            "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "event_revision",
+            "version_id": "fictional-release@1",
+            "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+            "known_at": "2026-10-02T06:30:05+00:00"
+          },
+          {
+            "role": "execution_graph",
+            "version_id": "fixture-execution_graph-v1",
+            "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "exposure",
+            "version_id": "exposure:7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d:7b6a945563495293b29b081f9e338f42c7fc050eca1180e1636a33bc1ae88f58",
+            "digest": "7b6a945563495293b29b081f9e338f42c7fc050eca1180e1636a33bc1ae88f58",
+            "known_at": "2026-10-05T12:00:07+00:00"
+          },
+          {
+            "role": "knowledge",
+            "version_id": "fixture-reviewed-knowledge-v1",
+            "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "macro_context",
+            "version_id": "fixture-context-v1",
+            "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "model",
+            "version_id": "fixture-model-v1",
+            "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "prompt",
+            "version_id": "fixture-prompt-v1",
+            "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "rules",
+            "version_id": "spike-rules-v1",
+            "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "source_contract",
+            "version_id": "fixture-public-use-v1",
+            "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "source_manifest",
+            "version_id": "fixture-manifest-v1",
+            "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "user_thesis",
+            "version_id": "3b70daa8-b542-44c4-8c26-11c6e7a1b663",
+            "digest": "6ece44b38da96fb2b862475cd2ca3762ecd15bc5fab13634f262b813f62bca51",
+            "known_at": "2026-10-05T12:00:03+00:00"
+          }
+        ],
+        "notifications": [
+          {
+            "intent_id": "notice:36649902b9c73b187f5f0d5050d0876ea1d735a858e8c9afb8614a5a43c0854d",
+            "brief_id": "paper-desk-synthetic-brief-v1",
+            "assessment_id": "paper-desk-initial",
+            "state": "canceled",
+            "created_at": "2026-10-05T12:00:04+00:00",
+            "updated_at": "2026-10-05T12:00:05+00:00"
+          },
+          {
+            "intent_id": "notice:adfdca2fe29d3d8aa7ad891b2e48dcefb5531b8921434db65e94b2d2192886cf",
+            "brief_id": "paper-desk-synthetic-brief-v1",
+            "assessment_id": "paper-desk-resized",
+            "state": "canceled",
+            "created_at": "2026-10-05T12:00:09+00:00",
+            "updated_at": "2026-10-05T12:00:11+00:00"
+          }
+        ]
+      }
+    },
+    {
+      "stage": "paper-desk-amended",
+      "state": {
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "generation": 3,
+        "changed_at": "2026-10-05T12:00:14+00:00",
+        "current_assessment_id": "paper-desk-amended",
+        "thesis_binding": {
+          "thesis_id": "7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d",
+          "status": "ready",
+          "admitted_approval_id": "346c7a5e-5691-44ca-9030-62442467b493",
+          "admitted_exposure_digest": "7b6a945563495293b29b081f9e338f42c7fc050eca1180e1636a33bc1ae88f58",
+          "input_observed_at": "2026-10-05T12:00:13+00:00",
+          "commit_time_measured": false
+        },
+        "current_dependencies": [
+          {
+            "role": "activation",
+            "version_id": "346c7a5e-5691-44ca-9030-62442467b493",
+            "digest": "2c3b2d3e4b07b854a00558921245a44a4dfbe7a87ffa9fe62439fd8cb26d4bd6",
+            "known_at": "2026-10-05T12:00:13+00:00"
+          },
+          {
+            "role": "budget",
+            "version_id": "fixture-budget-v1",
+            "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "compiled_thesis",
+            "version_id": "d342952a-5721-43c5-a21f-12a3b060ac36",
+            "digest": "8cb9417960d2396850998d557eac6753c49cd6abc8bb1590a25b2147d5c4f396",
+            "known_at": "2026-10-05T12:00:13+00:00"
+          },
+          {
+            "role": "coverage",
+            "version_id": "fixture-coverage-v1",
+            "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "entitlements",
+            "version_id": "fixture-entitlements-v1",
+            "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "event_revision",
+            "version_id": "fictional-release@1",
+            "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+            "known_at": "2026-10-02T06:30:05+00:00"
+          },
+          {
+            "role": "execution_graph",
+            "version_id": "fixture-execution_graph-v1",
+            "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "exposure",
+            "version_id": "exposure:7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d:7b6a945563495293b29b081f9e338f42c7fc050eca1180e1636a33bc1ae88f58",
+            "digest": "7b6a945563495293b29b081f9e338f42c7fc050eca1180e1636a33bc1ae88f58",
+            "known_at": "2026-10-05T12:00:07+00:00"
+          },
+          {
+            "role": "knowledge",
+            "version_id": "fixture-reviewed-knowledge-v1",
+            "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "macro_context",
+            "version_id": "fixture-context-v1",
+            "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "model",
+            "version_id": "fixture-model-v1",
+            "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "prompt",
+            "version_id": "fixture-prompt-v1",
+            "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "rules",
+            "version_id": "spike-rules-v1",
+            "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "source_contract",
+            "version_id": "fixture-public-use-v1",
+            "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "source_manifest",
+            "version_id": "fixture-manifest-v1",
+            "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "user_thesis",
+            "version_id": "6b3bb0d2-2c0f-43cf-9479-a1c2d9be1ba8",
+            "digest": "77e86f3549b045ba961135161d2bdd1a85d0759a3338e6c1800f13a8db9871a0",
+            "known_at": "2026-10-05T12:00:13+00:00"
+          }
+        ],
+        "notifications": [
+          {
+            "intent_id": "notice:36649902b9c73b187f5f0d5050d0876ea1d735a858e8c9afb8614a5a43c0854d",
+            "brief_id": "paper-desk-synthetic-brief-v1",
+            "assessment_id": "paper-desk-initial",
+            "state": "canceled",
+            "created_at": "2026-10-05T12:00:04+00:00",
+            "updated_at": "2026-10-05T12:00:05+00:00"
+          },
+          {
+            "intent_id": "notice:adfdca2fe29d3d8aa7ad891b2e48dcefb5531b8921434db65e94b2d2192886cf",
+            "brief_id": "paper-desk-synthetic-brief-v1",
+            "assessment_id": "paper-desk-resized",
+            "state": "canceled",
+            "created_at": "2026-10-05T12:00:09+00:00",
+            "updated_at": "2026-10-05T12:00:11+00:00"
+          },
+          {
+            "intent_id": "notice:5d40a137cdd0eb1a4cebb1bdce0c076f8d9aac86d434a3402abe1062151d37e5",
+            "brief_id": "paper-desk-synthetic-brief-v1",
+            "assessment_id": "paper-desk-amended",
+            "state": "pending",
+            "created_at": "2026-10-05T12:00:14+00:00",
+            "updated_at": "2026-10-05T12:00:14+00:00"
+          }
+        ]
+      }
+    },
+    {
+      "stage": "position_closed",
+      "state": {
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "generation": 3,
+        "changed_at": "2026-10-05T12:00:15+00:00",
+        "current_assessment_id": null,
+        "thesis_binding": {
+          "thesis_id": "7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d",
+          "status": "pending",
+          "admitted_approval_id": "346c7a5e-5691-44ca-9030-62442467b493",
+          "admitted_exposure_digest": "7b6a945563495293b29b081f9e338f42c7fc050eca1180e1636a33bc1ae88f58",
+          "input_observed_at": "2026-10-05T12:00:13+00:00",
+          "commit_time_measured": false
+        },
+        "current_dependencies": [
+          {
+            "role": "activation",
+            "version_id": "346c7a5e-5691-44ca-9030-62442467b493",
+            "digest": "2c3b2d3e4b07b854a00558921245a44a4dfbe7a87ffa9fe62439fd8cb26d4bd6",
+            "known_at": "2026-10-05T12:00:13+00:00"
+          },
+          {
+            "role": "budget",
+            "version_id": "fixture-budget-v1",
+            "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "compiled_thesis",
+            "version_id": "d342952a-5721-43c5-a21f-12a3b060ac36",
+            "digest": "8cb9417960d2396850998d557eac6753c49cd6abc8bb1590a25b2147d5c4f396",
+            "known_at": "2026-10-05T12:00:13+00:00"
+          },
+          {
+            "role": "coverage",
+            "version_id": "fixture-coverage-v1",
+            "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "entitlements",
+            "version_id": "fixture-entitlements-v1",
+            "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "event_revision",
+            "version_id": "fictional-release@1",
+            "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+            "known_at": "2026-10-02T06:30:05+00:00"
+          },
+          {
+            "role": "execution_graph",
+            "version_id": "fixture-execution_graph-v1",
+            "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "exposure",
+            "version_id": "exposure:7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d:7b6a945563495293b29b081f9e338f42c7fc050eca1180e1636a33bc1ae88f58",
+            "digest": "7b6a945563495293b29b081f9e338f42c7fc050eca1180e1636a33bc1ae88f58",
+            "known_at": "2026-10-05T12:00:07+00:00"
+          },
+          {
+            "role": "knowledge",
+            "version_id": "fixture-reviewed-knowledge-v1",
+            "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "macro_context",
+            "version_id": "fixture-context-v1",
+            "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "model",
+            "version_id": "fixture-model-v1",
+            "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "prompt",
+            "version_id": "fixture-prompt-v1",
+            "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "rules",
+            "version_id": "spike-rules-v1",
+            "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "source_contract",
+            "version_id": "fixture-public-use-v1",
+            "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "source_manifest",
+            "version_id": "fixture-manifest-v1",
+            "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "user_thesis",
+            "version_id": "6b3bb0d2-2c0f-43cf-9479-a1c2d9be1ba8",
+            "digest": "77e86f3549b045ba961135161d2bdd1a85d0759a3338e6c1800f13a8db9871a0",
+            "known_at": "2026-10-05T12:00:13+00:00"
+          }
+        ],
+        "notifications": [
+          {
+            "intent_id": "notice:36649902b9c73b187f5f0d5050d0876ea1d735a858e8c9afb8614a5a43c0854d",
+            "brief_id": "paper-desk-synthetic-brief-v1",
+            "assessment_id": "paper-desk-initial",
+            "state": "canceled",
+            "created_at": "2026-10-05T12:00:04+00:00",
+            "updated_at": "2026-10-05T12:00:05+00:00"
+          },
+          {
+            "intent_id": "notice:adfdca2fe29d3d8aa7ad891b2e48dcefb5531b8921434db65e94b2d2192886cf",
+            "brief_id": "paper-desk-synthetic-brief-v1",
+            "assessment_id": "paper-desk-resized",
+            "state": "canceled",
+            "created_at": "2026-10-05T12:00:09+00:00",
+            "updated_at": "2026-10-05T12:00:11+00:00"
+          },
+          {
+            "intent_id": "notice:5d40a137cdd0eb1a4cebb1bdce0c076f8d9aac86d434a3402abe1062151d37e5",
+            "brief_id": "paper-desk-synthetic-brief-v1",
+            "assessment_id": "paper-desk-amended",
+            "state": "canceled",
+            "created_at": "2026-10-05T12:00:14+00:00",
+            "updated_at": "2026-10-05T12:00:15+00:00"
+          }
+        ]
+      }
+    },
+    {
+      "stage": "paper-desk-closed-history",
+      "state": {
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "generation": 4,
+        "changed_at": "2026-10-05T12:00:18+00:00",
+        "current_assessment_id": "paper-desk-closed-history",
+        "thesis_binding": {
+          "thesis_id": "7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d",
+          "status": "ready",
+          "admitted_approval_id": "346c7a5e-5691-44ca-9030-62442467b493",
+          "admitted_exposure_digest": "90d79b8272c477449327e008253e166b828be1eb43937b50095d876a65b2f632",
+          "input_observed_at": "2026-10-05T12:00:17+00:00",
+          "commit_time_measured": false
+        },
+        "current_dependencies": [
+          {
+            "role": "activation",
+            "version_id": "346c7a5e-5691-44ca-9030-62442467b493",
+            "digest": "2c3b2d3e4b07b854a00558921245a44a4dfbe7a87ffa9fe62439fd8cb26d4bd6",
+            "known_at": "2026-10-05T12:00:13+00:00"
+          },
+          {
+            "role": "budget",
+            "version_id": "fixture-budget-v1",
+            "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "compiled_thesis",
+            "version_id": "d342952a-5721-43c5-a21f-12a3b060ac36",
+            "digest": "8cb9417960d2396850998d557eac6753c49cd6abc8bb1590a25b2147d5c4f396",
+            "known_at": "2026-10-05T12:00:13+00:00"
+          },
+          {
+            "role": "coverage",
+            "version_id": "fixture-coverage-v1",
+            "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "entitlements",
+            "version_id": "fixture-entitlements-v1",
+            "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "event_revision",
+            "version_id": "fictional-release@1",
+            "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+            "known_at": "2026-10-02T06:30:05+00:00"
+          },
+          {
+            "role": "execution_graph",
+            "version_id": "fixture-execution_graph-v1",
+            "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "exposure",
+            "version_id": "exposure:7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d:90d79b8272c477449327e008253e166b828be1eb43937b50095d876a65b2f632",
+            "digest": "90d79b8272c477449327e008253e166b828be1eb43937b50095d876a65b2f632",
+            "known_at": "2026-10-05T12:00:17+00:00"
+          },
+          {
+            "role": "knowledge",
+            "version_id": "fixture-reviewed-knowledge-v1",
+            "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "macro_context",
+            "version_id": "fixture-context-v1",
+            "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "model",
+            "version_id": "fixture-model-v1",
+            "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "prompt",
+            "version_id": "fixture-prompt-v1",
+            "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "rules",
+            "version_id": "spike-rules-v1",
+            "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "source_contract",
+            "version_id": "fixture-public-use-v1",
+            "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "source_manifest",
+            "version_id": "fixture-manifest-v1",
+            "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+            "known_at": "2026-10-02T06:00:00+00:00"
+          },
+          {
+            "role": "user_thesis",
+            "version_id": "6b3bb0d2-2c0f-43cf-9479-a1c2d9be1ba8",
+            "digest": "77e86f3549b045ba961135161d2bdd1a85d0759a3338e6c1800f13a8db9871a0",
+            "known_at": "2026-10-05T12:00:13+00:00"
+          }
+        ],
+        "notifications": [
+          {
+            "intent_id": "notice:36649902b9c73b187f5f0d5050d0876ea1d735a858e8c9afb8614a5a43c0854d",
+            "brief_id": "paper-desk-synthetic-brief-v1",
+            "assessment_id": "paper-desk-initial",
+            "state": "canceled",
+            "created_at": "2026-10-05T12:00:04+00:00",
+            "updated_at": "2026-10-05T12:00:05+00:00"
+          },
+          {
+            "intent_id": "notice:adfdca2fe29d3d8aa7ad891b2e48dcefb5531b8921434db65e94b2d2192886cf",
+            "brief_id": "paper-desk-synthetic-brief-v1",
+            "assessment_id": "paper-desk-resized",
+            "state": "canceled",
+            "created_at": "2026-10-05T12:00:09+00:00",
+            "updated_at": "2026-10-05T12:00:11+00:00"
+          },
+          {
+            "intent_id": "notice:5d40a137cdd0eb1a4cebb1bdce0c076f8d9aac86d434a3402abe1062151d37e5",
+            "brief_id": "paper-desk-synthetic-brief-v1",
+            "assessment_id": "paper-desk-amended",
+            "state": "canceled",
+            "created_at": "2026-10-05T12:00:14+00:00",
+            "updated_at": "2026-10-05T12:00:15+00:00"
+          },
+          {
+            "intent_id": "notice:e1342f9f45a5808209c585c6ad878bb07bd1ef3a4727691f2be908fdaeb990fc",
+            "brief_id": "paper-desk-synthetic-brief-v1",
+            "assessment_id": "paper-desk-closed-history",
+            "state": "pending",
+            "created_at": "2026-10-05T12:00:18+00:00",
+            "updated_at": "2026-10-05T12:00:18+00:00"
+          }
+        ]
+      }
+    }
+  ],
+  "time_scope": "Committed inputs observed under protection; exact admission commit time is not measured.",
+  "thesis_history": {
+    "thesis": {
+      "id": "7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d",
+      "revision": 4,
+      "created_at": "2026-10-05T12:00:00+00:00",
+      "changed_at": "2026-10-05T12:00:11+00:00",
+      "draft": {
+        "text_version": {
+          "id": "6b3bb0d2-2c0f-43cf-9479-a1c2d9be1ba8",
+          "parent_version_id": "3b70daa8-b542-44c4-8c26-11c6e7a1b663",
+          "exact_text": "  Gold may benefit if real yields fall, unless USD strength offsets it.\r\n",
+          "text_digest": "77e86f3549b045ba961135161d2bdd1a85d0759a3338e6c1800f13a8db9871a0",
+          "created_at": "2026-10-05T12:00:10+00:00"
+        },
+        "interpretation": {
+          "id": "d342952a-5721-43c5-a21f-12a3b060ac36",
+          "text_version_id": "6b3bb0d2-2c0f-43cf-9479-a1c2d9be1ba8",
+          "drivers": [
+            "Real yields",
+            "USD"
+          ],
+          "horizon": "Several weeks",
+          "invalidation_signposts": [
+            "A sustained rise in real yields"
+          ],
+          "known_at": "2026-10-05T12:00:10+00:00",
+          "digest": "8cb9417960d2396850998d557eac6753c49cd6abc8bb1590a25b2147d5c4f396",
+          "origin": "user_supplied"
+        }
+      },
+      "approved": {
+        "approval": {
+          "id": "346c7a5e-5691-44ca-9030-62442467b493",
+          "text_version_id": "6b3bb0d2-2c0f-43cf-9479-a1c2d9be1ba8",
+          "interpretation_version_id": "d342952a-5721-43c5-a21f-12a3b060ac36",
+          "text_digest": "77e86f3549b045ba961135161d2bdd1a85d0759a3338e6c1800f13a8db9871a0",
+          "interpretation_digest": "8cb9417960d2396850998d557eac6753c49cd6abc8bb1590a25b2147d5c4f396",
+          "approved_at": "2026-10-05T12:00:11+00:00",
+          "digest": "2c3b2d3e4b07b854a00558921245a44a4dfbe7a87ffa9fe62439fd8cb26d4bd6",
+          "revision": 4
+        },
+        "text_version": {
+          "id": "6b3bb0d2-2c0f-43cf-9479-a1c2d9be1ba8",
+          "parent_version_id": "3b70daa8-b542-44c4-8c26-11c6e7a1b663",
+          "exact_text": "  Gold may benefit if real yields fall, unless USD strength offsets it.\r\n",
+          "text_digest": "77e86f3549b045ba961135161d2bdd1a85d0759a3338e6c1800f13a8db9871a0",
+          "created_at": "2026-10-05T12:00:10+00:00"
+        },
+        "interpretation": {
+          "id": "d342952a-5721-43c5-a21f-12a3b060ac36",
+          "text_version_id": "6b3bb0d2-2c0f-43cf-9479-a1c2d9be1ba8",
+          "drivers": [
+            "Real yields",
+            "USD"
+          ],
+          "horizon": "Several weeks",
+          "invalidation_signposts": [
+            "A sustained rise in real yields"
+          ],
+          "known_at": "2026-10-05T12:00:10+00:00",
+          "digest": "8cb9417960d2396850998d557eac6753c49cd6abc8bb1590a25b2147d5c4f396",
+          "origin": "user_supplied"
+        }
+      },
+      "monitoring": "not_configured"
+    },
+    "text_versions": [
+      {
+        "id": "3b70daa8-b542-44c4-8c26-11c6e7a1b663",
+        "parent_version_id": null,
+        "exact_text": "  Gold may benefit if real yields fall.\r\n",
+        "text_digest": "6ece44b38da96fb2b862475cd2ca3762ecd15bc5fab13634f262b813f62bca51",
+        "created_at": "2026-10-05T12:00:00+00:00"
+      },
+      {
+        "id": "6b3bb0d2-2c0f-43cf-9479-a1c2d9be1ba8",
+        "parent_version_id": "3b70daa8-b542-44c4-8c26-11c6e7a1b663",
+        "exact_text": "  Gold may benefit if real yields fall, unless USD strength offsets it.\r\n",
+        "text_digest": "77e86f3549b045ba961135161d2bdd1a85d0759a3338e6c1800f13a8db9871a0",
+        "created_at": "2026-10-05T12:00:10+00:00"
+      }
+    ],
+    "interpretations": [
+      {
+        "id": "696573ea-3076-4e55-953f-978c8f4bcdb6",
+        "text_version_id": "3b70daa8-b542-44c4-8c26-11c6e7a1b663",
+        "drivers": [
+          "Real yields",
+          "USD"
+        ],
+        "horizon": "Several weeks",
+        "invalidation_signposts": [
+          "A sustained rise in real yields"
+        ],
+        "known_at": "2026-10-05T12:00:00+00:00",
+        "digest": "93495980f4bdd878eb61955d85781fc30813cdfb84722bd2e965d3869acc5c86",
+        "origin": "user_supplied"
+      },
+      {
+        "id": "d342952a-5721-43c5-a21f-12a3b060ac36",
+        "text_version_id": "6b3bb0d2-2c0f-43cf-9479-a1c2d9be1ba8",
+        "drivers": [
+          "Real yields",
+          "USD"
+        ],
+        "horizon": "Several weeks",
+        "invalidation_signposts": [
+          "A sustained rise in real yields"
+        ],
+        "known_at": "2026-10-05T12:00:10+00:00",
+        "digest": "8cb9417960d2396850998d557eac6753c49cd6abc8bb1590a25b2147d5c4f396",
+        "origin": "user_supplied"
+      }
+    ],
+    "approvals": [
+      {
+        "id": "9d87fbc9-f15f-4f79-aba4-48810cedd045",
+        "text_version_id": "3b70daa8-b542-44c4-8c26-11c6e7a1b663",
+        "interpretation_version_id": "696573ea-3076-4e55-953f-978c8f4bcdb6",
+        "text_digest": "6ece44b38da96fb2b862475cd2ca3762ecd15bc5fab13634f262b813f62bca51",
+        "interpretation_digest": "93495980f4bdd878eb61955d85781fc30813cdfb84722bd2e965d3869acc5c86",
+        "approved_at": "2026-10-05T12:00:01+00:00",
+        "digest": "e22f1f225844436a480b02a7c2aa6a2055fb0c6bb3ebb1e3d65f2f7e9baf7122",
+        "revision": 2
+      },
+      {
+        "id": "346c7a5e-5691-44ca-9030-62442467b493",
+        "text_version_id": "6b3bb0d2-2c0f-43cf-9479-a1c2d9be1ba8",
+        "interpretation_version_id": "d342952a-5721-43c5-a21f-12a3b060ac36",
+        "text_digest": "77e86f3549b045ba961135161d2bdd1a85d0759a3338e6c1800f13a8db9871a0",
+        "interpretation_digest": "8cb9417960d2396850998d557eac6753c49cd6abc8bb1590a25b2147d5c4f396",
+        "approved_at": "2026-10-05T12:00:11+00:00",
+        "digest": "2c3b2d3e4b07b854a00558921245a44a4dfbe7a87ffa9fe62439fd8cb26d4bd6",
+        "revision": 4
+      }
+    ],
+    "audit": [
+      {
+        "sequence": 3,
+        "kind": "create",
+        "at": "2026-10-05T12:00:00+00:00",
+        "detail": {
+          "actor_id": "3d5d64e2-90b6-43af-a25e-158c0f773b85",
+          "revision": 1,
+          "thesis_id": "7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d",
+          "command_id": "82bbe4e9-0ff7-5d75-8ea3-2c3faa752864",
+          "accepted_at": "2026-10-05T12:00:00+00:00",
+          "approval_id": null,
+          "text_digest": "6ece44b38da96fb2b862475cd2ca3762ecd15bc5fab13634f262b813f62bca51",
+          "request_digest": "1965f6597d9a0058fc1875d398fff42c2dfcf96ac07a9096b3d5d4a001e8f768",
+          "thesis_version_id": "3b70daa8-b542-44c4-8c26-11c6e7a1b663",
+          "interpretation_digest": "93495980f4bdd878eb61955d85781fc30813cdfb84722bd2e965d3869acc5c86",
+          "interpretation_version_id": "696573ea-3076-4e55-953f-978c8f4bcdb6"
+        }
+      },
+      {
+        "sequence": 4,
+        "kind": "approve",
+        "at": "2026-10-05T12:00:01+00:00",
+        "detail": {
+          "actor_id": "3d5d64e2-90b6-43af-a25e-158c0f773b85",
+          "revision": 2,
+          "thesis_id": "7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d",
+          "command_id": "27ba56e9-6a12-52c4-8899-01c653673365",
+          "accepted_at": "2026-10-05T12:00:01+00:00",
+          "approval_id": "9d87fbc9-f15f-4f79-aba4-48810cedd045",
+          "text_digest": "6ece44b38da96fb2b862475cd2ca3762ecd15bc5fab13634f262b813f62bca51",
+          "request_digest": "ce278f2f7967eae2747a0ca3f38f81d8c74063da837ead2fc052edbebca9278a",
+          "thesis_version_id": "3b70daa8-b542-44c4-8c26-11c6e7a1b663",
+          "interpretation_digest": "93495980f4bdd878eb61955d85781fc30813cdfb84722bd2e965d3869acc5c86",
+          "interpretation_version_id": "696573ea-3076-4e55-953f-978c8f4bcdb6"
+        }
+      },
+      {
+        "sequence": 5,
+        "kind": "propose",
+        "at": "2026-10-05T12:00:10+00:00",
+        "detail": {
+          "actor_id": "3d5d64e2-90b6-43af-a25e-158c0f773b85",
+          "revision": 3,
+          "thesis_id": "7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d",
+          "command_id": "d361e653-61a8-546a-ae4f-622a9784e99e",
+          "accepted_at": "2026-10-05T12:00:10+00:00",
+          "approval_id": null,
+          "text_digest": "77e86f3549b045ba961135161d2bdd1a85d0759a3338e6c1800f13a8db9871a0",
+          "request_digest": "db21edaeafbf8b1656b1d0d279aa58aa5a7b2434eb3de15cbbe9072762245196",
+          "thesis_version_id": "6b3bb0d2-2c0f-43cf-9479-a1c2d9be1ba8",
+          "interpretation_digest": "8cb9417960d2396850998d557eac6753c49cd6abc8bb1590a25b2147d5c4f396",
+          "interpretation_version_id": "d342952a-5721-43c5-a21f-12a3b060ac36"
+        }
+      },
+      {
+        "sequence": 6,
+        "kind": "approve",
+        "at": "2026-10-05T12:00:11+00:00",
+        "detail": {
+          "actor_id": "3d5d64e2-90b6-43af-a25e-158c0f773b85",
+          "revision": 4,
+          "thesis_id": "7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d",
+          "command_id": "ae7c1d9c-d8b0-5d54-9c18-70714b04463f",
+          "accepted_at": "2026-10-05T12:00:11+00:00",
+          "approval_id": "346c7a5e-5691-44ca-9030-62442467b493",
+          "text_digest": "77e86f3549b045ba961135161d2bdd1a85d0759a3338e6c1800f13a8db9871a0",
+          "request_digest": "179f5a9063138954dd54a7210091304577ffd94358c491d1f4a6518d26fc116c",
+          "thesis_version_id": "6b3bb0d2-2c0f-43cf-9479-a1c2d9be1ba8",
+          "interpretation_digest": "8cb9417960d2396850998d557eac6753c49cd6abc8bb1590a25b2147d5c4f396",
+          "interpretation_version_id": "d342952a-5721-43c5-a21f-12a3b060ac36"
+        }
+      }
+    ],
+    "replay_scope": "approval_effective_time_history",
+    "history_limit": 100,
+    "truncated": false
+  },
+  "position_history": {
+    "position": {
+      "id": "dcd343aa-836e-419a-933e-dbcfea93811d",
+      "thesis_id": "7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d",
+      "revision": 3,
+      "created_at": "2026-10-05T12:00:02+00:00",
+      "changed_at": "2026-10-05T12:00:15+00:00",
+      "original_approval_id": "9d87fbc9-f15f-4f79-aba4-48810cedd045",
+      "current_version": {
+        "id": "1d31e152-ba8e-43e1-a87f-4897a5c38860",
+        "position_id": "dcd343aa-836e-419a-933e-dbcfea93811d",
+        "parent_version_id": "ac93b008-dbc5-41a2-9327-401a56319423",
+        "reviewed_approval_id": "346c7a5e-5691-44ca-9030-62442467b493",
+        "paper": true,
+        "status": "closed",
+        "underlying": "XAU",
+        "direction": "long",
+        "product_id": null,
+        "venue": null,
+        "expiry": null,
+        "quote_currency": null,
+        "horizon": "Several weeks",
+        "quantity": "2.00",
+        "quantity_unit": "declared units",
+        "accepted_at": "2026-10-05T12:00:15+00:00",
+        "digest": "00a77e3266cd1e976d65cf846864e6a4241cb86e1fb9b88236595c4f57272c34",
+        "mapping_status": "user_declared_unverified",
+        "missing_fields": [
+          "product_id",
+          "venue",
+          "quote_currency"
+        ]
+      },
+      "mapping_status": "user_declared_unverified",
+      "monitoring": "not_configured"
+    },
+    "versions": [
+      {
+        "id": "e617acd5-d1d1-43e1-b149-2c47bd5b45ca",
+        "position_id": "dcd343aa-836e-419a-933e-dbcfea93811d",
+        "parent_version_id": null,
+        "reviewed_approval_id": "9d87fbc9-f15f-4f79-aba4-48810cedd045",
+        "paper": true,
+        "status": "open",
+        "underlying": "XAU",
+        "direction": "long",
+        "product_id": null,
+        "venue": null,
+        "expiry": null,
+        "quote_currency": null,
+        "horizon": "Several weeks",
+        "quantity": "1.00",
+        "quantity_unit": "declared units",
+        "accepted_at": "2026-10-05T12:00:02+00:00",
+        "digest": "3f273ada5edfa72ecc8aa4817e65b04d0b96fa4fafaf5c27d1df303933f163a9",
+        "mapping_status": "user_declared_unverified",
+        "missing_fields": [
+          "product_id",
+          "venue",
+          "quote_currency"
+        ]
+      },
+      {
+        "id": "ac93b008-dbc5-41a2-9327-401a56319423",
+        "position_id": "dcd343aa-836e-419a-933e-dbcfea93811d",
+        "parent_version_id": "e617acd5-d1d1-43e1-b149-2c47bd5b45ca",
+        "reviewed_approval_id": "9d87fbc9-f15f-4f79-aba4-48810cedd045",
+        "paper": true,
+        "status": "open",
+        "underlying": "XAU",
+        "direction": "long",
+        "product_id": null,
+        "venue": null,
+        "expiry": null,
+        "quote_currency": null,
+        "horizon": "Several weeks",
+        "quantity": "2.00",
+        "quantity_unit": "declared units",
+        "accepted_at": "2026-10-05T12:00:05+00:00",
+        "digest": "c67e9106af2bc73b926bbc2e88c133e1ee1113b4dd1f1a2d1b42bbc1a3ea29c0",
+        "mapping_status": "user_declared_unverified",
+        "missing_fields": [
+          "product_id",
+          "venue",
+          "quote_currency"
+        ]
+      },
+      {
+        "id": "1d31e152-ba8e-43e1-a87f-4897a5c38860",
+        "position_id": "dcd343aa-836e-419a-933e-dbcfea93811d",
+        "parent_version_id": "ac93b008-dbc5-41a2-9327-401a56319423",
+        "reviewed_approval_id": "346c7a5e-5691-44ca-9030-62442467b493",
+        "paper": true,
+        "status": "closed",
+        "underlying": "XAU",
+        "direction": "long",
+        "product_id": null,
+        "venue": null,
+        "expiry": null,
+        "quote_currency": null,
+        "horizon": "Several weeks",
+        "quantity": "2.00",
+        "quantity_unit": "declared units",
+        "accepted_at": "2026-10-05T12:00:15+00:00",
+        "digest": "00a77e3266cd1e976d65cf846864e6a4241cb86e1fb9b88236595c4f57272c34",
+        "mapping_status": "user_declared_unverified",
+        "missing_fields": [
+          "product_id",
+          "venue",
+          "quote_currency"
+        ]
+      }
+    ],
+    "audit": [
+      {
+        "sequence": 2,
+        "kind": "create",
+        "at": "2026-10-05T12:00:02+00:00",
+        "detail": {
+          "actor_id": "3d5d64e2-90b6-43af-a25e-158c0f773b85",
+          "revision": 1,
+          "command_id": "ac2e0da9-ddb6-5bbf-bf1a-f68b08b66e5d",
+          "version_id": "e617acd5-d1d1-43e1-b149-2c47bd5b45ca",
+          "accepted_at": "2026-10-05T12:00:02+00:00",
+          "position_id": "dcd343aa-836e-419a-933e-dbcfea93811d",
+          "version_digest": "3f273ada5edfa72ecc8aa4817e65b04d0b96fa4fafaf5c27d1df303933f163a9",
+          "invalidated_briefs": [],
+          "reviewed_approval_id": "9d87fbc9-f15f-4f79-aba4-48810cedd045"
+        }
+      },
+      {
+        "sequence": 3,
+        "kind": "revise",
+        "at": "2026-10-05T12:00:05+00:00",
+        "detail": {
+          "actor_id": "3d5d64e2-90b6-43af-a25e-158c0f773b85",
+          "revision": 2,
+          "command_id": "788797e8-61a2-5b14-9b6e-cfaea4dcf318",
+          "version_id": "ac93b008-dbc5-41a2-9327-401a56319423",
+          "accepted_at": "2026-10-05T12:00:05+00:00",
+          "position_id": "dcd343aa-836e-419a-933e-dbcfea93811d",
+          "version_digest": "c67e9106af2bc73b926bbc2e88c133e1ee1113b4dd1f1a2d1b42bbc1a3ea29c0",
+          "invalidated_briefs": [
+            "paper-desk-synthetic-brief-v1"
+          ],
+          "reviewed_approval_id": "9d87fbc9-f15f-4f79-aba4-48810cedd045"
+        }
+      },
+      {
+        "sequence": 4,
+        "kind": "close",
+        "at": "2026-10-05T12:00:15+00:00",
+        "detail": {
+          "actor_id": "3d5d64e2-90b6-43af-a25e-158c0f773b85",
+          "revision": 3,
+          "command_id": "f2e98c59-6bab-566d-900e-1da3c2e61d1e",
+          "version_id": "1d31e152-ba8e-43e1-a87f-4897a5c38860",
+          "accepted_at": "2026-10-05T12:00:15+00:00",
+          "position_id": "dcd343aa-836e-419a-933e-dbcfea93811d",
+          "version_digest": "00a77e3266cd1e976d65cf846864e6a4241cb86e1fb9b88236595c4f57272c34",
+          "invalidated_briefs": [
+            "paper-desk-synthetic-brief-v1"
+          ],
+          "reviewed_approval_id": "346c7a5e-5691-44ca-9030-62442467b493"
+        }
+      }
+    ],
+    "history_limit": 100,
+    "truncated": false,
+    "replay_scope": "position_effective_time_history"
+  },
+  "current_brief": {
+    "brief_id": "paper-desk-synthetic-brief-v1",
+    "owner_id": "3d5d64e2-90b6-43af-a25e-158c0f773b85",
+    "generation": 4,
+    "changed_at": "2026-10-05T12:00:18+00:00",
+    "current_assessment_id": "paper-desk-closed-history",
+    "current_dependencies": [
+      {
+        "role": "activation",
+        "version_id": "346c7a5e-5691-44ca-9030-62442467b493",
+        "digest": "2c3b2d3e4b07b854a00558921245a44a4dfbe7a87ffa9fe62439fd8cb26d4bd6",
+        "known_at": "2026-10-05T12:00:13+00:00"
+      },
+      {
+        "role": "budget",
+        "version_id": "fixture-budget-v1",
+        "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+        "known_at": "2026-10-02T06:00:00+00:00"
+      },
+      {
+        "role": "compiled_thesis",
+        "version_id": "d342952a-5721-43c5-a21f-12a3b060ac36",
+        "digest": "8cb9417960d2396850998d557eac6753c49cd6abc8bb1590a25b2147d5c4f396",
+        "known_at": "2026-10-05T12:00:13+00:00"
+      },
+      {
+        "role": "coverage",
+        "version_id": "fixture-coverage-v1",
+        "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+        "known_at": "2026-10-02T06:00:00+00:00"
+      },
+      {
+        "role": "entitlements",
+        "version_id": "fixture-entitlements-v1",
+        "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+        "known_at": "2026-10-02T06:00:00+00:00"
+      },
+      {
+        "role": "event_revision",
+        "version_id": "fictional-release@1",
+        "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+        "known_at": "2026-10-02T06:30:05+00:00"
+      },
+      {
+        "role": "execution_graph",
+        "version_id": "fixture-execution_graph-v1",
+        "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+        "known_at": "2026-10-02T06:00:00+00:00"
+      },
+      {
+        "role": "exposure",
+        "version_id": "exposure:7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d:90d79b8272c477449327e008253e166b828be1eb43937b50095d876a65b2f632",
+        "digest": "90d79b8272c477449327e008253e166b828be1eb43937b50095d876a65b2f632",
+        "known_at": "2026-10-05T12:00:17+00:00"
+      },
+      {
+        "role": "knowledge",
+        "version_id": "fixture-reviewed-knowledge-v1",
+        "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+        "known_at": "2026-10-02T06:00:00+00:00"
+      },
+      {
+        "role": "macro_context",
+        "version_id": "fixture-context-v1",
+        "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+        "known_at": "2026-10-02T06:00:00+00:00"
+      },
+      {
+        "role": "model",
+        "version_id": "fixture-model-v1",
+        "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+        "known_at": "2026-10-02T06:00:00+00:00"
+      },
+      {
+        "role": "prompt",
+        "version_id": "fixture-prompt-v1",
+        "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+        "known_at": "2026-10-02T06:00:00+00:00"
+      },
+      {
+        "role": "rules",
+        "version_id": "spike-rules-v1",
+        "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+        "known_at": "2026-10-02T06:00:00+00:00"
+      },
+      {
+        "role": "source_contract",
+        "version_id": "fixture-public-use-v1",
+        "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+        "known_at": "2026-10-02T06:00:00+00:00"
+      },
+      {
+        "role": "source_manifest",
+        "version_id": "fixture-manifest-v1",
+        "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+        "known_at": "2026-10-02T06:00:00+00:00"
+      },
+      {
+        "role": "user_thesis",
+        "version_id": "6b3bb0d2-2c0f-43cf-9479-a1c2d9be1ba8",
+        "digest": "77e86f3549b045ba961135161d2bdd1a85d0759a3338e6c1800f13a8db9871a0",
+        "known_at": "2026-10-05T12:00:13+00:00"
+      }
+    ],
+    "assessments": [
+      {
+        "assessment_id": "paper-desk-initial",
+        "digest": "42782975710c2d54c0ab29db158ca2deb8e6d196ab1acd8c5bae2b8a1ab4cd97",
+        "payload": {
+          "assessment_id": "paper-desk-initial",
+          "brief_id": "paper-desk-synthetic-brief-v1",
+          "cutoff": "2026-10-05T12:00:04+00:00",
+          "dependencies": [
+            {
+              "digest": "e22f1f225844436a480b02a7c2aa6a2055fb0c6bb3ebb1e3d65f2f7e9baf7122",
+              "known_at": "2026-10-05T12:00:03+00:00",
+              "role": "activation",
+              "version_id": "9d87fbc9-f15f-4f79-aba4-48810cedd045"
+            },
+            {
+              "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "budget",
+              "version_id": "fixture-budget-v1"
+            },
+            {
+              "digest": "93495980f4bdd878eb61955d85781fc30813cdfb84722bd2e965d3869acc5c86",
+              "known_at": "2026-10-05T12:00:03+00:00",
+              "role": "compiled_thesis",
+              "version_id": "696573ea-3076-4e55-953f-978c8f4bcdb6"
+            },
+            {
+              "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "coverage",
+              "version_id": "fixture-coverage-v1"
+            },
+            {
+              "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "entitlements",
+              "version_id": "fixture-entitlements-v1"
+            },
+            {
+              "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+              "known_at": "2026-10-02T06:30:05+00:00",
+              "role": "event_revision",
+              "version_id": "fictional-release@1"
+            },
+            {
+              "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "execution_graph",
+              "version_id": "fixture-execution_graph-v1"
+            },
+            {
+              "digest": "d6d9b9128cf9a24a97014ecabc780455d12be7d72892eb0ce172b5cac57ba387",
+              "known_at": "2026-10-05T12:00:03+00:00",
+              "role": "exposure",
+              "version_id": "exposure:7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d:d6d9b9128cf9a24a97014ecabc780455d12be7d72892eb0ce172b5cac57ba387"
+            },
+            {
+              "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "knowledge",
+              "version_id": "fixture-reviewed-knowledge-v1"
+            },
+            {
+              "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "macro_context",
+              "version_id": "fixture-context-v1"
+            },
+            {
+              "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "model",
+              "version_id": "fixture-model-v1"
+            },
+            {
+              "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "prompt",
+              "version_id": "fixture-prompt-v1"
+            },
+            {
+              "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "rules",
+              "version_id": "spike-rules-v1"
+            },
+            {
+              "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "source_contract",
+              "version_id": "fixture-public-use-v1"
+            },
+            {
+              "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "source_manifest",
+              "version_id": "fixture-manifest-v1"
+            },
+            {
+              "digest": "6ece44b38da96fb2b862475cd2ca3762ecd15bc5fab13634f262b813f62bca51",
+              "known_at": "2026-10-05T12:00:03+00:00",
+              "role": "user_thesis",
+              "version_id": "3b70daa8-b542-44c4-8c26-11c6e7a1b663"
+            }
+          ],
+          "expectations": "unavailable",
+          "expected_generation": 0,
+          "facts": [
+            {
+              "field": "reported_measure",
+              "value": 3.1
+            }
+          ],
+          "kind": "supported_factual_notice",
+          "material_change": true,
+          "owner_id": "3d5d64e2-90b6-43af-a25e-158c0f773b85",
+          "portfolio_impact": "unresolved",
+          "run_id": "run:paper-desk-initial",
+          "screening": {
+            "broad_disruption": false,
+            "classifier_available": true,
+            "credible": true,
+            "novel": false,
+            "plausible_transmission": true,
+            "potential_severity": "high",
+            "resolved": true,
+            "thesis_impact": true,
+            "trade_impact": false,
+            "urgent": false
+          },
+          "snapshot_digest": "b816f2f03b8e09028a3f5240b6a35fb44adbfa087641e6b4fa5f401713d377c8",
+          "snapshot_id": "snapshot:paper-desk-initial"
+        },
+        "decision": {
+          "status": "current",
+          "reasons": [
+            "all_dependencies_current"
+          ],
+          "reassessment_required": false
+        },
+        "observed_dependencies": [
+          {
+            "role": "activation",
+            "digest": "e22f1f225844436a480b02a7c2aa6a2055fb0c6bb3ebb1e3d65f2f7e9baf7122",
+            "known_at": "2026-10-05T12:00:03+00:00",
+            "version_id": "9d87fbc9-f15f-4f79-aba4-48810cedd045"
+          },
+          {
+            "role": "budget",
+            "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "fixture-budget-v1"
+          },
+          {
+            "role": "compiled_thesis",
+            "digest": "93495980f4bdd878eb61955d85781fc30813cdfb84722bd2e965d3869acc5c86",
+            "known_at": "2026-10-05T12:00:03+00:00",
+            "version_id": "696573ea-3076-4e55-953f-978c8f4bcdb6"
+          },
+          {
+            "role": "coverage",
+            "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "fixture-coverage-v1"
+          },
+          {
+            "role": "entitlements",
+            "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "fixture-entitlements-v1"
+          },
+          {
+            "role": "event_revision",
+            "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+            "known_at": "2026-10-02T06:30:05+00:00",
+            "version_id": "fictional-release@1"
+          },
+          {
+            "role": "execution_graph",
+            "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "fixture-execution_graph-v1"
+          },
+          {
+            "role": "exposure",
+            "digest": "d6d9b9128cf9a24a97014ecabc780455d12be7d72892eb0ce172b5cac57ba387",
+            "known_at": "2026-10-05T12:00:03+00:00",
+            "version_id": "exposure:7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d:d6d9b9128cf9a24a97014ecabc780455d12be7d72892eb0ce172b5cac57ba387"
+          },
+          {
+            "role": "knowledge",
+            "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "fixture-reviewed-knowledge-v1"
+          },
+          {
+            "role": "macro_context",
+            "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "fixture-context-v1"
+          },
+          {
+            "role": "model",
+            "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "fixture-model-v1"
+          },
+          {
+            "role": "prompt",
+            "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "fixture-prompt-v1"
+          },
+          {
+            "role": "rules",
+            "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "spike-rules-v1"
+          },
+          {
+            "role": "source_contract",
+            "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "fixture-public-use-v1"
+          },
+          {
+            "role": "source_manifest",
+            "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "fixture-manifest-v1"
+          },
+          {
+            "role": "user_thesis",
+            "digest": "6ece44b38da96fb2b862475cd2ca3762ecd15bc5fab13634f262b813f62bca51",
+            "known_at": "2026-10-05T12:00:03+00:00",
+            "version_id": "3b70daa8-b542-44c4-8c26-11c6e7a1b663"
+          }
+        ],
+        "is_current": false,
+        "saved_at": "2026-10-05T12:00:04+00:00"
+      },
+      {
+        "assessment_id": "paper-desk-resized",
+        "digest": "c24920f480b683804811e7776606e8d43c2bd8069164c6a955a29559a27277d6",
+        "payload": {
+          "assessment_id": "paper-desk-resized",
+          "brief_id": "paper-desk-synthetic-brief-v1",
+          "cutoff": "2026-10-05T12:00:09+00:00",
+          "dependencies": [
+            {
+              "digest": "e22f1f225844436a480b02a7c2aa6a2055fb0c6bb3ebb1e3d65f2f7e9baf7122",
+              "known_at": "2026-10-05T12:00:03+00:00",
+              "role": "activation",
+              "version_id": "9d87fbc9-f15f-4f79-aba4-48810cedd045"
+            },
+            {
+              "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "budget",
+              "version_id": "fixture-budget-v1"
+            },
+            {
+              "digest": "93495980f4bdd878eb61955d85781fc30813cdfb84722bd2e965d3869acc5c86",
+              "known_at": "2026-10-05T12:00:03+00:00",
+              "role": "compiled_thesis",
+              "version_id": "696573ea-3076-4e55-953f-978c8f4bcdb6"
+            },
+            {
+              "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "coverage",
+              "version_id": "fixture-coverage-v1"
+            },
+            {
+              "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "entitlements",
+              "version_id": "fixture-entitlements-v1"
+            },
+            {
+              "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+              "known_at": "2026-10-02T06:30:05+00:00",
+              "role": "event_revision",
+              "version_id": "fictional-release@1"
+            },
+            {
+              "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "execution_graph",
+              "version_id": "fixture-execution_graph-v1"
+            },
+            {
+              "digest": "7b6a945563495293b29b081f9e338f42c7fc050eca1180e1636a33bc1ae88f58",
+              "known_at": "2026-10-05T12:00:07+00:00",
+              "role": "exposure",
+              "version_id": "exposure:7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d:7b6a945563495293b29b081f9e338f42c7fc050eca1180e1636a33bc1ae88f58"
+            },
+            {
+              "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "knowledge",
+              "version_id": "fixture-reviewed-knowledge-v1"
+            },
+            {
+              "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "macro_context",
+              "version_id": "fixture-context-v1"
+            },
+            {
+              "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "model",
+              "version_id": "fixture-model-v1"
+            },
+            {
+              "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "prompt",
+              "version_id": "fixture-prompt-v1"
+            },
+            {
+              "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "rules",
+              "version_id": "spike-rules-v1"
+            },
+            {
+              "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "source_contract",
+              "version_id": "fixture-public-use-v1"
+            },
+            {
+              "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "source_manifest",
+              "version_id": "fixture-manifest-v1"
+            },
+            {
+              "digest": "6ece44b38da96fb2b862475cd2ca3762ecd15bc5fab13634f262b813f62bca51",
+              "known_at": "2026-10-05T12:00:03+00:00",
+              "role": "user_thesis",
+              "version_id": "3b70daa8-b542-44c4-8c26-11c6e7a1b663"
+            }
+          ],
+          "expectations": "unavailable",
+          "expected_generation": 1,
+          "facts": [
+            {
+              "field": "reported_measure",
+              "value": 3.1
+            }
+          ],
+          "kind": "supported_factual_notice",
+          "material_change": true,
+          "owner_id": "3d5d64e2-90b6-43af-a25e-158c0f773b85",
+          "portfolio_impact": "unresolved",
+          "run_id": "run:paper-desk-resized",
+          "screening": {
+            "broad_disruption": false,
+            "classifier_available": true,
+            "credible": true,
+            "novel": false,
+            "plausible_transmission": true,
+            "potential_severity": "high",
+            "resolved": true,
+            "thesis_impact": true,
+            "trade_impact": false,
+            "urgent": false
+          },
+          "snapshot_digest": "426b0c7deeef4311c8dd2718e57bf16eec948738a4aed2f28166e29d0470104a",
+          "snapshot_id": "snapshot:paper-desk-resized"
+        },
+        "decision": {
+          "status": "current",
+          "reasons": [
+            "all_dependencies_current"
+          ],
+          "reassessment_required": false
+        },
+        "observed_dependencies": [
+          {
+            "role": "activation",
+            "digest": "e22f1f225844436a480b02a7c2aa6a2055fb0c6bb3ebb1e3d65f2f7e9baf7122",
+            "known_at": "2026-10-05T12:00:03+00:00",
+            "version_id": "9d87fbc9-f15f-4f79-aba4-48810cedd045"
+          },
+          {
+            "role": "budget",
+            "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "fixture-budget-v1"
+          },
+          {
+            "role": "compiled_thesis",
+            "digest": "93495980f4bdd878eb61955d85781fc30813cdfb84722bd2e965d3869acc5c86",
+            "known_at": "2026-10-05T12:00:03+00:00",
+            "version_id": "696573ea-3076-4e55-953f-978c8f4bcdb6"
+          },
+          {
+            "role": "coverage",
+            "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "fixture-coverage-v1"
+          },
+          {
+            "role": "entitlements",
+            "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "fixture-entitlements-v1"
+          },
+          {
+            "role": "event_revision",
+            "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+            "known_at": "2026-10-02T06:30:05+00:00",
+            "version_id": "fictional-release@1"
+          },
+          {
+            "role": "execution_graph",
+            "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "fixture-execution_graph-v1"
+          },
+          {
+            "role": "exposure",
+            "digest": "7b6a945563495293b29b081f9e338f42c7fc050eca1180e1636a33bc1ae88f58",
+            "known_at": "2026-10-05T12:00:07+00:00",
+            "version_id": "exposure:7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d:7b6a945563495293b29b081f9e338f42c7fc050eca1180e1636a33bc1ae88f58"
+          },
+          {
+            "role": "knowledge",
+            "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "fixture-reviewed-knowledge-v1"
+          },
+          {
+            "role": "macro_context",
+            "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "fixture-context-v1"
+          },
+          {
+            "role": "model",
+            "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "fixture-model-v1"
+          },
+          {
+            "role": "prompt",
+            "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "fixture-prompt-v1"
+          },
+          {
+            "role": "rules",
+            "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "spike-rules-v1"
+          },
+          {
+            "role": "source_contract",
+            "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "fixture-public-use-v1"
+          },
+          {
+            "role": "source_manifest",
+            "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "fixture-manifest-v1"
+          },
+          {
+            "role": "user_thesis",
+            "digest": "6ece44b38da96fb2b862475cd2ca3762ecd15bc5fab13634f262b813f62bca51",
+            "known_at": "2026-10-05T12:00:03+00:00",
+            "version_id": "3b70daa8-b542-44c4-8c26-11c6e7a1b663"
+          }
+        ],
+        "is_current": false,
+        "saved_at": "2026-10-05T12:00:09+00:00"
+      },
+      {
+        "assessment_id": "paper-desk-amended",
+        "digest": "29b23f5712837762bab64e6f1e988d0e22bd22dc94b31f11bdc69d3441cef5ba",
+        "payload": {
+          "assessment_id": "paper-desk-amended",
+          "brief_id": "paper-desk-synthetic-brief-v1",
+          "cutoff": "2026-10-05T12:00:14+00:00",
+          "dependencies": [
+            {
+              "digest": "2c3b2d3e4b07b854a00558921245a44a4dfbe7a87ffa9fe62439fd8cb26d4bd6",
+              "known_at": "2026-10-05T12:00:13+00:00",
+              "role": "activation",
+              "version_id": "346c7a5e-5691-44ca-9030-62442467b493"
+            },
+            {
+              "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "budget",
+              "version_id": "fixture-budget-v1"
+            },
+            {
+              "digest": "8cb9417960d2396850998d557eac6753c49cd6abc8bb1590a25b2147d5c4f396",
+              "known_at": "2026-10-05T12:00:13+00:00",
+              "role": "compiled_thesis",
+              "version_id": "d342952a-5721-43c5-a21f-12a3b060ac36"
+            },
+            {
+              "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "coverage",
+              "version_id": "fixture-coverage-v1"
+            },
+            {
+              "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "entitlements",
+              "version_id": "fixture-entitlements-v1"
+            },
+            {
+              "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+              "known_at": "2026-10-02T06:30:05+00:00",
+              "role": "event_revision",
+              "version_id": "fictional-release@1"
+            },
+            {
+              "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "execution_graph",
+              "version_id": "fixture-execution_graph-v1"
+            },
+            {
+              "digest": "7b6a945563495293b29b081f9e338f42c7fc050eca1180e1636a33bc1ae88f58",
+              "known_at": "2026-10-05T12:00:07+00:00",
+              "role": "exposure",
+              "version_id": "exposure:7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d:7b6a945563495293b29b081f9e338f42c7fc050eca1180e1636a33bc1ae88f58"
+            },
+            {
+              "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "knowledge",
+              "version_id": "fixture-reviewed-knowledge-v1"
+            },
+            {
+              "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "macro_context",
+              "version_id": "fixture-context-v1"
+            },
+            {
+              "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "model",
+              "version_id": "fixture-model-v1"
+            },
+            {
+              "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "prompt",
+              "version_id": "fixture-prompt-v1"
+            },
+            {
+              "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "rules",
+              "version_id": "spike-rules-v1"
+            },
+            {
+              "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "source_contract",
+              "version_id": "fixture-public-use-v1"
+            },
+            {
+              "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "source_manifest",
+              "version_id": "fixture-manifest-v1"
+            },
+            {
+              "digest": "77e86f3549b045ba961135161d2bdd1a85d0759a3338e6c1800f13a8db9871a0",
+              "known_at": "2026-10-05T12:00:13+00:00",
+              "role": "user_thesis",
+              "version_id": "6b3bb0d2-2c0f-43cf-9479-a1c2d9be1ba8"
+            }
+          ],
+          "expectations": "unavailable",
+          "expected_generation": 2,
+          "facts": [
+            {
+              "field": "reported_measure",
+              "value": 3.1
+            }
+          ],
+          "kind": "supported_factual_notice",
+          "material_change": true,
+          "owner_id": "3d5d64e2-90b6-43af-a25e-158c0f773b85",
+          "portfolio_impact": "unresolved",
+          "run_id": "run:paper-desk-amended",
+          "screening": {
+            "broad_disruption": false,
+            "classifier_available": true,
+            "credible": true,
+            "novel": false,
+            "plausible_transmission": true,
+            "potential_severity": "high",
+            "resolved": true,
+            "thesis_impact": true,
+            "trade_impact": false,
+            "urgent": false
+          },
+          "snapshot_digest": "96d7dfb926a023d4e388ff44d18f162a5e19c77f7fcc908e5da4992af018e66b",
+          "snapshot_id": "snapshot:paper-desk-amended"
+        },
+        "decision": {
+          "status": "current",
+          "reasons": [
+            "all_dependencies_current"
+          ],
+          "reassessment_required": false
+        },
+        "observed_dependencies": [
+          {
+            "role": "activation",
+            "digest": "2c3b2d3e4b07b854a00558921245a44a4dfbe7a87ffa9fe62439fd8cb26d4bd6",
+            "known_at": "2026-10-05T12:00:13+00:00",
+            "version_id": "346c7a5e-5691-44ca-9030-62442467b493"
+          },
+          {
+            "role": "budget",
+            "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "fixture-budget-v1"
+          },
+          {
+            "role": "compiled_thesis",
+            "digest": "8cb9417960d2396850998d557eac6753c49cd6abc8bb1590a25b2147d5c4f396",
+            "known_at": "2026-10-05T12:00:13+00:00",
+            "version_id": "d342952a-5721-43c5-a21f-12a3b060ac36"
+          },
+          {
+            "role": "coverage",
+            "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "fixture-coverage-v1"
+          },
+          {
+            "role": "entitlements",
+            "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "fixture-entitlements-v1"
+          },
+          {
+            "role": "event_revision",
+            "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+            "known_at": "2026-10-02T06:30:05+00:00",
+            "version_id": "fictional-release@1"
+          },
+          {
+            "role": "execution_graph",
+            "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "fixture-execution_graph-v1"
+          },
+          {
+            "role": "exposure",
+            "digest": "7b6a945563495293b29b081f9e338f42c7fc050eca1180e1636a33bc1ae88f58",
+            "known_at": "2026-10-05T12:00:07+00:00",
+            "version_id": "exposure:7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d:7b6a945563495293b29b081f9e338f42c7fc050eca1180e1636a33bc1ae88f58"
+          },
+          {
+            "role": "knowledge",
+            "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "fixture-reviewed-knowledge-v1"
+          },
+          {
+            "role": "macro_context",
+            "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "fixture-context-v1"
+          },
+          {
+            "role": "model",
+            "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "fixture-model-v1"
+          },
+          {
+            "role": "prompt",
+            "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "fixture-prompt-v1"
+          },
+          {
+            "role": "rules",
+            "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "spike-rules-v1"
+          },
+          {
+            "role": "source_contract",
+            "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "fixture-public-use-v1"
+          },
+          {
+            "role": "source_manifest",
+            "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "fixture-manifest-v1"
+          },
+          {
+            "role": "user_thesis",
+            "digest": "77e86f3549b045ba961135161d2bdd1a85d0759a3338e6c1800f13a8db9871a0",
+            "known_at": "2026-10-05T12:00:13+00:00",
+            "version_id": "6b3bb0d2-2c0f-43cf-9479-a1c2d9be1ba8"
+          }
+        ],
+        "is_current": false,
+        "saved_at": "2026-10-05T12:00:14+00:00"
+      },
+      {
+        "assessment_id": "paper-desk-closed-history",
+        "digest": "8b1f92fedb8891071a34916903fa780a3238dee98feb8f118682a8f79a414608",
+        "payload": {
+          "assessment_id": "paper-desk-closed-history",
+          "brief_id": "paper-desk-synthetic-brief-v1",
+          "cutoff": "2026-10-05T12:00:18+00:00",
+          "dependencies": [
+            {
+              "digest": "2c3b2d3e4b07b854a00558921245a44a4dfbe7a87ffa9fe62439fd8cb26d4bd6",
+              "known_at": "2026-10-05T12:00:13+00:00",
+              "role": "activation",
+              "version_id": "346c7a5e-5691-44ca-9030-62442467b493"
+            },
+            {
+              "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "budget",
+              "version_id": "fixture-budget-v1"
+            },
+            {
+              "digest": "8cb9417960d2396850998d557eac6753c49cd6abc8bb1590a25b2147d5c4f396",
+              "known_at": "2026-10-05T12:00:13+00:00",
+              "role": "compiled_thesis",
+              "version_id": "d342952a-5721-43c5-a21f-12a3b060ac36"
+            },
+            {
+              "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "coverage",
+              "version_id": "fixture-coverage-v1"
+            },
+            {
+              "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "entitlements",
+              "version_id": "fixture-entitlements-v1"
+            },
+            {
+              "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+              "known_at": "2026-10-02T06:30:05+00:00",
+              "role": "event_revision",
+              "version_id": "fictional-release@1"
+            },
+            {
+              "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "execution_graph",
+              "version_id": "fixture-execution_graph-v1"
+            },
+            {
+              "digest": "90d79b8272c477449327e008253e166b828be1eb43937b50095d876a65b2f632",
+              "known_at": "2026-10-05T12:00:17+00:00",
+              "role": "exposure",
+              "version_id": "exposure:7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d:90d79b8272c477449327e008253e166b828be1eb43937b50095d876a65b2f632"
+            },
+            {
+              "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "knowledge",
+              "version_id": "fixture-reviewed-knowledge-v1"
+            },
+            {
+              "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "macro_context",
+              "version_id": "fixture-context-v1"
+            },
+            {
+              "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "model",
+              "version_id": "fixture-model-v1"
+            },
+            {
+              "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "prompt",
+              "version_id": "fixture-prompt-v1"
+            },
+            {
+              "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "rules",
+              "version_id": "spike-rules-v1"
+            },
+            {
+              "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "source_contract",
+              "version_id": "fixture-public-use-v1"
+            },
+            {
+              "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "role": "source_manifest",
+              "version_id": "fixture-manifest-v1"
+            },
+            {
+              "digest": "77e86f3549b045ba961135161d2bdd1a85d0759a3338e6c1800f13a8db9871a0",
+              "known_at": "2026-10-05T12:00:13+00:00",
+              "role": "user_thesis",
+              "version_id": "6b3bb0d2-2c0f-43cf-9479-a1c2d9be1ba8"
+            }
+          ],
+          "expectations": "unavailable",
+          "expected_generation": 3,
+          "facts": [
+            {
+              "field": "reported_measure",
+              "value": 3.1
+            }
+          ],
+          "kind": "supported_factual_notice",
+          "material_change": true,
+          "owner_id": "3d5d64e2-90b6-43af-a25e-158c0f773b85",
+          "portfolio_impact": "unresolved",
+          "run_id": "run:paper-desk-closed-history",
+          "screening": {
+            "broad_disruption": false,
+            "classifier_available": true,
+            "credible": true,
+            "novel": false,
+            "plausible_transmission": true,
+            "potential_severity": "high",
+            "resolved": true,
+            "thesis_impact": true,
+            "trade_impact": false,
+            "urgent": false
+          },
+          "snapshot_digest": "dd669dcd89b7bc4e7a082f5b646cc464e78552da09c8c9440d74605666628a6e",
+          "snapshot_id": "snapshot:paper-desk-closed-history"
+        },
+        "decision": {
+          "status": "current",
+          "reasons": [
+            "all_dependencies_current"
+          ],
+          "reassessment_required": false
+        },
+        "observed_dependencies": [
+          {
+            "role": "activation",
+            "digest": "2c3b2d3e4b07b854a00558921245a44a4dfbe7a87ffa9fe62439fd8cb26d4bd6",
+            "known_at": "2026-10-05T12:00:13+00:00",
+            "version_id": "346c7a5e-5691-44ca-9030-62442467b493"
+          },
+          {
+            "role": "budget",
+            "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "fixture-budget-v1"
+          },
+          {
+            "role": "compiled_thesis",
+            "digest": "8cb9417960d2396850998d557eac6753c49cd6abc8bb1590a25b2147d5c4f396",
+            "known_at": "2026-10-05T12:00:13+00:00",
+            "version_id": "d342952a-5721-43c5-a21f-12a3b060ac36"
+          },
+          {
+            "role": "coverage",
+            "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "fixture-coverage-v1"
+          },
+          {
+            "role": "entitlements",
+            "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "fixture-entitlements-v1"
+          },
+          {
+            "role": "event_revision",
+            "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+            "known_at": "2026-10-02T06:30:05+00:00",
+            "version_id": "fictional-release@1"
+          },
+          {
+            "role": "execution_graph",
+            "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "fixture-execution_graph-v1"
+          },
+          {
+            "role": "exposure",
+            "digest": "90d79b8272c477449327e008253e166b828be1eb43937b50095d876a65b2f632",
+            "known_at": "2026-10-05T12:00:17+00:00",
+            "version_id": "exposure:7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d:90d79b8272c477449327e008253e166b828be1eb43937b50095d876a65b2f632"
+          },
+          {
+            "role": "knowledge",
+            "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "fixture-reviewed-knowledge-v1"
+          },
+          {
+            "role": "macro_context",
+            "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "fixture-context-v1"
+          },
+          {
+            "role": "model",
+            "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "fixture-model-v1"
+          },
+          {
+            "role": "prompt",
+            "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "fixture-prompt-v1"
+          },
+          {
+            "role": "rules",
+            "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "spike-rules-v1"
+          },
+          {
+            "role": "source_contract",
+            "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "fixture-public-use-v1"
+          },
+          {
+            "role": "source_manifest",
+            "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+            "known_at": "2026-10-02T06:00:00+00:00",
+            "version_id": "fixture-manifest-v1"
+          },
+          {
+            "role": "user_thesis",
+            "digest": "77e86f3549b045ba961135161d2bdd1a85d0759a3338e6c1800f13a8db9871a0",
+            "known_at": "2026-10-05T12:00:13+00:00",
+            "version_id": "6b3bb0d2-2c0f-43cf-9479-a1c2d9be1ba8"
+          }
+        ],
+        "is_current": true,
+        "saved_at": "2026-10-05T12:00:18+00:00"
+      }
+    ],
+    "thesis_binding": {
+      "thesis_id": "7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d",
+      "status": "ready",
+      "admitted_approval_id": "346c7a5e-5691-44ca-9030-62442467b493",
+      "admitted_exposure_digest": "90d79b8272c477449327e008253e166b828be1eb43937b50095d876a65b2f632",
+      "input_observed_at": "2026-10-05T12:00:17+00:00",
+      "commit_time_measured": false
+    },
+    "context_admissions": [
+      {
+        "id": "9b5d1330-2658-444a-9aa8-14219a7a0394",
+        "approval_id": "9d87fbc9-f15f-4f79-aba4-48810cedd045",
+        "exposure_digest": "d6d9b9128cf9a24a97014ecabc780455d12be7d72892eb0ce172b5cac57ba387",
+        "input_digest": "a8ae558cfc5c494d75eb6f7f334446a87ad97a3ac2b5674dc923ec7915b9710a",
+        "input_observed_at": "2026-10-05T12:00:03+00:00",
+        "admission_effective_at": "2026-10-05T12:00:03+00:00",
+        "resolved_inputs": {
+          "text": {
+            "digest": "6ece44b38da96fb2b862475cd2ca3762ecd15bc5fab13634f262b813f62bca51",
+            "created_at": "2026-10-05T12:00:00+00:00",
+            "exact_text": "  Gold may benefit if real yields fall.\r\n",
+            "version_id": "3b70daa8-b542-44c4-8c26-11c6e7a1b663"
+          },
+          "approval": {
+            "digest": "e22f1f225844436a480b02a7c2aa6a2055fb0c6bb3ebb1e3d65f2f7e9baf7122",
+            "actor_id": "3d5d64e2-90b6-43af-a25e-158c0f773b85",
+            "revision": 2,
+            "version_id": "9d87fbc9-f15f-4f79-aba4-48810cedd045",
+            "approved_at": "2026-10-05T12:00:01+00:00"
+          },
+          "exposure": {
+            "positions": [
+              {
+                "payload": {
+                  "paper": true,
+                  "venue": null,
+                  "expiry": null,
+                  "status": "open",
+                  "horizon": "Several weeks",
+                  "owner_id": "3d5d64e2-90b6-43af-a25e-158c0f773b85",
+                  "quantity": "1.00",
+                  "direction": "long",
+                  "thesis_id": "7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d",
+                  "product_id": null,
+                  "underlying": "XAU",
+                  "version_id": "e617acd5-d1d1-43e1-b149-2c47bd5b45ca",
+                  "accepted_at": "2026-10-05T12:00:02+00:00",
+                  "approval_id": "9d87fbc9-f15f-4f79-aba4-48810cedd045",
+                  "position_id": "dcd343aa-836e-419a-933e-dbcfea93811d",
+                  "quantity_unit": "declared units",
+                  "mapping_status": "user_declared_unverified",
+                  "quote_currency": null,
+                  "parent_version_id": null
+                },
+                "version_id": "e617acd5-d1d1-43e1-b149-2c47bd5b45ca",
+                "position_id": "dcd343aa-836e-419a-933e-dbcfea93811d",
+                "version_digest": "3f273ada5edfa72ecc8aa4817e65b04d0b96fa4fafaf5c27d1df303933f163a9"
+              }
+            ],
+            "thesis_id": "7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d"
+          },
+          "owner_id": "3d5d64e2-90b6-43af-a25e-158c0f773b85",
+          "thesis_id": "7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d",
+          "interpretation": {
+            "digest": "93495980f4bdd878eb61955d85781fc30813cdfb84722bd2e965d3869acc5c86",
+            "origin": "user_supplied",
+            "drivers": [
+              "Real yields",
+              "USD"
+            ],
+            "horizon": "Several weeks",
+            "version_id": "696573ea-3076-4e55-953f-978c8f4bcdb6",
+            "prepared_at": "2026-10-05T12:00:00+00:00",
+            "text_version_id": "3b70daa8-b542-44c4-8c26-11c6e7a1b663",
+            "invalidation_signposts": [
+              "A sustained rise in real yields"
+            ]
+          }
+        },
+        "pins": [
+          {
+            "role": "user_thesis",
+            "digest": "6ece44b38da96fb2b862475cd2ca3762ecd15bc5fab13634f262b813f62bca51",
+            "known_at": "2026-10-05T12:00:03+00:00",
+            "version_id": "3b70daa8-b542-44c4-8c26-11c6e7a1b663"
+          },
+          {
+            "role": "compiled_thesis",
+            "digest": "93495980f4bdd878eb61955d85781fc30813cdfb84722bd2e965d3869acc5c86",
+            "known_at": "2026-10-05T12:00:03+00:00",
+            "version_id": "696573ea-3076-4e55-953f-978c8f4bcdb6"
+          },
+          {
+            "role": "activation",
+            "digest": "e22f1f225844436a480b02a7c2aa6a2055fb0c6bb3ebb1e3d65f2f7e9baf7122",
+            "known_at": "2026-10-05T12:00:03+00:00",
+            "version_id": "9d87fbc9-f15f-4f79-aba4-48810cedd045"
+          },
+          {
+            "role": "exposure",
+            "digest": "d6d9b9128cf9a24a97014ecabc780455d12be7d72892eb0ce172b5cac57ba387",
+            "known_at": "2026-10-05T12:00:03+00:00",
+            "version_id": "exposure:7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d:d6d9b9128cf9a24a97014ecabc780455d12be7d72892eb0ce172b5cac57ba387"
+          }
+        ]
+      },
+      {
+        "id": "1dbe974a-2af9-4094-8363-d4a91a8866b8",
+        "approval_id": "9d87fbc9-f15f-4f79-aba4-48810cedd045",
+        "exposure_digest": "7b6a945563495293b29b081f9e338f42c7fc050eca1180e1636a33bc1ae88f58",
+        "input_digest": "b75c871a2cb7871e5d894b9b3425e71ae9400eeecacf09f78f39247ae2bf82a9",
+        "input_observed_at": "2026-10-05T12:00:07+00:00",
+        "admission_effective_at": "2026-10-05T12:00:07+00:00",
+        "resolved_inputs": {
+          "text": {
+            "digest": "6ece44b38da96fb2b862475cd2ca3762ecd15bc5fab13634f262b813f62bca51",
+            "created_at": "2026-10-05T12:00:00+00:00",
+            "exact_text": "  Gold may benefit if real yields fall.\r\n",
+            "version_id": "3b70daa8-b542-44c4-8c26-11c6e7a1b663"
+          },
+          "approval": {
+            "digest": "e22f1f225844436a480b02a7c2aa6a2055fb0c6bb3ebb1e3d65f2f7e9baf7122",
+            "actor_id": "3d5d64e2-90b6-43af-a25e-158c0f773b85",
+            "revision": 2,
+            "version_id": "9d87fbc9-f15f-4f79-aba4-48810cedd045",
+            "approved_at": "2026-10-05T12:00:01+00:00"
+          },
+          "exposure": {
+            "positions": [
+              {
+                "payload": {
+                  "paper": true,
+                  "venue": null,
+                  "expiry": null,
+                  "status": "open",
+                  "horizon": "Several weeks",
+                  "owner_id": "3d5d64e2-90b6-43af-a25e-158c0f773b85",
+                  "quantity": "2.00",
+                  "direction": "long",
+                  "thesis_id": "7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d",
+                  "product_id": null,
+                  "underlying": "XAU",
+                  "version_id": "ac93b008-dbc5-41a2-9327-401a56319423",
+                  "accepted_at": "2026-10-05T12:00:05+00:00",
+                  "approval_id": "9d87fbc9-f15f-4f79-aba4-48810cedd045",
+                  "position_id": "dcd343aa-836e-419a-933e-dbcfea93811d",
+                  "quantity_unit": "declared units",
+                  "mapping_status": "user_declared_unverified",
+                  "quote_currency": null,
+                  "parent_version_id": "e617acd5-d1d1-43e1-b149-2c47bd5b45ca"
+                },
+                "version_id": "ac93b008-dbc5-41a2-9327-401a56319423",
+                "position_id": "dcd343aa-836e-419a-933e-dbcfea93811d",
+                "version_digest": "c67e9106af2bc73b926bbc2e88c133e1ee1113b4dd1f1a2d1b42bbc1a3ea29c0"
+              }
+            ],
+            "thesis_id": "7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d"
+          },
+          "owner_id": "3d5d64e2-90b6-43af-a25e-158c0f773b85",
+          "thesis_id": "7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d",
+          "interpretation": {
+            "digest": "93495980f4bdd878eb61955d85781fc30813cdfb84722bd2e965d3869acc5c86",
+            "origin": "user_supplied",
+            "drivers": [
+              "Real yields",
+              "USD"
+            ],
+            "horizon": "Several weeks",
+            "version_id": "696573ea-3076-4e55-953f-978c8f4bcdb6",
+            "prepared_at": "2026-10-05T12:00:00+00:00",
+            "text_version_id": "3b70daa8-b542-44c4-8c26-11c6e7a1b663",
+            "invalidation_signposts": [
+              "A sustained rise in real yields"
+            ]
+          }
+        },
+        "pins": [
+          {
+            "role": "user_thesis",
+            "digest": "6ece44b38da96fb2b862475cd2ca3762ecd15bc5fab13634f262b813f62bca51",
+            "known_at": "2026-10-05T12:00:03+00:00",
+            "version_id": "3b70daa8-b542-44c4-8c26-11c6e7a1b663"
+          },
+          {
+            "role": "compiled_thesis",
+            "digest": "93495980f4bdd878eb61955d85781fc30813cdfb84722bd2e965d3869acc5c86",
+            "known_at": "2026-10-05T12:00:03+00:00",
+            "version_id": "696573ea-3076-4e55-953f-978c8f4bcdb6"
+          },
+          {
+            "role": "activation",
+            "digest": "e22f1f225844436a480b02a7c2aa6a2055fb0c6bb3ebb1e3d65f2f7e9baf7122",
+            "known_at": "2026-10-05T12:00:03+00:00",
+            "version_id": "9d87fbc9-f15f-4f79-aba4-48810cedd045"
+          },
+          {
+            "role": "exposure",
+            "digest": "7b6a945563495293b29b081f9e338f42c7fc050eca1180e1636a33bc1ae88f58",
+            "known_at": "2026-10-05T12:00:07+00:00",
+            "version_id": "exposure:7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d:7b6a945563495293b29b081f9e338f42c7fc050eca1180e1636a33bc1ae88f58"
+          }
+        ]
+      },
+      {
+        "id": "d3920e1e-d74f-44ef-b981-e65484dcf26c",
+        "approval_id": "346c7a5e-5691-44ca-9030-62442467b493",
+        "exposure_digest": "7b6a945563495293b29b081f9e338f42c7fc050eca1180e1636a33bc1ae88f58",
+        "input_digest": "58eddd06176de2c505f1f9487503a7ffe11fda59e79e34febbc14578250ff306",
+        "input_observed_at": "2026-10-05T12:00:13+00:00",
+        "admission_effective_at": "2026-10-05T12:00:13+00:00",
+        "resolved_inputs": {
+          "text": {
+            "digest": "77e86f3549b045ba961135161d2bdd1a85d0759a3338e6c1800f13a8db9871a0",
+            "created_at": "2026-10-05T12:00:10+00:00",
+            "exact_text": "  Gold may benefit if real yields fall, unless USD strength offsets it.\r\n",
+            "version_id": "6b3bb0d2-2c0f-43cf-9479-a1c2d9be1ba8"
+          },
+          "approval": {
+            "digest": "2c3b2d3e4b07b854a00558921245a44a4dfbe7a87ffa9fe62439fd8cb26d4bd6",
+            "actor_id": "3d5d64e2-90b6-43af-a25e-158c0f773b85",
+            "revision": 4,
+            "version_id": "346c7a5e-5691-44ca-9030-62442467b493",
+            "approved_at": "2026-10-05T12:00:11+00:00"
+          },
+          "exposure": {
+            "positions": [
+              {
+                "payload": {
+                  "paper": true,
+                  "venue": null,
+                  "expiry": null,
+                  "status": "open",
+                  "horizon": "Several weeks",
+                  "owner_id": "3d5d64e2-90b6-43af-a25e-158c0f773b85",
+                  "quantity": "2.00",
+                  "direction": "long",
+                  "thesis_id": "7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d",
+                  "product_id": null,
+                  "underlying": "XAU",
+                  "version_id": "ac93b008-dbc5-41a2-9327-401a56319423",
+                  "accepted_at": "2026-10-05T12:00:05+00:00",
+                  "approval_id": "9d87fbc9-f15f-4f79-aba4-48810cedd045",
+                  "position_id": "dcd343aa-836e-419a-933e-dbcfea93811d",
+                  "quantity_unit": "declared units",
+                  "mapping_status": "user_declared_unverified",
+                  "quote_currency": null,
+                  "parent_version_id": "e617acd5-d1d1-43e1-b149-2c47bd5b45ca"
+                },
+                "version_id": "ac93b008-dbc5-41a2-9327-401a56319423",
+                "position_id": "dcd343aa-836e-419a-933e-dbcfea93811d",
+                "version_digest": "c67e9106af2bc73b926bbc2e88c133e1ee1113b4dd1f1a2d1b42bbc1a3ea29c0"
+              }
+            ],
+            "thesis_id": "7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d"
+          },
+          "owner_id": "3d5d64e2-90b6-43af-a25e-158c0f773b85",
+          "thesis_id": "7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d",
+          "interpretation": {
+            "digest": "8cb9417960d2396850998d557eac6753c49cd6abc8bb1590a25b2147d5c4f396",
+            "origin": "user_supplied",
+            "drivers": [
+              "Real yields",
+              "USD"
+            ],
+            "horizon": "Several weeks",
+            "version_id": "d342952a-5721-43c5-a21f-12a3b060ac36",
+            "prepared_at": "2026-10-05T12:00:10+00:00",
+            "text_version_id": "6b3bb0d2-2c0f-43cf-9479-a1c2d9be1ba8",
+            "invalidation_signposts": [
+              "A sustained rise in real yields"
+            ]
+          }
+        },
+        "pins": [
+          {
+            "role": "user_thesis",
+            "digest": "77e86f3549b045ba961135161d2bdd1a85d0759a3338e6c1800f13a8db9871a0",
+            "known_at": "2026-10-05T12:00:13+00:00",
+            "version_id": "6b3bb0d2-2c0f-43cf-9479-a1c2d9be1ba8"
+          },
+          {
+            "role": "compiled_thesis",
+            "digest": "8cb9417960d2396850998d557eac6753c49cd6abc8bb1590a25b2147d5c4f396",
+            "known_at": "2026-10-05T12:00:13+00:00",
+            "version_id": "d342952a-5721-43c5-a21f-12a3b060ac36"
+          },
+          {
+            "role": "activation",
+            "digest": "2c3b2d3e4b07b854a00558921245a44a4dfbe7a87ffa9fe62439fd8cb26d4bd6",
+            "known_at": "2026-10-05T12:00:13+00:00",
+            "version_id": "346c7a5e-5691-44ca-9030-62442467b493"
+          },
+          {
+            "role": "exposure",
+            "digest": "7b6a945563495293b29b081f9e338f42c7fc050eca1180e1636a33bc1ae88f58",
+            "known_at": "2026-10-05T12:00:07+00:00",
+            "version_id": "exposure:7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d:7b6a945563495293b29b081f9e338f42c7fc050eca1180e1636a33bc1ae88f58"
+          }
+        ]
+      },
+      {
+        "id": "5a15e256-836a-444b-b98b-74a19bc32737",
+        "approval_id": "346c7a5e-5691-44ca-9030-62442467b493",
+        "exposure_digest": "90d79b8272c477449327e008253e166b828be1eb43937b50095d876a65b2f632",
+        "input_digest": "364364e6384c72b55ddedf7d478100af74591bc99da528bb14764fd7c0bebe0c",
+        "input_observed_at": "2026-10-05T12:00:17+00:00",
+        "admission_effective_at": "2026-10-05T12:00:17+00:00",
+        "resolved_inputs": {
+          "text": {
+            "digest": "77e86f3549b045ba961135161d2bdd1a85d0759a3338e6c1800f13a8db9871a0",
+            "created_at": "2026-10-05T12:00:10+00:00",
+            "exact_text": "  Gold may benefit if real yields fall, unless USD strength offsets it.\r\n",
+            "version_id": "6b3bb0d2-2c0f-43cf-9479-a1c2d9be1ba8"
+          },
+          "approval": {
+            "digest": "2c3b2d3e4b07b854a00558921245a44a4dfbe7a87ffa9fe62439fd8cb26d4bd6",
+            "actor_id": "3d5d64e2-90b6-43af-a25e-158c0f773b85",
+            "revision": 4,
+            "version_id": "346c7a5e-5691-44ca-9030-62442467b493",
+            "approved_at": "2026-10-05T12:00:11+00:00"
+          },
+          "exposure": {
+            "positions": [
+              {
+                "payload": {
+                  "paper": true,
+                  "venue": null,
+                  "expiry": null,
+                  "status": "closed",
+                  "horizon": "Several weeks",
+                  "owner_id": "3d5d64e2-90b6-43af-a25e-158c0f773b85",
+                  "quantity": "2.00",
+                  "direction": "long",
+                  "thesis_id": "7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d",
+                  "product_id": null,
+                  "underlying": "XAU",
+                  "version_id": "1d31e152-ba8e-43e1-a87f-4897a5c38860",
+                  "accepted_at": "2026-10-05T12:00:15+00:00",
+                  "approval_id": "346c7a5e-5691-44ca-9030-62442467b493",
+                  "position_id": "dcd343aa-836e-419a-933e-dbcfea93811d",
+                  "quantity_unit": "declared units",
+                  "mapping_status": "user_declared_unverified",
+                  "quote_currency": null,
+                  "parent_version_id": "ac93b008-dbc5-41a2-9327-401a56319423"
+                },
+                "version_id": "1d31e152-ba8e-43e1-a87f-4897a5c38860",
+                "position_id": "dcd343aa-836e-419a-933e-dbcfea93811d",
+                "version_digest": "00a77e3266cd1e976d65cf846864e6a4241cb86e1fb9b88236595c4f57272c34"
+              }
+            ],
+            "thesis_id": "7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d"
+          },
+          "owner_id": "3d5d64e2-90b6-43af-a25e-158c0f773b85",
+          "thesis_id": "7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d",
+          "interpretation": {
+            "digest": "8cb9417960d2396850998d557eac6753c49cd6abc8bb1590a25b2147d5c4f396",
+            "origin": "user_supplied",
+            "drivers": [
+              "Real yields",
+              "USD"
+            ],
+            "horizon": "Several weeks",
+            "version_id": "d342952a-5721-43c5-a21f-12a3b060ac36",
+            "prepared_at": "2026-10-05T12:00:10+00:00",
+            "text_version_id": "6b3bb0d2-2c0f-43cf-9479-a1c2d9be1ba8",
+            "invalidation_signposts": [
+              "A sustained rise in real yields"
+            ]
+          }
+        },
+        "pins": [
+          {
+            "role": "user_thesis",
+            "digest": "77e86f3549b045ba961135161d2bdd1a85d0759a3338e6c1800f13a8db9871a0",
+            "known_at": "2026-10-05T12:00:13+00:00",
+            "version_id": "6b3bb0d2-2c0f-43cf-9479-a1c2d9be1ba8"
+          },
+          {
+            "role": "compiled_thesis",
+            "digest": "8cb9417960d2396850998d557eac6753c49cd6abc8bb1590a25b2147d5c4f396",
+            "known_at": "2026-10-05T12:00:13+00:00",
+            "version_id": "d342952a-5721-43c5-a21f-12a3b060ac36"
+          },
+          {
+            "role": "activation",
+            "digest": "2c3b2d3e4b07b854a00558921245a44a4dfbe7a87ffa9fe62439fd8cb26d4bd6",
+            "known_at": "2026-10-05T12:00:13+00:00",
+            "version_id": "346c7a5e-5691-44ca-9030-62442467b493"
+          },
+          {
+            "role": "exposure",
+            "digest": "90d79b8272c477449327e008253e166b828be1eb43937b50095d876a65b2f632",
+            "known_at": "2026-10-05T12:00:17+00:00",
+            "version_id": "exposure:7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d:90d79b8272c477449327e008253e166b828be1eb43937b50095d876a65b2f632"
+          }
+        ]
+      }
+    ],
+    "dependency_history": [
+      {
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "role": "activation",
+        "version_id": "9d87fbc9-f15f-4f79-aba4-48810cedd045",
+        "digest": "e22f1f225844436a480b02a7c2aa6a2055fb0c6bb3ebb1e3d65f2f7e9baf7122",
+        "known_at": "2026-10-05T12:00:03+00:00"
+      },
+      {
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "role": "activation",
+        "version_id": "346c7a5e-5691-44ca-9030-62442467b493",
+        "digest": "2c3b2d3e4b07b854a00558921245a44a4dfbe7a87ffa9fe62439fd8cb26d4bd6",
+        "known_at": "2026-10-05T12:00:13+00:00"
+      },
+      {
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "role": "budget",
+        "version_id": "fixture-budget-v1",
+        "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+        "known_at": "2026-10-02T06:00:00+00:00"
+      },
+      {
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "role": "compiled_thesis",
+        "version_id": "696573ea-3076-4e55-953f-978c8f4bcdb6",
+        "digest": "93495980f4bdd878eb61955d85781fc30813cdfb84722bd2e965d3869acc5c86",
+        "known_at": "2026-10-05T12:00:03+00:00"
+      },
+      {
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "role": "compiled_thesis",
+        "version_id": "d342952a-5721-43c5-a21f-12a3b060ac36",
+        "digest": "8cb9417960d2396850998d557eac6753c49cd6abc8bb1590a25b2147d5c4f396",
+        "known_at": "2026-10-05T12:00:13+00:00"
+      },
+      {
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "role": "coverage",
+        "version_id": "fixture-coverage-v1",
+        "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+        "known_at": "2026-10-02T06:00:00+00:00"
+      },
+      {
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "role": "entitlements",
+        "version_id": "fixture-entitlements-v1",
+        "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+        "known_at": "2026-10-02T06:00:00+00:00"
+      },
+      {
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "role": "event_revision",
+        "version_id": "fictional-release@1",
+        "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+        "known_at": "2026-10-02T06:30:05+00:00"
+      },
+      {
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "role": "execution_graph",
+        "version_id": "fixture-execution_graph-v1",
+        "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+        "known_at": "2026-10-02T06:00:00+00:00"
+      },
+      {
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "role": "exposure",
+        "version_id": "exposure:7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d:d6d9b9128cf9a24a97014ecabc780455d12be7d72892eb0ce172b5cac57ba387",
+        "digest": "d6d9b9128cf9a24a97014ecabc780455d12be7d72892eb0ce172b5cac57ba387",
+        "known_at": "2026-10-05T12:00:03+00:00"
+      },
+      {
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "role": "exposure",
+        "version_id": "exposure:7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d:7b6a945563495293b29b081f9e338f42c7fc050eca1180e1636a33bc1ae88f58",
+        "digest": "7b6a945563495293b29b081f9e338f42c7fc050eca1180e1636a33bc1ae88f58",
+        "known_at": "2026-10-05T12:00:07+00:00"
+      },
+      {
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "role": "exposure",
+        "version_id": "exposure:7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d:90d79b8272c477449327e008253e166b828be1eb43937b50095d876a65b2f632",
+        "digest": "90d79b8272c477449327e008253e166b828be1eb43937b50095d876a65b2f632",
+        "known_at": "2026-10-05T12:00:17+00:00"
+      },
+      {
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "role": "knowledge",
+        "version_id": "fixture-reviewed-knowledge-v1",
+        "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+        "known_at": "2026-10-02T06:00:00+00:00"
+      },
+      {
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "role": "macro_context",
+        "version_id": "fixture-context-v1",
+        "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+        "known_at": "2026-10-02T06:00:00+00:00"
+      },
+      {
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "role": "model",
+        "version_id": "fixture-model-v1",
+        "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+        "known_at": "2026-10-02T06:00:00+00:00"
+      },
+      {
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "role": "prompt",
+        "version_id": "fixture-prompt-v1",
+        "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+        "known_at": "2026-10-02T06:00:00+00:00"
+      },
+      {
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "role": "rules",
+        "version_id": "spike-rules-v1",
+        "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+        "known_at": "2026-10-02T06:00:00+00:00"
+      },
+      {
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "role": "source_contract",
+        "version_id": "fixture-public-use-v1",
+        "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+        "known_at": "2026-10-02T06:00:00+00:00"
+      },
+      {
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "role": "source_manifest",
+        "version_id": "fixture-manifest-v1",
+        "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+        "known_at": "2026-10-02T06:00:00+00:00"
+      },
+      {
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "role": "user_thesis",
+        "version_id": "3b70daa8-b542-44c4-8c26-11c6e7a1b663",
+        "digest": "6ece44b38da96fb2b862475cd2ca3762ecd15bc5fab13634f262b813f62bca51",
+        "known_at": "2026-10-05T12:00:03+00:00"
+      },
+      {
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "role": "user_thesis",
+        "version_id": "6b3bb0d2-2c0f-43cf-9479-a1c2d9be1ba8",
+        "digest": "77e86f3549b045ba961135161d2bdd1a85d0759a3338e6c1800f13a8db9871a0",
+        "known_at": "2026-10-05T12:00:13+00:00"
+      }
+    ],
+    "brief_versions": [
+      {
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "generation": 1,
+        "assessment_id": "paper-desk-initial",
+        "saved_at": "2026-10-05T12:00:04+00:00"
+      },
+      {
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "generation": 2,
+        "assessment_id": "paper-desk-resized",
+        "saved_at": "2026-10-05T12:00:09+00:00"
+      },
+      {
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "generation": 3,
+        "assessment_id": "paper-desk-amended",
+        "saved_at": "2026-10-05T12:00:14+00:00"
+      },
+      {
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "generation": 4,
+        "assessment_id": "paper-desk-closed-history",
+        "saved_at": "2026-10-05T12:00:18+00:00"
+      }
+    ],
+    "notifications": [
+      {
+        "intent_id": "notice:36649902b9c73b187f5f0d5050d0876ea1d735a858e8c9afb8614a5a43c0854d",
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "assessment_id": "paper-desk-initial",
+        "state": "canceled",
+        "created_at": "2026-10-05T12:00:04+00:00",
+        "updated_at": "2026-10-05T12:00:05+00:00"
+      },
+      {
+        "intent_id": "notice:adfdca2fe29d3d8aa7ad891b2e48dcefb5531b8921434db65e94b2d2192886cf",
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "assessment_id": "paper-desk-resized",
+        "state": "canceled",
+        "created_at": "2026-10-05T12:00:09+00:00",
+        "updated_at": "2026-10-05T12:00:11+00:00"
+      },
+      {
+        "intent_id": "notice:5d40a137cdd0eb1a4cebb1bdce0c076f8d9aac86d434a3402abe1062151d37e5",
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "assessment_id": "paper-desk-amended",
+        "state": "canceled",
+        "created_at": "2026-10-05T12:00:14+00:00",
+        "updated_at": "2026-10-05T12:00:15+00:00"
+      },
+      {
+        "intent_id": "notice:e1342f9f45a5808209c585c6ad878bb07bd1ef3a4727691f2be908fdaeb990fc",
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "assessment_id": "paper-desk-closed-history",
+        "state": "pending",
+        "created_at": "2026-10-05T12:00:18+00:00",
+        "updated_at": "2026-10-05T12:00:18+00:00"
+      }
+    ],
+    "reassessment": [
+      {
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "context_digest": "8e7312b00ae933ed879f837f8dc5b39517e1d607a77d52a73cdff7e1f4f9ac28",
+        "reason": "context_admitted",
+        "created_at": "2026-10-05T12:00:03+00:00",
+        "state": "completed",
+        "completed_at": "2026-10-05T12:00:04+00:00"
+      },
+      {
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "context_digest": "a7bf2e93ef2f56b57f336a10db101eba2e566403cab58d789ec06ca8a836a73e",
+        "reason": "context_admitted",
+        "created_at": "2026-10-05T12:00:07+00:00",
+        "state": "completed",
+        "completed_at": "2026-10-05T12:00:09+00:00"
+      },
+      {
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "context_digest": "3e980020128fa2042399e40bededf8a10619cba0bf9c8b4225d105f2343979d5",
+        "reason": "context_admitted",
+        "created_at": "2026-10-05T12:00:13+00:00",
+        "state": "completed",
+        "completed_at": "2026-10-05T12:00:14+00:00"
+      },
+      {
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "context_digest": "0141b4ab52df4e42cabce7d5893720187979cb99d421e92ccb56f1720a4e4d38",
+        "reason": "context_admitted",
+        "created_at": "2026-10-05T12:00:17+00:00",
+        "state": "completed",
+        "completed_at": "2026-10-05T12:00:18+00:00"
+      }
+    ],
+    "audit": [
+      {
+        "sequence": 3,
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "kind": "context_admitted",
+        "happened_at": "2026-10-05T12:00:03+00:00",
+        "detail": {
+          "pins": [
+            {
+              "role": "user_thesis",
+              "digest": "6ece44b38da96fb2b862475cd2ca3762ecd15bc5fab13634f262b813f62bca51",
+              "known_at": "2026-10-05T12:00:03+00:00",
+              "version_id": "3b70daa8-b542-44c4-8c26-11c6e7a1b663"
+            },
+            {
+              "role": "compiled_thesis",
+              "digest": "93495980f4bdd878eb61955d85781fc30813cdfb84722bd2e965d3869acc5c86",
+              "known_at": "2026-10-05T12:00:03+00:00",
+              "version_id": "696573ea-3076-4e55-953f-978c8f4bcdb6"
+            },
+            {
+              "role": "activation",
+              "digest": "e22f1f225844436a480b02a7c2aa6a2055fb0c6bb3ebb1e3d65f2f7e9baf7122",
+              "known_at": "2026-10-05T12:00:03+00:00",
+              "version_id": "9d87fbc9-f15f-4f79-aba4-48810cedd045"
+            },
+            {
+              "role": "exposure",
+              "digest": "d6d9b9128cf9a24a97014ecabc780455d12be7d72892eb0ce172b5cac57ba387",
+              "known_at": "2026-10-05T12:00:03+00:00",
+              "version_id": "exposure:7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d:d6d9b9128cf9a24a97014ecabc780455d12be7d72892eb0ce172b5cac57ba387"
+            }
+          ],
+          "actor_id": "3d5d64e2-90b6-43af-a25e-158c0f773b85",
+          "thesis_id": "7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d",
+          "admission_id": "9b5d1330-2658-444a-9aa8-14219a7a0394",
+          "source_scope": "synthetic_fixture",
+          "input_observed_at": "2026-10-05T12:00:03+00:00",
+          "commit_time_measured": false,
+          "admission_effective_at": "2026-10-05T12:00:03+00:00"
+        }
+      },
+      {
+        "sequence": 4,
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "kind": "publication",
+        "happened_at": "2026-10-05T12:00:04+00:00",
+        "detail": {
+          "run_id": "run:paper-desk-initial",
+          "status": "current",
+          "reasons": [
+            "all_dependencies_current"
+          ],
+          "actor_id": "3d5d64e2-90b6-43af-a25e-158c0f773b85",
+          "intent_id": "notice:36649902b9c73b187f5f0d5050d0876ea1d735a858e8c9afb8614a5a43c0854d",
+          "assessment_id": "paper-desk-initial",
+          "canceled_intents": [],
+          "pinned_dependencies": [
+            {
+              "role": "activation",
+              "digest": "e22f1f225844436a480b02a7c2aa6a2055fb0c6bb3ebb1e3d65f2f7e9baf7122",
+              "known_at": "2026-10-05T12:00:03+00:00",
+              "version_id": "9d87fbc9-f15f-4f79-aba4-48810cedd045"
+            },
+            {
+              "role": "budget",
+              "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-budget-v1"
+            },
+            {
+              "role": "compiled_thesis",
+              "digest": "93495980f4bdd878eb61955d85781fc30813cdfb84722bd2e965d3869acc5c86",
+              "known_at": "2026-10-05T12:00:03+00:00",
+              "version_id": "696573ea-3076-4e55-953f-978c8f4bcdb6"
+            },
+            {
+              "role": "coverage",
+              "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-coverage-v1"
+            },
+            {
+              "role": "entitlements",
+              "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-entitlements-v1"
+            },
+            {
+              "role": "event_revision",
+              "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+              "known_at": "2026-10-02T06:30:05+00:00",
+              "version_id": "fictional-release@1"
+            },
+            {
+              "role": "execution_graph",
+              "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-execution_graph-v1"
+            },
+            {
+              "role": "exposure",
+              "digest": "d6d9b9128cf9a24a97014ecabc780455d12be7d72892eb0ce172b5cac57ba387",
+              "known_at": "2026-10-05T12:00:03+00:00",
+              "version_id": "exposure:7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d:d6d9b9128cf9a24a97014ecabc780455d12be7d72892eb0ce172b5cac57ba387"
+            },
+            {
+              "role": "knowledge",
+              "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-reviewed-knowledge-v1"
+            },
+            {
+              "role": "macro_context",
+              "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-context-v1"
+            },
+            {
+              "role": "model",
+              "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-model-v1"
+            },
+            {
+              "role": "prompt",
+              "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-prompt-v1"
+            },
+            {
+              "role": "rules",
+              "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "spike-rules-v1"
+            },
+            {
+              "role": "source_contract",
+              "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-public-use-v1"
+            },
+            {
+              "role": "source_manifest",
+              "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-manifest-v1"
+            },
+            {
+              "role": "user_thesis",
+              "digest": "6ece44b38da96fb2b862475cd2ca3762ecd15bc5fab13634f262b813f62bca51",
+              "known_at": "2026-10-05T12:00:03+00:00",
+              "version_id": "3b70daa8-b542-44c4-8c26-11c6e7a1b663"
+            }
+          ],
+          "observed_dependencies": [
+            {
+              "role": "activation",
+              "digest": "e22f1f225844436a480b02a7c2aa6a2055fb0c6bb3ebb1e3d65f2f7e9baf7122",
+              "known_at": "2026-10-05T12:00:03+00:00",
+              "version_id": "9d87fbc9-f15f-4f79-aba4-48810cedd045"
+            },
+            {
+              "role": "budget",
+              "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-budget-v1"
+            },
+            {
+              "role": "compiled_thesis",
+              "digest": "93495980f4bdd878eb61955d85781fc30813cdfb84722bd2e965d3869acc5c86",
+              "known_at": "2026-10-05T12:00:03+00:00",
+              "version_id": "696573ea-3076-4e55-953f-978c8f4bcdb6"
+            },
+            {
+              "role": "coverage",
+              "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-coverage-v1"
+            },
+            {
+              "role": "entitlements",
+              "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-entitlements-v1"
+            },
+            {
+              "role": "event_revision",
+              "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+              "known_at": "2026-10-02T06:30:05+00:00",
+              "version_id": "fictional-release@1"
+            },
+            {
+              "role": "execution_graph",
+              "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-execution_graph-v1"
+            },
+            {
+              "role": "exposure",
+              "digest": "d6d9b9128cf9a24a97014ecabc780455d12be7d72892eb0ce172b5cac57ba387",
+              "known_at": "2026-10-05T12:00:03+00:00",
+              "version_id": "exposure:7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d:d6d9b9128cf9a24a97014ecabc780455d12be7d72892eb0ce172b5cac57ba387"
+            },
+            {
+              "role": "knowledge",
+              "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-reviewed-knowledge-v1"
+            },
+            {
+              "role": "macro_context",
+              "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-context-v1"
+            },
+            {
+              "role": "model",
+              "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-model-v1"
+            },
+            {
+              "role": "prompt",
+              "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-prompt-v1"
+            },
+            {
+              "role": "rules",
+              "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "spike-rules-v1"
+            },
+            {
+              "role": "source_contract",
+              "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-public-use-v1"
+            },
+            {
+              "role": "source_manifest",
+              "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-manifest-v1"
+            },
+            {
+              "role": "user_thesis",
+              "digest": "6ece44b38da96fb2b862475cd2ca3762ecd15bc5fab13634f262b813f62bca51",
+              "known_at": "2026-10-05T12:00:03+00:00",
+              "version_id": "3b70daa8-b542-44c4-8c26-11c6e7a1b663"
+            }
+          ]
+        }
+      },
+      {
+        "sequence": 5,
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "kind": "context_pending",
+        "happened_at": "2026-10-05T12:00:05+00:00",
+        "detail": {
+          "reason": "exposure:revise",
+          "actor_id": "3d5d64e2-90b6-43af-a25e-158c0f773b85",
+          "thesis_id": "7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d",
+          "canceled_intents": [
+            "notice:36649902b9c73b187f5f0d5050d0876ea1d735a858e8c9afb8614a5a43c0854d"
+          ],
+          "current_approval_id": "9d87fbc9-f15f-4f79-aba4-48810cedd045"
+        }
+      },
+      {
+        "sequence": 6,
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "kind": "context_admitted",
+        "happened_at": "2026-10-05T12:00:07+00:00",
+        "detail": {
+          "pins": [
+            {
+              "role": "user_thesis",
+              "digest": "6ece44b38da96fb2b862475cd2ca3762ecd15bc5fab13634f262b813f62bca51",
+              "known_at": "2026-10-05T12:00:03+00:00",
+              "version_id": "3b70daa8-b542-44c4-8c26-11c6e7a1b663"
+            },
+            {
+              "role": "compiled_thesis",
+              "digest": "93495980f4bdd878eb61955d85781fc30813cdfb84722bd2e965d3869acc5c86",
+              "known_at": "2026-10-05T12:00:03+00:00",
+              "version_id": "696573ea-3076-4e55-953f-978c8f4bcdb6"
+            },
+            {
+              "role": "activation",
+              "digest": "e22f1f225844436a480b02a7c2aa6a2055fb0c6bb3ebb1e3d65f2f7e9baf7122",
+              "known_at": "2026-10-05T12:00:03+00:00",
+              "version_id": "9d87fbc9-f15f-4f79-aba4-48810cedd045"
+            },
+            {
+              "role": "exposure",
+              "digest": "7b6a945563495293b29b081f9e338f42c7fc050eca1180e1636a33bc1ae88f58",
+              "known_at": "2026-10-05T12:00:07+00:00",
+              "version_id": "exposure:7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d:7b6a945563495293b29b081f9e338f42c7fc050eca1180e1636a33bc1ae88f58"
+            }
+          ],
+          "actor_id": "3d5d64e2-90b6-43af-a25e-158c0f773b85",
+          "thesis_id": "7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d",
+          "admission_id": "1dbe974a-2af9-4094-8363-d4a91a8866b8",
+          "source_scope": "synthetic_fixture",
+          "input_observed_at": "2026-10-05T12:00:07+00:00",
+          "commit_time_measured": false,
+          "admission_effective_at": "2026-10-05T12:00:07+00:00"
+        }
+      },
+      {
+        "sequence": 7,
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "kind": "publication",
+        "happened_at": "2026-10-05T12:00:09+00:00",
+        "detail": {
+          "run_id": "run:paper-desk-resized",
+          "status": "current",
+          "reasons": [
+            "all_dependencies_current"
+          ],
+          "actor_id": "3d5d64e2-90b6-43af-a25e-158c0f773b85",
+          "intent_id": "notice:adfdca2fe29d3d8aa7ad891b2e48dcefb5531b8921434db65e94b2d2192886cf",
+          "assessment_id": "paper-desk-resized",
+          "canceled_intents": [],
+          "pinned_dependencies": [
+            {
+              "role": "activation",
+              "digest": "e22f1f225844436a480b02a7c2aa6a2055fb0c6bb3ebb1e3d65f2f7e9baf7122",
+              "known_at": "2026-10-05T12:00:03+00:00",
+              "version_id": "9d87fbc9-f15f-4f79-aba4-48810cedd045"
+            },
+            {
+              "role": "budget",
+              "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-budget-v1"
+            },
+            {
+              "role": "compiled_thesis",
+              "digest": "93495980f4bdd878eb61955d85781fc30813cdfb84722bd2e965d3869acc5c86",
+              "known_at": "2026-10-05T12:00:03+00:00",
+              "version_id": "696573ea-3076-4e55-953f-978c8f4bcdb6"
+            },
+            {
+              "role": "coverage",
+              "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-coverage-v1"
+            },
+            {
+              "role": "entitlements",
+              "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-entitlements-v1"
+            },
+            {
+              "role": "event_revision",
+              "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+              "known_at": "2026-10-02T06:30:05+00:00",
+              "version_id": "fictional-release@1"
+            },
+            {
+              "role": "execution_graph",
+              "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-execution_graph-v1"
+            },
+            {
+              "role": "exposure",
+              "digest": "7b6a945563495293b29b081f9e338f42c7fc050eca1180e1636a33bc1ae88f58",
+              "known_at": "2026-10-05T12:00:07+00:00",
+              "version_id": "exposure:7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d:7b6a945563495293b29b081f9e338f42c7fc050eca1180e1636a33bc1ae88f58"
+            },
+            {
+              "role": "knowledge",
+              "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-reviewed-knowledge-v1"
+            },
+            {
+              "role": "macro_context",
+              "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-context-v1"
+            },
+            {
+              "role": "model",
+              "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-model-v1"
+            },
+            {
+              "role": "prompt",
+              "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-prompt-v1"
+            },
+            {
+              "role": "rules",
+              "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "spike-rules-v1"
+            },
+            {
+              "role": "source_contract",
+              "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-public-use-v1"
+            },
+            {
+              "role": "source_manifest",
+              "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-manifest-v1"
+            },
+            {
+              "role": "user_thesis",
+              "digest": "6ece44b38da96fb2b862475cd2ca3762ecd15bc5fab13634f262b813f62bca51",
+              "known_at": "2026-10-05T12:00:03+00:00",
+              "version_id": "3b70daa8-b542-44c4-8c26-11c6e7a1b663"
+            }
+          ],
+          "observed_dependencies": [
+            {
+              "role": "activation",
+              "digest": "e22f1f225844436a480b02a7c2aa6a2055fb0c6bb3ebb1e3d65f2f7e9baf7122",
+              "known_at": "2026-10-05T12:00:03+00:00",
+              "version_id": "9d87fbc9-f15f-4f79-aba4-48810cedd045"
+            },
+            {
+              "role": "budget",
+              "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-budget-v1"
+            },
+            {
+              "role": "compiled_thesis",
+              "digest": "93495980f4bdd878eb61955d85781fc30813cdfb84722bd2e965d3869acc5c86",
+              "known_at": "2026-10-05T12:00:03+00:00",
+              "version_id": "696573ea-3076-4e55-953f-978c8f4bcdb6"
+            },
+            {
+              "role": "coverage",
+              "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-coverage-v1"
+            },
+            {
+              "role": "entitlements",
+              "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-entitlements-v1"
+            },
+            {
+              "role": "event_revision",
+              "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+              "known_at": "2026-10-02T06:30:05+00:00",
+              "version_id": "fictional-release@1"
+            },
+            {
+              "role": "execution_graph",
+              "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-execution_graph-v1"
+            },
+            {
+              "role": "exposure",
+              "digest": "7b6a945563495293b29b081f9e338f42c7fc050eca1180e1636a33bc1ae88f58",
+              "known_at": "2026-10-05T12:00:07+00:00",
+              "version_id": "exposure:7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d:7b6a945563495293b29b081f9e338f42c7fc050eca1180e1636a33bc1ae88f58"
+            },
+            {
+              "role": "knowledge",
+              "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-reviewed-knowledge-v1"
+            },
+            {
+              "role": "macro_context",
+              "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-context-v1"
+            },
+            {
+              "role": "model",
+              "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-model-v1"
+            },
+            {
+              "role": "prompt",
+              "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-prompt-v1"
+            },
+            {
+              "role": "rules",
+              "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "spike-rules-v1"
+            },
+            {
+              "role": "source_contract",
+              "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-public-use-v1"
+            },
+            {
+              "role": "source_manifest",
+              "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-manifest-v1"
+            },
+            {
+              "role": "user_thesis",
+              "digest": "6ece44b38da96fb2b862475cd2ca3762ecd15bc5fab13634f262b813f62bca51",
+              "known_at": "2026-10-05T12:00:03+00:00",
+              "version_id": "3b70daa8-b542-44c4-8c26-11c6e7a1b663"
+            }
+          ]
+        }
+      },
+      {
+        "sequence": 8,
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "kind": "context_pending",
+        "happened_at": "2026-10-05T12:00:11+00:00",
+        "detail": {
+          "reason": "approval_changed",
+          "actor_id": "3d5d64e2-90b6-43af-a25e-158c0f773b85",
+          "thesis_id": "7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d",
+          "canceled_intents": [
+            "notice:adfdca2fe29d3d8aa7ad891b2e48dcefb5531b8921434db65e94b2d2192886cf"
+          ],
+          "current_approval_id": "346c7a5e-5691-44ca-9030-62442467b493"
+        }
+      },
+      {
+        "sequence": 9,
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "kind": "context_admitted",
+        "happened_at": "2026-10-05T12:00:13+00:00",
+        "detail": {
+          "pins": [
+            {
+              "role": "user_thesis",
+              "digest": "77e86f3549b045ba961135161d2bdd1a85d0759a3338e6c1800f13a8db9871a0",
+              "known_at": "2026-10-05T12:00:13+00:00",
+              "version_id": "6b3bb0d2-2c0f-43cf-9479-a1c2d9be1ba8"
+            },
+            {
+              "role": "compiled_thesis",
+              "digest": "8cb9417960d2396850998d557eac6753c49cd6abc8bb1590a25b2147d5c4f396",
+              "known_at": "2026-10-05T12:00:13+00:00",
+              "version_id": "d342952a-5721-43c5-a21f-12a3b060ac36"
+            },
+            {
+              "role": "activation",
+              "digest": "2c3b2d3e4b07b854a00558921245a44a4dfbe7a87ffa9fe62439fd8cb26d4bd6",
+              "known_at": "2026-10-05T12:00:13+00:00",
+              "version_id": "346c7a5e-5691-44ca-9030-62442467b493"
+            },
+            {
+              "role": "exposure",
+              "digest": "7b6a945563495293b29b081f9e338f42c7fc050eca1180e1636a33bc1ae88f58",
+              "known_at": "2026-10-05T12:00:07+00:00",
+              "version_id": "exposure:7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d:7b6a945563495293b29b081f9e338f42c7fc050eca1180e1636a33bc1ae88f58"
+            }
+          ],
+          "actor_id": "3d5d64e2-90b6-43af-a25e-158c0f773b85",
+          "thesis_id": "7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d",
+          "admission_id": "d3920e1e-d74f-44ef-b981-e65484dcf26c",
+          "source_scope": "synthetic_fixture",
+          "input_observed_at": "2026-10-05T12:00:13+00:00",
+          "commit_time_measured": false,
+          "admission_effective_at": "2026-10-05T12:00:13+00:00"
+        }
+      },
+      {
+        "sequence": 10,
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "kind": "publication",
+        "happened_at": "2026-10-05T12:00:14+00:00",
+        "detail": {
+          "run_id": "run:paper-desk-amended",
+          "status": "current",
+          "reasons": [
+            "all_dependencies_current"
+          ],
+          "actor_id": "3d5d64e2-90b6-43af-a25e-158c0f773b85",
+          "intent_id": "notice:5d40a137cdd0eb1a4cebb1bdce0c076f8d9aac86d434a3402abe1062151d37e5",
+          "assessment_id": "paper-desk-amended",
+          "canceled_intents": [],
+          "pinned_dependencies": [
+            {
+              "role": "activation",
+              "digest": "2c3b2d3e4b07b854a00558921245a44a4dfbe7a87ffa9fe62439fd8cb26d4bd6",
+              "known_at": "2026-10-05T12:00:13+00:00",
+              "version_id": "346c7a5e-5691-44ca-9030-62442467b493"
+            },
+            {
+              "role": "budget",
+              "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-budget-v1"
+            },
+            {
+              "role": "compiled_thesis",
+              "digest": "8cb9417960d2396850998d557eac6753c49cd6abc8bb1590a25b2147d5c4f396",
+              "known_at": "2026-10-05T12:00:13+00:00",
+              "version_id": "d342952a-5721-43c5-a21f-12a3b060ac36"
+            },
+            {
+              "role": "coverage",
+              "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-coverage-v1"
+            },
+            {
+              "role": "entitlements",
+              "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-entitlements-v1"
+            },
+            {
+              "role": "event_revision",
+              "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+              "known_at": "2026-10-02T06:30:05+00:00",
+              "version_id": "fictional-release@1"
+            },
+            {
+              "role": "execution_graph",
+              "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-execution_graph-v1"
+            },
+            {
+              "role": "exposure",
+              "digest": "7b6a945563495293b29b081f9e338f42c7fc050eca1180e1636a33bc1ae88f58",
+              "known_at": "2026-10-05T12:00:07+00:00",
+              "version_id": "exposure:7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d:7b6a945563495293b29b081f9e338f42c7fc050eca1180e1636a33bc1ae88f58"
+            },
+            {
+              "role": "knowledge",
+              "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-reviewed-knowledge-v1"
+            },
+            {
+              "role": "macro_context",
+              "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-context-v1"
+            },
+            {
+              "role": "model",
+              "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-model-v1"
+            },
+            {
+              "role": "prompt",
+              "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-prompt-v1"
+            },
+            {
+              "role": "rules",
+              "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "spike-rules-v1"
+            },
+            {
+              "role": "source_contract",
+              "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-public-use-v1"
+            },
+            {
+              "role": "source_manifest",
+              "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-manifest-v1"
+            },
+            {
+              "role": "user_thesis",
+              "digest": "77e86f3549b045ba961135161d2bdd1a85d0759a3338e6c1800f13a8db9871a0",
+              "known_at": "2026-10-05T12:00:13+00:00",
+              "version_id": "6b3bb0d2-2c0f-43cf-9479-a1c2d9be1ba8"
+            }
+          ],
+          "observed_dependencies": [
+            {
+              "role": "activation",
+              "digest": "2c3b2d3e4b07b854a00558921245a44a4dfbe7a87ffa9fe62439fd8cb26d4bd6",
+              "known_at": "2026-10-05T12:00:13+00:00",
+              "version_id": "346c7a5e-5691-44ca-9030-62442467b493"
+            },
+            {
+              "role": "budget",
+              "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-budget-v1"
+            },
+            {
+              "role": "compiled_thesis",
+              "digest": "8cb9417960d2396850998d557eac6753c49cd6abc8bb1590a25b2147d5c4f396",
+              "known_at": "2026-10-05T12:00:13+00:00",
+              "version_id": "d342952a-5721-43c5-a21f-12a3b060ac36"
+            },
+            {
+              "role": "coverage",
+              "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-coverage-v1"
+            },
+            {
+              "role": "entitlements",
+              "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-entitlements-v1"
+            },
+            {
+              "role": "event_revision",
+              "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+              "known_at": "2026-10-02T06:30:05+00:00",
+              "version_id": "fictional-release@1"
+            },
+            {
+              "role": "execution_graph",
+              "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-execution_graph-v1"
+            },
+            {
+              "role": "exposure",
+              "digest": "7b6a945563495293b29b081f9e338f42c7fc050eca1180e1636a33bc1ae88f58",
+              "known_at": "2026-10-05T12:00:07+00:00",
+              "version_id": "exposure:7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d:7b6a945563495293b29b081f9e338f42c7fc050eca1180e1636a33bc1ae88f58"
+            },
+            {
+              "role": "knowledge",
+              "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-reviewed-knowledge-v1"
+            },
+            {
+              "role": "macro_context",
+              "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-context-v1"
+            },
+            {
+              "role": "model",
+              "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-model-v1"
+            },
+            {
+              "role": "prompt",
+              "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-prompt-v1"
+            },
+            {
+              "role": "rules",
+              "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "spike-rules-v1"
+            },
+            {
+              "role": "source_contract",
+              "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-public-use-v1"
+            },
+            {
+              "role": "source_manifest",
+              "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-manifest-v1"
+            },
+            {
+              "role": "user_thesis",
+              "digest": "77e86f3549b045ba961135161d2bdd1a85d0759a3338e6c1800f13a8db9871a0",
+              "known_at": "2026-10-05T12:00:13+00:00",
+              "version_id": "6b3bb0d2-2c0f-43cf-9479-a1c2d9be1ba8"
+            }
+          ]
+        }
+      },
+      {
+        "sequence": 11,
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "kind": "context_pending",
+        "happened_at": "2026-10-05T12:00:15+00:00",
+        "detail": {
+          "reason": "exposure:close",
+          "actor_id": "3d5d64e2-90b6-43af-a25e-158c0f773b85",
+          "thesis_id": "7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d",
+          "canceled_intents": [
+            "notice:5d40a137cdd0eb1a4cebb1bdce0c076f8d9aac86d434a3402abe1062151d37e5"
+          ],
+          "current_approval_id": "346c7a5e-5691-44ca-9030-62442467b493"
+        }
+      },
+      {
+        "sequence": 12,
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "kind": "context_admitted",
+        "happened_at": "2026-10-05T12:00:17+00:00",
+        "detail": {
+          "pins": [
+            {
+              "role": "user_thesis",
+              "digest": "77e86f3549b045ba961135161d2bdd1a85d0759a3338e6c1800f13a8db9871a0",
+              "known_at": "2026-10-05T12:00:13+00:00",
+              "version_id": "6b3bb0d2-2c0f-43cf-9479-a1c2d9be1ba8"
+            },
+            {
+              "role": "compiled_thesis",
+              "digest": "8cb9417960d2396850998d557eac6753c49cd6abc8bb1590a25b2147d5c4f396",
+              "known_at": "2026-10-05T12:00:13+00:00",
+              "version_id": "d342952a-5721-43c5-a21f-12a3b060ac36"
+            },
+            {
+              "role": "activation",
+              "digest": "2c3b2d3e4b07b854a00558921245a44a4dfbe7a87ffa9fe62439fd8cb26d4bd6",
+              "known_at": "2026-10-05T12:00:13+00:00",
+              "version_id": "346c7a5e-5691-44ca-9030-62442467b493"
+            },
+            {
+              "role": "exposure",
+              "digest": "90d79b8272c477449327e008253e166b828be1eb43937b50095d876a65b2f632",
+              "known_at": "2026-10-05T12:00:17+00:00",
+              "version_id": "exposure:7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d:90d79b8272c477449327e008253e166b828be1eb43937b50095d876a65b2f632"
+            }
+          ],
+          "actor_id": "3d5d64e2-90b6-43af-a25e-158c0f773b85",
+          "thesis_id": "7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d",
+          "admission_id": "5a15e256-836a-444b-b98b-74a19bc32737",
+          "source_scope": "synthetic_fixture",
+          "input_observed_at": "2026-10-05T12:00:17+00:00",
+          "commit_time_measured": false,
+          "admission_effective_at": "2026-10-05T12:00:17+00:00"
+        }
+      },
+      {
+        "sequence": 13,
+        "brief_id": "paper-desk-synthetic-brief-v1",
+        "kind": "publication",
+        "happened_at": "2026-10-05T12:00:18+00:00",
+        "detail": {
+          "run_id": "run:paper-desk-closed-history",
+          "status": "current",
+          "reasons": [
+            "all_dependencies_current"
+          ],
+          "actor_id": "3d5d64e2-90b6-43af-a25e-158c0f773b85",
+          "intent_id": "notice:e1342f9f45a5808209c585c6ad878bb07bd1ef3a4727691f2be908fdaeb990fc",
+          "assessment_id": "paper-desk-closed-history",
+          "canceled_intents": [],
+          "pinned_dependencies": [
+            {
+              "role": "activation",
+              "digest": "2c3b2d3e4b07b854a00558921245a44a4dfbe7a87ffa9fe62439fd8cb26d4bd6",
+              "known_at": "2026-10-05T12:00:13+00:00",
+              "version_id": "346c7a5e-5691-44ca-9030-62442467b493"
+            },
+            {
+              "role": "budget",
+              "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-budget-v1"
+            },
+            {
+              "role": "compiled_thesis",
+              "digest": "8cb9417960d2396850998d557eac6753c49cd6abc8bb1590a25b2147d5c4f396",
+              "known_at": "2026-10-05T12:00:13+00:00",
+              "version_id": "d342952a-5721-43c5-a21f-12a3b060ac36"
+            },
+            {
+              "role": "coverage",
+              "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-coverage-v1"
+            },
+            {
+              "role": "entitlements",
+              "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-entitlements-v1"
+            },
+            {
+              "role": "event_revision",
+              "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+              "known_at": "2026-10-02T06:30:05+00:00",
+              "version_id": "fictional-release@1"
+            },
+            {
+              "role": "execution_graph",
+              "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-execution_graph-v1"
+            },
+            {
+              "role": "exposure",
+              "digest": "90d79b8272c477449327e008253e166b828be1eb43937b50095d876a65b2f632",
+              "known_at": "2026-10-05T12:00:17+00:00",
+              "version_id": "exposure:7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d:90d79b8272c477449327e008253e166b828be1eb43937b50095d876a65b2f632"
+            },
+            {
+              "role": "knowledge",
+              "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-reviewed-knowledge-v1"
+            },
+            {
+              "role": "macro_context",
+              "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-context-v1"
+            },
+            {
+              "role": "model",
+              "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-model-v1"
+            },
+            {
+              "role": "prompt",
+              "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-prompt-v1"
+            },
+            {
+              "role": "rules",
+              "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "spike-rules-v1"
+            },
+            {
+              "role": "source_contract",
+              "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-public-use-v1"
+            },
+            {
+              "role": "source_manifest",
+              "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-manifest-v1"
+            },
+            {
+              "role": "user_thesis",
+              "digest": "77e86f3549b045ba961135161d2bdd1a85d0759a3338e6c1800f13a8db9871a0",
+              "known_at": "2026-10-05T12:00:13+00:00",
+              "version_id": "6b3bb0d2-2c0f-43cf-9479-a1c2d9be1ba8"
+            }
+          ],
+          "observed_dependencies": [
+            {
+              "role": "activation",
+              "digest": "2c3b2d3e4b07b854a00558921245a44a4dfbe7a87ffa9fe62439fd8cb26d4bd6",
+              "known_at": "2026-10-05T12:00:13+00:00",
+              "version_id": "346c7a5e-5691-44ca-9030-62442467b493"
+            },
+            {
+              "role": "budget",
+              "digest": "10e1c39df865abe4b6f5d512c102ddd11ba9fd1e9f148f6a378c422b8ebc71f1",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-budget-v1"
+            },
+            {
+              "role": "compiled_thesis",
+              "digest": "8cb9417960d2396850998d557eac6753c49cd6abc8bb1590a25b2147d5c4f396",
+              "known_at": "2026-10-05T12:00:13+00:00",
+              "version_id": "d342952a-5721-43c5-a21f-12a3b060ac36"
+            },
+            {
+              "role": "coverage",
+              "digest": "95ea22dea5dbd00eb2d665c21bafc5195143f0cd355a1cae688316c25deb6509",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-coverage-v1"
+            },
+            {
+              "role": "entitlements",
+              "digest": "a16e6c2f7a46ae8b91330254574360eca02571bd31213c5ff55123b741a317f8",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-entitlements-v1"
+            },
+            {
+              "role": "event_revision",
+              "digest": "5bfec32845e09b912e7dff6a7cfea8c13ccd6f503e2b333a767c63432acc5966",
+              "known_at": "2026-10-02T06:30:05+00:00",
+              "version_id": "fictional-release@1"
+            },
+            {
+              "role": "execution_graph",
+              "digest": "da5904d3cb4e853ff91af8c87c13790385c7160a5ecc66dd53ea04bb98f5b5b7",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-execution_graph-v1"
+            },
+            {
+              "role": "exposure",
+              "digest": "90d79b8272c477449327e008253e166b828be1eb43937b50095d876a65b2f632",
+              "known_at": "2026-10-05T12:00:17+00:00",
+              "version_id": "exposure:7ad8bdd4-9169-4ba9-b69b-80c786f9ee8d:90d79b8272c477449327e008253e166b828be1eb43937b50095d876a65b2f632"
+            },
+            {
+              "role": "knowledge",
+              "digest": "3f6d0a234b88e34afb0058a456ff5121b1933ec150ab5a144be34cd3cc7f2ef2",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-reviewed-knowledge-v1"
+            },
+            {
+              "role": "macro_context",
+              "digest": "871499c49f2bc1692aeb02b923fc15996773b3d8b99af13843d5d2680b728834",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-context-v1"
+            },
+            {
+              "role": "model",
+              "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-model-v1"
+            },
+            {
+              "role": "prompt",
+              "digest": "ff0f212441b6e67e31af7d09ec30225c5370c078ce5e0ed873e509cc3715e3e8",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-prompt-v1"
+            },
+            {
+              "role": "rules",
+              "digest": "6f1db30076faacf5d7d1426a33ed048ab6fc83447e9d5db3111b2b8ae2a6d511",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "spike-rules-v1"
+            },
+            {
+              "role": "source_contract",
+              "digest": "f7e5e71c5e435e8669a264632a35fb2f915da538174e02db269f65829a4aee91",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-public-use-v1"
+            },
+            {
+              "role": "source_manifest",
+              "digest": "58527331241868e9664e1981e2dc50ec391e3fa4c541366d2e8bf983dab16850",
+              "known_at": "2026-10-02T06:00:00+00:00",
+              "version_id": "fixture-manifest-v1"
+            },
+            {
+              "role": "user_thesis",
+              "digest": "77e86f3549b045ba961135161d2bdd1a85d0759a3338e6c1800f13a8db9871a0",
+              "known_at": "2026-10-05T12:00:13+00:00",
+              "version_id": "6b3bb0d2-2c0f-43cf-9479-a1c2d9be1ba8"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

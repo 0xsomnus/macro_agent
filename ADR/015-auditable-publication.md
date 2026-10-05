@@ -13,3 +13,5 @@ Status: Accepted by user review on 2026-10-03. Records agreed auditability requi
 **Evidence:** Force both orderings through independent connections on the selected database. Local SQLite tests validate their own protocol, not PostgreSQL, global correction propagation, or real delivery. See [IMPLEMENTATION.md](../IMPLEMENTATION.md).
 
 **Consequence:** Every persistence adapter must prove ordering, atomic publication, supersession, retry, and inspection. Fixture setup does not establish authenticated authority or data rights.
+
+**Implementation evidence, 2026-10-05:** [Paper-position integration](../PAPER_POSITIONS.md) extends the same protocol to owner/thesis protection and sorted affected briefs. Actual PostgreSQL waits exercise approval/publication and exposure/publication orderings, including clocks sampled after all brief protection. Context admission stores resolved already committed user inputs with conservative observation witnesses. It does not measure exact admission commit time or establish full operational activation replay; source/macro roles remain fictional.

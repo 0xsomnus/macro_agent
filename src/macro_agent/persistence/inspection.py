@@ -7,8 +7,8 @@ from django.db import transaction
 from ..domain.models import require_text
 from ..domain.publication import BriefState, pin_dict
 from .models import (
-    AssessmentRecord, AuditTransition, BriefStateRecord, BriefVersion,
-    CurrentAssessment, DependencyVersion, NotificationIntent, ReassessmentWork,
+    AssessmentRecord, AuditTransition, BriefStateRecord, BriefVersion, ContextAdmission,
+    CurrentAssessment, DependencyVersion, NotificationIntent, ReassessmentWork, ThesisBriefBinding,
 )
 from .publication_store import canonical_actor, current_dependencies, require_postgresql
 
@@ -53,6 +53,22 @@ def inspect_brief(actor_id: str, brief_id: str, *, using: str = "default") -> di
             "current_dependencies": [pin_dict(pin) for pin in state.dependencies],
             "assessments": assessments,
         }
+        binding = ThesisBriefBinding.objects.using(using).filter(brief=brief).first()
+        report["thesis_binding"] = None if binding is None else {
+            "thesis_id": str(binding.thesis_id), "status": binding.status,
+            "admitted_approval_id": str(binding.admitted_approval_id) if binding.admitted_approval_id else None,
+            "admitted_exposure_digest": binding.admitted_exposure_digest,
+            "input_observed_at": binding.observed_at.isoformat() if binding.observed_at else None,
+            "commit_time_measured": False,
+        }
+        report["context_admissions"] = [{
+            "id": str(item.pk), "approval_id": str(item.approval_id),
+            "exposure_digest": item.exposure_digest, "input_digest": item.input_digest,
+            "input_observed_at": item.input_observed_at.isoformat(),
+            "admission_effective_at": item.admission_effective_at.isoformat(),
+            "resolved_inputs": item.resolved_inputs, "pins": item.pins,
+        } for item in ContextAdmission.objects.using(using).filter(brief=brief)
+             .order_by("input_observed_at", "id")]
         report["dependency_history"] = [{
             "brief_id": brief_id, "role": version.role, "version_id": version.version_id,
             "digest": version.digest, "known_at": version.known_at.isoformat(),

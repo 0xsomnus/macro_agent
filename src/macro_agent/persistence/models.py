@@ -1,7 +1,8 @@
 """Publication records, with authority and decisions retained in domain modules.
 
-Every governing-state writer must lock BriefStateRecord first inside its short
-transaction. Model save methods and signals do not substitute for that ordering.
+Every governing-state writer locks the brief before reading its heads. Bound
+briefs first lock owner and thesis, then sorted briefs. Model save methods and
+signals do not substitute for that ordering.
 The initial PostgreSQL migration protects immutable history and scoped links.
 """
 
@@ -26,6 +27,7 @@ class BriefStateRecord(models.Model):
     class Meta:
         db_table = "macro_brief_states"
         constraints = [
+            models.UniqueConstraint(fields=("brief_id", "owner"), name="macro_brief_owner_target"),
             models.CheckConstraint(condition=Q(brief_id__regex=r"\S"), name="macro_brief_id_named"),
             models.CheckConstraint(condition=Q(generation__gte=0), name="macro_brief_generation_nonnegative"),
         ]
@@ -175,3 +177,7 @@ class AuditTransition(models.Model):
         constraints = [
             models.CheckConstraint(condition=Q(kind__regex=r"\S"), name="macro_audit_kind_named"),
         ]
+
+
+# Registered with this app while keeping the context boundary a small module.
+from .binding_models import ContextAdmission, ThesisBriefBinding  # noqa: E402,F401

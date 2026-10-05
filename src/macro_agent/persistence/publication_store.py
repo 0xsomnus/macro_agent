@@ -1,7 +1,8 @@
 """Owner-scoped PostgreSQL adapter for the publication application boundary.
 
-Every governing writer locks its brief before reading versions. Only synthetic
-fixtures can register evidence here until a trusted ingestion path exists.
+Every governing writer locks its brief before reading versions. Bound briefs
+first lock the owner and thesis, and reject context pending fresh admission.
+Only synthetic fixtures can register source evidence until trusted ingestion.
 """
 
 from contextlib import contextmanager
@@ -92,12 +93,24 @@ class DjangoPublicationStore:
         require_text(brief_id, "brief_id")
         require_postgresql(self.using)
         with transaction.atomic(using=self.using):
+            # Bindings are immutable and can only be created with a new brief.
+            # An existing unbound fixture therefore cannot change lock protocols.
+            from .binding_models import ThesisBriefBinding
+            from .context_binding import lock_owner_thesis, validate_binding
+            binding = ThesisBriefBinding.objects.using(self.using).filter(
+                brief_id=brief_id, owner_id=self.actor_id).first()
+            thesis = None
+            if binding is not None:
+                thesis = lock_owner_thesis(self.actor_id, str(binding.thesis_id), self.using)
             brief = (BriefStateRecord.objects.using(self.using)
                      .select_for_update(of=("self",))
                      .filter(brief_id=brief_id, owner_id=self.actor_id, owner__is_active=True).first())
             if brief is None:
                 # Missing and foreign rows deliberately have the same result.
                 raise PermissionError("brief is unavailable to this actor")
+            if binding is not None:
+                binding.refresh_from_db(using=self.using)
+                validate_binding(binding, thesis, self.using)
             yield _PublicationTransaction(brief, self.actor_id, self.using)
 
     def bootstrap_synthetic(self, brief_id: str, dependencies: tuple[PinnedDependency, ...],
@@ -131,6 +144,10 @@ class DjangoPublicationStore:
         if not isinstance(pin, PinnedDependency) or pin.role not in REQUIRED_ROLES:
             raise ValueError("fixture version must pin a known governing role")
         with self.transaction(brief_id) as tx:
+            if pin.role in AUTHORITY_ROLES | {"exposure"}:
+                from .binding_models import ThesisBriefBinding
+                if ThesisBriefBinding.objects.using(self.using).filter(brief=tx.brief).exists():
+                    raise PermissionError("bound user context is resolved from immutable approved records")
             existing = DependencyVersion.objects.using(self.using).filter(
                 brief=tx.brief, role=pin.role, version_id=pin.version_id).first()
             if existing is not None:
@@ -156,6 +173,10 @@ class DjangoPublicationStore:
         if pin.role != expected_previous.role:
             raise ValueError("evidence transition must keep its dependency role")
         with self.transaction(brief_id) as tx:
+            if pin.role == "exposure":
+                from .binding_models import ThesisBriefBinding
+                if ThesisBriefBinding.objects.using(self.using).filter(brief=tx.brief).exists():
+                    raise PermissionError("bound paper exposure is admitted from immutable position records")
             state = tx.state()
             at = _clock(at)
             if at < state.changed_at or pin.known_at > at:

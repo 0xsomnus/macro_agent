@@ -1,0 +1,1400 @@
+openapi: 3.0.3
+info:
+  title: Macro Agent desk API
+  version: 1.0.0
+paths:
+  /api/v1/positions/{position_id}/:
+    get:
+      operationId: get_position
+      parameters:
+      - in: path
+        name: position_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - paper positions
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PositionDetail'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/positions/{position_id}/close/:
+    post:
+      operationId: close_position
+      description: Explicitly close the paper position after comparing its current
+        revision and thesis approval. This saves history only and does not send a
+        broker order.
+      parameters:
+      - in: path
+        name: position_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - paper positions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClosePositionRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PositionCommandResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/positions/{position_id}/history/:
+    get:
+      operationId: position_history
+      description: Read one consistent effective-time history snapshot. Each category
+        is capped at 100 records with explicit truncation. This is not durable known-at
+        replay or a complete export when truncated.
+      parameters:
+      - in: path
+        name: position_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - paper positions
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PositionHistory'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/positions/{position_id}/revisions/:
+    post:
+      operationId: revise_position
+      description: Save a complete new immutable paper declaration after comparing
+        the current position revision and reviewed thesis approval. A closed position
+        cannot be reopened.
+      parameters:
+      - in: path
+        name: position_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - paper positions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RevisePositionRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PositionCommandResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/theses/:
+    get:
+      operationId: list_theses
+      parameters:
+      - in: query
+        name: limit
+        schema:
+          type: integer
+        description: Page size from 1 to 100; default 20.
+      - in: query
+        name: offset
+        schema:
+          type: integer
+        description: Offset from 0 to 1000000; default 0.
+      tags:
+      - theses
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThesisList'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+    post:
+      operationId: create_thesis
+      description: Save exact thesis text and a user-supplied interpretation preview.
+        This creates a draft only.
+      tags:
+      - theses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateThesisRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThesisCommandResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/theses/{thesis_id}/:
+    get:
+      operationId: get_thesis
+      parameters:
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - theses
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThesisDetail'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/theses/{thesis_id}/approvals/:
+    post:
+      operationId: approve_thesis
+      description: Explicitly approve the exact displayed draft and interpretation
+        by version and digest.
+      parameters:
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - theses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApproveThesisRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThesisCommandResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/theses/{thesis_id}/history/:
+    get:
+      operationId: thesis_history
+      description: Read approval-effective-time history for the internal prototype.
+        Each history category is bounded to 100 records; truncated is explicit. This
+        is not full operational known-at replay.
+      parameters:
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - theses
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThesisHistory'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/theses/{thesis_id}/positions/:
+    get:
+      operationId: list_positions
+      parameters:
+      - in: query
+        name: limit
+        schema:
+          type: integer
+        description: Page size from 1 to 100; default 20.
+      - in: query
+        name: offset
+        schema:
+          type: integer
+        description: Offset from 0 to 1000000; default 0.
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - paper positions
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PositionList'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+    post:
+      operationId: create_position
+      description: Attach a user-declared paper position to the exact current thesis
+        approval. Missing mapping or sizing information remains explicit; no broker
+        execution or coverage is implied.
+      parameters:
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - paper positions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePositionRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PositionCommandResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/theses/{thesis_id}/proposals/:
+    post:
+      operationId: propose_thesis
+      description: Save a new immutable draft. Approved text and interpretation remain
+        active until explicit approval.
+      parameters:
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - theses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProposeThesisRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThesisCommandResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+components:
+  schemas:
+    Approval:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        text_version_id:
+          type: string
+          format: uuid
+        interpretation_version_id:
+          type: string
+          format: uuid
+        text_digest:
+          type: string
+        interpretation_digest:
+          type: string
+        approved_at:
+          type: string
+          format: date-time
+        digest:
+          type: string
+        revision:
+          type: integer
+      required:
+      - approved_at
+      - digest
+      - id
+      - interpretation_digest
+      - interpretation_version_id
+      - revision
+      - text_digest
+      - text_version_id
+    ApproveThesisRequest:
+      type: object
+      properties:
+        command_id:
+          type: string
+          format: uuid
+          minLength: 1
+          maxLength: 36
+        thesis_version_id:
+          type: string
+          format: uuid
+          minLength: 1
+          maxLength: 36
+        text_digest:
+          type: string
+          minLength: 64
+          maxLength: 64
+          pattern: ^[0-9a-f]{64}$
+        interpretation_version_id:
+          type: string
+          format: uuid
+          minLength: 1
+          maxLength: 36
+        interpretation_digest:
+          type: string
+          minLength: 64
+          maxLength: 64
+          pattern: ^[0-9a-f]{64}$
+        expected_revision:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 1
+          format: int64
+      required:
+      - command_id
+      - expected_revision
+      - interpretation_digest
+      - interpretation_version_id
+      - text_digest
+      - thesis_version_id
+      additionalProperties: false
+    Approved:
+      type: object
+      properties:
+        text_version:
+          $ref: '#/components/schemas/TextVersion'
+        interpretation:
+          $ref: '#/components/schemas/Interpretation'
+        approval:
+          $ref: '#/components/schemas/Approval'
+      required:
+      - approval
+      - interpretation
+      - text_version
+    AuditEvent:
+      type: object
+      properties:
+        sequence:
+          type: integer
+        kind:
+          type: string
+        at:
+          type: string
+          format: date-time
+        detail: {}
+      required:
+      - at
+      - detail
+      - kind
+      - sequence
+    ClosePositionRequest:
+      type: object
+      properties:
+        command_id:
+          type: string
+          format: uuid
+          minLength: 1
+          maxLength: 36
+        expected_revision:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 1
+          format: int64
+        expected_approval_id:
+          type: string
+          format: uuid
+          minLength: 1
+          maxLength: 36
+      required:
+      - command_id
+      - expected_approval_id
+      - expected_revision
+      additionalProperties: false
+    Command:
+      type: object
+      properties:
+        command_id:
+          type: string
+          format: uuid
+        kind:
+          $ref: '#/components/schemas/CommandKindEnum'
+        replayed:
+          type: boolean
+        result:
+          $ref: '#/components/schemas/CommandResult'
+        is_current_approval:
+          type: boolean
+      required:
+      - command_id
+      - is_current_approval
+      - kind
+      - replayed
+      - result
+    CommandKindEnum:
+      enum:
+      - create
+      - propose
+      - approve
+      type: string
+      description: |-
+        * `create` - create
+        * `propose` - propose
+        * `approve` - approve
+    CommandResult:
+      type: object
+      properties:
+        thesis_id:
+          type: string
+          format: uuid
+        thesis_version_id:
+          type: string
+          format: uuid
+        interpretation_version_id:
+          type: string
+          format: uuid
+        approval_id:
+          type: string
+          format: uuid
+          nullable: true
+        revision:
+          type: integer
+        accepted_at:
+          type: string
+          format: date-time
+      required:
+      - accepted_at
+      - approval_id
+      - interpretation_version_id
+      - revision
+      - thesis_id
+      - thesis_version_id
+    CreatePositionRequest:
+      type: object
+      properties:
+        command_id:
+          type: string
+          format: uuid
+          minLength: 1
+          maxLength: 36
+        expected_approval_id:
+          type: string
+          format: uuid
+          minLength: 1
+          maxLength: 36
+        position:
+          $ref: '#/components/schemas/PositionDeclarationRequest'
+      required:
+      - command_id
+      - expected_approval_id
+      - position
+      additionalProperties: false
+    CreateThesisRequest:
+      type: object
+      properties:
+        command_id:
+          type: string
+          format: uuid
+          minLength: 1
+          maxLength: 36
+        text:
+          type: string
+          minLength: 1
+          maxLength: 20000
+        interpretation:
+          $ref: '#/components/schemas/InterpretationInputRequest'
+      required:
+      - command_id
+      - interpretation
+      - text
+      additionalProperties: false
+    DirectionEnum:
+      enum:
+      - long
+      - short
+      type: string
+      description: |-
+        * `long` - long
+        * `short` - short
+    Draft:
+      type: object
+      properties:
+        text_version:
+          $ref: '#/components/schemas/TextVersion'
+        interpretation:
+          $ref: '#/components/schemas/Interpretation'
+      required:
+      - interpretation
+      - text_version
+    ErrorResponse:
+      type: object
+      properties:
+        detail:
+          type: string
+        errors: {}
+      required:
+      - detail
+    Interpretation:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        text_version_id:
+          type: string
+          format: uuid
+        drivers:
+          type: array
+          items:
+            type: string
+        horizon:
+          type: string
+          nullable: true
+        invalidation_signposts:
+          type: array
+          items:
+            type: string
+        known_at:
+          type: string
+          format: date-time
+          description: Provisional manual interpretation preparation time. This is
+            not a proved durable commit timestamp and does not establish full operational
+            known-at replay.
+        digest:
+          type: string
+        origin:
+          $ref: '#/components/schemas/OriginEnum'
+      required:
+      - digest
+      - drivers
+      - horizon
+      - id
+      - invalidation_signposts
+      - known_at
+      - origin
+      - text_version_id
+    InterpretationInputRequest:
+      type: object
+      properties:
+        drivers:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 1000
+          maxItems: 32
+        horizon:
+          type: string
+          nullable: true
+          minLength: 1
+          maxLength: 1000
+        invalidation_signposts:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 1000
+          maxItems: 32
+      required:
+      - drivers
+      - horizon
+      - invalidation_signposts
+      additionalProperties: false
+    MappingStatusEnum:
+      enum:
+      - user_declared_unverified
+      type: string
+      description: '* `user_declared_unverified` - user_declared_unverified'
+    MonitoringEnum:
+      enum:
+      - not_configured
+      type: string
+      description: '* `not_configured` - not_configured'
+    OriginEnum:
+      enum:
+      - user_supplied
+      type: string
+      description: '* `user_supplied` - user_supplied'
+    PositionCommand:
+      type: object
+      properties:
+        command_id:
+          type: string
+          format: uuid
+        kind:
+          $ref: '#/components/schemas/PositionCommandKindEnum'
+        replayed:
+          type: boolean
+        result:
+          $ref: '#/components/schemas/PositionCommandResult'
+        is_current_version:
+          type: boolean
+      required:
+      - command_id
+      - is_current_version
+      - kind
+      - replayed
+      - result
+    PositionCommandKindEnum:
+      enum:
+      - create
+      - revise
+      - close
+      type: string
+      description: |-
+        * `create` - create
+        * `revise` - revise
+        * `close` - close
+    PositionCommandResponse:
+      type: object
+      properties:
+        command:
+          $ref: '#/components/schemas/PositionCommand'
+        position:
+          $ref: '#/components/schemas/PositionDetail'
+      required:
+      - command
+      - position
+    PositionCommandResult:
+      type: object
+      properties:
+        position_id:
+          type: string
+          format: uuid
+        version_id:
+          type: string
+          format: uuid
+        revision:
+          type: integer
+        accepted_at:
+          type: string
+          format: date-time
+      required:
+      - accepted_at
+      - position_id
+      - revision
+      - version_id
+    PositionDeclarationRequest:
+      type: object
+      properties:
+        underlying:
+          type: string
+          minLength: 1
+          maxLength: 128
+        direction:
+          $ref: '#/components/schemas/DirectionEnum'
+        product_id:
+          type: string
+          nullable: true
+          minLength: 1
+          maxLength: 256
+        venue:
+          type: string
+          nullable: true
+          minLength: 1
+          maxLength: 128
+        expiry:
+          type: string
+          nullable: true
+          minLength: 10
+          pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}$
+          maxLength: 10
+        quote_currency:
+          type: string
+          nullable: true
+          minLength: 1
+          maxLength: 16
+        horizon:
+          type: string
+          nullable: true
+          minLength: 1
+          maxLength: 1000
+        quantity:
+          type: string
+          nullable: true
+          minLength: 1
+          description: Positive fixed decimal string, at most 28 digits total and
+            12 fractional places. Trailing zeroes are preserved; this is a declaration,
+            not sizing arithmetic.
+          pattern: ^(?:0|[1-9][0-9]{0,27})(?:\.[0-9]{1,12})?$
+          maxLength: 29
+        quantity_unit:
+          type: string
+          nullable: true
+          minLength: 1
+          maxLength: 64
+      required:
+      - direction
+      - expiry
+      - horizon
+      - product_id
+      - quantity
+      - quantity_unit
+      - quote_currency
+      - underlying
+      - venue
+      additionalProperties: false
+    PositionDetail:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        thesis_id:
+          type: string
+          format: uuid
+        revision:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        changed_at:
+          type: string
+          format: date-time
+        original_approval_id:
+          type: string
+          format: uuid
+        current_version:
+          $ref: '#/components/schemas/PositionVersion'
+        mapping_status:
+          $ref: '#/components/schemas/MappingStatusEnum'
+        monitoring:
+          $ref: '#/components/schemas/MonitoringEnum'
+      required:
+      - changed_at
+      - created_at
+      - current_version
+      - id
+      - mapping_status
+      - monitoring
+      - original_approval_id
+      - revision
+      - thesis_id
+    PositionHistory:
+      type: object
+      properties:
+        position:
+          $ref: '#/components/schemas/PositionDetail'
+        versions:
+          type: array
+          items:
+            $ref: '#/components/schemas/PositionVersion'
+        audit:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuditEvent'
+        history_limit:
+          type: integer
+        truncated:
+          type: boolean
+        replay_scope:
+          $ref: '#/components/schemas/PositionHistoryReplayScopeEnum'
+      required:
+      - audit
+      - history_limit
+      - position
+      - replay_scope
+      - truncated
+      - versions
+    PositionHistoryReplayScopeEnum:
+      enum:
+      - position_effective_time_history
+      type: string
+      description: '* `position_effective_time_history` - position_effective_time_history'
+    PositionList:
+      type: object
+      properties:
+        positions:
+          type: array
+          items:
+            $ref: '#/components/schemas/PositionDetail'
+        limit:
+          type: integer
+        offset:
+          type: integer
+        has_more:
+          type: boolean
+      required:
+      - has_more
+      - limit
+      - offset
+      - positions
+    PositionVersion:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        position_id:
+          type: string
+          format: uuid
+        parent_version_id:
+          type: string
+          format: uuid
+          nullable: true
+        reviewed_approval_id:
+          type: string
+          format: uuid
+        paper:
+          type: boolean
+        status:
+          $ref: '#/components/schemas/StatusEnum'
+        underlying:
+          type: string
+        direction:
+          $ref: '#/components/schemas/DirectionEnum'
+        product_id:
+          type: string
+          nullable: true
+        venue:
+          type: string
+          nullable: true
+        expiry:
+          type: string
+          nullable: true
+        quote_currency:
+          type: string
+          nullable: true
+        horizon:
+          type: string
+          nullable: true
+        quantity:
+          type: string
+          nullable: true
+        quantity_unit:
+          type: string
+          nullable: true
+        accepted_at:
+          type: string
+          format: date-time
+          description: Protected effective command time, not a measured durable commit
+            timestamp.
+        digest:
+          type: string
+        mapping_status:
+          $ref: '#/components/schemas/MappingStatusEnum'
+        missing_fields:
+          type: array
+          items:
+            type: string
+      required:
+      - accepted_at
+      - digest
+      - direction
+      - expiry
+      - horizon
+      - id
+      - mapping_status
+      - missing_fields
+      - paper
+      - parent_version_id
+      - position_id
+      - product_id
+      - quantity
+      - quantity_unit
+      - quote_currency
+      - reviewed_approval_id
+      - status
+      - underlying
+      - venue
+    ProposeThesisRequest:
+      type: object
+      properties:
+        command_id:
+          type: string
+          format: uuid
+          minLength: 1
+          maxLength: 36
+        text:
+          type: string
+          minLength: 1
+          maxLength: 20000
+        interpretation:
+          $ref: '#/components/schemas/InterpretationInputRequest'
+        expected_revision:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 1
+          format: int64
+      required:
+      - command_id
+      - expected_revision
+      - interpretation
+      - text
+      additionalProperties: false
+    RevisePositionRequest:
+      type: object
+      properties:
+        command_id:
+          type: string
+          format: uuid
+          minLength: 1
+          maxLength: 36
+        expected_approval_id:
+          type: string
+          format: uuid
+          minLength: 1
+          maxLength: 36
+        position:
+          $ref: '#/components/schemas/PositionDeclarationRequest'
+        expected_revision:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 1
+          format: int64
+      required:
+      - command_id
+      - expected_approval_id
+      - expected_revision
+      - position
+      additionalProperties: false
+    StatusEnum:
+      enum:
+      - open
+      - closed
+      type: string
+      description: |-
+        * `open` - open
+        * `closed` - closed
+    TextVersion:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        parent_version_id:
+          type: string
+          format: uuid
+          nullable: true
+        exact_text:
+          type: string
+        text_digest:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+      required:
+      - created_at
+      - exact_text
+      - id
+      - parent_version_id
+      - text_digest
+    ThesisCommandResponse:
+      type: object
+      properties:
+        command:
+          $ref: '#/components/schemas/Command'
+        thesis:
+          $ref: '#/components/schemas/ThesisDetail'
+      required:
+      - command
+      - thesis
+    ThesisDetail:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        revision:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        changed_at:
+          type: string
+          format: date-time
+        draft:
+          $ref: '#/components/schemas/Draft'
+        approved:
+          allOf:
+          - $ref: '#/components/schemas/Approved'
+          nullable: true
+        monitoring:
+          $ref: '#/components/schemas/MonitoringEnum'
+      required:
+      - approved
+      - changed_at
+      - created_at
+      - draft
+      - id
+      - monitoring
+      - revision
+    ThesisHistory:
+      type: object
+      properties:
+        thesis:
+          $ref: '#/components/schemas/ThesisDetail'
+        text_versions:
+          type: array
+          items:
+            $ref: '#/components/schemas/TextVersion'
+        interpretations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Interpretation'
+        approvals:
+          type: array
+          items:
+            $ref: '#/components/schemas/Approval'
+        audit:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuditEvent'
+        replay_scope:
+          $ref: '#/components/schemas/ThesisHistoryReplayScopeEnum'
+        history_limit:
+          type: integer
+        truncated:
+          type: boolean
+      required:
+      - approvals
+      - audit
+      - history_limit
+      - interpretations
+      - replay_scope
+      - text_versions
+      - thesis
+      - truncated
+    ThesisHistoryReplayScopeEnum:
+      enum:
+      - approval_effective_time_history
+      type: string
+      description: '* `approval_effective_time_history` - approval_effective_time_history'
+    ThesisList:
+      type: object
+      properties:
+        theses:
+          type: array
+          items:
+            $ref: '#/components/schemas/ThesisDetail'
+        limit:
+          type: integer
+        offset:
+          type: integer
+        has_more:
+          type: boolean
+      required:
+      - has_more
+      - limit
+      - offset
+      - theses
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid

@@ -4,7 +4,8 @@ Lock order is owner account, then thesis aggregate, then fresh immutable reads.
 The owner lock serializes command identities, including the first create. No
 model or external call belongs in these transactions. Times are effective
 command times sampled under protection, not measured PostgreSQL commit times.
-These records are not yet admitted into the publication dependency protocol.
+Bound synthetic briefs are invalidated atomically when approval changes; their
+committed inputs require a separate observed-availability admission.
 """
 
 from collections.abc import Callable
@@ -316,7 +317,11 @@ def approve_thesis(actor_id: str, thesis_id: str, command_id: str,
             raise ThesisConflict("stored draft failed integrity verification")
         if text_digest != text_value.text_digest or interpretation_digest != meaning_value.digest:
             raise ThesisConflict("approval must bind exact displayed text and interpretation")
+        from macro_agent.persistence.context_binding import lock_thesis_briefs
+        briefs = lock_thesis_briefs(thesis)
         at = _instant(clock, thesis)
+        if any(at < brief.changed_at for brief in briefs):
+            raise ThesisConflict("trusted clock precedes current publication state")
         approval = approve_exact(text_value, meaning_value, ApprovalRequest(
             str(uuid4()), actor_id, "user", thesis_version_id, text_digest,
             interpretation_version_id, interpretation_digest, at,
@@ -329,6 +334,8 @@ def approve_thesis(actor_id: str, thesis_id: str, command_id: str,
         )
         thesis.changed_at = at
         thesis.save(update_fields=("current_approval", "revision", "changed_at"))
+        from macro_agent.persistence.context_binding import invalidate_thesis_briefs
+        invalidate_thesis_briefs(thesis, at, "approval_changed")
         return _save_command(thesis, command_id, "approve", digest, at, approval.approval_id)
 
 

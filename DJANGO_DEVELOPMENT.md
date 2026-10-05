@@ -1,6 +1,6 @@
 # Run and inspect the Django foundation
 
-Updated 2026-10-05. Django and PostgreSQL are selected in [ADR 016](ADR/016-django-postgresql-foundation.md); [ADR 017](ADR/017-drf-and-openapi-boundary.md) selects DRF and generated OpenAPI. The foundation persists publication rules, exposes a restricted internal admin, and provides an authenticated exact thesis draft/approval API. [API_DEVELOPMENT.md](API_DEVELOPMENT.md) documents that journey. The TypeScript UI, monitoring connectors, and delivery worker remain to be implemented.
+Updated 2026-10-05. Django and PostgreSQL are selected in [ADR 016](ADR/016-django-postgresql-foundation.md); [ADR 017](ADR/017-drf-and-openapi-boundary.md) selects DRF and generated OpenAPI. The foundation persists publication rules, exposes a restricted internal admin, and provides authenticated thesis approval and paper-position APIs. [API_DEVELOPMENT.md](API_DEVELOPMENT.md) and [PAPER_POSITIONS.md](PAPER_POSITIONS.md) document that journey and committed-context admission. The TypeScript UI, monitoring connectors, and delivery worker remain to be implemented.
 
 ## Local setup
 
@@ -11,7 +11,7 @@ python3.13 -m venv .venv
 .venv/bin/python -m pip install --require-hashes -r requirements.lock
 ```
 
-The verification environment uses an isolated PostgreSQL 17 container named `macro-agent-postgres-dev`, bound to loopback. Its throwaway credentials and assigned port are in ignored `.local/db.env`. To restart that existing container:
+The earlier verification environment used an isolated PostgreSQL 17 container named `macro-agent-postgres-dev`, bound to loopback. Its throwaway credentials and assigned port are in ignored `.local/db.env`. Docker Desktop became unresponsive on 2026-10-05; its existing database was preserved. Current verification uses the isolated native fallback below. When Docker is available, restart its existing container with:
 
 ```sh
 docker start macro-agent-postgres-dev
@@ -20,7 +20,7 @@ docker port macro-agent-postgres-dev 5432/tcp
 
 Docker may assign a different port after restarting. Set `MACRO_DB_PORT` in `.local/db.env` to the loopback port printed by the second command before loading that file.
 
-For a fresh checkout, create a local PostgreSQL database and fill a copy of [.env.example](.env.example) at `.local/db.env`. Never point these setup or test commands at an existing trader database. The Django test runner creates and drops `test_macro_agent`; the synthetic setup gate requires an explicitly named development or test database.
+For a fresh checkout, create a local PostgreSQL database and fill a copy of [.env.example](.env.example) at `.local/db.env`. Never point these setup or test commands at an existing trader database. The Django test runner creates and drops the database named by `MACRO_TEST_DB_NAME` (default `test_macro_agent`); the synthetic setup gate requires an explicitly named development or test database. Load only the environment for the selected instance.
 
 ```sh
 set -a
@@ -35,17 +35,33 @@ set +a
 
 Local settings deliberately permit HTTP on loopback. Deployment settings require an explicit secret key and enable secure cookies, HTTPS redirection, and security middleware. Hosting, database TLS and least-privilege roles, proxy trust, rate limiting, and production session configuration need review before external use.
 
+## Isolated native fallback on macOS
+
+The current test runtime is PostgreSQL 17.11 from the official [Homebrew formula](https://formulae.brew.sh/formula/postgresql@17). No startup service is enabled. Its separate data cluster is `.local/pg-native`, with socket directory `.local/pg-socket` mode 0700, log `.local/pg-native.log` and environment `.local/native-db.env`. It has no TCP listener. Trust authentication is confined to this private local fixture socket; this is not a deployment authentication design. The project local settings reject arbitrary socket paths and non-private socket directory modes.
+
+For this existing checkout, start or stop that isolated cluster explicitly:
+
+```sh
+/opt/homebrew/opt/postgresql@17/bin/pg_ctl -D .local/pg-native -l .local/pg-native.log \
+  -o "-h '' -k $(pwd)/.local/pg-socket -p 55433 -c timezone=UTC" -w start
+/opt/homebrew/opt/postgresql@17/bin/pg_ctl -D .local/pg-native -m fast -w stop
+```
+
+Run only the needed start or stop command; do not reinitialize an existing cluster. On a fresh macOS checkout, install `postgresql@17`, create `.local/pg-socket` with mode 0700, and initialize the separate cluster with `/opt/homebrew/opt/postgresql@17/bin/initdb -D .local/pg-native -U macro_agent --auth-local=trust --auth-host=scram-sha-256 --encoding=UTF8 --locale=C`. Start it as above and create `macro_agent_native_dev` through that socket. Fill ignored `.local/native-db.env` with local settings, that database/user, absolute socket path, port 55433 and an empty password. The fixture setup gate is optional and explicit.
+
+For current verification, substitute `.local/native-db.env` for `.local/db.env` in the environment-loading example. Cluster state, sockets, credentials and logs remain ignored. Neither fallback nor container evidence proves production database permissions, source coverage or delivery.
+
 ## Verify the publication boundary
 
 ```sh
 .venv/bin/python -m unittest discover -s tests -v
-.venv/bin/python manage.py test macro_agent.persistence.tests macro_agent.theses.tests macro_agent.api.tests --noinput --verbosity 2
+.venv/bin/python manage.py test macro_agent.persistence.tests macro_agent.theses.tests macro_agent.positions.tests macro_agent.api.tests --noinput --verbosity 2
 .venv/bin/python manage.py makemigrations --check --dry-run
 ```
 
-The first command runs 95 framework-independent and SQLite laboratory tests. The PostgreSQL suites cover separate-connection races and snapshot consistency, real lock-contention probes, atomic publication/approval rollback, unchanged retry state, ownership, database mutation guards, Django session login, CSRF, strict JSON, and generated schema contracts. They refuse another database engine. The final verified count is recorded in [IMPLEMENTATION.md](IMPLEMENTATION.md).
+The first command runs 111 framework-independent and SQLite laboratory tests. The PostgreSQL suites cover separate-connection races and snapshot consistency, real lock-contention probes, atomic publication/approval/exposure rollback, committed-context admission, unchanged retry state, ownership, database mutation guards, Django session login, CSRF, strict JSON, and generated schema contracts. They refuse another database engine. The final verified count is recorded in [IMPLEMENTATION.md](IMPLEMENTATION.md).
 
-Every publication and evidence-head writer locks its brief before reading governing versions. Thesis commands lock their owner account then thesis before reading versions or sampling time. Reasoning occurs outside these transactions. Different briefs/accounts can progress concurrently. The thesis HTTP boundary derives its actor from the session; future worker and publication entry points must bind their actor to a reviewed authenticated principal as well.
+Every publication and evidence-head writer locks its brief before reading governing versions. Bound briefs first protect owner and thesis. Approval and exposure changes lock every affected brief in sorted order before sampling time. Reasoning occurs outside these transactions. Separate owners can progress concurrently; bound activity within an owner is conservatively serialized. Both HTTP boundaries derive their actor from the session; future workers must bind their actor to a reviewed authenticated principal as well.
 
 ## Read the records and database changes
 
@@ -61,10 +77,12 @@ Inspect [the readable audit](artifacts/postgresql-audit.md), [complete records](
 ```sh
 .venv/bin/python manage.py sqlmigrate macro_persistence 0001
 .venv/bin/python manage.py sqlmigrate macro_persistence 0002
+.venv/bin/python manage.py sqlmigrate macro_persistence 0003
+.venv/bin/python manage.py sqlmigrate macro_positions 0001
 ```
 
 Immutable history and scoped foreign keys are enforced by PostgreSQL constraints and triggers. Stable intent identities and terminal states are protected as well. These do not authenticate raw SQL callers or enforce the application lock protocol. Ordinary admin edits cannot bypass the application rules.
 
-## Thesis API and next integration
+## Desk API and next integration
 
-Use [the thesis API runbook](API_DEVELOPMENT.md) to inspect exact drafts, explicit approval, immutable command receipts, and private history. Its manually supplied interpretation is not an agent compiler, and its protected timestamps do not prove durable commit times. Approval records have not yet entered publication governing pins. Integrate those changes atomically through ADR 015 before attaching paper exposure and evolving event briefs. Preserve the [implementation limits](IMPLEMENTATION.md) and [roadmap gates](ROADMAP.md). This foundation does not establish live desk coverage or external-pilot readiness.
+Use [the API runbook](API_DEVELOPMENT.md) and [paper-position contracts](PAPER_POSITIONS.md) to inspect exact drafts, approval, paper declarations, immutable receipts and private history. [The desk audit](artifacts/paper-desk-audit.md) demonstrates real user-context admission into fictional event briefs and atomic invalidation. Manual interpretation is not an agent compiler; input observations and effective timestamps do not measure exact admission commit time. Next implement a thin trader journey and permitted continuous monitoring. Preserve the [implementation limits](IMPLEMENTATION.md) and [roadmap gates](ROADMAP.md). This foundation does not establish live desk coverage or external-pilot readiness.

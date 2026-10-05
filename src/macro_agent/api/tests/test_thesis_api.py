@@ -320,12 +320,17 @@ class ThesisAPITests(TransactionTestCase):
         self.assertEqual(response.status_code, 409)
         self.assertEqual(ThesisRecord.objects.count(), 1)
 
-    def test_authenticated_schema_covers_only_explicit_thesis_contracts(self):
+    def test_authenticated_schema_covers_explicit_thesis_contracts(self):
         response = self.client.get("/api/v1/schema/")
         self.assertEqual(response.status_code, 200, response.content)
         schema = response.json()
         validate_schema(schema)
-        self.assertEqual(len(schema["paths"]), 5)
+        self.assertTrue({
+            COLLECTION, COLLECTION + "{thesis_id}/",
+            COLLECTION + "{thesis_id}/proposals/",
+            COLLECTION + "{thesis_id}/approvals/",
+            COLLECTION + "{thesis_id}/history/",
+        }.issubset(schema["paths"]))
         self.assertNotIn(SESSION, schema["paths"])
         for name in ("CreateThesisRequest", "ProposeThesisRequest", "ApproveThesisRequest", "InterpretationInputRequest"):
             self.assertEqual(schema["components"]["schemas"][name]["additionalProperties"], False)

@@ -1,6 +1,6 @@
-# Python core, Django persistence, and thesis API
+# Python core, Django persistence, and desk API
 
-Updated 2026-10-05. Independent domain/application rules have a Django/PostgreSQL adapter. [ADR 016](ADR/016-django-postgresql-foundation.md) records the approved framework, ORM, migrations, authentication, sessions, and internal admin. [ADR 017](ADR/017-drf-and-openapi-boundary.md) records the delegated DRF/generated OpenAPI selection. The authenticated thesis draft/approval API exists; live monitoring and the trader UI remain application work.
+Updated 2026-10-05. Independent domain/application rules have a Django/PostgreSQL adapter. [ADR 016](ADR/016-django-postgresql-foundation.md) records the approved framework, ORM, migrations, authentication, sessions, and internal admin. [ADR 017](ADR/017-drf-and-openapi-boundary.md) records the delegated DRF/generated OpenAPI selection. Authenticated thesis approval and manual paper-position APIs exist. Committed approval/exposure records enter protected synthetic publication context; live monitoring and the trader UI remain application work.
 
 ## Inspectable modules
 
@@ -8,6 +8,7 @@ Updated 2026-10-05. Independent domain/application rules have a Django/PostgreSQ
 | --- | --- |
 | [models.py](src/macro_agent/domain/models.py) | Immutable exact thesis text, meaning, events, context snapshots, runtime validation, and hashes |
 | [thesis.py](src/macro_agent/domain/thesis.py) | Owner approval binds exact text and interpretation; trusted actor and clock required |
+| [exposure.py](src/macro_agent/domain/exposure.py) | Immutable paper declarations, exact sizing strings, explicit gaps and terminal closure |
 | [time.py](src/macro_agent/domain/time.py) | Public availability, actual receipt, durable availability, UTC handling, and operational replay |
 | [routing.py](src/macro_agent/domain/routing.py) | Investigation and notice eligibility, uncertain screening, severe surprises, and fixture accumulation with offsets |
 | [publication.py](src/macro_agent/domain/publication.py) | Supported factual notice validation, dependency pins, currentness, and publication generation |
@@ -16,15 +17,18 @@ Updated 2026-10-05. Independent domain/application rules have a Django/PostgreSQ
 | [persistence/models.py](src/macro_agent/persistence/models.py) | Owner-scoped versions, heads, assessments, current pointer, outbox intent, work, and audit records |
 | [persistence/publication_store.py](src/macro_agent/persistence/publication_store.py) | PostgreSQL brief lock, atomic publication, correction, retries, and local acknowledgement |
 | [persistence/inspection.py](src/macro_agent/persistence/inspection.py) | Fully materialized owner-scoped report from a read-only repeatable-read snapshot |
+| [persistence/context_binding.py](src/macro_agent/persistence/context_binding.py) | Committed approval/exposure admission, pending-context guards and atomic invalidation |
 | [persistence/admin.py](src/macro_agent/persistence/admin.py) | Read-only domain inspection, scoped to the current account |
 | [web/models.py](src/macro_agent/web/models.py) and [web/settings.py](src/macro_agent/web/settings.py) | UUID Django accounts and explicit application settings |
 | [theses/models.py](src/macro_agent/theses/models.py) | Private thesis aggregates and immutable exact text, manual meaning, approvals, receipts, and audit |
 | [theses/service.py](src/macro_agent/theses/service.py) | Protected draft/proposal/approval commands, exact hashes, current disposition, and coherent history |
 | [theses/admin.py](src/macro_agent/theses/admin.py) | Read-only owner-scoped thesis inspection |
+| [positions/service.py](src/macro_agent/positions/service.py) and [positions/representation.py](src/macro_agent/positions/representation.py) | Protected attachment/revision/closure, complete exposure book and consistent private history |
 | [api/parsers.py](src/macro_agent/api/parsers.py) and [api/serializers.py](src/macro_agent/api/serializers.py) | Bounded strict JSON and explicit wire/schema definitions |
 | [api/views.py](src/macro_agent/api/views.py) and [web/session_views.py](src/macro_agent/web/session_views.py) | Session-derived authority, CSRF-protected commands, and private thesis OpenAPI |
+| [api/position_serializers.py](src/macro_agent/api/position_serializers.py) and [api/position_views.py](src/macro_agent/api/position_views.py) | Strict paper-position commands and generated schema |
 
-Domain values remain independent Python contracts. The selected HTTP contracts are the explicit DRF serializers/routes and generated [thesis OpenAPI](artifacts/thesis-openapi.yaml), not every planned entity. The original disposable [spike](tools/contract_spike.py) remains separate. Application modules do not import laboratory tools.
+Domain values remain independent Python contracts. The current HTTP contracts are the explicit DRF serializers/routes and generated [desk OpenAPI](artifacts/desk-openapi.yaml), not every planned entity. The earlier [thesis-only schema](artifacts/thesis-openapi.yaml) records the prior increment. The original disposable [spike](tools/contract_spike.py) remains separate. Application modules do not import laboratory tools.
 
 ## Thesis approval evidence
 
@@ -34,11 +38,21 @@ The authenticated JSON journey saves an unapproved exact-text draft and a manual
 
 [API_DEVELOPMENT.md](API_DEVELOPMENT.md) explains routes, approval requests, and replay limits. The [readable thesis trace](artifacts/thesis-audit.md), [complete synthetic records](artifacts/thesis-audit.json), and [generated SQL](artifacts/thesis-0001.sql) make this increment inspectable. The trace is sequential; separate-connection tests establish concurrency. The manual preview is labeled `user_supplied`; it does not establish compilation, factual challenge, or investment analysis.
 
-Thesis history uses a read-only repeatable-read snapshot, caps each category at 100 records, and exposes truncation. `approved_at` and the preview's provisional `known_at` describe effective command/preparation time, not measured durable commit time. Before monitoring consumes these records, establish durable availability and admit approval changes into publication pins atomically through ADR 015. The API explicitly reports `monitoring: not_configured`.
+Thesis history uses a read-only repeatable-read snapshot, caps each category at 100 records, and exposes truncation. `approved_at` and the preview's provisional `known_at` describe effective command/preparation time, not measured durable commit time. The synthetic admission described below separately observes committed user inputs and updates publication pins through ADR 015. The API explicitly reports `monitoring: not_configured`.
+
+## Paper positions and committed context
+
+[PAPER_POSITIONS.md](PAPER_POSITIONS.md) records the agreed declaration, routes, gaps and authority. Immutable versions preserve instrument, direction, optional quantity/unit and horizon; mapping remains user-declared and unverified. Closure is terminal and old retries return current disposition. SQL guards protect history, parent/version progression and scope. Owner-scoped history preserves accepted transition order when clocks tie. The internal limit is 200 lifetime position records per thesis, including closed records; history caps at 100 with visible truncation.
+
+All bound publication operations protect owner, thesis and brief. Approval/exposure changes protect all affected brief rows in sorted order before sampling the trusted clock. They atomically mark context pending, clear current assessments, cancel pending notices and supersede obsolete pending reassessment work. Publication and local acknowledgement reject pending context; original decisions remain historical. A draft proposal preserves approved authority and its current brief.
+
+Synthetic enrollment and refresh require an outermost transaction. They resolve already committed approved text, meaning, approval and the complete exposure book, verify hashes and persist full resolved inputs with four context pins. The twelve other governing roles remain fictional. First observations of immutable inputs remain pinned; original approved hashes/preparation times are preserved. `input_observed_at` witnesses committed input availability, while `admission_effective_at` does not measure exact admission commit time. Full operational activation replay remains unproven.
+
+The [readable desk trace](artifacts/paper-desk-audit.md), [complete records](artifacts/paper-desk-audit.json), [position SQL](artifacts/positions-0001.sql) and [binding SQL](artifacts/postgresql-0003.sql) expose this increment. [Binding tests](src/macro_agent/persistence/tests/test_binding.py) force both approval/publication and exposure/publication orderings, pending guards, admission rollback and owner scope. [Position tests](src/macro_agent/positions/tests/test_records.py) verify closure/revision races, clock sampling after every protection, coherent read-only history and mutation guards. [API tests](src/macro_agent/api/tests/test_positions_api.py) cover actual sessions/CSRF, strict declarations, authority, retries and generated contracts.
 
 ## Publication evidence
 
-The [Django adapter](src/macro_agent/persistence/publication_store.py) locks the brief row before reading any governing version. Evidence changes use that same lock and exact expected-version checks. Every transition atomically persists assessment history, publication state, notification intent, audit, and reassessment work. Different briefs can progress concurrently. Trusted runtime clocks are sampled after the protected read.
+The [Django adapter](src/macro_agent/persistence/publication_store.py) locks the brief row before reading any governing version. Bound briefs first protect owner and thesis and validate admitted context. Evidence changes use that same ordering and exact expected-version checks. Every transition atomically persists assessment history, publication state, notification intent, audit, and reassessment work. Separate owners can progress concurrently; the conservative owner lock serializes bound activity within an account. Trusted runtime clocks are sampled after the protected read.
 
 Inputs come from [fictional recorded fixtures](fixtures/pilot.json), translated by [domain_fixture.py](tools/domain_fixture.py). Their source contract and every governing dependency are pinned; they establish mechanics, not permitted live source coverage.
 
@@ -61,15 +75,15 @@ python3 tools/domain_demo.py --output artifacts/publication-audit.json --report 
 
 ## Boundaries and next work
 
-- Django accounts, sessions, restricted admin, and durable user approval exist. The thesis API derives identity from its authenticated session. Future worker and publication entry points must do the same through reviewed authority. Entitlements, approval admission into publication, and authorized production head creation remain application work. Synthetic bootstrap and version registration are explicitly gated; they are not approval or ingestion endpoints.
-- PostgreSQL stores publication payloads/pins plus separate exact thesis text, manual interpretations, and approvals. Complete source content and canonical knowledge still need durable version records. Publication fixtures still supply those inputs and thesis pins; hashes alone do not provide complete production replay.
+- Django accounts, sessions, restricted admin, durable user approval and manual paper declarations exist. Both APIs derive identity from their authenticated session. Future worker and publication entry points must do the same through reviewed authority. Production entitlements, enrollment and trusted ingestion remain application work. Synthetic bootstrap and version registration are explicitly gated; bound user context cannot be overridden with fixture hashes.
+- PostgreSQL stores publication payloads/pins, separate exact thesis text, manual interpretations, approvals, paper versions and resolved context admissions. Complete source content and canonical knowledge still need durable version records. Fictional source/macro inputs and conservative observation timing do not provide complete production replay.
 - Heads are scoped to each brief. Shared correction fan-out across users/briefs, typed revision lineage, live receipt capture, and connector rights are not implemented. Known-at ordering and activation history do not validate source revision lineage. Before scaling head changes, replace audit-JSON history scans with reviewed typed activation/lineage records.
 - Exact structured facts are checked against source fields. Source truth and natural-language entailment are separate. Portfolio effects remain unresolved; no model analysis or trade recommendation is generated.
-- Accumulation weights are synthetic, not calibrated thresholds. Agent compilation and rough-thesis conversations, paper exposure, morning briefs, counter-analysis, and the TypeScript UI remain required. The current manual interpretation endpoint does not replace them.
+- Accumulation weights are synthetic, not calibrated thresholds. Agent compilation and rough-thesis conversations, validated exposure mapping, morning briefs, counter-analysis, and the TypeScript UI remain required. Manual interpretation and paper declaration endpoints do not replace them.
 - Local delivery acknowledgement does not establish worker leasing, external send/retry behavior, or recall. Real channels need separate tests and linked corrections after acceptance.
 - There are zero model calls and spend. Internal BYOK, aggregate budgets, source health, and validated coverage remain required before a usable desk pilot.
 
-Connect approved thesis versions and attached paper exposure to the publication protocol, then add the thin web journey and permitted continuous monitoring. Worker/queue, frontend/client tooling, hosting, and providers remain open. Retain [ROADMAP.md](ROADMAP.md) gates.
+Next add the thin web journey and a permitted continuous source slice, while preserving global macro context and useful thesis challenge. Worker/queue, frontend/client tooling, hosting, and providers remain open. Retain [ROADMAP.md](ROADMAP.md) gates.
 
 ## Verification, 2026-10-03
 
@@ -86,3 +100,11 @@ Migrations 0001 and 0002 applied to an isolated PostgreSQL 17 development databa
 All 160 distinct tests pass: 95 core/laboratory, 20 PostgreSQL publication, 22 PostgreSQL thesis record/service, and 23 PostgreSQL API tests. The first combined database run passed 63 tests; two additional approval-versus-proposal races then passed with the complete 22-test thesis suite. Each race observes the actual waiting PostgreSQL backend before releasing the winner. Both orderings reject the stale command without sampling its clock or adding history. Concurrent history inspection preserves its prior snapshot while a proposal and approval commit through another connection.
 
 The new thesis migration applied to the isolated PostgreSQL 17 development database and fresh test databases. Django checks and migration-state comparison pass. Generated thesis-only OpenAPI validates without warnings, with portable digest patterns and strict input objects. The synthetic approval trace preserves exact text, rejects stale approval, reports the older retry as non-current, and matches later read-only inspection. Independent review recomputed all stored text, interpretation, and approval hashes. The increment makes zero model/provider calls and does not establish live monitoring, operational known-at replay, deployed security configuration, or external delivery.
+
+## Paper-position verification, 2026-10-05
+
+All 247 distinct tests pass: 111 independent core/laboratory tests and 136 PostgreSQL integration tests, comprising 20 publication, 23 context-binding, 22 thesis records, 25 position records and 46 API tests. Independent connections observe actual server lock waits before releasing winners, including an exposure writer waiting on the final bound brief before clock sampling. Equal-time position history follows immutable accepted order.
+
+Docker Desktop became unresponsive during verification. An isolated PostgreSQL 17.11 instance now runs with no TCP listener and a private project-local Unix socket; existing Docker data was preserved. [DJANGO_DEVELOPMENT.md](DJANGO_DEVELOPMENT.md) documents the fallback. This local evidence does not establish deployed security, continuous coverage, exact admission commit time or external delivery.
+
+Migrations applied successfully and migration-state comparison reports no changes. Django checks, dependency compatibility and generated desk OpenAPI validation pass without schema warnings. Local settings reject a remote host, arbitrary socket path and non-private socket mode. Read-only inspection matches all final desk records; exact text, interpretation, approval, exposure-book and position hashes were independently recomputed. Markdown links/fences/punctuation and whitespace checks pass. The sequential demonstration uses zero model/provider calls or spend; it does not substitute for the separate-connection race tests.

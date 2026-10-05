@@ -1,5 +1,9 @@
 # Domain model
 
+Implementation update, 2026-10-05: [PAPER_POSITIONS.md](PAPER_POSITIONS.md) specifies immutable manual declarations with instrument, direction, optional quantity/unit and horizon, reviewed approval provenance, explicit mapping gaps and terminal closure. Positions belong to a thesis aggregate while preserving the approval reviewed for each version. The full book includes closed records with status visible; it never silently truncates open exposure. Mapping remains `user_declared_unverified`. Quantity is a declaration, not P&L or risk arithmetic.
+
+`ThesisBriefBinding` records pending/ready admission state for protected synthetic publication. Immutable `ContextAdmission` stores exact resolved approved text, interpretation, approval and complete exposure content with governing pins. Approval/exposure changes clear obsolete current output and pending notices atomically. Its committed-input observation witness is distinct from command/preparation times and exact durable admission commit time. These implementation records do not collapse the three truth stores or establish permitted live coverage.
+
 ## Three kinds of state
 
 | Aggregate | Owner | Mutation rule |

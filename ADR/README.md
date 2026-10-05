@@ -23,3 +23,5 @@ These records explain settled choices and rejected alternatives. Updated 2026-10
 | [017](017-drf-and-openapi-boundary.md) | Explicit DRF serializers/APIViews, generated drf-spectacular OpenAPI, strict JSON, and session approval authority |
 
 The language arrangement is accepted in ADR 014 after [STACK_OPTIONS.md](../STACK_OPTIONS.md) review. ADR 016 selects Django/PostgreSQL and Django ORM/migrations with authentication, sessions, and internal admin. ADR 017 selects DRF with drf-spectacular-generated OpenAPI. Frontend and TypeScript client/validator tooling, durable worker/queue, hosting, and model providers remain unselected.
+
+[Paper positions and committed-context admission](../PAPER_POSITIONS.md) implement the existing authority and publication decisions. Their synthetic trace is implementation evidence, not a new source-rights, worker, provider or replay guarantee.

@@ -4,8 +4,8 @@ from django.contrib import admin
 from django.core.exceptions import PermissionDenied
 
 from .models import (AssessmentRecord, AuditTransition, BriefStateRecord, BriefVersion,
-                     CurrentAssessment, DependencyHead, DependencyVersion, NotificationIntent,
-                     ReassessmentWork)
+                     ContextAdmission, CurrentAssessment, DependencyHead, DependencyVersion,
+                     NotificationIntent, ReassessmentWork, ThesisBriefBinding)
 
 
 class OwnerReadonlyAdmin(admin.ModelAdmin):
@@ -49,5 +49,6 @@ class BriefAdmin(OwnerReadonlyAdmin):
 
 
 for model in (AssessmentRecord, AuditTransition, BriefVersion, CurrentAssessment,
-              DependencyHead, DependencyVersion, NotificationIntent, ReassessmentWork):
+              DependencyHead, DependencyVersion, NotificationIntent, ReassessmentWork,
+              ThesisBriefBinding, ContextAdmission):
     admin.site.register(model, OwnerReadonlyAdmin)

@@ -1,6 +1,6 @@
-# Run and inspect thesis approval
+# Run and inspect the desk API
 
-Updated 2026-10-05. [ADR 017](ADR/017-drf-and-openapi-boundary.md) selects DRF and drf-spectacular through delegated implementation judgment. Start with [Django setup](DJANGO_DEVELOPMENT.md). This internal API persists exact drafts, manual interpretation previews, explicit user approval, and private history. It does not configure monitoring.
+Updated 2026-10-05. [ADR 017](ADR/017-drf-and-openapi-boundary.md) selects DRF and drf-spectacular through delegated implementation judgment. Start with [Django setup](DJANGO_DEVELOPMENT.md). This internal API persists exact drafts, manual interpretation previews, explicit user approval, paper declarations and private history. [PAPER_POSITIONS.md](PAPER_POSITIONS.md) specifies attachment/revision/closure and synthetic publication context. It does not configure monitoring.
 
 ## Session and authority
 
@@ -16,9 +16,9 @@ Create an account through Django's existing operator tools. There is no public r
 | POST | `/api/v1/theses/{id}/proposals/` | Save a new draft without changing the approval |
 | POST | `/api/v1/theses/{id}/approvals/` | Approve the exact displayed draft and interpretation |
 | GET | `/api/v1/theses/{id}/history/` | Read one consistent, bounded history snapshot |
-| GET | `/api/v1/schema/` | Read the authenticated thesis OpenAPI document |
+| GET | `/api/v1/schema/` | Read the authenticated desk OpenAPI document |
 
-Session operations use ordinary Django views with explicit CSRF protection. They are documented here and are outside the generated thesis schema. The schema describes the implemented DRF serializers and routes; TypeScript client generation remains open. API responses are marked non-cacheable. Session errors and CSRF failures may use Django's ordinary responses, including HTML; a UI must handle HTTP status before assuming JSON.
+Session operations use ordinary Django views with explicit CSRF protection. They are documented here and are outside the generated desk schema. The schema describes the implemented DRF serializers and routes; TypeScript client generation remains open. API responses are marked non-cacheable. Session errors and CSRF failures may use Django's ordinary responses, including HTML; a UI must handle HTTP status before assuming JSON.
 
 For local HTTP testing, keep cookies and credentials in the ignored `.local/` directory. Fetch identity first:
 
@@ -74,9 +74,9 @@ Only UTF-8 `application/json` is accepted. Requests are capped at 128 KiB; unkno
 
 History reads use a PostgreSQL read-only repeatable-read transaction. Each category is capped at its oldest 100 records and `truncated` reports omitted records; current detail still shows the latest pointers. Complete cursor pagination is required before external use. This bounded endpoint is not a complete export when truncated.
 
-`approved_at`, `accepted_at`, and the manual preview's provisional `known_at` record effective times sampled inside a protected transaction. They are not measured durable commit timestamps. `replay_scope: approval_effective_time_history` makes that distinction visible. Durable-availability evidence and atomic admission into publication pins remain required before monitoring consumes these approvals.
+`approved_at`, `accepted_at`, and the manual preview's provisional `known_at` record effective times sampled inside a protected transaction. They are not measured durable commit timestamps. `replay_scope: approval_effective_time_history` makes that distinction visible. The synthetic publication adapter separately observes committed inputs and atomically admits their context pins; exact admission commit time and full operational activation replay remain unproven.
 
-Human commands lock the owner account first, then the existing thesis when present, and only then read governing versions and sample the trusted clock. Initial creation samples time under the owner lock before inserting its new aggregate. The owner lock serializes command identity across that account, including concurrent creates. It is a deliberate initial tradeoff for low-frequency manual writes; model reasoning and network calls must remain outside these transactions. Different accounts can progress independently.
+Human commands lock the owner account first, then the existing thesis when present. Approval changes additionally protect every bound brief before sampling time; position commands also protect their existing position. Initial thesis creation samples time under the owner lock before inserting its new aggregate. The owner lock serializes command identity and bound publication within that account. It is a deliberate conservative tradeoff; model reasoning and network calls must remain outside these transactions. Different accounts can progress independently.
 
 Read-only internal administration exposes the new records without a second write path. PostgreSQL constraints and triggers protect immutable history and scoped references. They do not authenticate raw database clients or replace the application lock protocol.
 
@@ -85,8 +85,8 @@ Read-only internal administration exposes the new records without a second write
 With the local environment loaded, run:
 
 ```sh
-.venv/bin/python manage.py test macro_agent.persistence.tests macro_agent.theses.tests macro_agent.api.tests --noinput --verbosity 2
-.venv/bin/python manage.py spectacular --file artifacts/thesis-openapi.yaml --validate --fail-on-warn
+.venv/bin/python manage.py test macro_agent.persistence.tests macro_agent.theses.tests macro_agent.positions.tests macro_agent.api.tests --noinput --verbosity 2
+.venv/bin/python manage.py spectacular --file artifacts/desk-openapi.yaml --validate --fail-on-warn
 .venv/bin/python manage.py sqlmigrate macro_theses 0001
 .venv/bin/python tools/thesis_demo.py --output artifacts/thesis-audit.json --report artifacts/thesis-audit.md
 ```
@@ -97,4 +97,4 @@ The demonstration requires the synthetic gate and a development/test database. I
 .venv/bin/python tools/thesis_demo.py --inspect-only --output .local/thesis-inspection.json
 ```
 
-Inspect [the concise trace](artifacts/thesis-audit.md), [the full synthetic records](artifacts/thesis-audit.json), [the generated schema](artifacts/thesis-openapi.yaml), and [migration SQL](artifacts/thesis-0001.sql). The demo is sequential; PostgreSQL races, real session login, CSRF, and cross-account isolation are established by the integration tests. [IMPLEMENTATION.md](IMPLEMENTATION.md) records verified counts and remaining scope.
+Inspect [the thesis trace](artifacts/thesis-audit.md), [the full thesis records](artifacts/thesis-audit.json), [the current desk schema](artifacts/desk-openapi.yaml), [migration SQL](artifacts/thesis-0001.sql), and [the paper desk trace](artifacts/paper-desk-audit.md). The demos are sequential; PostgreSQL races, real session login, CSRF, and cross-account isolation are established by the integration tests. [IMPLEMENTATION.md](IMPLEMENTATION.md) records verified counts and remaining scope. The earlier thesis-only OpenAPI artifact is historical.

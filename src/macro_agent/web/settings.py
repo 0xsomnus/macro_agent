@@ -21,7 +21,8 @@ INSTALLED_APPS = [
     "django.contrib.admin", "django.contrib.auth", "django.contrib.contenttypes",
     "django.contrib.sessions", "django.contrib.messages", "django.contrib.staticfiles",
     "macro_agent.web.apps.WebConfig", "macro_agent.persistence.apps.PersistenceConfig",
-    "macro_agent.theses.apps.ThesesConfig", "rest_framework", "drf_spectacular",
+    "macro_agent.theses.apps.ThesesConfig", "macro_agent.positions.apps.PositionsConfig",
+    "rest_framework", "drf_spectacular",
 ]
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -87,7 +88,7 @@ REST_FRAMEWORK = {
     "EXCEPTION_HANDLER": "macro_agent.api.views.exception_handler",
 }
 SPECTACULAR_SETTINGS = {
-    "TITLE": "Macro Agent thesis API",
+    "TITLE": "Macro Agent desk API",
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
     "SERVE_PERMISSIONS": ["rest_framework.permissions.IsAuthenticated"],
