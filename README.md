@@ -1,37 +1,69 @@
-# Macro Agent handoff pack
+# Macro Agent
 
-Status: approved product direction, paper-pilot contracts, and selected application foundation. Updated 2026-10-05: Python owns the API/research workers and TypeScript the web UI. Django with PostgreSQL, ORM, migrations, authentication, sessions, and internal admin is selected in [ADR 016](ADR/016-django-postgresql-foundation.md). [ADR 017](ADR/017-drf-and-openapi-boundary.md) records the delegated selection of explicit DRF serializers/APIViews and generated drf-spectacular OpenAPI. The independent Python core and publication-ordering evidence exist; each application increment and live readiness require their own evidence. Frontend/client tooling, queue, hosting, and providers remain open. Start here, then read `AGENTS.md` before changing the design.
+Macro Agent is being built as a research desk for solo discretionary macro and fundamental traders. Its goal is to follow developments that affect your theses and open trades, explain their possible impact, provide morning briefs and counter-analysis, and help you improve your reasoning. You retain investment judgment and execution.
 
-## Purpose and reading order
+## Current status
 
-| Read | Document | Question answered |
-| --- | --- | --- |
-| 1 | [PRODUCT_DOCTRINE.md](PRODUCT_DOCTRINE.md) | What behavior is non-negotiable? |
-| 2 | [PRODUCT_SPEC.md](PRODUCT_SPEC.md) | What does the first user experience prove? |
-| 3 | [DOMAIN_MODEL.md](DOMAIN_MODEL.md) and [EVENT_ONTOLOGY.md](EVENT_ONTOLOGY.md) | What state and events exist? |
-| 4 | [THESIS_ENGINE.md](THESIS_ENGINE.md) | How are theses compiled, challenged, and amended? |
-| 5 | [MONITORING_AND_SOURCES.md](MONITORING_AND_SOURCES.md) | What is watched, from where, and at what cost? |
-| 6 | [ARCHITECTURE.md](ARCHITECTURE.md), [AGENT_RUNTIME.md](AGENT_RUNTIME.md), [EXECUTION_GRAPHS.md](EXECUTION_GRAPHS.md) | How does work move through the system? |
-| 7 | [LEARNING_AND_EVALS.md](LEARNING_AND_EVALS.md) and [SAFETY_AND_REGULATORY_BOUNDARIES.md](SAFETY_AND_REGULATORY_BOUNDARIES.md) | How is quality measured and authority bounded? |
-| 8 | [ROADMAP.md](ROADMAP.md) and [ADR/](ADR/) | What is next, deferred, and locked? |
-| 9 | [AUDIT_RESOLUTION.md](AUDIT_RESOLUTION.md) and [DEVELOPMENT_START.md](DEVELOPMENT_START.md) | Which audit decisions were accepted, and what does the first increment prove? |
-| 10 | [IMPLEMENTATION.md](IMPLEMENTATION.md), [DJANGO_DEVELOPMENT.md](DJANGO_DEVELOPMENT.md), [API_DEVELOPMENT.md](API_DEVELOPMENT.md), and [PAPER_POSITIONS.md](PAPER_POSITIONS.md) | Which modules exist, how are they audited, and how are approval and paper attachment run? |
+This is an early backend prototype. The terminal walkthrough lets you enter your own thesis, supply its interpretation manually, approve both, attach a paper trade, and see a brief generated from recorded fictional news. Thesis and position history is private and approval is explicit.
 
-## One sentence
+Live news monitoring, model analysis, morning briefs, external alerts and the trader UI are still to be built. The walkthrough tests the workflow and its safeguards; it does not judge the quality of your thesis or generate investment analysis. No model API key is needed.
 
-Macro Agent is a continuous research and monitoring desk for solo and retail discretionary macro and fundamental traders: it connects news and accumulating developments to approved theses and attached trades, provides morning briefs, analysis and counter-analysis, and helps the trader refine or amend their reasoning while they retain judgment and execution.
+## Set up locally
 
-The paper pilot supports ES, NQ, XAU, DXY-linked trades, EUR/USD, USD/JPY, and USD/CNH, subject to source and instrument validation. Global macro context remains in scope even where direct instrument support is absent. The actual venue and traded instrument must be identified for each exposure. Individual equities and supported valuation are future core capabilities. Automated outcome learning is deferred; the pilot retains history and basic outcomes.
+You need Python 3.13 and PostgreSQL 17. Docker is one option for PostgreSQL; an existing local installation also works. Start with a separate development database.
 
-## Decision status
+```sh
+git clone https://github.com/0xsomnus/macro_agent.git
+cd macro_agent
+python3.13 -m venv .venv
+.venv/bin/python -m pip install --require-hashes -r requirements.lock
+mkdir -p .local
+cp -n .env.example .local/db.env
+```
 
-- **Locked:** principles explicitly settled or selected through delegated judgment and recorded in ADRs, including the Python backend/TypeScript UI arrangement in [ADR 014](ADR/014-python-backend-and-typescript-ui.md), Django/PostgreSQL foundation in [ADR 016](ADR/016-django-postgresql-foundation.md), and DRF/generated OpenAPI boundary in [ADR 017](ADR/017-drf-and-openapi-boundary.md).
-- **MVP target:** desired first usable behavior, subject to evidence gates in `ROADMAP.md`.
-- **Open:** frontend and TypeScript client/validator tooling, durable worker/queue and hosting, source contracts and rights, numeric materiality/evaluation thresholds, exact instrument mapping, shared versus private macro interpretation in the pilot, shared subscription cost allocation, future top-100 recipe, retention, and jurisdiction-specific product perimeter. Coding agents must not silently turn these into permanent decisions.
-- **Deferred from the pilot:** individual-equity support and automated valuation; statistical event studies; user-defined source packs; automated postmortems, candidate-learning retrieval and relationship-promotion workflows; customer BYOK and adaptive model routing; Discovery; dedicated graph database; public community marketplace; congressional-trading monitoring. Internal BYOK through configured adapters is available for development and research.
+Follow the [database setup steps](docs/GETTING_STARTED.md#start-postgresql) to start PostgreSQL and fill in `.local/db.env`. Then load the configuration and create the tables:
 
-## Start development
+```sh
+set -a
+source .local/db.env
+set +a
+.venv/bin/python manage.py migrate --noinput
+.venv/bin/python manage.py check
+.venv/bin/python manage.py createsuperuser
+```
 
-Use [IMPLEMENTATION.md](IMPLEMENTATION.md) for verified module and integration status, [DJANGO_DEVELOPMENT.md](DJANGO_DEVELOPMENT.md) to run the foundation, and [API_DEVELOPMENT.md](API_DEVELOPMENT.md) for session/CSRF setup and exact draft approval. [PAPER_POSITIONS.md](PAPER_POSITIONS.md) specifies manual attachment, changes and closure. Inspect the [desk trace](artifacts/paper-desk-audit.md), [current generated OpenAPI](artifacts/desk-openapi.yaml), [thesis trace](artifacts/thesis-audit.md), and read-only [PostgreSQL publication report](artifacts/postgresql-audit.md). Committed user context is admitted into synthetic event briefs; exposure/approval changes atomically invalidate old current briefs and pending notices. The earlier [SQLite report](artifacts/publication-audit.md) remains laboratory evidence. [DEVELOPMENT_START.md](DEVELOPMENT_START.md) records the reference spike and next application slice. [STACK_OPTIONS.md](STACK_OPTIONS.md) preserves the comparisons and selected foundation. Synthetic fixtures test mechanics, not live news coverage or trading foresight. Passing them does not approve a live or external pilot. A usable pilot must include continuous permitted news monitoring as well as scheduled sources.
+Choose your own username and password when prompted. The environment file is not loaded automatically; load it in each new backend terminal. Local credentials and reports stay in the ignored `.local/` folder.
 
-These documents are implementation guidance, not a claim that all feeds, asset packs, or legal permissions have been verified. Source endpoints are examples to validate during integration. Current official examples are linked in `MONITORING_AND_SOURCES.md`.
+For the prepared checkout on this computer, load `.local/native-db.env` instead of creating another database. [The setup guide](docs/GETTING_STARTED.md#use-the-existing-development-checkout) explains how to check and start its database.
+
+## Try your own happy path
+
+Start the backend in the configured terminal:
+
+```sh
+.venv/bin/python manage.py runserver 127.0.0.1:8000
+```
+
+In a second terminal, from the repository root:
+
+```sh
+.venv/bin/python tools/desk_cli.py happy-path
+```
+
+The walkthrough asks you to log in, enter a thesis and its drivers/horizon/signposts, review the exact approval preview, and attach a paper position. It then displays a brief from recorded example news. Quantity and its unit are optional, as is the position horizon. Missing instrument details remain visible.
+
+To preserve text from a file exactly:
+
+```sh
+.venv/bin/python tools/desk_cli.py happy-path --thesis-file path/to/thesis.txt
+```
+
+The example news is fictional and its relevance is predetermined for testing. Portfolio consequences remain unresolved. This is the first CLI workflow milestone, not a live monitoring desk.
+
+## Inspect and develop
+
+Open [the local admin](http://127.0.0.1:8000/admin/) for read-only inspection of your records. The admin does not provide the trading workflow. The [getting-started guide](docs/GETTING_STARTED.md) includes fixed examples, troubleshooting and tests. The [API guide](docs/API_DEVELOPMENT.md) documents the same underlying thesis and paper-position operations.
+
+The stack is Python/Django, PostgreSQL and DRF; the planned web UI uses TypeScript. See the [documentation index](docs/README.md), [implementation status](docs/IMPLEMENTATION.md) and [roadmap](docs/ROADMAP.md). Contributors and coding agents should also read [AGENTS.md](AGENTS.md).
+
+Design documentation lives in `docs/`, with decision records in `docs/ADR/`. Recorded inputs, source code, research and generated audit artifacts have separate folders.

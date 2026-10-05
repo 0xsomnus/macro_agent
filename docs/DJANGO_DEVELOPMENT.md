@@ -2,16 +2,20 @@
 
 Updated 2026-10-05. Django and PostgreSQL are selected in [ADR 016](ADR/016-django-postgresql-foundation.md); [ADR 017](ADR/017-drf-and-openapi-boundary.md) selects DRF and generated OpenAPI. The foundation persists publication rules, exposes a restricted internal admin, and provides authenticated thesis approval and paper-position APIs. [API_DEVELOPMENT.md](API_DEVELOPMENT.md) and [PAPER_POSITIONS.md](PAPER_POSITIONS.md) document that journey and committed-context admission. The TypeScript UI, monitoring connectors, and delivery worker remain to be implemented.
 
-## Local setup
+## Start with the setup guide
 
-Use Python 3.13 and a separate development database. Dependencies are pinned with hashes in [requirements.lock](requirements.lock); [requirements.in](requirements.in) records the supported dependency ranges.
+[GETTING_STARTED.md](GETTING_STARTED.md) is the human setup and CLI walkthrough. It includes fresh database provisioning and the prepared-checkout shortcut. This document covers development verification and inspection. Run all commands from the repository root.
+
+## Local setup reference
+
+Use Python 3.13 and a separate development database. Dependencies are pinned with hashes in [requirements.lock](../requirements.lock); [requirements.in](../requirements.in) records the supported dependency ranges.
 
 ```sh
 python3.13 -m venv .venv
 .venv/bin/python -m pip install --require-hashes -r requirements.lock
 ```
 
-The earlier verification environment used an isolated PostgreSQL 17 container named `macro-agent-postgres-dev`, bound to loopback. Its throwaway credentials and assigned port are in ignored `.local/db.env`. Docker Desktop became unresponsive on 2026-10-05; its existing database was preserved. Current verification uses the isolated native fallback below. When Docker is available, restart its existing container with:
+The earlier verification environment used an isolated PostgreSQL 17 container named `macro-agent-postgres-dev`, bound to loopback. Its throwaway credentials and assigned port are in ignored `.local/db.env`. Docker Desktop became unresponsive on 2026-10-05; its existing database was preserved. Current verification uses the isolated native fallback below. These details describe this development machine, not fresh-install prerequisites. When Docker is available, restart its existing container with:
 
 ```sh
 docker start macro-agent-postgres-dev
@@ -20,7 +24,7 @@ docker port macro-agent-postgres-dev 5432/tcp
 
 Docker may assign a different port after restarting. Set `MACRO_DB_PORT` in `.local/db.env` to the loopback port printed by the second command before loading that file.
 
-For a fresh checkout, create a local PostgreSQL database and fill a copy of [.env.example](.env.example) at `.local/db.env`. Never point these setup or test commands at an existing trader database. The Django test runner creates and drops the database named by `MACRO_TEST_DB_NAME` (default `test_macro_agent`); the synthetic setup gate requires an explicitly named development or test database. Load only the environment for the selected instance.
+For a fresh checkout, create a local PostgreSQL database and fill a copy of [.env.example](../.env.example) at `.local/db.env`. Never point these setup or test commands at an existing trader database. The Django test runner creates and drops the database named by `MACRO_TEST_DB_NAME` (default `test_macro_agent`); the synthetic setup gate requires an explicitly named development or test database. Load only the environment for the selected instance.
 
 ```sh
 set -a
@@ -72,7 +76,7 @@ Every publication and evidence-head writer locks its brief before reading govern
 
 The first command creates two fictional briefs under a synthetic account with an unusable password. It refuses existing demo records. The second regenerates the reports through read-only PostgreSQL snapshots. No provider calls, model reasoning, or external notifications occur. The report is a sequential trace; the tests establish the concurrency behavior.
 
-Inspect [the readable audit](artifacts/postgresql-audit.md), [complete records](artifacts/postgresql-audit.json), and the generated migration SQL: [initial schema](artifacts/postgresql-0001.sql), [lifecycle guards](artifacts/postgresql-0002.sql). To regenerate SQL:
+Inspect [the readable audit](../artifacts/postgresql-audit.md), [complete records](../artifacts/postgresql-audit.json), and the generated migration SQL: [initial schema](../artifacts/postgresql-0001.sql), [lifecycle guards](../artifacts/postgresql-0002.sql). To regenerate SQL:
 
 ```sh
 .venv/bin/python manage.py sqlmigrate macro_persistence 0001
@@ -85,4 +89,4 @@ Immutable history and scoped foreign keys are enforced by PostgreSQL constraints
 
 ## Desk API and next integration
 
-Use [the API runbook](API_DEVELOPMENT.md) and [paper-position contracts](PAPER_POSITIONS.md) to inspect exact drafts, approval, paper declarations, immutable receipts and private history. [The desk audit](artifacts/paper-desk-audit.md) demonstrates real user-context admission into fictional event briefs and atomic invalidation. Manual interpretation is not an agent compiler; input observations and effective timestamps do not measure exact admission commit time. Next implement a thin trader journey and permitted continuous monitoring. Preserve the [implementation limits](IMPLEMENTATION.md) and [roadmap gates](ROADMAP.md). This foundation does not establish live desk coverage or external-pilot readiness.
+Use [the API runbook](API_DEVELOPMENT.md) and [paper-position contracts](PAPER_POSITIONS.md) to inspect exact drafts, approval, paper declarations, immutable receipts and private history. [The desk audit](../artifacts/paper-desk-audit.md) demonstrates real user-context admission into fictional event briefs and atomic invalidation. Manual interpretation is not an agent compiler; input observations and effective timestamps do not measure exact admission commit time. Next implement a thin trader journey and permitted continuous monitoring. Preserve the [implementation limits](IMPLEMENTATION.md) and [roadmap gates](ROADMAP.md). This foundation does not establish live desk coverage or external-pilot readiness.

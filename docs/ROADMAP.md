@@ -1,5 +1,7 @@
 # Roadmap
 
+The internal CLI checkpoint lets a trader enter their own thesis and paper trade against recorded example news. Its scope is input, explicit approval, attachment and factual publication mechanics. [Getting started](GETTING_STARTED.md) is the runnable journey; this does not satisfy the continuous monitoring, analysis or web-interface gates below.
+
 Updated 2026-10-05 after the delegated DRF/generated OpenAPI selection in [ADR 017](ADR/017-drf-and-openapi-boundary.md). Order work by evidence gates. Continuous monitoring and useful thesis challenge are the core desk promise; scheduled releases alone cannot satisfy the pilot. The broader v1 universe is a future coverage target.
 
 ## Phase 0: reviewed contracts and internal research

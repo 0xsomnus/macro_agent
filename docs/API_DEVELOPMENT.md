@@ -1,5 +1,7 @@
 # Run and inspect the desk API
 
+For a guided terminal walkthrough, start with [Getting started](GETTING_STARTED.md). This guide is the HTTP reference for manual requests and client development. The CLI uses these same session and approval endpoints. All shell commands run from the repository root.
+
 Updated 2026-10-05. [ADR 017](ADR/017-drf-and-openapi-boundary.md) selects DRF and drf-spectacular through delegated implementation judgment. Start with [Django setup](DJANGO_DEVELOPMENT.md). This internal API persists exact drafts, manual interpretation previews, explicit user approval, paper declarations and private history. [PAPER_POSITIONS.md](PAPER_POSITIONS.md) specifies attachment/revision/closure and synthetic publication context. It does not configure monitoring.
 
 ## Session and authority
@@ -97,4 +99,10 @@ The demonstration requires the synthetic gate and a development/test database. I
 .venv/bin/python tools/thesis_demo.py --inspect-only --output .local/thesis-inspection.json
 ```
 
-Inspect [the thesis trace](artifacts/thesis-audit.md), [the full thesis records](artifacts/thesis-audit.json), [the current desk schema](artifacts/desk-openapi.yaml), [migration SQL](artifacts/thesis-0001.sql), and [the paper desk trace](artifacts/paper-desk-audit.md). The demos are sequential; PostgreSQL races, real session login, CSRF, and cross-account isolation are established by the integration tests. [IMPLEMENTATION.md](IMPLEMENTATION.md) records verified counts and remaining scope. The earlier thesis-only OpenAPI artifact is historical.
+Inspect [the thesis trace](../artifacts/thesis-audit.md), [the full thesis records](../artifacts/thesis-audit.json), [the current desk schema](../artifacts/desk-openapi.yaml), [migration SQL](../artifacts/thesis-0001.sql), and [the paper desk trace](../artifacts/paper-desk-audit.md). The demos are sequential; PostgreSQL races, real session login, CSRF, and cross-account isolation are established by the integration tests. [IMPLEMENTATION.md](IMPLEMENTATION.md) records verified counts and remaining scope. The earlier thesis-only OpenAPI artifact is historical.
+
+## Recorded-news walkthrough boundary
+
+`POST /api/v1/lab/theses/{id}/recorded-news/` accepts only `{"expected_approval_id": "<current reviewed UUID>"}`. The CLI invokes it after your explicit approval and paper attachment. It requires the same session/CSRF authority as other writes, exact local settings, `MACRO_ALLOW_SYNTHETIC_SETUP=1` and a development/test database name. Disabled, missing and foreign contexts are unavailable through opaque responses; this is not production ingestion.
+
+The response separates the fictional source fact, prescribed screening, current brief, declared positions and local notification state. No thesis-specific relevance or portfolio consequence is inferred. Repeating unchanged current context returns the existing notice. An intervening approval/exposure change blocks stale publication with 409; a subsequent reviewed request must observe current context. All twelve source/macro/runtime roles remain synthetic. The schema marks this operation as a development example.

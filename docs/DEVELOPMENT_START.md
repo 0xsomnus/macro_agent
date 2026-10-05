@@ -1,18 +1,20 @@
 # First development increment
 
+For setup and the current user-input CLI checkpoint, use [Getting started](GETTING_STARTED.md). This document preserves earlier reference experiments and design decisions; it is not the installation guide.
+
 Status: contract-and-fixture spike started 2026-10-02. User subsequently selected Python API/research workers with a TypeScript UI in [ADR 014](ADR/014-python-backend-and-typescript-ui.md), then Django/PostgreSQL with Django ORM and migrations in [ADR 016](ADR/016-django-postgresql-foundation.md) on 2026-10-04. [ADR 017](ADR/017-drf-and-openapi-boundary.md) records the delegated DRF/generated OpenAPI choice on 2026-10-05. Frontend/client tooling, durable worker/queue, hosting, and providers remain open. The original standard-library reference spike and SQLite adapter remain laboratory tooling.
 
 Update 2026-10-03: [IMPLEMENTATION.md](IMPLEMENTATION.md) records the independent Python domain/application core, local separate-connection correction tests, and read-only audit report. These port selected contracts into small modules without choosing an HTTP framework or production database. [ADR 015](ADR/015-auditable-publication.md) records the approved auditability requirements.
 
 Update 2026-10-04: target Django 5.2 LTS, Python 3.13, and PostgreSQL through the psycopg driver. Integrate ORM persistence and migrations while retaining the independent domain modules. Framework selection does not establish authenticated user isolation or PostgreSQL concurrency safety. See [IMPLEMENTATION.md](IMPLEMENTATION.md) for verified integration status rather than inferring it from this decision.
 
-Update 2026-10-05: use explicit DRF serializers/APIViews and generated drf-spectacular OpenAPI. The immediate authenticated slice stores exact user drafts and manual interpretations, approves both hashes and latest draft versions with a protected expected-aggregate-revision comparison, and exposes private current/history inspection. [API_DEVELOPMENT.md](API_DEVELOPMENT.md) documents the session/CSRF journey and [thesis trace](artifacts/thesis-audit.md). Model compilation, paper exposure, source capture, and the TypeScript UI follow separately. Protected approval time does not prove exact durable known-at time; replay/publication-pin integration is not part of this slice.
+Update 2026-10-05: use explicit DRF serializers/APIViews and generated drf-spectacular OpenAPI. The immediate authenticated slice stores exact user drafts and manual interpretations, approves both hashes and latest draft versions with a protected expected-aggregate-revision comparison, and exposes private current/history inspection. [API_DEVELOPMENT.md](API_DEVELOPMENT.md) documents the session/CSRF journey and [thesis trace](../artifacts/thesis-audit.md). Model compilation, paper exposure, source capture, and the TypeScript UI follow separately. Protected approval time does not prove exact durable known-at time; replay/publication-pin integration is not part of this slice.
 
-Subsequent increment, 2026-10-05: [PAPER_POSITIONS.md](PAPER_POSITIONS.md) adds the confirmed instrument/direction/optional quantity-unit/horizon declaration and immutable attachment/revision/closure. Real committed approval/exposure records now enter synthetic publication pins. Their changes invalidate current briefs and pending notices atomically; pending context requires fresh admission. The [desk trace](artifacts/paper-desk-audit.md) and [current OpenAPI](artifacts/desk-openapi.yaml) are inspectable. Mapping remains unverified and source/macro inputs fictional. Conservative input observation does not measure exact admission commit time or establish full operational replay.
+Subsequent increment, 2026-10-05: [PAPER_POSITIONS.md](PAPER_POSITIONS.md) adds the confirmed instrument/direction/optional quantity-unit/horizon declaration and immutable attachment/revision/closure. Real committed approval/exposure records now enter synthetic publication pins. Their changes invalidate current briefs and pending notices atomically; pending context requires fresh admission. The [desk trace](../artifacts/paper-desk-audit.md) and [current OpenAPI](../artifacts/desk-openapi.yaml) are inspectable. Mapping remains unverified and source/macro inputs fictional. Conservative input observation does not measure exact admission commit time or establish full operational replay.
 
 ## Immediate proof
 
-Exercise approved meaning, deterministic event capture, uncertain relevance, correction races, replay, and notification recovery using synthetic fixtures. [contracts/pilot.schema.json](contracts/pilot.schema.json) describes the portable fixture shape; [fixtures/pilot.json](fixtures/pilot.json) contains fictional inputs. [tools/contract_spike.py](tools/contract_spike.py) is a test-only reference model. [tests/test_contract_spike.py](tests/test_contract_spike.py) tests behavior rather than an LLM's prose.
+Exercise approved meaning, deterministic event capture, uncertain relevance, correction races, replay, and notification recovery using synthetic fixtures. [contracts/pilot.schema.json](../contracts/pilot.schema.json) describes the portable fixture shape; [fixtures/pilot.json](../fixtures/pilot.json) contains fictional inputs. [tools/contract_spike.py](../tools/contract_spike.py) is a test-only reference model. [tests/test_contract_spike.py](../tests/test_contract_spike.py) tests behavior rather than an LLM's prose.
 
 Run from the workspace root:
 
@@ -21,7 +23,7 @@ python3 -m unittest discover -s tests -v
 python3 tools/contract_spike.py --output artifacts/pilot-trace.json
 ```
 
-The generated [trace](artifacts/pilot-trace.json) is a reproducible mechanics demonstration, not a forecast or live alert. It records no provider calls or spend. A production model can later change analysis but must not change source facts, approved text/meaning, or event identity.
+The generated [trace](../artifacts/pilot-trace.json) is a reproducible mechanics demonstration, not a forecast or live alert. It records no provider calls or spend. A production model can later change analysis but must not change source facts, approved text/meaning, or event identity.
 
 ## Acceptance and limits
 

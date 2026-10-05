@@ -2,6 +2,7 @@
 
 from django.urls import path
 
+from .lab_views import RecordedNewsView
 from .position_views import (
     PositionCloseView, PositionCollectionView, PositionDetailView,
     PositionHistoryView, PositionRevisionView,
@@ -14,6 +15,7 @@ from .views import (
 
 app_name = "macro_api"
 urlpatterns = [
+    path("lab/theses/<uuid:thesis_id>/recorded-news/", RecordedNewsView.as_view(), name="recorded-news"),
     path("schema/", PrivateSchemaView.as_view(), name="schema"),
     path("theses/", ThesisCollectionView.as_view(), name="thesis-list"),
     path("theses/<uuid:thesis_id>/", ThesisDetailView.as_view(), name="thesis-detail"),

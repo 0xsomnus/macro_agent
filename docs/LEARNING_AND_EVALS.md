@@ -44,13 +44,15 @@ The first paper pilot covers the approved narrow instrument set while retaining 
 - **Reasoning:** factual accuracy, passage/field support, exposure relevance, causal restraint, counter-case quality, explicit unknowns, and authority preservation. Assess forecast calibration only for explicitly defined probabilistic outcomes, not an undefined confidence score.
 - **Operations:** shared acquisition, shared analysis and private costs; retries; fan-out; latency to useful notice/assessment; budget and outage behavior; delivery recovery and stale-version protection.
 - **User value:** relevant factors discovered, better supported and falsifiable theses, useful challenges, and research time saved. Reduced conviction or abandoning a weak thesis can be a good result. Engagement, trader agreement, and bullish confidence are insufficient measures.
+- **Workflow:** effort to verify a material factual claim against its cited revision and surrounding context; ability to identify what changed, the affected thesis/exposure, unresolved impact and next signposts; repeated setup burden after approval. Evaluate the [brief interactions](PRODUCT_SPEC.md#evidence-and-brief-interactions) against the same-source simpler brief. Easy source access and polished presentation do not establish factual or analytical correctness.
 
-Maintain adversarial cases for factual errors, unsupported mechanisms, incomplete novice theses, defensible contrarian views, stale sources, headline duplicates, slow independent accumulation with offsetting evidence, unfamiliar severe events, regulatory-stage confusion, unlicensed/private content, source attacks, model outages, and exhausted budgets.
+Maintain adversarial cases for factual errors, unsupported mechanisms, incomplete novice theses, defensible contrarian views, stale sources, first-party forecasts presented as verified outcomes, inaccessible or corrected cited revisions, headline duplicates, slow independent accumulation with offsetting evidence, unfamiliar severe events, regulatory-stage confusion, unlicensed/private content, source attacks, model outages, and exhausted budgets.
 
 ## Acceptance
 
 - Replay cannot access later received/derived/approved evidence, later revisions, or later active interpretations and graph/macro versions.
 - Independent review can identify missed events absent from the system's output; the evaluation preserves disputed labels.
+- Workflow review checks source verification, change comprehension and research effort separately from agreement with the assessment. Report access failures and unsupported position consequences, not just successful brief interactions.
 - A hawkish announcement followed by a positive index reaction creates an observation with confounders, never an automatic bullish-policy rule.
 - No automated learning, provisional-learning retrieval, or learned-edge promotion executes in the pilot.
 - Reported improvement names its comparison, frozen protocol, fresh evaluation cases, sample size, and failure examples. Small-pilot success cannot support a full-universe claim.

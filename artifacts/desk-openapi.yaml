@@ -3,6 +3,69 @@ info:
   title: Macro Agent desk API
   version: 1.0.0
 paths:
+  /api/v1/lab/theses/{thesis_id}/recorded-news/:
+    post:
+      operationId: recorded_news
+      description: Development-only fictional event against your committed approval
+        and paper declarations. Requires explicit local settings, synthetic setup
+        permission and a development/test database. No model, live source, inferred
+        portfolio impact, external delivery or continuous monitoring is provided.
+        Repeating the same current context returns its existing notice without another
+        interruption.
+      parameters:
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - development examples
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecordedNewsRequestRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecordedNewsResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
   /api/v1/positions/{position_id}/:
     get:
       operationId: get_position
@@ -703,6 +766,11 @@ components:
       - detail
       - kind
       - sequence
+    BasisEnum:
+      enum:
+      - recorded_fixture
+      type: string
+      description: '* `recorded_fixture` - recorded_fixture'
     ClosePositionRequest:
       type: object
       properties:
@@ -784,6 +852,11 @@ components:
       - revision
       - thesis_id
       - thesis_version_id
+    ContextStatusEnum:
+      enum:
+      - ready
+      type: string
+      description: '* `ready` - ready'
     CreatePositionRequest:
       type: object
       properties:
@@ -849,6 +922,11 @@ components:
         errors: {}
       required:
       - detail
+    ExpectationsEnum:
+      enum:
+      - unavailable
+      type: string
+      description: '* `unavailable` - unavailable'
     Interpretation:
       type: object
       properties:
@@ -920,6 +998,16 @@ components:
       - user_declared_unverified
       type: string
       description: '* `user_declared_unverified` - user_declared_unverified'
+    ModeEnum:
+      enum:
+      - recorded_example
+      type: string
+      description: '* `recorded_example` - recorded_example'
+    ModelEnum:
+      enum:
+      - not_used
+      type: string
+      description: '* `not_used` - not_used'
     MonitoringEnum:
       enum:
       - not_configured
@@ -930,6 +1018,11 @@ components:
       - user_supplied
       type: string
       description: '* `user_supplied` - user_supplied'
+    PortfolioImpactEnum:
+      enum:
+      - unresolved
+      type: string
+      description: '* `unresolved` - unresolved'
     PositionCommand:
       type: object
       properties:
@@ -1237,6 +1330,239 @@ components:
       - interpretation
       - text
       additionalProperties: false
+    RecordedBrief:
+      type: object
+      properties:
+        id:
+          type: string
+        generation:
+          type: integer
+        context_status:
+          $ref: '#/components/schemas/ContextStatusEnum'
+        current_assessment_id:
+          type: string
+        input_observed_at:
+          type: string
+          format: date-time
+        commit_time_measured:
+          type: boolean
+      required:
+      - commit_time_measured
+      - context_status
+      - current_assessment_id
+      - generation
+      - id
+      - input_observed_at
+    RecordedFact:
+      type: object
+      properties:
+        field:
+          type: string
+        value: {}
+      required:
+      - field
+      - value
+    RecordedNewsRequestRequest:
+      type: object
+      properties:
+        expected_approval_id:
+          type: string
+          format: uuid
+          minLength: 1
+          maxLength: 36
+      required:
+      - expected_approval_id
+      additionalProperties: false
+    RecordedNewsResponse:
+      type: object
+      properties:
+        mode:
+          $ref: '#/components/schemas/ModeEnum'
+        synthetic:
+          type: boolean
+        monitoring:
+          $ref: '#/components/schemas/MonitoringEnum'
+        model:
+          $ref: '#/components/schemas/ModelEnum'
+        provider_calls:
+          type: integer
+        provider_spend:
+          type: integer
+        thesis_id:
+          type: string
+          format: uuid
+        snapshot_at:
+          type: string
+          format: date-time
+          description: Protected currentness snapshot, not an admission commit timestamp.
+        brief:
+          $ref: '#/components/schemas/RecordedBrief'
+        notice:
+          $ref: '#/components/schemas/RecordedNotice'
+        source:
+          $ref: '#/components/schemas/RecordedSource'
+        screening:
+          $ref: '#/components/schemas/RecordedScreening'
+        positions:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecordedPosition'
+        limitations:
+          type: array
+          items:
+            type: string
+      required:
+      - brief
+      - limitations
+      - mode
+      - model
+      - monitoring
+      - notice
+      - positions
+      - provider_calls
+      - provider_spend
+      - screening
+      - snapshot_at
+      - source
+      - synthetic
+      - thesis_id
+    RecordedNotice:
+      type: object
+      properties:
+        assessment_id:
+          type: string
+        kind:
+          $ref: '#/components/schemas/RecordedNoticeKindEnum'
+        is_current:
+          type: boolean
+        replayed:
+          type: boolean
+        portfolio_impact:
+          $ref: '#/components/schemas/PortfolioImpactEnum'
+        expectations:
+          $ref: '#/components/schemas/ExpectationsEnum'
+        facts:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecordedFact'
+        notification:
+          $ref: '#/components/schemas/RecordedNotification'
+      required:
+      - assessment_id
+      - expectations
+      - facts
+      - is_current
+      - kind
+      - notification
+      - portfolio_impact
+      - replayed
+    RecordedNoticeKindEnum:
+      enum:
+      - supported_factual_notice
+      type: string
+      description: '* `supported_factual_notice` - supported_factual_notice'
+    RecordedNotification:
+      type: object
+      properties:
+        intent_id:
+          type: string
+        state:
+          $ref: '#/components/schemas/StateEnum'
+        external_delivery:
+          type: string
+          description: Always "not_configured" for recorded examples.
+      required:
+      - external_delivery
+      - intent_id
+      - state
+    RecordedPosition:
+      type: object
+      properties:
+        position_id:
+          type: string
+          format: uuid
+        version_id:
+          type: string
+          format: uuid
+        status:
+          $ref: '#/components/schemas/StatusEnum'
+        underlying:
+          type: string
+        direction:
+          $ref: '#/components/schemas/DirectionEnum'
+        quantity:
+          type: string
+          nullable: true
+        quantity_unit:
+          type: string
+          nullable: true
+        horizon:
+          type: string
+          nullable: true
+        mapping_status:
+          $ref: '#/components/schemas/MappingStatusEnum'
+        missing_fields:
+          type: array
+          items:
+            type: string
+      required:
+      - direction
+      - horizon
+      - mapping_status
+      - missing_fields
+      - position_id
+      - quantity
+      - quantity_unit
+      - status
+      - underlying
+      - version_id
+    RecordedScreening:
+      type: object
+      properties:
+        basis:
+          $ref: '#/components/schemas/BasisEnum'
+        route:
+          $ref: '#/components/schemas/RouteEnum'
+        reasons:
+          type: array
+          items:
+            type: string
+        personalized_relevance:
+          type: string
+          description: Always "unresolved"; no personalized analysis was performed.
+      required:
+      - basis
+      - personalized_relevance
+      - reasons
+      - route
+    RecordedSource:
+      type: object
+      properties:
+        event_id:
+          type: string
+        revision:
+          type: integer
+        source_id:
+          type: string
+        synthetic:
+          type: boolean
+        public_available_at:
+          type: string
+          format: date-time
+        recorded_system_received_at:
+          type: string
+          format: date-time
+        recorded_known_at:
+          type: string
+          format: date-time
+      required:
+      - event_id
+      - public_available_at
+      - recorded_known_at
+      - recorded_system_received_at
+      - revision
+      - source_id
+      - synthetic
     RevisePositionRequest:
       type: object
       properties:
@@ -1263,6 +1589,21 @@ components:
       - expected_revision
       - position
       additionalProperties: false
+    RouteEnum:
+      enum:
+      - investigate
+      type: string
+      description: '* `investigate` - investigate'
+    StateEnum:
+      enum:
+      - pending
+      - canceled
+      - delivered
+      type: string
+      description: |-
+        * `pending` - pending
+        * `canceled` - canceled
+        * `delivered` - delivered
     StatusEnum:
       enum:
       - open

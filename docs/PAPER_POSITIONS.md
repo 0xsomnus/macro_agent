@@ -14,7 +14,7 @@ The session supplies the actor. Missing and foreign IDs share an opaque 404, inc
 
 ## Routes and request
 
-Use the [session/CSRF runbook](API_DEVELOPMENT.md). The [current desk schema](artifacts/desk-openapi.yaml) is generated from the explicit serializers.
+Use the [session/CSRF runbook](API_DEVELOPMENT.md). The [current desk schema](../artifacts/desk-openapi.yaml) is generated from the explicit serializers.
 
 | Method | Route | Purpose |
 | --- | --- | --- |
@@ -52,7 +52,7 @@ Bound publication operations acquire owner, thesis and brief protection. Exposur
 
 An approval or accepted exposure change atomically marks every bound brief `pending`, clears its current assessment, cancels pending notification intents and supersedes old pending reassessment work. Original assessments and command decisions remain immutable. Publication and local delivery acknowledgement fail closed while context is pending. Draft proposals preserve the current approval and its brief.
 
-[context_binding.py](src/macro_agent/persistence/context_binding.py) admits already committed approved text, interpretation, approval and the complete exposure book. It verifies their hashes and stores resolved content with four governing pins. Admission requires its own outermost transaction; a caller's uncommitted thesis cannot be admitted. A separate refresh observes current committed state and durably queues reassessment. Future workers must reconcile pending bindings; no queue implementation is selected here.
+[context_binding.py](../src/macro_agent/persistence/context_binding.py) admits already committed approved text, interpretation, approval and the complete exposure book. It verifies their hashes and stores resolved content with four governing pins. Admission requires its own outermost transaction; a caller's uncommitted thesis cannot be admitted. A separate refresh observes current committed state and durably queues reassessment. Future workers must reconcile pending bindings; no queue implementation is selected here.
 
 `input_observed_at` conservatively witnesses that user inputs were already committed when read under protection. The approved interpretation's original hash and preparation timestamp are preserved. Approval/position effective times and `admission_effective_at` do not measure the exact admission commit instant. First observations remain pinned when an immutable input is reused. This evidence does not establish full operational activation replay or complete source receipt capture.
 
@@ -60,7 +60,7 @@ Enrollment is explicitly gated local synthetic setup. It accepts exactly twelve 
 
 ## Inspect and verify
 
-The [readable trace](artifacts/paper-desk-audit.md) and [complete records](artifacts/paper-desk-audit.json) show attachment, resizing, approved amendment, old retries and closure. The fictional factual notices leave portfolio consequences unresolved. Closed declarations remain in the complete exposure book with their status visible. Tests independently force publication/approval/exposure orderings through actual PostgreSQL lock waits, atomic rollback, coherent inspection and protected clock sampling.
+The [readable trace](../artifacts/paper-desk-audit.md) and [complete records](../artifacts/paper-desk-audit.json) show attachment, resizing, approved amendment, old retries and closure. The fictional factual notices leave portfolio consequences unresolved. Closed declarations remain in the complete exposure book with their status visible. Tests independently force publication/approval/exposure orderings through actual PostgreSQL lock waits, atomic rollback, coherent inspection and protected clock sampling.
 
 After loading a gated development environment:
 
