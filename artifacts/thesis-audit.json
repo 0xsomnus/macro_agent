@@ -1,0 +1,241 @@
+{
+  "synthetic": true,
+  "mode": "sequential_demonstration",
+  "provider_calls": 0,
+  "provider_spend": 0,
+  "owner_id": "d54e3108-120c-4856-867a-34bdc1159e1a",
+  "monitoring": "not_configured",
+  "observations": {
+    "proposal_preserved_approved_text": true,
+    "stale_approval_rejected": true,
+    "older_approval_retry": {
+      "command_id": "5a7429aa-161a-5526-a120-8aa87790d1b7",
+      "kind": "approve",
+      "replayed": true,
+      "result": {
+        "revision": 2,
+        "thesis_id": "3836d199-e7a3-405b-97b5-453bb25d1dec",
+        "accepted_at": "2026-10-05T06:00:01+00:00",
+        "approval_id": "9e34fc85-b143-4a12-a39d-04813e757b4c",
+        "thesis_version_id": "d533ec93-2928-40bf-95af-c01e8a63c45b",
+        "interpretation_version_id": "512cf7ab-72e0-4171-9005-bf8fd3b3c280"
+      },
+      "is_current_approval": false
+    }
+  },
+  "time_scope": "Protected command effective times, not measured durable commit times.",
+  "history": {
+    "thesis": {
+      "id": "3836d199-e7a3-405b-97b5-453bb25d1dec",
+      "revision": 4,
+      "created_at": "2026-10-05T06:00:00+00:00",
+      "changed_at": "2026-10-05T06:00:04+00:00",
+      "draft": {
+        "text_version": {
+          "id": "8037bae2-3b0b-4379-84d5-de841b60ae43",
+          "parent_version_id": "d533ec93-2928-40bf-95af-c01e8a63c45b",
+          "exact_text": "  Gold may benefit if real yields fall, unless USD strength offsets it.\r\n",
+          "text_digest": "77e86f3549b045ba961135161d2bdd1a85d0759a3338e6c1800f13a8db9871a0",
+          "created_at": "2026-10-05T06:00:02+00:00"
+        },
+        "interpretation": {
+          "id": "422f2ab1-3d8a-49fe-892c-7977a550a069",
+          "text_version_id": "8037bae2-3b0b-4379-84d5-de841b60ae43",
+          "drivers": [
+            "Real yields",
+            "USD"
+          ],
+          "horizon": "Several weeks",
+          "invalidation_signposts": [
+            "A sustained rise in real yields"
+          ],
+          "known_at": "2026-10-05T06:00:02+00:00",
+          "digest": "70fc4cf48ee552f91313b3c9c43ee4cd16d8dda1757eebd924c4181ace24990f",
+          "origin": "user_supplied"
+        }
+      },
+      "approved": {
+        "approval": {
+          "id": "2b8a6246-c8d5-4b1d-b5fa-a6cff9edc4ea",
+          "text_version_id": "8037bae2-3b0b-4379-84d5-de841b60ae43",
+          "interpretation_version_id": "422f2ab1-3d8a-49fe-892c-7977a550a069",
+          "text_digest": "77e86f3549b045ba961135161d2bdd1a85d0759a3338e6c1800f13a8db9871a0",
+          "interpretation_digest": "70fc4cf48ee552f91313b3c9c43ee4cd16d8dda1757eebd924c4181ace24990f",
+          "approved_at": "2026-10-05T06:00:04+00:00",
+          "digest": "7193e4175cd706f0ab9130a489aae539bae4febb0393b73d7707a1e7e3859fe0",
+          "revision": 4
+        },
+        "text_version": {
+          "id": "8037bae2-3b0b-4379-84d5-de841b60ae43",
+          "parent_version_id": "d533ec93-2928-40bf-95af-c01e8a63c45b",
+          "exact_text": "  Gold may benefit if real yields fall, unless USD strength offsets it.\r\n",
+          "text_digest": "77e86f3549b045ba961135161d2bdd1a85d0759a3338e6c1800f13a8db9871a0",
+          "created_at": "2026-10-05T06:00:02+00:00"
+        },
+        "interpretation": {
+          "id": "422f2ab1-3d8a-49fe-892c-7977a550a069",
+          "text_version_id": "8037bae2-3b0b-4379-84d5-de841b60ae43",
+          "drivers": [
+            "Real yields",
+            "USD"
+          ],
+          "horizon": "Several weeks",
+          "invalidation_signposts": [
+            "A sustained rise in real yields"
+          ],
+          "known_at": "2026-10-05T06:00:02+00:00",
+          "digest": "70fc4cf48ee552f91313b3c9c43ee4cd16d8dda1757eebd924c4181ace24990f",
+          "origin": "user_supplied"
+        }
+      },
+      "monitoring": "not_configured"
+    },
+    "text_versions": [
+      {
+        "id": "d533ec93-2928-40bf-95af-c01e8a63c45b",
+        "parent_version_id": null,
+        "exact_text": "  Gold may benefit if real yields fall.\r\n",
+        "text_digest": "6ece44b38da96fb2b862475cd2ca3762ecd15bc5fab13634f262b813f62bca51",
+        "created_at": "2026-10-05T06:00:00+00:00"
+      },
+      {
+        "id": "8037bae2-3b0b-4379-84d5-de841b60ae43",
+        "parent_version_id": "d533ec93-2928-40bf-95af-c01e8a63c45b",
+        "exact_text": "  Gold may benefit if real yields fall, unless USD strength offsets it.\r\n",
+        "text_digest": "77e86f3549b045ba961135161d2bdd1a85d0759a3338e6c1800f13a8db9871a0",
+        "created_at": "2026-10-05T06:00:02+00:00"
+      }
+    ],
+    "interpretations": [
+      {
+        "id": "512cf7ab-72e0-4171-9005-bf8fd3b3c280",
+        "text_version_id": "d533ec93-2928-40bf-95af-c01e8a63c45b",
+        "drivers": [
+          "Real yields",
+          "USD"
+        ],
+        "horizon": "Several weeks",
+        "invalidation_signposts": [
+          "A sustained rise in real yields"
+        ],
+        "known_at": "2026-10-05T06:00:00+00:00",
+        "digest": "f576b83f2e1dc62b214e7434021e2a917773c99325afd1a78d081101095be23d",
+        "origin": "user_supplied"
+      },
+      {
+        "id": "422f2ab1-3d8a-49fe-892c-7977a550a069",
+        "text_version_id": "8037bae2-3b0b-4379-84d5-de841b60ae43",
+        "drivers": [
+          "Real yields",
+          "USD"
+        ],
+        "horizon": "Several weeks",
+        "invalidation_signposts": [
+          "A sustained rise in real yields"
+        ],
+        "known_at": "2026-10-05T06:00:02+00:00",
+        "digest": "70fc4cf48ee552f91313b3c9c43ee4cd16d8dda1757eebd924c4181ace24990f",
+        "origin": "user_supplied"
+      }
+    ],
+    "approvals": [
+      {
+        "id": "9e34fc85-b143-4a12-a39d-04813e757b4c",
+        "text_version_id": "d533ec93-2928-40bf-95af-c01e8a63c45b",
+        "interpretation_version_id": "512cf7ab-72e0-4171-9005-bf8fd3b3c280",
+        "text_digest": "6ece44b38da96fb2b862475cd2ca3762ecd15bc5fab13634f262b813f62bca51",
+        "interpretation_digest": "f576b83f2e1dc62b214e7434021e2a917773c99325afd1a78d081101095be23d",
+        "approved_at": "2026-10-05T06:00:01+00:00",
+        "digest": "22e2fd172b1d8d9402db83bb231335252e218b028011b66bca59eac2351c38a6",
+        "revision": 2
+      },
+      {
+        "id": "2b8a6246-c8d5-4b1d-b5fa-a6cff9edc4ea",
+        "text_version_id": "8037bae2-3b0b-4379-84d5-de841b60ae43",
+        "interpretation_version_id": "422f2ab1-3d8a-49fe-892c-7977a550a069",
+        "text_digest": "77e86f3549b045ba961135161d2bdd1a85d0759a3338e6c1800f13a8db9871a0",
+        "interpretation_digest": "70fc4cf48ee552f91313b3c9c43ee4cd16d8dda1757eebd924c4181ace24990f",
+        "approved_at": "2026-10-05T06:00:04+00:00",
+        "digest": "7193e4175cd706f0ab9130a489aae539bae4febb0393b73d7707a1e7e3859fe0",
+        "revision": 4
+      }
+    ],
+    "audit": [
+      {
+        "sequence": 1,
+        "kind": "create",
+        "at": "2026-10-05T06:00:00+00:00",
+        "detail": {
+          "actor_id": "d54e3108-120c-4856-867a-34bdc1159e1a",
+          "revision": 1,
+          "thesis_id": "3836d199-e7a3-405b-97b5-453bb25d1dec",
+          "command_id": "70ff587d-daa6-5d59-975a-206b5633d402",
+          "accepted_at": "2026-10-05T06:00:00+00:00",
+          "approval_id": null,
+          "text_digest": "6ece44b38da96fb2b862475cd2ca3762ecd15bc5fab13634f262b813f62bca51",
+          "request_digest": "1965f6597d9a0058fc1875d398fff42c2dfcf96ac07a9096b3d5d4a001e8f768",
+          "thesis_version_id": "d533ec93-2928-40bf-95af-c01e8a63c45b",
+          "interpretation_digest": "f576b83f2e1dc62b214e7434021e2a917773c99325afd1a78d081101095be23d",
+          "interpretation_version_id": "512cf7ab-72e0-4171-9005-bf8fd3b3c280"
+        }
+      },
+      {
+        "sequence": 2,
+        "kind": "approve",
+        "at": "2026-10-05T06:00:01+00:00",
+        "detail": {
+          "actor_id": "d54e3108-120c-4856-867a-34bdc1159e1a",
+          "revision": 2,
+          "thesis_id": "3836d199-e7a3-405b-97b5-453bb25d1dec",
+          "command_id": "5a7429aa-161a-5526-a120-8aa87790d1b7",
+          "accepted_at": "2026-10-05T06:00:01+00:00",
+          "approval_id": "9e34fc85-b143-4a12-a39d-04813e757b4c",
+          "text_digest": "6ece44b38da96fb2b862475cd2ca3762ecd15bc5fab13634f262b813f62bca51",
+          "request_digest": "63baf86478a6964593d01acf1ee5bebca02e82b6027bf09a1420cda7ea5dd06d",
+          "thesis_version_id": "d533ec93-2928-40bf-95af-c01e8a63c45b",
+          "interpretation_digest": "f576b83f2e1dc62b214e7434021e2a917773c99325afd1a78d081101095be23d",
+          "interpretation_version_id": "512cf7ab-72e0-4171-9005-bf8fd3b3c280"
+        }
+      },
+      {
+        "sequence": 3,
+        "kind": "propose",
+        "at": "2026-10-05T06:00:02+00:00",
+        "detail": {
+          "actor_id": "d54e3108-120c-4856-867a-34bdc1159e1a",
+          "revision": 3,
+          "thesis_id": "3836d199-e7a3-405b-97b5-453bb25d1dec",
+          "command_id": "bf23c398-0c33-546d-b9ea-0e44c724daee",
+          "accepted_at": "2026-10-05T06:00:02+00:00",
+          "approval_id": null,
+          "text_digest": "77e86f3549b045ba961135161d2bdd1a85d0759a3338e6c1800f13a8db9871a0",
+          "request_digest": "c25c701dbce87c9d9df9db3d8eda3ca02797c8edaaa91e67b31fa1f129d9346d",
+          "thesis_version_id": "8037bae2-3b0b-4379-84d5-de841b60ae43",
+          "interpretation_digest": "70fc4cf48ee552f91313b3c9c43ee4cd16d8dda1757eebd924c4181ace24990f",
+          "interpretation_version_id": "422f2ab1-3d8a-49fe-892c-7977a550a069"
+        }
+      },
+      {
+        "sequence": 4,
+        "kind": "approve",
+        "at": "2026-10-05T06:00:04+00:00",
+        "detail": {
+          "actor_id": "d54e3108-120c-4856-867a-34bdc1159e1a",
+          "revision": 4,
+          "thesis_id": "3836d199-e7a3-405b-97b5-453bb25d1dec",
+          "command_id": "1f5ef1f4-c8b4-576c-8a6e-5641b1d185b1",
+          "accepted_at": "2026-10-05T06:00:04+00:00",
+          "approval_id": "2b8a6246-c8d5-4b1d-b5fa-a6cff9edc4ea",
+          "text_digest": "77e86f3549b045ba961135161d2bdd1a85d0759a3338e6c1800f13a8db9871a0",
+          "request_digest": "5ac802e263660c7e3d8036b73f54b8e00ec882f0d5038f7ffd9eb565daa5e17a",
+          "thesis_version_id": "8037bae2-3b0b-4379-84d5-de841b60ae43",
+          "interpretation_digest": "70fc4cf48ee552f91313b3c9c43ee4cd16d8dda1757eebd924c4181ace24990f",
+          "interpretation_version_id": "422f2ab1-3d8a-49fe-892c-7977a550a069"
+        }
+      }
+    ],
+    "replay_scope": "approval_effective_time_history",
+    "history_limit": 100,
+    "truncated": false
+  }
+}

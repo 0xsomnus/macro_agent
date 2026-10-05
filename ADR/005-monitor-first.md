@@ -22,4 +22,6 @@ Discovery later behaves like an analyst bringing potential opportunities to the 
 
 ## Foundation update, 2026-10-04
 
-[ADR 016](016-django-postgresql-foundation.md) selects Django/PostgreSQL with Django ORM and migrations, authentication, sessions, and restricted internal admin. API/wire tooling, frontend tooling, durable worker/queue, hosting, and providers remain open. The selected foundation does not change the monitoring-first scope or constitute live-pilot approval.
+[ADR 016](016-django-postgresql-foundation.md) selects Django/PostgreSQL with Django ORM and migrations, authentication, sessions, and restricted internal admin. The selected foundation does not change the monitoring-first scope or constitute live-pilot approval.
+
+Amendment 2026-10-05: [ADR 017](017-drf-and-openapi-boundary.md) selects DRF and generated drf-spectacular OpenAPI through delegated judgment. Frontend/client tooling, durable worker/queue, hosting, and providers remain open. The manual draft/approval boundary does not establish continuous desk coverage.

@@ -1,6 +1,6 @@
 # Macro Agent handoff pack
 
-Status: approved product direction, paper-pilot contracts, and selected application foundation. Updated 2026-10-04: Python owns the API/research workers and TypeScript the web UI. Django with PostgreSQL, ORM, migrations, authentication, sessions, and internal admin is selected in [ADR 016](ADR/016-django-postgresql-foundation.md). The independent Python core and local publication-ordering tests exist; application integration and live readiness require their own evidence. API/wire tooling, queue, hosting, and providers remain open. Start here, then read `AGENTS.md` before changing the design.
+Status: approved product direction, paper-pilot contracts, and selected application foundation. Updated 2026-10-05: Python owns the API/research workers and TypeScript the web UI. Django with PostgreSQL, ORM, migrations, authentication, sessions, and internal admin is selected in [ADR 016](ADR/016-django-postgresql-foundation.md). [ADR 017](ADR/017-drf-and-openapi-boundary.md) records the delegated selection of explicit DRF serializers/APIViews and generated drf-spectacular OpenAPI. The independent Python core and publication-ordering evidence exist; each application increment and live readiness require their own evidence. Frontend/client tooling, queue, hosting, and providers remain open. Start here, then read `AGENTS.md` before changing the design.
 
 ## Purpose and reading order
 
@@ -15,7 +15,7 @@ Status: approved product direction, paper-pilot contracts, and selected applicat
 | 7 | [LEARNING_AND_EVALS.md](LEARNING_AND_EVALS.md) and [SAFETY_AND_REGULATORY_BOUNDARIES.md](SAFETY_AND_REGULATORY_BOUNDARIES.md) | How is quality measured and authority bounded? |
 | 8 | [ROADMAP.md](ROADMAP.md) and [ADR/](ADR/) | What is next, deferred, and locked? |
 | 9 | [AUDIT_RESOLUTION.md](AUDIT_RESOLUTION.md) and [DEVELOPMENT_START.md](DEVELOPMENT_START.md) | Which audit decisions were accepted, and what does the first increment prove? |
-| 10 | [IMPLEMENTATION.md](IMPLEMENTATION.md) | Which modules exist, how are they audited, and what has actually been verified? |
+| 10 | [IMPLEMENTATION.md](IMPLEMENTATION.md), [DJANGO_DEVELOPMENT.md](DJANGO_DEVELOPMENT.md), and [API_DEVELOPMENT.md](API_DEVELOPMENT.md) | Which modules exist, how are they audited, and how is the authenticated approval slice run? |
 
 ## One sentence
 
@@ -25,13 +25,13 @@ The paper pilot supports ES, NQ, XAU, DXY-linked trades, EUR/USD, USD/JPY, and U
 
 ## Decision status
 
-- **Locked:** principles explicitly settled in the conversation and recorded in ADRs, including the Python backend/TypeScript UI arrangement in [ADR 014](ADR/014-python-backend-and-typescript-ui.md) and Django/PostgreSQL foundation in [ADR 016](ADR/016-django-postgresql-foundation.md).
+- **Locked:** principles explicitly settled or selected through delegated judgment and recorded in ADRs, including the Python backend/TypeScript UI arrangement in [ADR 014](ADR/014-python-backend-and-typescript-ui.md), Django/PostgreSQL foundation in [ADR 016](ADR/016-django-postgresql-foundation.md), and DRF/generated OpenAPI boundary in [ADR 017](ADR/017-drf-and-openapi-boundary.md).
 - **MVP target:** desired first usable behavior, subject to evidence gates in `ROADMAP.md`.
-- **Open:** API adapter, including DRF versus Ninja, authoritative wire-schema tooling, frontend tooling, durable worker/queue and hosting, source contracts and rights, numeric materiality/evaluation thresholds, exact instrument mapping, shared versus private macro interpretation in the pilot, shared subscription cost allocation, future top-100 recipe, retention, and jurisdiction-specific product perimeter. Coding agents must not silently turn these into permanent decisions.
+- **Open:** frontend and TypeScript client/validator tooling, durable worker/queue and hosting, source contracts and rights, numeric materiality/evaluation thresholds, exact instrument mapping, shared versus private macro interpretation in the pilot, shared subscription cost allocation, future top-100 recipe, retention, and jurisdiction-specific product perimeter. Coding agents must not silently turn these into permanent decisions.
 - **Deferred from the pilot:** individual-equity support and automated valuation; statistical event studies; user-defined source packs; automated postmortems, candidate-learning retrieval and relationship-promotion workflows; customer BYOK and adaptive model routing; Discovery; dedicated graph database; public community marketplace; congressional-trading monitoring. Internal BYOK through configured adapters is available for development and research.
 
 ## Start development
 
-Use [IMPLEMENTATION.md](IMPLEMENTATION.md) for verified module and integration status, [DJANGO_DEVELOPMENT.md](DJANGO_DEVELOPMENT.md) to run the selected foundation, and the read-only [PostgreSQL audit report](artifacts/postgresql-audit.md) to inspect its records. The earlier [SQLite report](artifacts/publication-audit.md) remains laboratory evidence. [DEVELOPMENT_START.md](DEVELOPMENT_START.md) records the reference spike and next application slice. [STACK_OPTIONS.md](STACK_OPTIONS.md) preserves the comparisons and selected foundation. Synthetic fixtures test mechanics, not live news coverage or trading foresight. Passing them does not approve a live or external pilot. A usable pilot must include continuous permitted news monitoring as well as scheduled sources.
+Use [IMPLEMENTATION.md](IMPLEMENTATION.md) for verified module and integration status, [DJANGO_DEVELOPMENT.md](DJANGO_DEVELOPMENT.md) to run the selected foundation, and [API_DEVELOPMENT.md](API_DEVELOPMENT.md) for session/CSRF setup and exact draft approval. Inspect the [thesis trace](artifacts/thesis-audit.md), [generated thesis OpenAPI](artifacts/thesis-openapi.yaml), and read-only [PostgreSQL publication report](artifacts/postgresql-audit.md). The earlier [SQLite report](artifacts/publication-audit.md) remains laboratory evidence. [DEVELOPMENT_START.md](DEVELOPMENT_START.md) records the reference spike and next application slice. [STACK_OPTIONS.md](STACK_OPTIONS.md) preserves the comparisons and selected foundation. Synthetic fixtures test mechanics, not live news coverage or trading foresight. Passing them does not approve a live or external pilot. A usable pilot must include continuous permitted news monitoring as well as scheduled sources.
 
 These documents are implementation guidance, not a claim that all feeds, asset packs, or legal permissions have been verified. Source endpoints are examples to validate during integration. Current official examples are linked in `MONITORING_AND_SOURCES.md`.

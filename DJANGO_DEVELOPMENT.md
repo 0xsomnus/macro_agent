@@ -1,6 +1,6 @@
 # Run and inspect the Django foundation
 
-Updated 2026-10-04. Django and PostgreSQL are selected in [ADR 016](ADR/016-django-postgresql-foundation.md). This increment persists the existing publication rules and exposes a restricted internal admin. The trader journey, API library, monitoring connectors, and delivery worker remain to be implemented.
+Updated 2026-10-05. Django and PostgreSQL are selected in [ADR 016](ADR/016-django-postgresql-foundation.md); [ADR 017](ADR/017-drf-and-openapi-boundary.md) selects DRF and generated OpenAPI. The foundation persists publication rules, exposes a restricted internal admin, and provides an authenticated exact thesis draft/approval API. [API_DEVELOPMENT.md](API_DEVELOPMENT.md) documents that journey. The TypeScript UI, monitoring connectors, and delivery worker remain to be implemented.
 
 ## Local setup
 
@@ -39,13 +39,13 @@ Local settings deliberately permit HTTP on loopback. Deployment settings require
 
 ```sh
 .venv/bin/python -m unittest discover -s tests -v
-.venv/bin/python manage.py test macro_agent.persistence.tests --noinput --verbosity 2
+.venv/bin/python manage.py test macro_agent.persistence.tests macro_agent.theses.tests macro_agent.api.tests --noinput --verbosity 2
 .venv/bin/python manage.py makemigrations --check --dry-run
 ```
 
-The first command runs 95 framework-independent and SQLite laboratory tests. The PostgreSQL suite covers separate-connection races, real lock-contention probes, rollback after an injected outbox failure, unchanged retry state, ownership, and database mutation guards. It refuses another database engine. The final verified count is recorded in [IMPLEMENTATION.md](IMPLEMENTATION.md).
+The first command runs 95 framework-independent and SQLite laboratory tests. The PostgreSQL suites cover separate-connection races and snapshot consistency, real lock-contention probes, atomic publication/approval rollback, unchanged retry state, ownership, database mutation guards, Django session login, CSRF, strict JSON, and generated schema contracts. They refuse another database engine. The final verified count is recorded in [IMPLEMENTATION.md](IMPLEMENTATION.md).
 
-Every publication and evidence-head writer locks its brief before reading governing versions. Reasoning occurs outside that transaction. Different briefs can progress concurrently. Built-in Django authentication does not establish application authority by itself: future HTTP and worker entry points must derive the adapter's actor from their authenticated principal.
+Every publication and evidence-head writer locks its brief before reading governing versions. Thesis commands lock their owner account then thesis before reading versions or sampling time. Reasoning occurs outside these transactions. Different briefs/accounts can progress concurrently. The thesis HTTP boundary derives its actor from the session; future worker and publication entry points must bind their actor to a reviewed authenticated principal as well.
 
 ## Read the records and database changes
 
@@ -65,6 +65,6 @@ Inspect [the readable audit](artifacts/postgresql-audit.md), [complete records](
 
 Immutable history and scoped foreign keys are enforced by PostgreSQL constraints and triggers. Stable intent identities and terminal states are protected as well. These do not authenticate raw SQL callers or enforce the application lock protocol. Ordinary admin edits cannot bypass the application rules.
 
-## Next vertical slice
+## Thesis API and next integration
 
-Choose the API adapter and wire-schema tooling, then connect Django authentication to durable approval of exact thesis text and interpretation, attached paper exposure, watched drivers, and evolving event briefs. Preserve the [implementation limits](IMPLEMENTATION.md) and [roadmap gates](ROADMAP.md). This foundation does not establish live desk coverage or external-pilot readiness.
+Use [the thesis API runbook](API_DEVELOPMENT.md) to inspect exact drafts, explicit approval, immutable command receipts, and private history. Its manually supplied interpretation is not an agent compiler, and its protected timestamps do not prove durable commit times. Approval records have not yet entered publication governing pins. Integrate those changes atomically through ADR 015 before attaching paper exposure and evolving event briefs. Preserve the [implementation limits](IMPLEMENTATION.md) and [roadmap gates](ROADMAP.md). This foundation does not establish live desk coverage or external-pilot readiness.

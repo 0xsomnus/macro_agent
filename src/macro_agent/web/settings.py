@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     "django.contrib.admin", "django.contrib.auth", "django.contrib.contenttypes",
     "django.contrib.sessions", "django.contrib.messages", "django.contrib.staticfiles",
     "macro_agent.web.apps.WebConfig", "macro_agent.persistence.apps.PersistenceConfig",
+    "macro_agent.theses.apps.ThesesConfig", "rest_framework", "drf_spectacular",
 ]
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -77,3 +78,19 @@ SECURE_HSTS_SECONDS = 31536000
 SECURE_HSTS_INCLUDE_SUBDOMAINS = False
 SECURE_HSTS_PRELOAD = False
 X_FRAME_OPTIONS = "DENY"
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": ["rest_framework.authentication.SessionAuthentication"],
+    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"],
+    "DEFAULT_RENDERER_CLASSES": ["rest_framework.renderers.JSONRenderer"],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "EXCEPTION_HANDLER": "macro_agent.api.views.exception_handler",
+}
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Macro Agent thesis API",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "SERVE_PERMISSIONS": ["rest_framework.permissions.IsAuthenticated"],
+    "SERVE_AUTHENTICATION": ["rest_framework.authentication.SessionAuthentication"],
+    "COMPONENT_SPLIT_REQUEST": True,
+}

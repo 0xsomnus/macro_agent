@@ -1,6 +1,6 @@
-# Python core and Django persistence increment
+# Python core, Django persistence, and thesis API
 
-Updated 2026-10-04. Independent domain/application rules now have a Django/PostgreSQL adapter. [ADR 016](ADR/016-django-postgresql-foundation.md) records the approved framework, ORM, migrations, authentication, sessions, and internal admin. The trader API and live monitoring remain to be implemented.
+Updated 2026-10-05. Independent domain/application rules have a Django/PostgreSQL adapter. [ADR 016](ADR/016-django-postgresql-foundation.md) records the approved framework, ORM, migrations, authentication, sessions, and internal admin. [ADR 017](ADR/017-drf-and-openapi-boundary.md) records the delegated DRF/generated OpenAPI selection. The authenticated thesis draft/approval API exists; live monitoring and the trader UI remain application work.
 
 ## Inspectable modules
 
@@ -18,8 +18,23 @@ Updated 2026-10-04. Independent domain/application rules now have a Django/Postg
 | [persistence/inspection.py](src/macro_agent/persistence/inspection.py) | Fully materialized owner-scoped report from a read-only repeatable-read snapshot |
 | [persistence/admin.py](src/macro_agent/persistence/admin.py) | Read-only domain inspection, scoped to the current account |
 | [web/models.py](src/macro_agent/web/models.py) and [web/settings.py](src/macro_agent/web/settings.py) | UUID Django accounts and explicit application settings |
+| [theses/models.py](src/macro_agent/theses/models.py) | Private thesis aggregates and immutable exact text, manual meaning, approvals, receipts, and audit |
+| [theses/service.py](src/macro_agent/theses/service.py) | Protected draft/proposal/approval commands, exact hashes, current disposition, and coherent history |
+| [theses/admin.py](src/macro_agent/theses/admin.py) | Read-only owner-scoped thesis inspection |
+| [api/parsers.py](src/macro_agent/api/parsers.py) and [api/serializers.py](src/macro_agent/api/serializers.py) | Bounded strict JSON and explicit wire/schema definitions |
+| [api/views.py](src/macro_agent/api/views.py) and [web/session_views.py](src/macro_agent/web/session_views.py) | Session-derived authority, CSRF-protected commands, and private thesis OpenAPI |
 
-These are internal Python contracts, not the selected HTTP schema or every planned domain entity. The original disposable [spike](tools/contract_spike.py) remains separate. Application modules do not import laboratory tools.
+Domain values remain independent Python contracts. The selected HTTP contracts are the explicit DRF serializers/routes and generated [thesis OpenAPI](artifacts/thesis-openapi.yaml), not every planned entity. The original disposable [spike](tools/contract_spike.py) remains separate. Application modules do not import laboratory tools.
+
+## Thesis approval evidence
+
+The authenticated JSON journey saves an unapproved exact-text draft and a manual interpretation, then requires explicit approval of both displayed versions and hashes. A new proposal preserves the current approval. The application compares the aggregate revision under owner-then-thesis protection; immutable input reads and trusted clock sampling follow the locks. Command IDs are unique per owner across all three operations. Exact retries preserve the original receipt while returning current state, so an old approval cannot reactivate itself.
+
+[The thesis migration](src/macro_agent/theses/migrations/0001_initial.py) adds immutable history, scoped references, matched draft/interpretation pointers, and authority constraints. [Record tests](src/macro_agent/theses/tests/test_records.py) exercise database guards, rollback, real lock waits, concurrent commands, coherent snapshot reads, and restricted administration. [API tests](src/macro_agent/api/tests/test_thesis_api.py) exercise real Django sessions and CSRF, account isolation, exact Unicode/whitespace, rejected ambiguity/coercion, stale approval, retries, and generated schema contracts.
+
+[API_DEVELOPMENT.md](API_DEVELOPMENT.md) explains routes, approval requests, and replay limits. The [readable thesis trace](artifacts/thesis-audit.md), [complete synthetic records](artifacts/thesis-audit.json), and [generated SQL](artifacts/thesis-0001.sql) make this increment inspectable. The trace is sequential; separate-connection tests establish concurrency. The manual preview is labeled `user_supplied`; it does not establish compilation, factual challenge, or investment analysis.
+
+Thesis history uses a read-only repeatable-read snapshot, caps each category at 100 records, and exposes truncation. `approved_at` and the preview's provisional `known_at` describe effective command/preparation time, not measured durable commit time. Before monitoring consumes these records, establish durable availability and admit approval changes into publication pins atomically through ADR 015. The API explicitly reports `monitoring: not_configured`.
 
 ## Publication evidence
 
@@ -46,15 +61,15 @@ python3 tools/domain_demo.py --output artifacts/publication-audit.json --report 
 
 ## Boundaries and next work
 
-- Django accounts, sessions, and restricted admin exist. Future API and worker entry points must bind the store actor to their authenticated principal. Durable thesis approval, entitlement checks, and authorized production head creation remain application work. Synthetic bootstrap and version registration are explicitly gated; they are not approval or ingestion endpoints.
-- PostgreSQL currently stores publication payloads and dependency pins. Complete source content, exact approved thesis text, interpretations, and canonical knowledge still need separate durable version records. Fixtures supply those inputs for this increment; hashes alone do not provide complete production replay.
+- Django accounts, sessions, restricted admin, and durable user approval exist. The thesis API derives identity from its authenticated session. Future worker and publication entry points must do the same through reviewed authority. Entitlements, approval admission into publication, and authorized production head creation remain application work. Synthetic bootstrap and version registration are explicitly gated; they are not approval or ingestion endpoints.
+- PostgreSQL stores publication payloads/pins plus separate exact thesis text, manual interpretations, and approvals. Complete source content and canonical knowledge still need durable version records. Publication fixtures still supply those inputs and thesis pins; hashes alone do not provide complete production replay.
 - Heads are scoped to each brief. Shared correction fan-out across users/briefs, typed revision lineage, live receipt capture, and connector rights are not implemented. Known-at ordering and activation history do not validate source revision lineage. Before scaling head changes, replace audit-JSON history scans with reviewed typed activation/lineage records.
 - Exact structured facts are checked against source fields. Source truth and natural-language entailment are separate. Portfolio effects remain unresolved; no model analysis or trade recommendation is generated.
-- Accumulation weights are synthetic, not calibrated thresholds. Morning briefs, counter-analysis, rough-thesis conversations, and the TypeScript UI remain part of the next web slice.
+- Accumulation weights are synthetic, not calibrated thresholds. Agent compilation and rough-thesis conversations, paper exposure, morning briefs, counter-analysis, and the TypeScript UI remain required. The current manual interpretation endpoint does not replace them.
 - Local delivery acknowledgement does not establish worker leasing, external send/retry behavior, or recall. Real channels need separate tests and linked corrections after acceptance.
 - There are zero model calls and spend. Internal BYOK, aggregate budgets, source health, and validated coverage remain required before a usable desk pilot.
 
-Resolve the API adapter and wire-schema tooling, then connect this foundation to the thin web journey. Worker/queue, frontend tooling, hosting, and providers remain open. Retain [ROADMAP.md](ROADMAP.md) gates.
+Connect approved thesis versions and attached paper exposure to the publication protocol, then add the thin web journey and permitted continuous monitoring. Worker/queue, frontend/client tooling, hosting, and providers remain open. Retain [ROADMAP.md](ROADMAP.md) gates.
 
 ## Verification, 2026-10-03
 
@@ -65,3 +80,9 @@ At this earlier increment, all 94 tests passed, including 12 file-backed publica
 All 95 core/laboratory tests and 20 PostgreSQL integration tests pass. The added SQLite regression prevents equal-time restoration of old evidence; the previous audit remains reproducible. PostgreSQL race tests observe the actual guarded query waiting on its blocking backend before release. Concurrent inspection retains one coherent read-only snapshot while a correction commits. Tests also verify atomic rollback, retry state, foreign-owner denial, read-only admin, CSRF on a permitted admin route, and direct database mutation guards.
 
 Migrations 0001 and 0002 applied to an isolated PostgreSQL 17 development database; migration-state comparison reports no changes. The sequential PostgreSQL audit matches subsequent read-only inspection and uses zero provider calls or spend. Django's ordinary system check passes. Its deployment check reports two unsilenced HSTS warnings for subdomain inclusion and browser preloading, which depend on the eventual hosting/domain setup. No production deployment or live desk coverage is claimed.
+
+## Verification, 2026-10-05
+
+All 160 distinct tests pass: 95 core/laboratory, 20 PostgreSQL publication, 22 PostgreSQL thesis record/service, and 23 PostgreSQL API tests. The first combined database run passed 63 tests; two additional approval-versus-proposal races then passed with the complete 22-test thesis suite. Each race observes the actual waiting PostgreSQL backend before releasing the winner. Both orderings reject the stale command without sampling its clock or adding history. Concurrent history inspection preserves its prior snapshot while a proposal and approval commit through another connection.
+
+The new thesis migration applied to the isolated PostgreSQL 17 development database and fresh test databases. Django checks and migration-state comparison pass. Generated thesis-only OpenAPI validates without warnings, with portable digest patterns and strict input objects. The synthetic approval trace preserves exact text, rejects stale approval, reports the older retry as non-current, and matches later read-only inspection. Independent review recomputed all stored text, interpretation, and approval hashes. The increment makes zero model/provider calls and does not establish live monitoring, operational known-at replay, deployed security configuration, or external delivery.

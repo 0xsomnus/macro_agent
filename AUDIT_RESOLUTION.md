@@ -4,7 +4,9 @@ Accepted in joint review through 2026-10-02. These are product decisions, not cl
 
 After comparing language arrangements, the user selected Python API/research workers with a TypeScript web UI in [ADR 014](ADR/014-python-backend-and-typescript-ui.md). Concrete frameworks and persistence were still open at that stage.
 
-Update 2026-10-04: [ADR 016](ADR/016-django-postgresql-foundation.md) selects Django/PostgreSQL with ORM, migrations, authentication, sessions, and restricted internal admin. API/wire tooling, frontend tooling, durable worker/queue, hosting, and providers remain open. Selection does not establish private-row isolation, PostgreSQL publication safety, or live-pilot readiness.
+Update 2026-10-04: [ADR 016](ADR/016-django-postgresql-foundation.md) selects Django/PostgreSQL with ORM, migrations, authentication, sessions, and restricted internal admin. Selection does not establish private-row isolation, PostgreSQL publication safety, or live-pilot readiness.
+
+Amendment 2026-10-05: delegated judgment selects explicit DRF serializers/APIViews and generated drf-spectacular OpenAPI in [ADR 017](ADR/017-drf-and-openapi-boundary.md). Frontend/client tooling, durable worker/queue, hosting, and providers remain open. Approval acceptance time must not be presented as exact durable known-at time; replay/publication integration needs separate evidence.
 
 | Finding | Accepted resolution | Contract owners |
 | --- | --- | --- |

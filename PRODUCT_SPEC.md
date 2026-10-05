@@ -6,7 +6,9 @@ Macro Agent is a continuous research and monitoring desk for solo/retail discret
 
 The first build must prove **both** timely, relevant continuous monitoring and useful challenge to the user's reasoning. Strengthening a rough thesis means making its assumptions explicit, supported, and falsifiable; a useful conversation may reduce conviction or cause the trader to abandon it. A thin web application is the minimum usable interface. [ADR 014](ADR/014-python-backend-and-typescript-ui.md) selects a Python API/research backend and TypeScript UI.
 
-Update 2026-10-04: [ADR 016](ADR/016-django-postgresql-foundation.md) selects the Django/PostgreSQL application foundation. API/wire tooling, frontend tooling, durable workers, and deployment remain open. Authentication and internal inspection must preserve private-trader access and the same approval/publication authority across all entry points.
+Update 2026-10-04: [ADR 016](ADR/016-django-postgresql-foundation.md) selects the Django/PostgreSQL application foundation. Authentication and internal inspection must preserve private-trader access and the same approval/publication authority across all entry points.
+
+Amendment 2026-10-05: [ADR 017](ADR/017-drf-and-openapi-boundary.md) selects explicit DRF serializers/APIViews and generated drf-spectacular OpenAPI through delegated judgment. The first authenticated slice covers manual draft/interpretation approval and private history. Frontend/client tooling, durable workers, and deployment remain open; this slice does not establish the full desk journey.
 
 ## Initial paper pilot
 

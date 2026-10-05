@@ -1,6 +1,6 @@
 # Architectural decision records
 
-These records explain settled choices and rejected alternatives. Updated 2026-10-04 after the Django/PostgreSQL foundation review. Status `Accepted` means the user established the direction; it does not mean implementation, coverage, or legal review is complete. Dated amendments preserve earlier rationale while specifying revised pilot boundaries. A coding agent may propose a superseding ADR, but must not silently change an accepted decision.
+These records explain settled choices and rejected alternatives. Updated 2026-10-05 after the delegated DRF/generated OpenAPI selection. Status `Accepted` means the user established the direction or explicitly delegated its selection; it does not mean implementation, coverage, or legal review is complete. Dated amendments preserve earlier rationale while specifying revised pilot boundaries. A coding agent may propose a superseding ADR, but must not silently change an accepted decision.
 
 | ADR | Decision |
 | --- | --- |
@@ -19,6 +19,7 @@ These records explain settled choices and rejected alternatives. Updated 2026-10
 | [013](013-internal-byok-and-cost-boundaries.md) | Internal BYOK now; configured routes, aggregate costs, commercial decisions later |
 | [014](014-python-backend-and-typescript-ui.md) | Python API/domain/research workers with a TypeScript web UI |
 | [015](015-auditable-publication.md) | Small domain modules, protected publication, forced correction races, and inspectable state transitions |
-| [016](016-django-postgresql-foundation.md) | Django/PostgreSQL, ORM/migrations, and established account/admin foundation; API/wire tooling remains open |
+| [016](016-django-postgresql-foundation.md) | Django/PostgreSQL, ORM/migrations, and established account/admin foundation |
+| [017](017-drf-and-openapi-boundary.md) | Explicit DRF serializers/APIViews, generated drf-spectacular OpenAPI, strict JSON, and session approval authority |
 
-The language arrangement is accepted in ADR 014 after [STACK_OPTIONS.md](../STACK_OPTIONS.md) review. ADR 016 selects Django/PostgreSQL and Django ORM/migrations with authentication, sessions, and internal admin. API adapter and wire-schema tooling, frontend tooling, durable worker/queue, hosting, and model providers remain unselected.
+The language arrangement is accepted in ADR 014 after [STACK_OPTIONS.md](../STACK_OPTIONS.md) review. ADR 016 selects Django/PostgreSQL and Django ORM/migrations with authentication, sessions, and internal admin. ADR 017 selects DRF with drf-spectacular-generated OpenAPI. Frontend and TypeScript client/validator tooling, durable worker/queue, hosting, and model providers remain unselected.

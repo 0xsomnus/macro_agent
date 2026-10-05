@@ -2,6 +2,8 @@
 
 Status: Accepted by user review on 2026-10-04, including Django ORM and migrations.
 
+Amendment 2026-10-05: [ADR 017](017-drf-and-openapi-boundary.md) selects DRF serializers/APIViews and generated drf-spectacular OpenAPI through the user's delegated judgment. This closes the API/schema choice left open by this foundation review without changing its rationale or domain boundary.
+
 **Decision:** Build the Python backend on Django with PostgreSQL. Use Django ORM, migrations, authentication, sessions, and the internal admin as the application foundation. Target Django 5.2 LTS, Python 3.13, and the psycopg driver; pin supported patch versions in the implementation environment. The TypeScript web UI and independent Python domain modules remain as selected in [ADR 014](014-python-backend-and-typescript-ui.md).
 
 **Why:** The owner prefers established frameworks, documented conventions, and less custom security and operations infrastructure. The complete desk needs accounts, schema evolution, internal inspection, and reviewer access alongside its API. Small auditable domain modules are possible with either Django or FastAPI; the thin HTTP layer alone did not justify the earlier FastAPI preference.
@@ -10,7 +12,7 @@ Status: Accepted by user review on 2026-10-04, including Django ORM and migratio
 
 **Security and inspection:** Adopt Django's authentication and session mechanisms rather than inventing equivalents. Restrict admin access and make immutable evidence, approvals, and publication history read-only. Workflow actions must use the same application authority checks as other entry points. Built-in authentication is not proof of private-row isolation, complete authorization, production session configuration, or live security. Verify these separately before external traders use the desk.
 
-**Still open:** The API adapter, including Django REST Framework versus Django Ninja; authoritative wire-schema tooling and TypeScript client generation; frontend tooling; durable worker and queue implementation; hosting; data and model providers. Django selection does not select Pydantic, Ninja, or DRF. Durable capture and delivery must survive HTTP-process restarts regardless of API library.
+**Still open after amendment:** TypeScript client/validator generation and frontend tooling; durable worker and queue implementation; hosting; data and model providers. The original Django selection alone did not select an API library; ADR 017 subsequently selects DRF and schema generation. Durable capture and delivery must survive HTTP-process restarts regardless of API library.
 
 **Rejected for this increment:** FastAPI as the application foundation, because its smaller HTTP surface does not offset the owner's preference for integrated accounts, migrations, and internal tooling. SQLite remains laboratory tooling rather than the chosen persistent service database. A dedicated graph database and a second TypeScript backend remain unnecessary without evidence.
 

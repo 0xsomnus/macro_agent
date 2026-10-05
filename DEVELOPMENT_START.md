@@ -1,10 +1,12 @@
 # First development increment
 
-Status: contract-and-fixture spike started 2026-10-02. User subsequently selected Python API/research workers with a TypeScript UI in [ADR 014](ADR/014-python-backend-and-typescript-ui.md), then Django/PostgreSQL with Django ORM and migrations in [ADR 016](ADR/016-django-postgresql-foundation.md) on 2026-10-04. API/wire tooling, frontend tooling, durable worker/queue, hosting, and providers remain open. The original standard-library reference spike and SQLite adapter remain laboratory tooling.
+Status: contract-and-fixture spike started 2026-10-02. User subsequently selected Python API/research workers with a TypeScript UI in [ADR 014](ADR/014-python-backend-and-typescript-ui.md), then Django/PostgreSQL with Django ORM and migrations in [ADR 016](ADR/016-django-postgresql-foundation.md) on 2026-10-04. [ADR 017](ADR/017-drf-and-openapi-boundary.md) records the delegated DRF/generated OpenAPI choice on 2026-10-05. Frontend/client tooling, durable worker/queue, hosting, and providers remain open. The original standard-library reference spike and SQLite adapter remain laboratory tooling.
 
 Update 2026-10-03: [IMPLEMENTATION.md](IMPLEMENTATION.md) records the independent Python domain/application core, local separate-connection correction tests, and read-only audit report. These port selected contracts into small modules without choosing an HTTP framework or production database. [ADR 015](ADR/015-auditable-publication.md) records the approved auditability requirements.
 
 Update 2026-10-04: target Django 5.2 LTS, Python 3.13, and PostgreSQL through the psycopg driver. Integrate ORM persistence and migrations while retaining the independent domain modules. Framework selection does not establish authenticated user isolation or PostgreSQL concurrency safety. See [IMPLEMENTATION.md](IMPLEMENTATION.md) for verified integration status rather than inferring it from this decision.
+
+Update 2026-10-05: use explicit DRF serializers/APIViews and generated drf-spectacular OpenAPI. The immediate authenticated slice stores exact user drafts and manual interpretations, approves both hashes and latest draft versions with a protected expected-aggregate-revision comparison, and exposes private current/history inspection. [API_DEVELOPMENT.md](API_DEVELOPMENT.md) documents the session/CSRF journey and [thesis trace](artifacts/thesis-audit.md). Model compilation, paper exposure, source capture, and the TypeScript UI follow separately. Protected approval time does not prove exact durable known-at time; replay/publication-pin integration is not part of this slice.
 
 ## Immediate proof
 
@@ -21,7 +23,7 @@ The generated [trace](artifacts/pilot-trace.json) is a reproducible mechanics de
 
 ## Acceptance and limits
 
-- A system worker cannot approve prose or interpretation. Hashes bind the approval to the displayed text/meaning, but actual authenticated service identities remain a product implementation task.
+- A system worker cannot approve prose or interpretation. Hashes bind approval to the displayed text/meaning. The reference spike does not establish authenticated identity; see [IMPLEMENTATION.md](IMPLEMENTATION.md) for evidence from the session boundary.
 - First system receipt, durable availability, and public availability remain distinct. Historical system replay excludes publicly available inputs the desk had not received. Revisions remain available before and after correction cutoffs.
 - Novelty alone cannot trigger investigation or notification; unresolved screening cannot become resolved non-material. Independent thesis and attached-trade impact routes exist in the reference decisions.
 - Cumulative evidence counts distinct events, includes offsets, and applies a fixture-only window and threshold. These numbers have no product calibration or market validity.
@@ -34,7 +36,7 @@ The generated [trace](artifacts/pilot-trace.json) is a reproducible mechanics de
 
 ## Next runnable web slice
 
-Implement the selected Django/PostgreSQL backend and TypeScript UI for a thin web journey: draft/refine thesis -> approve exact text plus interpretation -> attach a paper trade -> inspect watched drivers and coverage -> ingest scheduled and unexpected source fixtures -> receive an evolving event brief -> review evidence or approve a proposed amendment. Resolve API/wire tooling before expanding that boundary; Django does not imply DRF, Ninja, or Pydantic.
+Build the broader thin web journey incrementally: draft/refine thesis -> approve exact text plus interpretation -> attach a paper trade -> inspect watched drivers and coverage -> ingest scheduled and unexpected source fixtures -> receive an evolving event brief -> review evidence or approve a proposed amendment. ADR 017 settles the API/schema boundary. Its first slice uses manual interpretation and explicit approval; later steps need their own domain and integration evidence.
 
 Port the protected publication protocol into ORM transactions and test both correction orderings through independent PostgreSQL connections. Adopt Django authentication, sessions, and restricted internal inspection, with private-row and immutable-history checks across every entry point. Keep durable monitoring and delivery independent of HTTP-process lifetime.
 
@@ -44,7 +46,7 @@ Before a live paper pilot, continuous permitted news, official releases, relevan
 
 ## Decisions still required
 
-API adapter, including DRF versus Ninja, authoritative wire-schema and frontend tooling; durable worker/queue implementation and hosting; actual pilot venues/instruments; source contracts and allowed data flows; numeric relevance/urgency/accumulation thresholds; retention; evaluation acceptance criteria; shared versus private macro-context execution. Adaptive routing, customer BYOK, credit billing, and shared subscription allocation are not prerequisites.
+Frontend and TypeScript client/validator tooling; durable worker/queue implementation and hosting; actual pilot venues/instruments; source contracts and allowed data flows; numeric relevance/urgency/accumulation thresholds; retention; evaluation acceptance criteria; shared versus private macro-context execution. Adaptive routing, customer BYOK, credit billing, and shared subscription allocation are not prerequisites.
 
 ## Verification, 2026-10-02
 

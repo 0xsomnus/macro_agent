@@ -1,6 +1,6 @@
 # Roadmap
 
-Updated 2026-10-04 after the Django/PostgreSQL foundation review. Order work by evidence gates. Continuous monitoring and useful thesis challenge are the core desk promise; scheduled releases alone cannot satisfy the pilot. The broader v1 universe is a future coverage target.
+Updated 2026-10-05 after the delegated DRF/generated OpenAPI selection in [ADR 017](ADR/017-drf-and-openapi-boundary.md). Order work by evidence gates. Continuous monitoring and useful thesis challenge are the core desk promise; scheduled releases alone cannot satisfy the pilot. The broader v1 universe is a future coverage target.
 
 ## Phase 0: reviewed contracts and internal research
 
@@ -9,7 +9,7 @@ Updated 2026-10-04 after the Django/PostgreSQL foundation review. Order work by 
 - Preserve global contextual monitoring: a relevant foreign policy change or supply disruption is in scope without implying complete coverage of that economy.
 - Define portable event, approved-interpretation, exposure, coverage, assessment, and notification contracts with synthetic point-in-time fixtures. See [DEVELOPMENT_START.md](DEVELOPMENT_START.md).
 - Review source timeliness, allowed uses, historical vintages, failure behavior, and coverage exclusions. Continuous permitted news is mandatory for the live pilot. Historical consensus gates later studies rather than basic qualified analysis.
-- Language and application foundation selected: Python API/domain/research workers, TypeScript web UI, and Django/PostgreSQL with Django ORM and migrations, per [ADR 014](ADR/014-python-backend-and-typescript-ui.md) and [ADR 016](ADR/016-django-postgresql-foundation.md). Verify the same authority, atomic publication, correction races, and inspection through the PostgreSQL boundary. API/wire tooling, workers, and deployment choices remain open. Existing internal keys and configured provider adapters support research without adaptive routing, customer BYOK, or a credit-billing system.
+- Language and application foundation selected: Python API/domain/research workers, TypeScript web UI, Django/PostgreSQL, and explicit DRF serializers/APIViews with generated drf-spectacular OpenAPI, per [ADR 014](ADR/014-python-backend-and-typescript-ui.md), [ADR 016](ADR/016-django-postgresql-foundation.md), and [ADR 017](ADR/017-drf-and-openapi-boundary.md). Verify authority, atomic publication, correction races, and inspection through PostgreSQL. Frontend/client tooling, workers, and deployment choices remain open. Existing internal keys and configured provider adapters support research without adaptive routing, customer BYOK, or a credit-billing system.
 
 **Gate:** contracts and authority/time invariants are executable; representative thesis refinement is useful; source feasibility and rights are documented; numeric pilot criteria and required data are identified. Contract tests do not establish live coverage or satisfy this full gate by themselves.
 
@@ -17,6 +17,7 @@ Updated 2026-10-04 after the Django/PostgreSQL foundation review. Order work by 
 
 - Capture exact user text, approved concise interpretation, attached paper trades, source/coverage contracts, factual conflicts, and explicit amendments.
 - Integrate Django authentication, sessions, and restricted internal inspection. Verify private-row isolation and approval authority across API, admin, and worker entry points; built-in account tooling alone does not establish those invariants.
+- First authenticated boundary: persist exact draft text and manually supplied interpretation, then approve their hashes with protected current-version comparison. [API_DEVELOPMENT.md](API_DEVELOPMENT.md) documents the runnable session/approval journey and evidence. Preserve immutable approval history and prevent stale retries from reactivation. This narrower slice does not supply model compilation, paper exposure, source capture, or a desk UI; its acceptance timestamp does not establish durable known-at replay or publication-pin integration.
 - Run continuous permitted news monitoring alongside relevant official scheduled releases and permitted market context. Implement shared source capture, broad triage, unresolved-impact investigation, independent thesis/trade routing, and accumulation of distinct developments with offsets.
 - Provide morning briefs, material-event analysis and counter-analysis, urgent qualified notices, and stable evolving briefs. Verify citations support factual claims; label causal pathways and portfolio consequences as hypotheses.
 - Maintain source-health and coverage views, immutable history, basic decision/outcome records, and atomic notification intents with retry and supersession behavior.
@@ -43,4 +44,4 @@ Updated 2026-10-04 after the Django/PostgreSQL foundation review. Order work by 
 
 ## Open decisions
 
-API adapter, including DRF versus Ninja, authoritative wire-schema and frontend tooling, durable worker/queue and hosting; actual pilot instruments and venues; source/provider contracts and rights; numeric materiality, accumulation, severity, latency, and evaluation thresholds; pilot shared/private macro-context policy; costs and subscription allocation; initial jurisdiction; retention; future equity membership formula. Resolve choices through short reviews with concrete options; do not hide them in implementation.
+Frontend and TypeScript client/validator tooling, durable worker/queue and hosting; actual pilot instruments and venues; source/provider contracts and rights; numeric materiality, accumulation, severity, latency, and evaluation thresholds; pilot shared/private macro-context policy; costs and subscription allocation; initial jurisdiction; retention; future equity membership formula. Resolve choices through short reviews with concrete options; do not hide them in implementation.
