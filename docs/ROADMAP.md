@@ -2,6 +2,8 @@
 
 The internal CLI checkpoint lets a trader enter their own thesis and paper trade against recorded example news. [Text-grounded compilation](THESIS_COMPILATION.md) now adds model-proposed interpretation, questions about weak assumptions, generic router catalogues and explicit model switching. Its mechanics are verified with recorded model responses; live model usefulness, factual verification and current macro context remain to be evaluated. [Getting started](GETTING_STARTED.md) is the runnable journey. No monitoring daemon exists yet, and this checkpoint does not satisfy the continuous monitoring, analysis or web-interface gates below.
 
+The current research increment adds [one-thesis review](COMPILATION_REVIEW.md) against a literal baseline. [Source options](SOURCE_OPTIONS.md) and the [first monitoring slice](MONITORING_SLICE.md) make the next source and runtime choices reviewable; neither selects a licence, worker or live coverage promise.
+
 Updated 2026-10-05 after the delegated DRF/generated OpenAPI selection in [ADR 017](ADR/017-drf-and-openapi-boundary.md). Order work by evidence gates. Continuous monitoring and useful thesis challenge are the core desk promise; scheduled releases alone cannot satisfy the pilot. The broader v1 universe is a future coverage target.
 
 ## Phase 0: reviewed contracts and internal research

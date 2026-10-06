@@ -8,6 +8,7 @@ Start with [Getting started](GETTING_STARTED.md) to run the current prototype. T
 | --- | --- |
 | [Getting started](GETTING_STARTED.md) | Install dependencies, create a local database and test your own inputs with recorded news |
 | [Thesis compilation](THESIS_COMPILATION.md) | Configure a provider, select models and test interpretations and challenge questions |
+| [Compilation review](COMPILATION_REVIEW.md) | Compare one model response with a literal baseline and record private feedback |
 | [API guide](API_DEVELOPMENT.md) | Log in, create a thesis, approve it and inspect private history |
 | [Paper positions](PAPER_POSITIONS.md) | Attach, revise and close a paper trade; understand brief invalidation |
 | [Django development](DJANGO_DEVELOPMENT.md) | Database operations, tests, migration SQL and internal inspection |
@@ -22,6 +23,8 @@ Start with [Getting started](GETTING_STARTED.md) to run the current prototype. T
 | [Roadmap](ROADMAP.md) | Current work, pilot gates, expansion and deferred capabilities |
 | [Thesis engine](THESIS_ENGINE.md) | Refinement, factual challenge, interpretation and user approval |
 | [Monitoring and sources](MONITORING_AND_SOURCES.md) | Continuous capture, source rights, coverage and costs |
+| [Source options](SOURCE_OPTIONS.md) | Compare initial news feeds, published access and unresolved usage rights |
+| [First monitoring slice](MONITORING_SLICE.md) | Review capture-to-brief work, recovery and the remaining implementation choices |
 | [Learning and evaluations](LEARNING_AND_EVALS.md) | Quality measurement and why automated learning is deferred |
 | [Safety boundaries](SAFETY_AND_REGULATORY_BOUNDARIES.md) | Product authority, execution exclusions and legal review boundaries |
 

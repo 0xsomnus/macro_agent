@@ -60,6 +60,8 @@ The selection flow uses one normalized catalogue interface. Each adapter handles
 
 Try an incomplete gold thesis, a conditional currency thesis, and a claim such as "Rate cuts always lift stocks." Judge whether the interpretation preserves your meaning, the questions expose consequential gaps, and the counter-case helps you reason. Successful parsing and contract tests do not establish analytical usefulness.
 
+For a focused one-thesis exercise with a literal baseline and private feedback journal, follow [compilation review](COMPILATION_REVIEW.md). It makes no approval, position or news request.
+
 ## Limits and failures
 
 One explicitly initiated attempt makes at most one model POST, with no automatic retries or model fallback. Configurable research defaults are 3,000 output tokens, a 45-second transport timeout, 20 admissions per account per rolling day and 100 across the local application. They are operating limits, not market-materiality thresholds or guaranteed dollar caps. Failed calls and uncertain admissions count toward the limits. Only one unfinished, unexpired attempt per account is admitted at a time.

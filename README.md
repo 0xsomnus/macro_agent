@@ -88,6 +88,14 @@ The terminal fetches the configured provider's catalogue and lets you search and
 
 Read [thesis compilation](docs/THESIS_COMPILATION.md) for provider switching, failure behavior and current limits.
 
+For a focused test without approval or paper entry, review one example or your own file against a simple baseline:
+
+```sh
+.venv/bin/python tools/evaluate_compilation.py --case es-universal-rate-cut
+```
+
+The [review guide](docs/COMPILATION_REVIEW.md) explains the test cases and private feedback journal. [Source options](docs/SOURCE_OPTIONS.md) and the [first monitoring slice](docs/MONITORING_SLICE.md) are proposals for the next development stage; no news feed or daemon has been selected.
+
 ## Inspect and develop
 
 Open [the local admin](http://127.0.0.1:8000/admin/) for read-only inspection of your records. The admin does not provide the trading workflow. The [getting-started guide](docs/GETTING_STARTED.md) includes fixed examples, troubleshooting and tests. The [API guide](docs/API_DEVELOPMENT.md) documents the same underlying thesis and paper-position operations.
