@@ -7,6 +7,7 @@ Start with [Getting started](GETTING_STARTED.md) to run the current prototype. T
 | Guide | Use it for |
 | --- | --- |
 | [Getting started](GETTING_STARTED.md) | Install dependencies, create a local database and test your own inputs with recorded news |
+| [Thesis compilation](THESIS_COMPILATION.md) | Configure a provider, select models and test interpretations and challenge questions |
 | [API guide](API_DEVELOPMENT.md) | Log in, create a thesis, approve it and inspect private history |
 | [Paper positions](PAPER_POSITIONS.md) | Attach, revise and close a paper trade; understand brief invalidation |
 | [Django development](DJANGO_DEVELOPMENT.md) | Database operations, tests, migration SQL and internal inspection |

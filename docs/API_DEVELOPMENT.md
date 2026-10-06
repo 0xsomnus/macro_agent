@@ -2,7 +2,7 @@
 
 For a guided terminal walkthrough, start with [Getting started](GETTING_STARTED.md). This guide is the HTTP reference for manual requests and client development. The CLI uses these same session and approval endpoints. All shell commands run from the repository root.
 
-Updated 2026-10-05. [ADR 017](ADR/017-drf-and-openapi-boundary.md) selects DRF and drf-spectacular through delegated implementation judgment. Start with [Django setup](DJANGO_DEVELOPMENT.md). This internal API persists exact drafts, manual interpretation previews, explicit user approval, paper declarations and private history. [PAPER_POSITIONS.md](PAPER_POSITIONS.md) specifies attachment/revision/closure and synthetic publication context. It does not configure monitoring.
+Updated 2026-10-06. [ADR 017](ADR/017-drf-and-openapi-boundary.md) selects DRF and drf-spectacular through delegated implementation judgment. Start with [Django setup](DJANGO_DEVELOPMENT.md). This internal API persists exact drafts, manual or model-proposed interpretation previews, explicit user approval, paper declarations and private history. [PAPER_POSITIONS.md](PAPER_POSITIONS.md) specifies attachment/revision/closure and synthetic publication context. It does not configure monitoring.
 
 ## Session and authority
 
@@ -54,7 +54,7 @@ Creation accepts this shape. Replace the illustrative command UUID with a fresh 
 }
 ```
 
-The interpretation is manually supplied and labeled `origin: user_supplied`. This is not agent compilation or an assessment of thesis quality. Empty driver/signpost arrays and a null horizon are permitted, so this storage boundary does not invent missing conviction. Future compilation must expose factual conflicts, unclear assumptions, and proposed refinements separately.
+The interpretation supplied on creation or proposal is manual and labeled `origin: user_supplied`. Empty driver/signpost arrays and a null horizon are permitted, so this storage boundary does not invent missing conviction. The separate internal compilation endpoint proposes `origin: model_compilation` meaning and keeps challenge questions and agent hypotheses separate, as described below.
 
 A proposal uses the same shape plus `expected_revision`, copied from the current thesis. Approval requires a new command UUID and these values copied unchanged from the reviewed response:
 
@@ -106,3 +106,28 @@ Inspect [the thesis trace](../artifacts/thesis-audit.md), [the full thesis recor
 `POST /api/v1/lab/theses/{id}/recorded-news/` accepts only `{"expected_approval_id": "<current reviewed UUID>"}`. The CLI invokes it after your explicit approval and paper attachment. It requires the same session/CSRF authority as other writes, exact local settings, `MACRO_ALLOW_SYNTHETIC_SETUP=1` and a development/test database name. Disabled, missing and foreign contexts are unavailable through opaque responses; this is not production ingestion.
 
 The response separates the fictional source fact, prescribed screening, current brief, declared positions and local notification state. No thesis-specific relevance or portfolio consequence is inferred. Repeating unchanged current context returns the existing notice. An intervening approval/exposure change blocks stale publication with 409; a subsequent reviewed request must observe current context. All twelve source/macro/runtime roles remain synthetic. The schema marks this operation as a development example.
+
+## Internal model compilation
+
+[THESIS_COMPILATION.md](THESIS_COMPILATION.md) explains credential setup, limits and terminal review. The endpoints require exact local settings, a development/test database and `MACRO_ENABLE_MODEL_COMPILATION=1`. Disabled endpoints return opaque 404 responses. Keys come from the backend environment and are never accepted in these requests.
+
+| Method | Route | Purpose |
+| --- | --- | --- |
+| GET | `/api/v1/models/` | Fetch the configured router's normalized catalogue and explicit model IDs |
+| POST | `/api/v1/theses/{id}/compile/` | Admit one private model call and propose a text-grounded interpretation |
+| GET | `/api/v1/theses/{id}/compilations/{attempt_id}/` | Read the saved result and current draft disposition without inference |
+
+Compilation accepts exactly this shape, with a new command UUID, the reviewed draft revision and provider/model copied from the fetched catalogue:
+
+```json
+{
+  "command_id": "4cfd4951-e00d-42df-b829-4ad0c762043c",
+  "expected_revision": 1,
+  "provider_id": "nanogpt",
+  "model_id": "your/exact-catalogue-id"
+}
+```
+
+All endpoints derive ownership from the session; POST requires CSRF. Strict JSON rejects duplicate keys, unknown fields and coercion. The response separates `compilation.document` questions/hypotheses from `thesis.draft.interpretation`, labelled `model_compilation`. Approval still uses the existing exact-version/hash endpoint. A new proposal preserves the current approval.
+
+HTTP 200 can contain `compiled`, `stale`, `failed`, `running` or `outcome_unknown`; inspect the state before offering approval. A changed provider or draft returns 409, admission exhaustion 429, and unavailable configuration/catalogue 503. Repeating the same admitted command returns its original result and current disposition without another provider call. GET never restarts an interrupted call. A late result or intervening draft/approval change cannot install stale meaning. The text-only compiler supplies no verified factual conflicts, current macro context or monitoring readiness.

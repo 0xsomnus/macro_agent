@@ -144,11 +144,11 @@ class InterpretationSerializer(serializers.Serializer):
     horizon = serializers.CharField(allow_null=True, trim_whitespace=False)
     invalidation_signposts = serializers.ListField(child=serializers.CharField(trim_whitespace=False))
     known_at = serializers.DateTimeField(help_text=(
-        "Provisional manual interpretation preparation time. This is not a proved durable commit timestamp "
+        "Provisional interpretation preparation time. This is not a proved durable commit timestamp "
         "and does not establish full operational known-at replay."
     ))
     digest = serializers.CharField()
-    origin = serializers.ChoiceField(choices=["user_supplied"])
+    origin = serializers.ChoiceField(choices=["user_supplied", "model_compilation"])
 
 
 class ApprovalSerializer(serializers.Serializer):

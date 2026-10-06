@@ -215,7 +215,7 @@ class PostgreSQLThesisSchemaTests(PostgreSQLThesisTestCase):
                 request_digest="a" * 64, result={}, saved_at=self.at,
             )
 
-    def test_interpretation_string_arrays_and_manual_origin_are_enforced(self):
+    def test_interpretation_string_arrays_and_origin_provenance_are_enforced(self):
         thesis = self.draft()
         base = {
             "thesis": thesis, "text_version": thesis.latest_text,
@@ -227,7 +227,7 @@ class PostgreSQLThesisSchemaTests(PostgreSQLThesisTestCase):
                 with self.subTest(field=field, value=value):
                     with self.assert_database_guard("23514"):
                         InterpretationRecord.objects.create(**{**base, field: value})
-        with self.assert_database_guard("23514", "macro_interp_origin_manual"):
+        with self.assert_database_guard("23514", "macro_interp_origin_provenance"):
             InterpretationRecord.objects.create(**base, origin="agent_compiled")
 
     def test_command_and_audit_payloads_require_objects(self):

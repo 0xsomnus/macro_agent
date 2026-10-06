@@ -148,6 +148,8 @@ This earlier example uses temporary SQLite storage solely to demonstrate correct
 
 ## Use the existing development checkout
 
+For model-assisted interpretation after basic setup, follow [thesis compilation](THESIS_COMPILATION.md). It adds provider setup and terminal catalogue selection while keeping factual verification and monitoring explicitly unavailable.
+
 This computer already has an isolated PostgreSQL 17 cluster in `.local/pg-native`, with a private socket and `.local/native-db.env` configuration. Check it without initializing anything:
 
 ```sh

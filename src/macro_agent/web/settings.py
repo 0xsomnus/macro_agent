@@ -69,6 +69,14 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / ".local" / "static"
 MACRO_ALLOW_SYNTHETIC_SETUP = False
+MACRO_ENABLE_MODEL_COMPILATION = False
+MACRO_MODEL_PROVIDER = os.environ.get("MACRO_MODEL_PROVIDER", "nanogpt")
+MACRO_MODEL_API_KEY = os.environ.get("MACRO_MODEL_API_KEY", "")
+# Internal research limits, recorded with every admission and configurable.
+MACRO_COMPILATION_MAX_OUTPUT_TOKENS = int(os.environ.get("MACRO_COMPILATION_MAX_OUTPUT_TOKENS", "3000"))
+MACRO_COMPILATION_TIMEOUT_SECONDS = int(os.environ.get("MACRO_COMPILATION_TIMEOUT_SECONDS", "45"))
+MACRO_COMPILATION_OWNER_ATTEMPTS_PER_DAY = int(os.environ.get("MACRO_COMPILATION_OWNER_ATTEMPTS_PER_DAY", "20"))
+MACRO_COMPILATION_ATTEMPTS_PER_DAY = int(os.environ.get("MACRO_COMPILATION_ATTEMPTS_PER_DAY", "100"))
 SECURE_SSL_REDIRECT = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
@@ -94,4 +102,9 @@ SPECTACULAR_SETTINGS = {
     "SERVE_PERMISSIONS": ["rest_framework.permissions.IsAuthenticated"],
     "SERVE_AUTHENTICATION": ["rest_framework.authentication.SessionAuthentication"],
     "COMPONENT_SPLIT_REQUEST": True,
+    "ENUM_NAME_OVERRIDES": {
+        "CompilationStatusEnum": ["running", "outcome_unknown", "compiled", "stale", "failed"],
+        "ModelProviderEnum": ["nanogpt", "openrouter", "cheaperinference"],
+        "PositionStatusEnum": ["open", "closed"],
+    },
 }

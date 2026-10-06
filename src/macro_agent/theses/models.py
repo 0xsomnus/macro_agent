@@ -78,9 +78,11 @@ class InterpretationRecord(models.Model):
     invalidation_signposts = models.JSONField()
     known_at = models.DateTimeField()
     digest = models.CharField(max_length=64)
-    # This slice persists an explicit user-supplied preview, with no compiler.
     origin = models.CharField(max_length=32, default="user_supplied", editable=False,
-                              choices=(("user_supplied", "user_supplied"),))
+                              choices=(("user_supplied", "user_supplied"),
+                                       ("model_compilation", "model_compilation")))
+    compilation = models.ForeignKey("CompilationAttempt", null=True,
+                                    on_delete=models.PROTECT, related_name="interpretations")
 
     class Meta:
         db_table = "macro_thesis_interpretations"
@@ -90,8 +92,12 @@ class InterpretationRecord(models.Model):
                                     name="macro_interp_text_target"),
             models.CheckConstraint(condition=Q(digest__regex=DIGEST_PATTERN),
                                    name="macro_interp_digest_sha256"),
-            models.CheckConstraint(condition=Q(origin="user_supplied"),
-                                   name="macro_interp_origin_manual"),
+            models.UniqueConstraint(fields=("compilation", "id"),
+                                    name="macro_interp_compilation_target"),
+            models.CheckConstraint(condition=(
+                Q(origin="user_supplied", compilation__isnull=True)
+                | Q(origin="model_compilation", compilation__isnull=False)
+            ), name="macro_interp_origin_provenance"),
         ]
 
 
@@ -155,4 +161,71 @@ class AuditTransition(models.Model):
         ordering = ("sequence",)
         constraints = [
             models.CheckConstraint(condition=Q(kind__regex=r"\S"), name="macro_thesis_audit_kind_named"),
+        ]
+
+
+class CompilationBudget(models.Model):
+    """Single lock anchor serializes aggregate admissions, not model calls."""
+
+    id = models.PositiveSmallIntegerField(primary_key=True, default=1)
+
+    class Meta:
+        db_table = "macro_compilation_budget"
+        constraints = [models.CheckConstraint(condition=Q(id=1), name="macro_compile_budget_singleton")]
+
+
+class CompilationAttempt(models.Model):
+    """Immutable admission before sending private text to the configured model."""
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    command_id = models.UUIDField()
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    thesis = models.ForeignKey(ThesisRecord, on_delete=models.PROTECT, related_name="compilations")
+    text_version = models.ForeignKey(TextVersionRecord, on_delete=models.PROTECT)
+    expected_revision = models.PositiveBigIntegerField()
+    request_digest = models.CharField(max_length=64)
+    provider = models.CharField(max_length=32, default="nanogpt")
+    model_id = models.CharField(max_length=255)
+    model_metadata = models.JSONField()
+    configuration = models.JSONField()
+    messages = models.JSONField()
+    prompt_digest = models.CharField(max_length=64)
+    created_at = models.DateTimeField()
+    deadline_at = models.DateTimeField()
+
+    class Meta:
+        db_table = "macro_compilation_attempts"
+        constraints = [
+            models.UniqueConstraint(fields=("owner", "command_id"), name="macro_compile_command_identity"),
+            models.UniqueConstraint(fields=("thesis", "text_version", "id"), name="macro_compile_text_target"),
+            models.CheckConstraint(condition=Q(expected_revision__gt=0), name="macro_compile_revision_positive"),
+            models.CheckConstraint(condition=Q(deadline_at__gt=F("created_at")), name="macro_compile_time_order"),
+            models.CheckConstraint(condition=Q(request_digest__regex=DIGEST_PATTERN), name="macro_compile_digest"),
+            models.CheckConstraint(condition=Q(prompt_digest__regex=DIGEST_PATTERN), name="macro_compile_prompt_digest"),
+            models.CheckConstraint(condition=Q(provider__in=("nanogpt", "openrouter", "cheaperinference")),
+                                   name="macro_compile_provider"),
+        ]
+
+
+class CompilationResult(models.Model):
+    """One append-only terminal result; missing results remain visibly uncertain."""
+
+    attempt = models.OneToOneField(CompilationAttempt, primary_key=True,
+                                  on_delete=models.PROTECT, related_name="result")
+    status = models.CharField(max_length=32)
+    stop_reason = models.CharField(max_length=64)
+    finished_at = models.DateTimeField()
+    document = models.JSONField(null=True)
+    interpretation = models.ForeignKey(InterpretationRecord, null=True, on_delete=models.PROTECT)
+    provider_metadata = models.JSONField()
+
+    class Meta:
+        db_table = "macro_compilation_results"
+        constraints = [
+            models.CheckConstraint(condition=Q(status__in=("compiled", "stale", "failed", "outcome_unknown")),
+                                   name="macro_compile_status"),
+            models.CheckConstraint(condition=(Q(status="compiled", interpretation__isnull=False,
+                                                document__isnull=False)
+                | (~Q(status="compiled") & Q(interpretation__isnull=True))),
+                                   name="macro_compile_result_provenance"),
         ]

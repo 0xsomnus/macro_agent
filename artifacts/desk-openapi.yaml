@@ -66,6 +66,48 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: ''
+  /api/v1/models/:
+    get:
+      operationId: compilation_model_catalog
+      description: Development-only explicit model catalogue from the configured provider.
+        Requires local settings, the model-compilation gate and a development/test
+        database. Prices are advertised metadata, not final charges. The API key is
+        never returned. No model is selected automatically.
+      tags:
+      - internal compilation
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelCatalogResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '503':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
   /api/v1/positions/{position_id}/:
     get:
       operationId: get_position
@@ -453,6 +495,138 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: ''
+  /api/v1/theses/{thesis_id}/compilations/{attempt_id}/:
+    get:
+      operationId: get_compilation
+      description: Read an owner-scoped saved compilation attempt and its current
+        draft disposition. A running or unknown attempt is visible without initiating
+        inference or retries. The response does not assert factual verification, approval
+        or continuous monitoring.
+      parameters:
+      - in: path
+        name: attempt_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - internal compilation
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompilationResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/theses/{thesis_id}/compile/:
+    post:
+      operationId: compile_thesis
+      description: Development-only one-call text-grounded compilation using an explicit
+        catalogue model. The authenticated owner supplies no credentials or provider
+        configuration in this request. The result is a suggested draft interpretation
+        with separate unverified questions and hypotheses. Exact thesis text and current
+        approval remain unchanged. Explicit user approval is still required. There
+        are no fact sources, current macro context, model tools or monitoring daemon.
+        Inspect status even on HTTP 200; saved command retries do not initiate another
+        model call.
+      parameters:
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - internal compilation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompileThesisRequestRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompilationResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '503':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
   /api/v1/theses/{thesis_id}/history/:
     get:
       operationId: thesis_history
@@ -771,6 +945,40 @@ components:
       - recorded_fixture
       type: string
       description: '* `recorded_fixture` - recorded_fixture'
+    CatalogModel:
+      type: object
+      properties:
+        id:
+          type: string
+          maxLength: 255
+        name:
+          type: string
+          maxLength: 512
+        context_length:
+          type: integer
+          minimum: 1
+          nullable: true
+        input_price_usd_per_million:
+          type: string
+          nullable: true
+          description: Advertised USD per million input tokens, or unknown. Not a
+            final charge.
+        output_price_usd_per_million:
+          type: string
+          nullable: true
+          description: Advertised USD per million output tokens, or unknown. Not a
+            final charge.
+        capabilities:
+          type: object
+          additionalProperties:
+            type: boolean
+      required:
+      - capabilities
+      - context_length
+      - id
+      - input_price_usd_per_million
+      - name
+      - output_price_usd_per_million
     ClosePositionRequest:
       type: object
       properties:
@@ -852,6 +1060,270 @@ components:
       - revision
       - thesis_id
       - thesis_version_id
+    Compilation:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        status:
+          allOf:
+          - $ref: '#/components/schemas/CompilationStatusEnum'
+          description: |-
+            Explicit attempt disposition. HTTP 200 does not mean compilation succeeded. An unknown outcome may have incurred provider cost and must not be retried implicitly.
+
+            * `running` - running
+            * `outcome_unknown` - outcome_unknown
+            * `compiled` - compiled
+            * `stale` - stale
+            * `failed` - failed
+        provider:
+          $ref: '#/components/schemas/ModelProviderEnum'
+        model_id:
+          type: string
+          maxLength: 255
+        created_at:
+          type: string
+          format: date-time
+        finished_at:
+          type: string
+          format: date-time
+          nullable: true
+        document:
+          allOf:
+          - $ref: '#/components/schemas/CompilationDocument'
+          nullable: true
+        interpretation_version_id:
+          type: string
+          format: uuid
+          nullable: true
+        is_current_draft:
+          type: boolean
+          description: Protected response snapshot of whether this interpretation
+            remains the latest draft. A draft is not user approval or active monitoring.
+        usage:
+          $ref: '#/components/schemas/CompilationUsage'
+        reported_cost_usd:
+          type: string
+          nullable: true
+        estimated_cost_usd:
+          type: string
+          nullable: true
+          description: Estimate from recorded catalogue pricing and reported token
+            usage; unknown is null.
+        reported_model:
+          type: string
+          nullable: true
+        provider_request_id:
+          type: string
+          nullable: true
+        latency_ms:
+          type: integer
+          minimum: 0
+          nullable: true
+        stop_reason:
+          type: string
+          nullable: true
+        limitations:
+          type: array
+          items:
+            type: string
+      required:
+      - created_at
+      - document
+      - estimated_cost_usd
+      - finished_at
+      - id
+      - interpretation_version_id
+      - is_current_draft
+      - latency_ms
+      - limitations
+      - model_id
+      - provider
+      - provider_request_id
+      - reported_cost_usd
+      - reported_model
+      - status
+      - stop_reason
+      - usage
+    CompilationDocument:
+      type: object
+      properties:
+        interpretation:
+          $ref: '#/components/schemas/InterpretationInput'
+        grounding:
+          type: array
+          items:
+            $ref: '#/components/schemas/CompilationGrounding'
+        refinement_issues:
+          type: array
+          items:
+            $ref: '#/components/schemas/CompilationRefinementIssue'
+        agent_hypotheses:
+          type: array
+          items:
+            $ref: '#/components/schemas/CompilationHypothesis'
+        counter_case:
+          type: string
+          nullable: true
+          description: Unverified competing hypothesis, not a sourced factual finding
+            or trading instruction.
+          maxLength: 2000
+      required:
+      - agent_hypotheses
+      - counter_case
+      - grounding
+      - interpretation
+      - refinement_issues
+      additionalProperties: false
+    CompilationGrounding:
+      type: object
+      properties:
+        field:
+          $ref: '#/components/schemas/FieldEnum'
+        index:
+          type: integer
+          maximum: 31
+          minimum: 0
+          nullable: true
+        exact_quote:
+          type: string
+          description: Exact substring of the supplied thesis. Attribution does not
+            prove semantic accuracy.
+          maxLength: 1000
+      required:
+      - exact_quote
+      - field
+      - index
+      additionalProperties: false
+    CompilationHypothesis:
+      type: object
+      properties:
+        explanation:
+          type: string
+          maxLength: 2000
+        introduced_assumptions:
+          type: array
+          items:
+            type: string
+            maxLength: 1000
+          maxItems: 32
+      required:
+      - explanation
+      - introduced_assumptions
+      additionalProperties: false
+    CompilationRefinementIssue:
+      type: object
+      properties:
+        kind:
+          $ref: '#/components/schemas/CompilationRefinementIssueKindEnum'
+        exact_quote:
+          type: string
+          nullable: true
+          maxLength: 1000
+        explanation:
+          type: string
+          maxLength: 2000
+        question:
+          type: string
+          maxLength: 1000
+      required:
+      - exact_quote
+      - explanation
+      - kind
+      - question
+      additionalProperties: false
+    CompilationRefinementIssueKindEnum:
+      enum:
+      - missing_detail
+      - unsupported_mechanism
+      - verification_needed
+      - ambiguity
+      - defensible_disagreement
+      type: string
+      description: |-
+        * `missing_detail` - missing_detail
+        * `unsupported_mechanism` - unsupported_mechanism
+        * `verification_needed` - verification_needed
+        * `ambiguity` - ambiguity
+        * `defensible_disagreement` - defensible_disagreement
+    CompilationResponse:
+      type: object
+      properties:
+        compilation:
+          $ref: '#/components/schemas/Compilation'
+        thesis:
+          $ref: '#/components/schemas/ThesisDetail'
+      required:
+      - compilation
+      - thesis
+    CompilationStatusEnum:
+      enum:
+      - running
+      - outcome_unknown
+      - compiled
+      - stale
+      - failed
+      type: string
+      description: |-
+        * `running` - running
+        * `outcome_unknown` - outcome_unknown
+        * `compiled` - compiled
+        * `stale` - stale
+        * `failed` - failed
+    CompilationUsage:
+      type: object
+      properties:
+        prompt_tokens:
+          type: integer
+          minimum: 0
+          nullable: true
+        completion_tokens:
+          type: integer
+          minimum: 0
+          nullable: true
+        total_tokens:
+          type: integer
+          minimum: 0
+          nullable: true
+      required:
+      - completion_tokens
+      - prompt_tokens
+      - total_tokens
+    CompileThesisRequestRequest:
+      type: object
+      properties:
+        command_id:
+          type: string
+          format: uuid
+          minLength: 1
+          maxLength: 36
+        expected_revision:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 1
+          format: int64
+        provider_id:
+          allOf:
+          - $ref: '#/components/schemas/ModelProviderEnum'
+          description: |-
+            Provider identity shown by the catalogue, pinned against backend configuration.
+
+            * `nanogpt` - nanogpt
+            * `openrouter` - openrouter
+            * `cheaperinference` - cheaperinference
+        model_id:
+          type: string
+          minLength: 1
+          description: Explicit model ID selected from the configured provider catalogue.
+            No automatic routing.
+          maxLength: 255
+      required:
+      - command_id
+      - expected_revision
+      - model_id
+      - provider_id
+      additionalProperties: false
     ContextStatusEnum:
       enum:
       - ready
@@ -927,6 +1399,16 @@ components:
       - unavailable
       type: string
       description: '* `unavailable` - unavailable'
+    FieldEnum:
+      enum:
+      - drivers
+      - horizon
+      - invalidation_signposts
+      type: string
+      description: |-
+        * `drivers` - drivers
+        * `horizon` - horizon
+        * `invalidation_signposts` - invalidation_signposts
     Interpretation:
       type: object
       properties:
@@ -950,8 +1432,8 @@ components:
         known_at:
           type: string
           format: date-time
-          description: Provisional manual interpretation preparation time. This is
-            not a proved durable commit timestamp and does not establish full operational
+          description: Provisional interpretation preparation time. This is not a
+            proved durable commit timestamp and does not establish full operational
             known-at replay.
         digest:
           type: string
@@ -966,6 +1448,30 @@ components:
       - known_at
       - origin
       - text_version_id
+    InterpretationInput:
+      type: object
+      properties:
+        drivers:
+          type: array
+          items:
+            type: string
+            maxLength: 1000
+          maxItems: 32
+        horizon:
+          type: string
+          nullable: true
+          maxLength: 1000
+        invalidation_signposts:
+          type: array
+          items:
+            type: string
+            maxLength: 1000
+          maxItems: 32
+      required:
+      - drivers
+      - horizon
+      - invalidation_signposts
+      additionalProperties: false
     InterpretationInputRequest:
       type: object
       properties:
@@ -1003,11 +1509,43 @@ components:
       - recorded_example
       type: string
       description: '* `recorded_example` - recorded_example'
+    ModelCatalogResponse:
+      type: object
+      properties:
+        provider:
+          $ref: '#/components/schemas/ModelProviderEnum'
+        compilation_enabled:
+          type: boolean
+        credentials_configured:
+          type: boolean
+        fetched_at:
+          type: string
+          format: date-time
+        models:
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogModel'
+      required:
+      - compilation_enabled
+      - credentials_configured
+      - fetched_at
+      - models
+      - provider
     ModelEnum:
       enum:
       - not_used
       type: string
       description: '* `not_used` - not_used'
+    ModelProviderEnum:
+      enum:
+      - nanogpt
+      - openrouter
+      - cheaperinference
+      type: string
+      description: |-
+        * `nanogpt` - nanogpt
+        * `openrouter` - openrouter
+        * `cheaperinference` - cheaperinference
     MonitoringEnum:
       enum:
       - not_configured
@@ -1016,8 +1554,11 @@ components:
     OriginEnum:
       enum:
       - user_supplied
+      - model_compilation
       type: string
-      description: '* `user_supplied` - user_supplied'
+      description: |-
+        * `user_supplied` - user_supplied
+        * `model_compilation` - model_compilation
     PortfolioImpactEnum:
       enum:
       - unresolved
@@ -1227,6 +1768,14 @@ components:
       - limit
       - offset
       - positions
+    PositionStatusEnum:
+      enum:
+      - open
+      - closed
+      type: string
+      description: |-
+        * `open` - open
+        * `closed` - closed
     PositionVersion:
       type: object
       properties:
@@ -1246,7 +1795,7 @@ components:
         paper:
           type: boolean
         status:
-          $ref: '#/components/schemas/StatusEnum'
+          $ref: '#/components/schemas/PositionStatusEnum'
         underlying:
           type: string
         direction:
@@ -1485,7 +2034,7 @@ components:
           type: string
           format: uuid
         status:
-          $ref: '#/components/schemas/StatusEnum'
+          $ref: '#/components/schemas/PositionStatusEnum'
         underlying:
           type: string
         direction:
@@ -1604,14 +2153,6 @@ components:
         * `pending` - pending
         * `canceled` - canceled
         * `delivered` - delivered
-    StatusEnum:
-      enum:
-      - open
-      - closed
-      type: string
-      description: |-
-        * `open` - open
-        * `closed` - closed
     TextVersion:
       type: object
       properties:

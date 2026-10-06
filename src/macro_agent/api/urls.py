@@ -1,6 +1,7 @@
 """Thesis and paper-position routes expose explicit application commands."""
 
 from django.urls import path
+from .compilation_views import ModelCatalogView, CompilationView, CompilationDetailView
 
 from .lab_views import RecordedNewsView
 from .position_views import (
@@ -15,6 +16,9 @@ from .views import (
 
 app_name = "macro_api"
 urlpatterns = [
+    path("models/", ModelCatalogView.as_view(), name="model-catalog"),
+    path("theses/<uuid:thesis_id>/compile/", CompilationView.as_view(), name="thesis-compile"),
+    path("theses/<uuid:thesis_id>/compilations/<uuid:attempt_id>/", CompilationDetailView.as_view(), name="compilation-detail"),
     path("lab/theses/<uuid:thesis_id>/recorded-news/", RecordedNewsView.as_view(), name="recorded-news"),
     path("schema/", PrivateSchemaView.as_view(), name="schema"),
     path("theses/", ThesisCollectionView.as_view(), name="thesis-list"),

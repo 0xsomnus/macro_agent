@@ -4,9 +4,9 @@ Macro Agent is being built as a research desk for solo discretionary macro and f
 
 ## Current status
 
-This is an early backend prototype. The terminal walkthrough lets you enter your own thesis, supply its interpretation manually, approve both, attach a paper trade, and see a brief generated from recorded fictional news. Thesis and position history is private and approval is explicit.
+This is an early backend prototype. The terminal walkthrough lets you enter your own thesis, review either a manual interpretation or a model proposal, approve both text and interpretation, attach a paper trade, and see a notice from recorded fictional news. Model compilation also raises questions about missing detail and weak assumptions, with counter-cases kept separate. Thesis and position history is private and approval is explicit.
 
-Live news monitoring, model analysis, morning briefs, external alerts and the trader UI are still to be built. The walkthrough tests the workflow and its safeguards; it does not judge the quality of your thesis or generate investment analysis. No model API key is needed.
+The compiler currently reads only your thesis text. It does not verify facts, use current macro context or judge investment quality. Live monitoring, sourced portfolio analysis, morning briefs, external alerts and the trader UI remain to be built. The manual walkthrough needs no model key.
 
 ## Set up locally
 
@@ -59,6 +59,34 @@ To preserve text from a file exactly:
 ```
 
 The example news is fictional and its relevance is predetermined for testing. Portfolio consequences remain unresolved. This is the first CLI workflow milestone, not a live monitoring desk.
+
+## Try model compilation
+
+Configure the provider and enter its key through a hidden prompt:
+
+```sh
+.venv/bin/python tools/desk_cli.py configure-models
+```
+
+Choose NanoGPT, OpenRouter or Cheaper Inference. The key is saved in ignored `.local/models.env` with owner-only permissions. In the backend terminal, stop the server, load that file alongside your database configuration, and restart:
+
+```sh
+set -a
+source .local/models.env
+set +a
+.venv/bin/python manage.py migrate --noinput
+.venv/bin/python manage.py runserver 127.0.0.1:8000
+```
+
+In your second terminal:
+
+```sh
+.venv/bin/python tools/desk_cli.py happy-path --compile
+```
+
+The terminal fetches the configured provider's catalogue and lets you search and choose a model. Review its suggested interpretation, questions and counter-case. Type `switch` to try another model before approval. Each compilation sends your thesis to the chosen provider and may incur a charge. Unknown costs remain unknown.
+
+Read [thesis compilation](docs/THESIS_COMPILATION.md) for provider switching, failure behavior and current limits.
 
 ## Inspect and develop
 

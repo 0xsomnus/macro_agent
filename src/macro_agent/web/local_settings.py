@@ -22,6 +22,7 @@ SESSION_COOKIE_SECURE = False
 CSRF_COOKIE_SECURE = False
 SECURE_HSTS_SECONDS = 0
 MACRO_ALLOW_SYNTHETIC_SETUP = os.environ.get("MACRO_ALLOW_SYNTHETIC_SETUP") == "1"
+MACRO_ENABLE_MODEL_COMPILATION = os.environ.get("MACRO_ENABLE_MODEL_COMPILATION") == "1"
 if MACRO_ALLOW_SYNTHETIC_SETUP and not (
         DATABASES["default"]["NAME"].endswith("_dev") or
         DATABASES["default"]["NAME"].startswith("test_")):

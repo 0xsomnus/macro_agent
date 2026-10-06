@@ -7,6 +7,7 @@ import json
 import os
 from pathlib import Path
 import stat
+import shlex
 import tempfile
 import threading
 import unittest
@@ -67,6 +68,69 @@ class FakeClient:
         if path.endswith("/recorded-news/"):
             return news_response()
         raise AssertionError(path)
+
+
+class CompilationClient(FakeClient):
+    def __init__(self, *, status="compiled", current=True, credentials=True, provider="nanogpt"):
+        super().__init__()
+        self.status = status
+        self.current = current
+        self.credentials = credentials
+        self.compilation_count = 0
+        self.thesis = None
+        self.catalog = {
+            "provider": provider, "compilation_enabled": True,
+            "credentials_configured": credentials, "fetched_at": "2026-10-06T00:00:00Z",
+            "models": [
+                {"id": "example/model-a", "name": "Alpha reasoning", "context_length": 64000,
+                 "input_price_usd_per_million": "0.20", "output_price_usd_per_million": "0.80", "capabilities": {}},
+                {"id": "example/model-b", "name": "Beta", "context_length": None,
+                 "input_price_usd_per_million": None, "output_price_usd_per_million": None, "capabilities": {}},
+            ],
+        }
+
+    def request(self, method, path, body=None):
+        if path == "/api/v1/models/":
+            self.calls.append((method, path, body))
+            return self.catalog
+        if path.endswith("/compile/"):
+            self.calls.append((method, path, body))
+            if body["expected_revision"] != self.thesis["revision"]:
+                raise AssertionError("Client did not use latest returned revision")
+            self.compilation_count += 1
+            interpretation_id = str(cli.uuid4())
+            meaning = {"drivers": ["Rates"], "horizon": "Weeks", "invalidation_signposts": ["Rates rise"]}
+            document = {
+                "interpretation": meaning,
+                "grounding": [{"field": "drivers", "index": 0, "exact_quote": "Gold"},
+                              {"field": "horizon", "index": None, "exact_quote": "Gold"},
+                              {"field": "invalidation_signposts", "index": 0, "exact_quote": "Gold"}],
+                "refinement_issues": [{"kind": "unsupported_mechanism", "exact_quote": "Gold",
+                                       "explanation": "The mechanism may not follow.", "question": "What supports this mechanism?"}],
+                "agent_hypotheses": [{"explanation": "USD could be an additional channel.",
+                                      "introduced_assumptions": ["USD matters for this trade."]}],
+                "counter_case": "Rates might increase.",
+            }
+            if self.status == "compiled":
+                self.thesis["revision"] += 1
+                self.thesis["draft"]["interpretation"] = {
+                    "id": interpretation_id, "digest": str(self.compilation_count) * 64,
+                    "origin": "model_compilation", **meaning,
+                }
+            response = {
+                "compilation": {"id": str(cli.uuid4()), "status": self.status,
+                                "model_id": body["model_id"], "provider": body["provider_id"],
+                                "created_at": "2026-10-06T00:00:00Z", "finished_at": None,
+                                "is_current_draft": self.current, "document": document if self.status == "compiled" else None,
+                                "interpretation_version_id": interpretation_id if self.status == "compiled" else None,
+                                "usage": {}, "reported_cost_usd": None, "estimated_cost_usd": None, "stop_reason": None},
+                "thesis": self.thesis,
+            }
+            return json.loads(json.dumps(response))
+        result = super().request(method, path, body)
+        if path == "/api/v1/theses/":
+            self.thesis = json.loads(json.dumps(result["thesis"]))
+        return result
 
 
 def answerer(values):
@@ -313,6 +377,253 @@ class SessionTransportTests(unittest.TestCase):
         self.assertNotIn("secret-password", str(caught.exception))
         self.assertNotIn("csrf-private-token", str(caught.exception))
         self.assertIn("Review the current thesis", str(caught.exception))
+
+    def test_compile_timeout_reports_unknown_outcome_without_retry(self):
+        client = cli.DeskClient("http://127.0.0.1:8000")
+        client.csrf_token = "token"
+        with patch.object(client.opener, "open", side_effect=TimeoutError) as opened:
+            with self.assertRaises(cli.WalkthroughError) as caught:
+                client.request("POST", f"/api/v1/theses/{THESIS_ID}/compile/", {"command_id": str(cli.uuid4())})
+        self.assertEqual(opened.call_count, 1)
+        self.assertEqual(opened.call_args.kwargs["timeout"], 90)
+        self.assertIn("outcome and cost are unknown", str(caught.exception))
+        self.assertIn("No retry", str(caught.exception))
+
+    def test_partial_or_invalid_http_compile_body_is_unknown_without_retry(self):
+        for chunked in (True, False):
+            with self.subTest(chunked=chunked):
+                received = []
+                def callback(handler):
+                    handler.rfile.read(int(handler.headers.get("Content-Length", "0")))
+                    received.append(handler.path)
+                    handler.send_response(200)
+                    handler.send_header("Content-Type", "application/json")
+                    if chunked:
+                        handler.send_header("Transfer-Encoding", "chunked")
+                    handler.end_headers()
+                    # A severed chunk or a malformed JSON body after acceptance
+                    # cannot establish whether compilation was saved or billed.
+                    handler.wfile.write(b"100\r\nprivate-provider-body" if chunked else b"private-provider-body")
+                    handler.close_connection = True
+                with http_server(callback) as url:
+                    client = cli.DeskClient(url)
+                    client.csrf_token = "token"
+                    with self.assertRaises(cli.WalkthroughError) as caught:
+                        client.request("POST", f"/api/v1/theses/{THESIS_ID}/compile/", {"command_id": str(cli.uuid4())})
+                self.assertEqual(len(received), 1)
+                self.assertIn("outcome and cost are unknown", str(caught.exception))
+                self.assertIn("No retry", str(caught.exception))
+                self.assertNotIn("private-provider-body", str(caught.exception))
+
+
+class CompilationWalkthroughTests(unittest.TestCase):
+    def test_compilation_keeps_exact_text_and_approves_only_reviewed_model_preview(self):
+        client = CompilationClient()
+        messages = []
+        answers = ["trader", "  Gold α  ", "approve", "XAU", "long", "", "Weeks"]
+        trace = cli.happy_path(client, compile=True, model_id="example/model-a", ask=answerer(answers),
+                              secret=lambda prompt: "password", say=messages.append)
+        created = next(body for method, path, body in client.calls if path == "/api/v1/theses/")
+        self.assertEqual(created["text"], "  Gold α  ")
+        self.assertEqual(created["interpretation"], {"drivers": [], "horizon": None, "invalidation_signposts": []})
+        compiled = next(body for method, path, body in client.calls if path.endswith("/compile/"))
+        self.assertEqual(set(compiled), {"command_id", "expected_revision", "model_id", "provider_id"})
+        self.assertEqual(compiled["provider_id"], "nanogpt")
+        self.assertEqual(compiled["expected_revision"], 7)
+        self.assertEqual(compiled["model_id"], "example/model-a")
+        approved = next(body for method, path, body in client.calls if path.endswith("/approvals/"))
+        compiled_draft = trace["compilations"][0]["thesis"]["draft"]
+        self.assertEqual(approved["interpretation_version_id"], compiled_draft["interpretation"]["id"])
+        self.assertEqual(approved["interpretation_digest"], compiled_draft["interpretation"]["digest"])
+        self.assertEqual(approved["text_digest"], "a" * 64)
+        self.assertEqual(approved["expected_revision"], 8)
+        output = "\n".join(messages)
+        self.assertIn("What supports this mechanism?", output)
+        self.assertIn("Agent hypotheses, separate", output)
+        self.assertIn("Introduced assumptions", output)
+        self.assertIn("Counter-case", output)
+        self.assertIn("factual verification are unavailable", output)
+        self.assertIn("Provider-reported cost USD: unknown", output)
+        self.assertIn("Estimated cost USD: unknown", output)
+        self.assertNotIn("Provider-reported cost USD: 0", output)
+        self.assertTrue(client.logged_out)
+
+    def test_named_search_number_selection_and_decline_do_not_approve(self):
+        client = CompilationClient()
+        messages = []
+        cli.happy_path(client, compile=True, ask=answerer(["trader", "Gold", "/beta", "1", ""]),
+                       secret=lambda prompt: "password", say=messages.append)
+        compiles = [body for method, path, body in client.calls if path.endswith("/compile/")]
+        self.assertEqual(compiles[0]["model_id"], "example/model-b")
+        self.assertFalse(any(path.endswith("/approvals/") for method, path, body in client.calls))
+        self.assertIn("Draft left unapproved", messages[-1])
+        self.assertTrue(client.logged_out)
+
+    def test_switch_fetches_catalog_again_and_uses_latest_revision_and_new_command(self):
+        client = CompilationClient()
+        answers = ["trader", "Gold", "1", "switch", "example/model-b", "approve", "XAU", "short", "", ""]
+        trace = cli.happy_path(client, compile=True, ask=answerer(answers),
+                              secret=lambda prompt: "password", say=lambda value: None)
+        catalogs = [path for method, path, body in client.calls if path == "/api/v1/models/"]
+        self.assertEqual(len(catalogs), 2)
+        compiles = [body for method, path, body in client.calls if path.endswith("/compile/")]
+        self.assertEqual([body["model_id"] for body in compiles], ["example/model-a", "example/model-b"])
+        self.assertEqual([body["expected_revision"] for body in compiles], [7, 8])
+        self.assertNotEqual(compiles[0]["command_id"], compiles[1]["command_id"])
+        approved = next(body for method, path, body in client.calls if path.endswith("/approvals/"))
+        self.assertEqual(approved["expected_revision"], 9)
+        self.assertEqual(approved["interpretation_version_id"], trace["compilations"][-1]["compilation"]["interpretation_version_id"])
+        self.assertEqual(len(trace["compilations"]), 2)
+
+    def test_failed_running_unknown_stale_and_historical_results_never_reach_approval(self):
+        for status, current in (("failed", False), ("running", False), ("outcome_unknown", False),
+                                ("stale", False), ("compiled", False)):
+            with self.subTest(status=status):
+                client = CompilationClient(status=status, current=current)
+                messages = []
+                trace = cli.happy_path(client, compile=True, model_id="example/model-a",
+                                      ask=answerer(["trader", "Gold"]), secret=lambda prompt: "password", say=messages.append)
+                self.assertEqual(client.compilation_count, 1)
+                self.assertNotIn("approval", trace)
+                self.assertFalse(any(path.endswith("/approvals/") or path.endswith("/positions/")
+                                     for method, path, body in client.calls))
+                self.assertIn("no automatic retry", messages[-1])
+                self.assertTrue(client.logged_out)
+
+    def test_unknown_requested_model_has_no_fallback_or_provider_request(self):
+        client = CompilationClient()
+        with self.assertRaises(cli.WalkthroughError):
+            cli.happy_path(client, compile=True, model_id="invented/default", ask=answerer(["trader", "Gold"]),
+                           secret=lambda prompt: "password", say=lambda value: None)
+        self.assertEqual(client.calls, [("GET", "/api/v1/models/", None)])
+        self.assertTrue(client.logged_out)
+
+    def test_unconfigured_credentials_are_actionable_and_no_draft_is_created(self):
+        client = CompilationClient(credentials=False)
+        with self.assertRaisesRegex(cli.WalkthroughError, "configure-models"):
+            cli.happy_path(client, compile=True, ask=answerer(["trader", "Gold"]),
+                           secret=lambda prompt: "password", say=lambda value: None)
+        self.assertEqual(client.calls, [("GET", "/api/v1/models/", None)])
+
+    def test_selection_cancellation_does_not_create_draft_or_request_model(self):
+        client = CompilationClient()
+        trace = cli.happy_path(client, compile=True, ask=answerer(["trader", "Gold", "cancel"]),
+                              secret=lambda prompt: "password", say=lambda value: None)
+        self.assertEqual(trace["model_selected"], False)
+        self.assertEqual(client.calls, [("GET", "/api/v1/models/", None)])
+
+    def test_model_switch_cancellation_keeps_preview_without_new_charge_or_approval(self):
+        client = CompilationClient()
+        cli.happy_path(client, compile=True, model_id="example/model-a", ask=answerer(["trader", "Gold", "switch", "cancel"]),
+                       secret=lambda prompt: "password", say=lambda value: None)
+        self.assertEqual(client.compilation_count, 1)
+        self.assertFalse(any(path.endswith("/approvals/") for method, path, body in client.calls))
+
+    def test_each_router_uses_its_dynamic_catalog_and_pins_provider(self):
+        for provider in ("nanogpt", "openrouter", "cheaperinference"):
+            with self.subTest(provider=provider):
+                client = CompilationClient(provider=provider)
+                messages = []
+                trace = cli.happy_path(client, compile=True, ask=answerer(["trader", "Gold", "2", ""]),
+                                      secret=lambda prompt: "password", say=messages.append)
+                compiled = next(body for method, path, body in client.calls if path.endswith("/compile/"))
+                self.assertEqual(compiled["provider_id"], provider)
+                self.assertEqual(compiled["model_id"], "example/model-b")
+                self.assertEqual(trace["compilations"][0]["compilation"]["provider"], provider)
+                self.assertIn(cli.PROVIDER_LABELS[provider], "\n".join(messages))
+
+    def test_provider_change_during_request_cannot_be_approved(self):
+        client = CompilationClient()
+        request = client.request
+        def changed_provider(method, path, body=None):
+            response = request(method, path, body)
+            if path.endswith("/compile/"):
+                response["compilation"]["provider"] = "openrouter"
+            return response
+        client.request = changed_provider
+        with self.assertRaisesRegex(cli.WalkthroughError, "provider"):
+            cli.happy_path(client, compile=True, model_id="example/model-a", ask=answerer(["trader", "Gold"]),
+                           secret=lambda prompt: "password", say=lambda value: None)
+        self.assertFalse(any(path.endswith("/approvals/") for method, path, body in client.calls))
+        self.assertTrue(client.logged_out)
+
+    def test_model_switch_uses_fresh_provider_pin(self):
+        client = CompilationClient()
+        request = client.request
+        catalogs = 0
+        def switched_provider(method, path, body=None):
+            nonlocal catalogs
+            if path == "/api/v1/models/":
+                catalogs += 1
+                if catalogs == 2:
+                    client.catalog["provider"] = "cheaperinference"
+            return request(method, path, body)
+        client.request = switched_provider
+        cli.happy_path(client, compile=True, model_id="example/model-a",
+                       ask=answerer(["trader", "Gold", "switch", "1", ""]),
+                       secret=lambda prompt: "password", say=lambda value: None)
+        compiles = [body for method, path, body in client.calls if path.endswith("/compile/")]
+        self.assertEqual([body["provider_id"] for body in compiles], ["nanogpt", "cheaperinference"])
+
+
+class ModelSetupTests(unittest.TestCase):
+    def test_hidden_key_is_shell_quoted_private_and_never_printed(self):
+        key = "private'key$literal$(do-not-run)"
+        messages = []
+        prompts = []
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / ".local" / "models.env"
+            def hidden(prompt):
+                prompts.append(prompt)
+                return key
+            cli.configure_models(path, ask=answerer(["nanogpt"]), secret=hidden, say=messages.append)
+            self.assertEqual(stat.S_IMODE(path.stat().st_mode), 0o600)
+            text = path.read_text()
+            assignments = shlex.split(text)
+            self.assertIn("MACRO_MODEL_API_KEY=" + key, assignments)
+            self.assertIn("MACRO_MODEL_PROVIDER=nanogpt", assignments)
+            self.assertIn("MACRO_ENABLE_MODEL_COMPILATION=1", assignments)
+            self.assertNotIn(key, "\n".join(messages))
+            self.assertEqual(prompts, ["NanoGPT API key (hidden): "])
+            self.assertIn("No provider request was made", "\n".join(messages))
+            with self.assertRaises(cli.WalkthroughError):
+                cli.configure_models(path, ask=answerer(["nanogpt"]), secret=lambda prompt: "replacement", say=lambda value: None)
+            self.assertEqual(path.read_text(), text)
+
+    def test_invalid_key_does_not_create_configuration_or_echo_the_key(self):
+        for key in ("", " ", "secret value", "secret\tvalue", "secret\nexport MALICIOUS=1", "secret\x00"):
+            with self.subTest(key=repr(key)), tempfile.TemporaryDirectory() as directory:
+                path = Path(directory) / "models.env"
+                messages = []
+                with self.assertRaises(cli.WalkthroughError) as caught:
+                    cli.configure_models(path, ask=answerer(["nanogpt"]), secret=lambda prompt: key, say=messages.append)
+                self.assertFalse(path.exists())
+                self.assertNotIn("MALICIOUS", str(caught.exception) + "\n".join(messages))
+
+    def test_insecure_getpass_fallback_is_rejected_before_reading_the_key(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "models.env"
+            def insecure(prompt):
+                cli.warnings.warn("Cannot disable echo", cli.getpass.GetPassWarning)
+                raise AssertionError("An insecure fallback must not continue reading credentials")
+            with self.assertRaisesRegex(cli.WalkthroughError, "interactive terminal"):
+                cli.configure_models(path, ask=answerer(["nanogpt"]), secret=insecure, say=lambda value: None)
+            self.assertFalse(path.exists())
+
+    def test_setup_provider_is_explicit_and_never_guessed_from_key_shape(self):
+        for provider in ("nanogpt", "openrouter", "cheaperinference"):
+            with self.subTest(provider=provider), tempfile.TemporaryDirectory() as directory:
+                path = Path(directory) / "models.env"
+                prompts = []
+                def secret(prompt):
+                    prompts.append(prompt)
+                    return "same-unclassified-key-format"
+                cli.configure_models(path, ask=answerer(["", "not-a-router", provider]),
+                                     secret=secret, say=lambda value: None)
+                assignments = shlex.split(path.read_text())
+                self.assertIn("MACRO_MODEL_PROVIDER=" + provider, assignments)
+                self.assertIn("MACRO_MODEL_API_KEY=same-unclassified-key-format", assignments)
+                self.assertEqual(prompts, [cli.PROVIDER_LABELS[provider] + " API key (hidden): "])
 
 
 if __name__ == "__main__":
