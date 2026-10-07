@@ -18,13 +18,14 @@ The instrument list limits supported exposure promises, not contextual geography
 | [PostgreSQL publication store](../src/macro_agent/persistence/publication_store.py) and [source work](../src/macro_agent/monitoring/work.py) | Protected per-brief currentness, local intents and separate fenced capture-work leases exist. Observed source heads do not govern brief publication; global correction protection and external sends remain absent. |
 | [Context binding](../src/macro_agent/persistence/context_binding.py) and [paper positions](PAPER_POSITIONS.md) | Approved text/interpretation and complete exposure are resolved. Initial non-user dependencies remain synthetic-gated; real contract/coverage admission needs an explicit service. Instrument mappings remain unverified. |
 | [Provider boundary](../src/macro_agent/providers/__init__.py) and [compilation service](../src/macro_agent/theses/compilation.py) | Explicit models, bounded admission and uncertain-call handling can inform monitoring. The compiler schema is text-only and must not become the monitoring schema. |
+| [One-report analysis](NEWS_ANALYSIS.md) | Automatic next-report selection, protected approved meaning/full attached book, exact quotation validation and independent thesis/trade hypotheses exist for explicit internal review. There is no continuous classifier, current macro regime or sourced publication authority. |
 | [Read-only brief inspection](../src/macro_agent/persistence/inspection.py) and [source inspection](../src/macro_agent/monitoring/inspection.py) | Local source health, pending-work counts and bounded receipt/attempt traces exist. Continuous gap detection, cursor/backfill completeness and private or entitled trader views remain unimplemented. |
 
 The [recorded-news service](../src/macro_agent/lab/recorded_news.py) stays a fictional test path. Removing its gate would create source and publication authority without the required contracts.
 
 ## Minimal durable records
 
-The capture proof implements a subset in ordinary Django/PostgreSQL records. The table describes the broader remaining contracts, including source-to-thesis admission; it is not a production migration design.
+The capture proof and one-report analysis implement subsets in ordinary Django/PostgreSQL records. Private analysis admission pins one source revision and approved thesis/exposure without granting publication authority. The table describes the broader remaining contracts; it is not a production migration design.
 
 | Record | Required content |
 | --- | --- |

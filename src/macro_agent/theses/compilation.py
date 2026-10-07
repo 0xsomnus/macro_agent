@@ -17,7 +17,8 @@ from macro_agent.domain.models import CompiledThesisVersion, canonical_json, tex
 from macro_agent.providers import PROVIDER_IDS, create_provider, ProviderError, is_explicit_model_id
 
 from . import service
-from .models import CompilationAttempt, CompilationBudget, CompilationResult, InterpretationRecord, AuditTransition
+from .models import CompilationAttempt, CompilationResult, InterpretationRecord, AuditTransition
+from .model_budget import capacity_available, lock_model_budget
 
 
 LIMITATIONS = [
@@ -196,13 +197,9 @@ def compile_thesis(actor_id, thesis_id, command_id, expected_revision, model_id,
         if thesis.revision != revision:
             raise service.ThesisConflict("thesis changed; review the current draft")
         # All aggregate admissions use this lock after owner and thesis locks.
-        CompilationBudget.objects.get_or_create(pk=1)
-        CompilationBudget.objects.select_for_update().get(pk=1)
+        lock_model_budget()
         at = service._instant(clock, thesis)
-        attempts = CompilationAttempt.objects.filter(created_at__gt=at - timedelta(days=1))
-        if (attempts.count() >= configuration["aggregate_attempts_per_day"]
-                or attempts.filter(owner_id=actor_id).count() >= configuration["owner_attempts_per_day"]
-                or attempts.filter(owner_id=actor_id, result__isnull=True, deadline_at__gt=at).exists()):
+        if not capacity_available(actor_id, at, configuration):
             raise CompilationBudgetExhausted("compilation admission limit reached")
         messages = build_messages(thesis.latest_text.exact_text)
         attempt = CompilationAttempt.objects.create(owner_id=actor_id, thesis=thesis,

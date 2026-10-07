@@ -1,0 +1,187 @@
+{
+  "verified_on": "2026-10-07",
+  "scope": "fictional terminal + Django HTTP + PostgreSQL mechanics",
+  "provider_mode": "recorded response; no real provider key or inference",
+  "request": {
+    "thesis_id": "9e0ae230-9095-4fc7-8b8e-88df38de2407",
+    "path": "/api/v1/theses/9e0ae230-9095-4fc7-8b8e-88df38de2407/analyse-next/",
+    "request": {
+      "command_id": "c24a6803-dfff-4c69-b6cf-48da93270042",
+      "expected_approval_id": "0d645b57-7d53-4552-9f6a-07dcdbdee7d9",
+      "expected_exposure_digest": "6efa611119d7c73c12a53d131a67b17863462d9236c40895fd5b73b9ef5305f9",
+      "source_id": "fixture-news-smoke-332113e6aea8",
+      "provider_id": "nanogpt",
+      "model_id": "example/model"
+    }
+  },
+  "response": {
+    "analysis": {
+      "id": "10ee60ae-08cc-4dae-8c53-cd0b8bb4b0a2",
+      "status": "analysed",
+      "current_disposition": "current",
+      "replayed": false,
+      "source_revision_id": "36754edd-871c-43e9-8a18-2afaac3f5a63",
+      "provider": "nanogpt",
+      "model_id": "example/model",
+      "created_at": "2026-10-07T17:51:33.207052+00:00",
+      "finished_at": "2026-10-07T17:51:33.214196+00:00",
+      "context": {
+        "source": {
+          "source_key": "fixture-news-smoke-332113e6aea8",
+          "report_id": 24,
+          "native_id": "fictional-news-divergence",
+          "revision_id": "36754edd-871c-43e9-8a18-2afaac3f5a63",
+          "digest": "84212ab78ccf6276b979f0b2a2044418b05043d0339dc28f02679289aabc2217",
+          "title": "FICTIONAL ANALYSIS FIXTURE: policy easing accompanies reported funding stress",
+          "content": "This invented item tests independent thesis and trade analysis only. The fictional central bank cut its policy rate and opened a temporary liquidity facility following reports of funding stress. No market prices, consensus expectations, real-yield observations or verified portfolio effects are supplied. This is not real news.",
+          "url": "https://example.invalid/fictional-news-divergence",
+          "published_at": "2026-10-01T12:00:00+00:00",
+          "received_at": "2026-10-07T17:51:32.341976+00:00",
+          "availability_witness_at": "2026-10-07T17:51:32.350343+00:00",
+          "is_fixture": true
+        },
+        "approved_thesis": {
+          "thesis_id": "9e0ae230-9095-4fc7-8b8e-88df38de2407",
+          "thesis_version_id": "7c80e56d-cb7d-4359-bbe8-40fe78603570",
+          "approval_id": "0d645b57-7d53-4552-9f6a-07dcdbdee7d9",
+          "interpretation_id": "b82e8de2-a3dc-484e-b961-9891e2865028",
+          "exact_text": "  Policy easing may support equities over a few months.\r\nΔ\r\n",
+          "drivers": [
+            "Policy easing"
+          ],
+          "horizon": "A few months",
+          "invalidation_signposts": []
+        },
+        "positions": [
+          {
+            "position_id": "a15f698c-340e-4aaa-adda-d823edf737fa",
+            "version_id": "4f381b9d-282c-43e7-a224-e28f41b1228c",
+            "status": "open",
+            "underlying": "NQ",
+            "direction": "long",
+            "quantity": null,
+            "quantity_unit": null,
+            "horizon": "A few days",
+            "product_id": null,
+            "venue": null,
+            "expiry": null,
+            "quote_currency": null,
+            "mapping_status": "user_declared_unverified",
+            "missing_fields": [
+              "product_id",
+              "venue",
+              "quote_currency",
+              "quantity",
+              "quantity_unit"
+            ]
+          }
+        ]
+      },
+      "document": {
+        "hypotheses": [
+          {
+            "horizon": null,
+            "fact_ids": [
+              "f1"
+            ],
+            "signposts": [
+              "For later investigation, examine permitted evidence on the reported funding stress and the liquidity facility's effect."
+            ],
+            "assumptions": [
+              "The policy easing is relevant to the trader's medium-term equity mechanism.",
+              "The reported stress could affect credit or risk appetite beyond the affected institutions.",
+              "A leveraged or financed product would have additional exposure, which is not established by the supplied declaration."
+            ],
+            "explanation": "Unverified hypothesis: policy easing could support medium-term equity conditions, while unresolved funding stress could create a separate near-term risk to the attached long exposure.",
+            "uncertainty": "No credit, market-consensus, reaction or verified leverage data were supplied. The feed item is fictional and cannot establish a live macro regime or portfolio effect.",
+            "counter_case": "Unverified competing hypothesis: the liquidity facility could contain the reported stress and easing could offset its effect before the paper position is adversely affected.",
+            "position_ids": [
+              "a15f698c-340e-4aaa-adda-d823edf737fa"
+            ],
+            "transmission": "If funding stress constrains credit or prompts risk reduction before easing helps activity, the declared NQ long could face adverse conditions; if the product is leveraged, financing or margin needs could matter separately.",
+            "hypothesis_id": "h1"
+          }
+        ],
+        "trade_route": {
+          "status": "potential",
+          "fact_ids": [
+            "f1"
+          ],
+          "explanation": "Reported funding stress could expose the declared long NQ paper position to a nearer-term adverse path even if easing supports the medium-term thesis. Leverage, instrument mapping and sizing effects remain unverified.",
+          "position_ids": [
+            "a15f698c-340e-4aaa-adda-d823edf737fa"
+          ]
+        },
+        "thesis_route": {
+          "status": "potential",
+          "fact_ids": [
+            "f1"
+          ],
+          "explanation": "The reported policy easing may support the trader's medium-term easing mechanism. The excerpt does not establish earnings, real yields or the market's response."
+        },
+        "schema_version": "retained-news-analysis-v1",
+        "attributed_facts": [
+          {
+            "field": "content",
+            "fact_id": "f1",
+            "exact_quote": "The fictional central bank cut its policy rate and opened a temporary liquidity facility following reports of funding stress.",
+            "source_revision_id": "36754edd-871c-43e9-8a18-2afaac3f5a63"
+          }
+        ],
+        "trader_questions": [
+          "How does the position horizon compare with the medium-term thesis horizon?",
+          "Is the declared product leveraged or financed, and which funding evidence would challenge your view?"
+        ]
+      },
+      "usage": {
+        "total_tokens": 30,
+        "prompt_tokens": 10,
+        "completion_tokens": 20
+      },
+      "reported_cost_usd": null,
+      "estimated_cost_usd": "0.00005",
+      "reported_model": "example/model",
+      "provider_request_id": "recorded-news-request",
+      "latency_ms": 12,
+      "stop_reason": "completed",
+      "stale_reasons": [],
+      "limitations": [
+        "One retained report, not broad news coverage or a verified current macro regime.",
+        "Exact excerpts establish attribution, not factual truth or semantic support.",
+        "Thesis and trade connections are unverified model hypotheses for review.",
+        "The complete attached-thesis paper book is not the user's whole portfolio.",
+        "Instrument mapping, consensus, pricing and market reactions are unverified or unavailable.",
+        "No thesis amendment, notice, execution or automatic paid retry is authorized.",
+        "Source order is latest observed payload, not authoritative publisher revision order.",
+        "Input observations and preparation times are not exact durable admission commit times."
+      ],
+      "unresolved_attempt_count": 0
+    }
+  },
+  "real_provider_calls": 0,
+  "real_provider_spend_usd": "0",
+  "estimate_caveat": "Response estimate uses recorded catalogue/usage data, not real billing.",
+  "verification": {
+    "core_tests": 258,
+    "postgres_tests": 244,
+    "total_tests": 502
+  },
+  "limits": [
+    "Not live reasoning quality or causal verification.",
+    "No continuous daemon or broad coverage.",
+    "No sourced alert publication or changes to approved meaning or trades.",
+    "Input timestamps are not exact durable commit times."
+  ],
+  "review": {
+    "status": "reviewed",
+    "attempt_status": "analysed",
+    "ratings": {
+      "attribution": "uncertain",
+      "independent_routes": "uncertain",
+      "uncertainty": "uncertain",
+      "usefulness": "uncertain"
+    },
+    "notes": "Recorded dual-route mechanics only."
+  },
+  "review_mode": "scripted terminal inputs; no analytical usefulness judgment"
+}

@@ -64,7 +64,7 @@ For a focused one-thesis exercise with a literal baseline and private feedback j
 
 ## Limits and failures
 
-One explicitly initiated attempt makes at most one model POST, with no automatic retries or model fallback. Configurable research defaults are 3,000 output tokens, a 45-second transport timeout, 20 admissions per account per rolling day and 100 across the local application. They are operating limits, not market-materiality thresholds or guaranteed dollar caps. Failed calls and uncertain admissions count toward the limits. Only one unfinished, unexpired attempt per account is admitted at a time.
+One explicitly initiated attempt makes at most one model POST, with no automatic retries or model fallback. Configurable research defaults are 3,000 output tokens, a 45-second transport timeout, 20 admissions per account per rolling day and 100 across the local application. Compilation and [news analysis](NEWS_ANALYSIS.md) share that allowance. These are operating limits, not market-materiality thresholds or guaranteed dollar caps. Failed calls and uncertain admissions count toward the limits. Only one unfinished, unexpired attempt per account is admitted across both roles at a time. Deadline expiry does not prove remote cancellation.
 
 Server settings are `MACRO_COMPILATION_MAX_OUTPUT_TOKENS`, `MACRO_COMPILATION_TIMEOUT_SECONDS`, `MACRO_COMPILATION_OWNER_ATTEMPTS_PER_DAY` and `MACRO_COMPILATION_ATTEMPTS_PER_DAY`. Each attempt records the settings used. The request deadline additionally prevents late installation; a transport timeout cannot prove the upstream request was cancelled or unbilled.
 

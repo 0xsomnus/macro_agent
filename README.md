@@ -6,7 +6,7 @@ Macro Agent is being built as a research desk for solo discretionary macro and f
 
 This is an early backend prototype. The terminal walkthrough lets you enter your own thesis, review either a manual interpretation or a model proposal, approve both text and interpretation, attach a paper trade, and see a notice from recorded fictional news. Model compilation also raises questions about missing detail and weak assumptions, with counter-cases kept separate. Thesis and position history is private and approval is explicit.
 
-The compiler currently reads only your thesis text. It does not verify facts, use current macro context or judge investment quality. A separate monitoring harness now captures a narrow official feed, preserves source revisions and recovers pending work after restart. Continuous monitoring, sourced portfolio analysis, morning briefs, external alerts and the trader UI remain to be built. The manual walkthrough needs no model key.
+The compiler currently reads only your thesis text. It does not verify facts, use current macro context or judge investment quality. A monitoring harness captures a narrow official feed, preserves source revisions and recovers pending work after restart. You can now initiate analysis of the next captured report against an approved thesis and its paper trades. The mechanics are tested with recorded model output; live usefulness remains unproven. Continuous operation, broad macro context, morning briefs, external alerts and the trader UI remain to be built. The manual walkthrough needs no model key.
 
 ## Set up locally
 
@@ -115,6 +115,18 @@ Capture leaves pending work in PostgreSQL. Exit the command or terminal, reload 
 ```
 
 The [monitoring walkthrough](docs/MONITORING_PIPELINE.md) covers changed payloads, lease recovery, source failures and a real Fed RSS capture. Processing currently records explicit unresolved relevance, with zero model calls. These local commands prove capture mechanics; they do not produce portfolio analysis or alerts. Fictional fixtures require the synthetic setup flag in your development configuration.
+
+## Analyse captured news
+
+Follow [the news analysis guide](docs/NEWS_ANALYSIS.md) to enable the internal endpoint, capture its fictional example and configure a model. With an approved thesis, run:
+
+```sh
+.venv/bin/python tools/review_news.py --thesis-id YOUR_THESIS_UUID --source fixture-divergence
+```
+
+You review the approved inputs and select a model. Typing `run` asks the backend to select the next report automatically, analyse it once and stop for your review. The response separates exact source quotations, thesis relevance, open-trade relevance and proposed consequences. The example tests news that supports a medium-term thesis while exposing a near-term trade risk.
+
+This call may incur a provider charge. Analysis preserves your thesis and trades, leaves monitoring work unresolved, and creates no alert. The guide covers private journals, read-only recovery after a lost response, costs and current limits.
 
 ## Inspect and develop
 

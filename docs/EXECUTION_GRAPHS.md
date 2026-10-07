@@ -46,6 +46,21 @@ Deterministic capture, known-route urgency, source health, and preservation cont
 
 ## Persistence, ordering, and delivery contract
 
+The current [internal one-report checkpoint](NEWS_ANALYSIS.md) exercises only a bounded private investigation:
+
+```text
+explicit_request -> approved_input_review -> automatic_next_retained_report
+  -> bounded_context -> catalogue -> protected_durable_admission
+  -> one_inference_without_database_locks -> strict_attribution_validation
+  -> protected_dependency_comparison -> immutable_result -> human_review
+failure: empty -> immutable_no_call_receipt
+         provider/validation_failure -> failed + unresolved_relevance
+         timeout/crash/missing_response -> inspect_history_without_retry
+         changed_inputs -> stale_history
+```
+
+Its input is one retained report revision, exact approved text/meaning and the complete attached-thesis paper book. Output uses `retained-news-analysis-v1`: exact attributed quotations, independent thesis/trade routes, hypotheses, counter-cases and trader questions. The context is capped at 65,536 encoded bytes without truncation; model output and timeout use the shared compilation settings and owner/aggregate admission allowance. It has no search, tools, publication or amendment authority. `not_identified` cannot retire source work or establish non-materiality. Source, owner, thesis and budget protection precede admission clock sampling; completion protects and compares source, approval and exposure again. Read-only recovery uses the saved command identity. No current result pointer is stored, and this checkpoint does not satisfy G2's continuous operation or atomic brief/notification gate.
+
 Save any immutable `AgentAssessment` produced, its `BriefVersion`, and `NotificationIntent` in one transaction. An early unresolved notice may have a qualified brief without a completed impact assessment. A leased/idempotent outbox worker retries pending delivery, records acknowledgements, and exposes exhaustion/dead-letter failure. A crash after result persistence cannot lose the notification intent. A stable intent identity dedupes repeated attempts where the channel supports idempotency; channels without it have a disclosed residual duplicate risk rather than an exactly-once promise.
 
 Maintain one evolving event/thesis `IntelligenceBrief` covering attached trades. Early notice, completion, and source corrections update it; only material updates create new interruption intents. Multi-event cumulative briefs reference all contributing revisions. Source correction marks dependent analysis superseded. Before committing a current assessment, compare its inputs with active evidence and approved interpretation versions; a stale completion remains history and queues reassessment instead of replacing the current view.

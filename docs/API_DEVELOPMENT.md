@@ -131,3 +131,21 @@ Compilation accepts exactly this shape, with a new command UUID, the reviewed dr
 All endpoints derive ownership from the session; POST requires CSRF. Strict JSON rejects duplicate keys, unknown fields and coercion. The response separates `compilation.document` questions/hypotheses from `thesis.draft.interpretation`, labelled `model_compilation`. Approval still uses the existing exact-version/hash endpoint. A new proposal preserves the current approval.
 
 HTTP 200 can contain `compiled`, `stale`, `failed`, `running` or `outcome_unknown`; inspect the state before offering approval. A changed provider or draft returns 409, admission exhaustion 429, and unavailable configuration/catalogue 503. Repeating the same admitted command returns its original result and current disposition without another provider call. GET never restarts an interrupted call. A late result or intervening draft/approval change cannot install stale meaning. The text-only compiler supplies no verified factual conflicts, current macro context or monitoring readiness.
+
+## Internal retained-news analysis
+
+The [terminal guide](NEWS_ANALYSIS.md) explains setup and one-report review. These endpoints require exact local settings, a development/test database and `MACRO_ENABLE_NEWS_ANALYSIS=1`. The existing model catalogue separately requires the compilation gate. Credentials remain in the backend environment. Sources are restricted to gated fictional fixtures and the reviewed narrow Fed feed.
+
+| Method | Route | Purpose |
+| --- | --- | --- |
+| GET | `/api/v1/news/sources/` | Inspect permitted retained sources and current report counts |
+| GET | `/api/v1/theses/{id}/news-context/` | Review exact approved meaning, complete attached paper book and exposure digest |
+| POST | `/api/v1/theses/{id}/analyse-next/` | Select the next report automatically and admit at most one inference |
+| GET | `/api/v1/theses/{id}/news-analyses/{attempt_id}/` | Inspect original analysis and current dependency disposition |
+| GET | `/api/v1/theses/{id}/news-commands/{command_id}/` | Recover a saved request, including a no-call empty receipt, without inference |
+
+POST accepts exactly `command_id`, `expected_approval_id`, `expected_exposure_digest`, `source_id`, `provider_id` and `model_id`. Copy the approval/digest from the reviewed context and the explicit provider/model from the catalogue. Persist the command UUID before transmission. The actor comes from the session; writes require CSRF. Duplicate JSON keys, unknown fields and coercion are rejected.
+
+The response separates retained `analysis.context`, attributed quotation claims, independent thesis/trade routes and hypotheses. HTTP 200 may contain `analysed`, `stale`, `failed`, `running`, `outcome_unknown` or `queue_empty`. Original status and current disposition are distinct. No source work is dismissed, no thesis or trade changes, and no notice is created. Compilation and news analysis share the configured admission allowance.
+
+Admission commits before one inference outside database locks; protected completion compares current source, approval and exposure. Exact command replay cannot spend or advance the queue again, including after an empty response. Invalid or uncertain attempts are never automatically tried again for the same pinned inputs. Recovery GETs require no provider credentials and have no write fallback. Missing and foreign receipts are opaque 404 responses. Changed reviewed input or command identity returns 409, admission exhaustion 429, unavailable provider/catalogue 503, and malformed requests 400. This API does not supply continuous monitoring, verified macro context, broad coverage or sourced publication authority.

@@ -1,4 +1,5 @@
 from dataclasses import asdict
+import re
 
 from django.core.exceptions import PermissionDenied
 from django.core.management.base import BaseCommand, CommandError
@@ -15,10 +16,13 @@ class Command(BaseCommand):
         group = parser.add_mutually_exclusive_group(required=True)
         group.add_argument("--source", choices=tuple(source_specs))
         group.add_argument("--fixture")
+        parser.add_argument("--fixture-source", default="fixture-monitor")
 
     def handle(self, *args, **options):
         if options["fixture"]:
-            source_id = "fixture-monitor"
+            source_id = options["fixture_source"]
+            if not re.fullmatch(r"fixture-[a-z0-9][a-z0-9-]{0,63}", source_id):
+                raise CommandError("Fixture source must be a bounded fixture- name")
             contract = {"label": "Fictional monitoring feed", "kind": "fictional_fixture",
                 "adapter_version": "recorded-json-v1", "rights": "repository fictional fixture",
                 "coverage": "bounded_snapshot", "max_items": 100, "max_bytes": 1048576}

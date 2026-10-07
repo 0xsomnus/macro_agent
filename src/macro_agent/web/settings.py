@@ -72,6 +72,7 @@ STATIC_ROOT = BASE_DIR / ".local" / "static"
 MACRO_ALLOW_SYNTHETIC_SETUP = False
 MACRO_ENABLE_MODEL_COMPILATION = False
 MACRO_ENABLE_MONITORING_PROOF = False
+MACRO_ENABLE_NEWS_ANALYSIS = False
 MACRO_MODEL_PROVIDER = os.environ.get("MACRO_MODEL_PROVIDER", "nanogpt")
 MACRO_MODEL_API_KEY = os.environ.get("MACRO_MODEL_API_KEY", "")
 # Internal research limits, recorded with every admission and configurable.
@@ -106,6 +107,8 @@ SPECTACULAR_SETTINGS = {
     "COMPONENT_SPLIT_REQUEST": True,
     "ENUM_NAME_OVERRIDES": {
         "CompilationStatusEnum": ["running", "outcome_unknown", "compiled", "stale", "failed"],
+        "NewsAnalysisStatusEnum": ["analysed", "stale", "failed", "outcome_unknown", "running", "queue_empty"],
+        "NewsRouteStatusEnum": ["potential", "review_needed", "not_identified"],
         "ModelProviderEnum": ["nanogpt", "openrouter", "cheaperinference"],
         "PositionStatusEnum": ["open", "closed"],
     },

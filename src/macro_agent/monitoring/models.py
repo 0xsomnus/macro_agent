@@ -9,6 +9,7 @@ from uuid import uuid4
 
 from django.db import models
 from django.db.models import F, Q
+from django.conf import settings
 
 
 class SourceState(models.Model):
@@ -127,3 +128,70 @@ class ScreeningResult(models.Model):
     attempt = models.OneToOneField(ScreeningAttempt, primary_key=True, on_delete=models.PROTECT)
     finished_at = models.DateTimeField()
     decision = models.JSONField()
+
+
+class NewsAnalysisAttempt(models.Model):
+    """Immutable private admission. It grants neither approval nor publication."""
+
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    command_id = models.UUIDField()
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    thesis = models.ForeignKey("macro_theses.ThesisRecord", on_delete=models.PROTECT)
+    approval = models.ForeignKey("macro_theses.ApprovalRecord", on_delete=models.PROTECT)
+    source_revision = models.ForeignKey(SourceRevision, on_delete=models.PROTECT)
+    exposure_digest = models.CharField(max_length=64)
+    request_digest = models.CharField(max_length=64)
+    resolved_inputs = models.JSONField()
+    context = models.JSONField()
+    context_digest = models.CharField(max_length=64)
+    messages = models.JSONField()
+    prompt_digest = models.CharField(max_length=64)
+    provider = models.CharField(max_length=32)
+    model_id = models.CharField(max_length=255)
+    model_metadata = models.JSONField()
+    configuration = models.JSONField()
+    created_at = models.DateTimeField()
+    deadline_at = models.DateTimeField()
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=("owner", "command_id"), name="monitor_analysis_command"),
+            models.UniqueConstraint(fields=("thesis", "approval", "exposure_digest", "source_revision"), name="monitor_analysis_input_once"),
+            models.CheckConstraint(condition=Q(deadline_at__gt=F("created_at")), name="monitor_analysis_deadline"),
+            models.CheckConstraint(condition=Q(provider__in=("nanogpt", "openrouter", "cheaperinference")), name="monitor_analysis_provider"),
+        ]
+
+
+class NewsAnalysisResult(models.Model):
+    attempt = models.OneToOneField(NewsAnalysisAttempt, primary_key=True, on_delete=models.PROTECT, related_name="result")
+    status = models.CharField(max_length=32)
+    stop_reason = models.CharField(max_length=64)
+    finished_at = models.DateTimeField()
+    document = models.JSONField(null=True)
+    provider_metadata = models.JSONField()
+    stale_reasons = models.JSONField()
+
+    class Meta:
+        constraints = [
+            models.CheckConstraint(condition=Q(status__in=("analysed", "stale", "failed", "outcome_unknown")), name="monitor_analysis_result_status"),
+            models.CheckConstraint(condition=(~Q(status__in=("analysed", "stale")) | Q(document__isnull=False)), name="monitor_analysis_document"),
+        ]
+
+
+class NewsReviewReceipt(models.Model):
+    """Pin no-call outcomes too, so a historical empty retry cannot spend."""
+
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    thesis = models.ForeignKey("macro_theses.ThesisRecord", on_delete=models.PROTECT)
+    command_id = models.UUIDField()
+    request_digest = models.CharField(max_length=64)
+    attempt = models.OneToOneField(NewsAnalysisAttempt, null=True, on_delete=models.PROTECT)
+    empty_response = models.JSONField(null=True)
+    saved_at = models.DateTimeField()
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=("owner", "command_id"), name="monitor_news_receipt_identity"),
+            models.CheckConstraint(condition=(Q(attempt__isnull=False, empty_response__isnull=True)
+                | Q(attempt__isnull=True, empty_response__isnull=False)), name="monitor_news_receipt_outcome"),
+        ]

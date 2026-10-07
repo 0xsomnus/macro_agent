@@ -108,6 +108,40 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: ''
+  /api/v1/news/sources/:
+    get:
+      operationId: news_source_catalog
+      description: Inspect available retained sources and bounded report counts. Counts
+        do not establish complete coverage, materiality or automatic monitoring.
+      tags:
+      - internal news analysis
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewsCatalogResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
   /api/v1/positions/{position_id}/:
     get:
       operationId: get_position
@@ -436,6 +470,82 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: ''
+  /api/v1/theses/{thesis_id}/analyse-next/:
+    post:
+      operationId: analyse_next_report
+      description: Automatically select the next retained report from the chosen source
+        and perform at most one explicitly initiated model call. Inspect status even
+        on HTTP 200. Admission is saved before inference; command retries return history
+        without another call. Approved meaning, paper declarations, screening work
+        and notification intents remain unchanged. Attributed quotations are report
+        claims; portfolio effects are unverified hypotheses. This one-pass review
+        is not a daemon, verified macro context or full coverage.
+      parameters:
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - internal news analysis
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnalyseNextRequestRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewsAnalysisResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '503':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
   /api/v1/theses/{thesis_id}/approvals/:
     post:
       operationId: approve_thesis
@@ -669,6 +779,163 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: ''
+  /api/v1/theses/{thesis_id}/news-analyses/{attempt_id}/:
+    get:
+      operationId: get_news_analysis
+      description: Read owner-scoped immutable analysis history and its current dependency
+        disposition. Reading a running or unknown attempt never initiates inference
+        or a retry.
+      parameters:
+      - in: path
+        name: attempt_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - internal news analysis
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewsAnalysisResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/theses/{thesis_id}/news-commands/{command_id}/:
+    get:
+      operationId: get_news_command_receipt
+      description: Recover an owner-scoped saved news command by its client-generated
+        UUID. This GET performs no model catalogue call, inference, approval or write
+        fallback. Inspect status and current disposition even on HTTP 200. An absent
+        or inaccessible receipt is opaque and does not authorize another paid attempt.
+      parameters:
+      - in: path
+        name: command_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - internal news analysis
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewsAnalysisResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/theses/{thesis_id}/news-context/:
+    get:
+      operationId: news_review_context
+      description: Inspect exact approved thesis meaning and the complete attached
+        paper book. The approval and exposure digest pin the subsequent command. This
+        is not a complete user portfolio or validated exposure mapping.
+      parameters:
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - internal news analysis
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewsReviewContext'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
   /api/v1/theses/{thesis_id}/positions/:
     get:
       operationId: list_positions
@@ -838,6 +1105,42 @@ paths:
           description: ''
 components:
   schemas:
+    AnalyseNextRequestRequest:
+      type: object
+      properties:
+        command_id:
+          type: string
+          format: uuid
+          minLength: 1
+          maxLength: 36
+        expected_approval_id:
+          type: string
+          format: uuid
+          minLength: 1
+          maxLength: 36
+        expected_exposure_digest:
+          type: string
+          minLength: 64
+          pattern: ^[0-9a-f]{64}$
+          maxLength: 64
+        source_id:
+          type: string
+          minLength: 1
+          maxLength: 128
+        provider_id:
+          $ref: '#/components/schemas/ModelProviderEnum'
+        model_id:
+          type: string
+          minLength: 1
+          maxLength: 255
+      required:
+      - command_id
+      - expected_approval_id
+      - expected_exposure_digest
+      - model_id
+      - provider_id
+      - source_id
+      additionalProperties: false
     Approval:
       type: object
       properties:
@@ -1180,7 +1483,7 @@ components:
       type: object
       properties:
         field:
-          $ref: '#/components/schemas/FieldEnum'
+          $ref: '#/components/schemas/CompilationGroundingFieldEnum'
         index:
           type: integer
           maximum: 31
@@ -1196,6 +1499,16 @@ components:
       - field
       - index
       additionalProperties: false
+    CompilationGroundingFieldEnum:
+      enum:
+      - drivers
+      - horizon
+      - invalidation_signposts
+      type: string
+      description: |-
+        * `drivers` - drivers
+        * `horizon` - horizon
+        * `invalidation_signposts` - invalidation_signposts
     CompilationHypothesis:
       type: object
       properties:
@@ -1368,6 +1681,18 @@ components:
       - interpretation
       - text
       additionalProperties: false
+    CurrentDispositionEnum:
+      enum:
+      - current
+      - stale
+      - unresolved
+      - queue_empty
+      type: string
+      description: |-
+        * `current` - current
+        * `stale` - stale
+        * `unresolved` - unresolved
+        * `queue_empty` - queue_empty
     DirectionEnum:
       enum:
       - long
@@ -1399,16 +1724,6 @@ components:
       - unavailable
       type: string
       description: '* `unavailable` - unavailable'
-    FieldEnum:
-      enum:
-      - drivers
-      - horizon
-      - invalidation_signposts
-      type: string
-      description: |-
-        * `drivers` - drivers
-        * `horizon` - horizon
-        * `invalidation_signposts` - invalidation_signposts
     Interpretation:
       type: object
       properties:
@@ -1551,6 +1866,531 @@ components:
       - not_configured
       type: string
       description: '* `not_configured` - not_configured'
+    NewsAnalysis:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        status:
+          $ref: '#/components/schemas/NewsAnalysisStatusEnum'
+        current_disposition:
+          $ref: '#/components/schemas/CurrentDispositionEnum'
+        replayed:
+          type: boolean
+        source_revision_id:
+          type: string
+          format: uuid
+          nullable: true
+        provider:
+          $ref: '#/components/schemas/ModelProviderEnum'
+        model_id:
+          type: string
+          maxLength: 255
+        created_at:
+          type: string
+          format: date-time
+          nullable: true
+        finished_at:
+          type: string
+          format: date-time
+          nullable: true
+        context:
+          allOf:
+          - $ref: '#/components/schemas/NewsAnalysisContext'
+          nullable: true
+        document:
+          allOf:
+          - $ref: '#/components/schemas/NewsDocument'
+          nullable: true
+        usage:
+          $ref: '#/components/schemas/CompilationUsage'
+        reported_cost_usd:
+          type: string
+          nullable: true
+        estimated_cost_usd:
+          type: string
+          nullable: true
+        reported_model:
+          type: string
+          nullable: true
+        provider_request_id:
+          type: string
+          nullable: true
+        latency_ms:
+          type: integer
+          minimum: 0
+          nullable: true
+        stop_reason:
+          type: string
+          nullable: true
+        stale_reasons:
+          type: array
+          items:
+            type: string
+        limitations:
+          type: array
+          items:
+            type: string
+        unresolved_attempt_count:
+          type: integer
+          minimum: 0
+          description: Prior unresolved attempts remain visible; no unattempted report
+            does not mean all work resolved.
+      required:
+      - context
+      - created_at
+      - current_disposition
+      - document
+      - estimated_cost_usd
+      - finished_at
+      - id
+      - latency_ms
+      - limitations
+      - model_id
+      - provider
+      - provider_request_id
+      - replayed
+      - reported_cost_usd
+      - reported_model
+      - source_revision_id
+      - stale_reasons
+      - status
+      - stop_reason
+      - unresolved_attempt_count
+      - usage
+    NewsAnalysisContext:
+      type: object
+      properties:
+        source:
+          $ref: '#/components/schemas/NewsSourceSnapshot'
+        approved_thesis:
+          $ref: '#/components/schemas/NewsApprovedThesis'
+        positions:
+          type: array
+          items:
+            $ref: '#/components/schemas/NewsContextPosition'
+      required:
+      - approved_thesis
+      - positions
+      - source
+    NewsAnalysisResponse:
+      type: object
+      properties:
+        analysis:
+          $ref: '#/components/schemas/NewsAnalysis'
+      required:
+      - analysis
+    NewsAnalysisStatusEnum:
+      enum:
+      - analysed
+      - stale
+      - failed
+      - outcome_unknown
+      - running
+      - queue_empty
+      type: string
+      description: |-
+        * `analysed` - analysed
+        * `stale` - stale
+        * `failed` - failed
+        * `outcome_unknown` - outcome_unknown
+        * `running` - running
+        * `queue_empty` - queue_empty
+    NewsApprovedThesis:
+      type: object
+      properties:
+        thesis_id:
+          type: string
+          format: uuid
+        thesis_version_id:
+          type: string
+          format: uuid
+        approval_id:
+          type: string
+          format: uuid
+        interpretation_id:
+          type: string
+          format: uuid
+        exact_text:
+          type: string
+        drivers:
+          type: array
+          items:
+            type: string
+        horizon:
+          type: string
+          nullable: true
+        invalidation_signposts:
+          type: array
+          items:
+            type: string
+      required:
+      - approval_id
+      - drivers
+      - exact_text
+      - horizon
+      - interpretation_id
+      - invalidation_signposts
+      - thesis_id
+      - thesis_version_id
+    NewsAttributedFact:
+      type: object
+      properties:
+        fact_id:
+          type: string
+          maxLength: 2000
+        source_revision_id:
+          type: string
+          format: uuid
+          maxLength: 36
+        field:
+          $ref: '#/components/schemas/NewsAttributedFactFieldEnum'
+        exact_quote:
+          type: string
+          maxLength: 2000
+      required:
+      - exact_quote
+      - fact_id
+      - field
+      - source_revision_id
+      additionalProperties: false
+    NewsAttributedFactFieldEnum:
+      enum:
+      - title
+      - content
+      type: string
+      description: |-
+        * `title` - title
+        * `content` - content
+    NewsCatalogResponse:
+      type: object
+      properties:
+        sources:
+          type: array
+          items:
+            $ref: '#/components/schemas/NewsCatalogSource'
+        limitations:
+          type: array
+          items:
+            type: string
+      required:
+      - limitations
+      - sources
+    NewsCatalogSource:
+      type: object
+      properties:
+        id:
+          type: string
+          maxLength: 128
+        label:
+          type: string
+        kind:
+          $ref: '#/components/schemas/NewsCatalogSourceKindEnum'
+        current_reports:
+          type: integer
+          minimum: 0
+          description: Current observed heads, not unanalysed reports for a particular
+            thesis or complete coverage.
+      required:
+      - current_reports
+      - id
+      - kind
+      - label
+    NewsCatalogSourceKindEnum:
+      enum:
+      - rss
+      - fictional_fixture
+      type: string
+      description: |-
+        * `rss` - rss
+        * `fictional_fixture` - fictional_fixture
+    NewsContextPosition:
+      type: object
+      properties:
+        position_id:
+          type: string
+          format: uuid
+        version_id:
+          type: string
+          format: uuid
+        status:
+          $ref: '#/components/schemas/PositionStatusEnum'
+        underlying:
+          type: string
+        direction:
+          $ref: '#/components/schemas/DirectionEnum'
+        quantity:
+          type: string
+          nullable: true
+        quantity_unit:
+          type: string
+          nullable: true
+        horizon:
+          type: string
+          nullable: true
+        product_id:
+          type: string
+          nullable: true
+        venue:
+          type: string
+          nullable: true
+        expiry:
+          type: string
+          nullable: true
+        quote_currency:
+          type: string
+          nullable: true
+        missing_fields:
+          type: array
+          items:
+            type: string
+        mapping_status:
+          $ref: '#/components/schemas/MappingStatusEnum'
+      required:
+      - direction
+      - expiry
+      - horizon
+      - mapping_status
+      - missing_fields
+      - position_id
+      - product_id
+      - quantity
+      - quantity_unit
+      - quote_currency
+      - status
+      - underlying
+      - venue
+      - version_id
+    NewsDocument:
+      type: object
+      properties:
+        schema_version:
+          $ref: '#/components/schemas/SchemaVersionEnum'
+        attributed_facts:
+          type: array
+          items:
+            $ref: '#/components/schemas/NewsAttributedFact'
+        thesis_route:
+          $ref: '#/components/schemas/NewsThesisRoute'
+        trade_route:
+          $ref: '#/components/schemas/NewsTradeRoute'
+        hypotheses:
+          type: array
+          items:
+            $ref: '#/components/schemas/NewsHypothesis'
+        trader_questions:
+          type: array
+          items:
+            type: string
+            maxLength: 2000
+          maxItems: 16
+      required:
+      - attributed_facts
+      - hypotheses
+      - schema_version
+      - thesis_route
+      - trade_route
+      - trader_questions
+      additionalProperties: false
+    NewsHypothesis:
+      type: object
+      properties:
+        hypothesis_id:
+          type: string
+          maxLength: 2000
+        fact_ids:
+          type: array
+          items:
+            type: string
+            maxLength: 2000
+          maxItems: 16
+        position_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+            maxLength: 36
+          maxItems: 200
+        explanation:
+          type: string
+          maxLength: 2000
+        transmission:
+          type: string
+          maxLength: 2000
+        horizon:
+          type: string
+          nullable: true
+          maxLength: 2000
+        assumptions:
+          type: array
+          items:
+            type: string
+            maxLength: 2000
+          maxItems: 16
+        uncertainty:
+          type: string
+          maxLength: 2000
+        counter_case:
+          type: string
+          maxLength: 2000
+        signposts:
+          type: array
+          items:
+            type: string
+            maxLength: 2000
+          maxItems: 16
+      required:
+      - assumptions
+      - counter_case
+      - explanation
+      - fact_ids
+      - horizon
+      - hypothesis_id
+      - position_ids
+      - signposts
+      - transmission
+      - uncertainty
+      additionalProperties: false
+    NewsReviewContext:
+      type: object
+      properties:
+        thesis_id:
+          type: string
+          format: uuid
+        approval_id:
+          type: string
+          format: uuid
+        exposure_digest:
+          type: string
+        approved_exact_text:
+          type: string
+        approved_interpretation:
+          $ref: '#/components/schemas/InterpretationInput'
+        positions:
+          type: array
+          items:
+            $ref: '#/components/schemas/NewsContextPosition'
+        limitations:
+          type: array
+          items:
+            type: string
+      required:
+      - approval_id
+      - approved_exact_text
+      - approved_interpretation
+      - exposure_digest
+      - limitations
+      - positions
+      - thesis_id
+    NewsRouteStatusEnum:
+      enum:
+      - potential
+      - review_needed
+      - not_identified
+      type: string
+      description: |-
+        * `potential` - potential
+        * `review_needed` - review_needed
+        * `not_identified` - not_identified
+    NewsSourceSnapshot:
+      type: object
+      properties:
+        source_key:
+          type: string
+        report_id:
+          type: integer
+          minimum: 1
+        native_id:
+          type: string
+        revision_id:
+          type: string
+          format: uuid
+        digest:
+          type: string
+        title:
+          type: string
+        content:
+          type: string
+        url:
+          type: string
+          description: Retained attribution URL; no fetch or article-body access is
+            implied.
+        published_at:
+          type: string
+          format: date-time
+          nullable: true
+        received_at:
+          type: string
+          format: date-time
+        availability_witness_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: Conservative postcommit observation, not exact durable known-at
+            or public availability.
+        is_fixture:
+          type: boolean
+      required:
+      - availability_witness_at
+      - content
+      - digest
+      - is_fixture
+      - native_id
+      - published_at
+      - received_at
+      - report_id
+      - revision_id
+      - source_key
+      - title
+      - url
+    NewsThesisRoute:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/NewsRouteStatusEnum'
+        fact_ids:
+          type: array
+          items:
+            type: string
+            maxLength: 2000
+          maxItems: 16
+        explanation:
+          type: string
+          maxLength: 2000
+      required:
+      - explanation
+      - fact_ids
+      - status
+      additionalProperties: false
+    NewsTradeRoute:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/NewsRouteStatusEnum'
+        fact_ids:
+          type: array
+          items:
+            type: string
+            maxLength: 2000
+          maxItems: 16
+        explanation:
+          type: string
+          maxLength: 2000
+        position_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+            maxLength: 36
+          maxItems: 200
+      required:
+      - explanation
+      - fact_ids
+      - position_ids
+      - status
+      additionalProperties: false
     OriginEnum:
       enum:
       - user_supplied
@@ -2143,6 +2983,11 @@ components:
       - investigate
       type: string
       description: '* `investigate` - investigate'
+    SchemaVersionEnum:
+      enum:
+      - retained-news-analysis-v1
+      type: string
+      description: '* `retained-news-analysis-v1` - retained-news-analysis-v1'
     StateEnum:
       enum:
       - pending

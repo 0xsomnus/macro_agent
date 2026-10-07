@@ -2,6 +2,10 @@
 
 from django.urls import path
 from .compilation_views import ModelCatalogView, CompilationView, CompilationDetailView
+from .news_analysis_views import (
+    AnalyseNextView, NewsAnalysisDetailView, NewsCommandDetailView,
+    NewsReviewContextView, NewsSourcesView,
+)
 
 from .lab_views import RecordedNewsView
 from .position_views import (
@@ -16,6 +20,11 @@ from .views import (
 
 app_name = "macro_api"
 urlpatterns = [
+    path("news/sources/", NewsSourcesView.as_view(), name="news-sources"),
+    path("theses/<uuid:thesis_id>/news-context/", NewsReviewContextView.as_view(), name="news-context"),
+    path("theses/<uuid:thesis_id>/analyse-next/", AnalyseNextView.as_view(), name="news-analyse-next"),
+    path("theses/<uuid:thesis_id>/news-analyses/<uuid:attempt_id>/", NewsAnalysisDetailView.as_view(), name="news-analysis-detail"),
+    path("theses/<uuid:thesis_id>/news-commands/<uuid:command_id>/", NewsCommandDetailView.as_view(), name="news-command-detail"),
     path("models/", ModelCatalogView.as_view(), name="model-catalog"),
     path("theses/<uuid:thesis_id>/compile/", CompilationView.as_view(), name="thesis-compile"),
     path("theses/<uuid:thesis_id>/compilations/<uuid:attempt_id>/", CompilationDetailView.as_view(), name="compilation-detail"),

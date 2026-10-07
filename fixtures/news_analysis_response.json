@@ -1,0 +1,37 @@
+{
+  "schema_version": "retained-news-analysis-v1",
+  "attributed_facts": [
+    {
+      "fact_id": "f1",
+      "source_revision_id": "fixture-revision",
+      "field": "content",
+      "exact_quote": "The fictional central bank cut its policy rate and opened a temporary liquidity facility following reports of funding stress."
+    }
+  ],
+  "thesis_route": {
+    "status": "potential",
+    "fact_ids": ["f1"],
+    "explanation": "The reported policy easing may support the trader's medium-term easing mechanism. The excerpt does not establish earnings, real yields or the market's response."
+  },
+  "trade_route": {
+    "status": "potential",
+    "fact_ids": ["f1"],
+    "position_ids": ["fixture-position"],
+    "explanation": "Reported funding stress could expose the declared long NQ paper position to a nearer-term adverse path even if easing supports the medium-term thesis. Leverage, instrument mapping and sizing effects remain unverified."
+  },
+  "hypotheses": [
+    {
+      "hypothesis_id": "h1",
+      "fact_ids": ["f1"],
+      "position_ids": ["fixture-position"],
+      "explanation": "Unverified hypothesis: policy easing could support medium-term equity conditions, while unresolved funding stress could create a separate near-term risk to the attached long exposure.",
+      "transmission": "If funding stress constrains credit or prompts risk reduction before easing helps activity, the declared NQ long could face adverse conditions; if the product is leveraged, financing or margin needs could matter separately.",
+      "horizon": null,
+      "assumptions": ["The policy easing is relevant to the trader's medium-term equity mechanism.", "The reported stress could affect credit or risk appetite beyond the affected institutions.", "A leveraged or financed product would have additional exposure, which is not established by the supplied declaration."],
+      "uncertainty": "No credit, market-consensus, reaction or verified leverage data were supplied. The feed item is fictional and cannot establish a live macro regime or portfolio effect.",
+      "counter_case": "Unverified competing hypothesis: the liquidity facility could contain the reported stress and easing could offset its effect before the paper position is adversely affected.",
+      "signposts": ["For later investigation, examine permitted evidence on the reported funding stress and the liquidity facility's effect."]
+    }
+  ],
+  "trader_questions": ["How does the position horizon compare with the medium-term thesis horizon?", "Is the declared product leveraged or financed, and which funding evidence would challenge your view?"]
+}
