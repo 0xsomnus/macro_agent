@@ -1,6 +1,6 @@
 # First continuous monitoring slice
 
-Status: implementation plan, 2026-10-06. No source, worker library, hosting or urgency thresholds are selected here. Live compilation testing starts with one thesis at a time. The trader has no existing news subscription; source comparison and permitted-use review precede connector activation.
+Status: broader implementation plan, updated 2026-10-07. The trader chose to prove the monitoring pipeline before setting a news-data ceiling. The [local capture/restart harness](MONITORING_PIPELINE.md) now uses fictional fixtures and a narrow official Fed RSS snapshot after source review. It does not select a production feed, worker library, hosting or urgency thresholds. Live compilation testing remains one thesis at a time.
 
 ## Outcome and boundary
 
@@ -12,19 +12,19 @@ The instrument list limits supported exposure promises, not contextual geography
 
 | Reuse | Limit requiring work |
 | --- | --- |
-| [SourceTimes and revision selection](../src/macro_agent/domain/time.py) | No durable receipt/event repository, publication-time provenance or exact commit-time witness exists. |
+| [SourceTimes and revision selection](../src/macro_agent/domain/time.py) and [capture proof](MONITORING_PIPELINE.md) | Durable source receipts and conservative postcommit observations exist locally. Publisher revision ordering, canonical event admission, verified public availability and exact commit-time witnesses remain absent. |
 | [Deterministic routing](../src/macro_agent/domain/routing.py) | Screening inputs are supplied observations, not an implemented classifier. Severity, credibility and urgency need evidence and versioned rules. Accumulation weights/windows are synthetic. |
 | [Publication rules](../src/macro_agent/domain/publication.py) and [application service](../src/macro_agent/application/publication.py) | Candidate output supports exact structured source-field notices with unresolved portfolio impact. It does not yet express sourced narrative analysis, counter-cases or passage-level support. |
-| [PostgreSQL publication store](../src/macro_agent/persistence/publication_store.py) | Protected per-brief currentness and atomic local intent exist. Real shared source heads, correction propagation, leasing and external sends do not. |
+| [PostgreSQL publication store](../src/macro_agent/persistence/publication_store.py) and [source work](../src/macro_agent/monitoring/work.py) | Protected per-brief currentness, local intents and separate fenced capture-work leases exist. Observed source heads do not govern brief publication; global correction protection and external sends remain absent. |
 | [Context binding](../src/macro_agent/persistence/context_binding.py) and [paper positions](PAPER_POSITIONS.md) | Approved text/interpretation and complete exposure are resolved. Initial non-user dependencies remain synthetic-gated; real contract/coverage admission needs an explicit service. Instrument mappings remain unverified. |
 | [Provider boundary](../src/macro_agent/providers/__init__.py) and [compilation service](../src/macro_agent/theses/compilation.py) | Explicit models, bounded admission and uncertain-call handling can inform monitoring. The compiler schema is text-only and must not become the monitoring schema. |
-| [Read-only inspection](../src/macro_agent/persistence/inspection.py) | Source health, capture cursor/backlog, evidence inspection and end-to-end monitoring traces still need private or entitled views. |
+| [Read-only brief inspection](../src/macro_agent/persistence/inspection.py) and [source inspection](../src/macro_agent/monitoring/inspection.py) | Local source health, pending-work counts and bounded receipt/attempt traces exist. Continuous gap detection, cursor/backfill completeness and private or entitled trader views remain unimplemented. |
 
 The [recorded-news service](../src/macro_agent/lab/recorded_news.py) stays a fictional test path. Removing its gate would create source and publication authority without the required contracts.
 
 ## Minimal durable records
 
-Persist these responsibilities in ordinary Django/PostgreSQL records. Names describe contracts, not an accepted migration design.
+The capture proof implements a subset in ordinary Django/PostgreSQL records. The table describes the broader remaining contracts, including source-to-thesis admission; it is not a production migration design.
 
 | Record | Required content |
 | --- | --- |

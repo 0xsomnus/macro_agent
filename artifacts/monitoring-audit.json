@@ -1,0 +1,587 @@
+{
+  "recorded_stages": {
+    "before_restart": {
+      "source": {
+        "id": "fixture-monitor",
+        "label": "Fictional monitoring feed",
+        "kind": "fictional_fixture",
+        "contract_digest": "c2f2070e1ca831a38ca41ab269bf0d175a091d2e5874e94ee917a7798deb4044",
+        "contract": {
+          "kind": "fictional_fixture",
+          "label": "Fictional monitoring feed",
+          "rights": "repository fictional fixture",
+          "coverage": "bounded_snapshot",
+          "max_bytes": 1048576,
+          "max_items": 100,
+          "adapter_version": "recorded-json-v1"
+        }
+      },
+      "health": {
+        "last_attempt_state": "captured",
+        "last_successful_capture_at": "2026-10-07T11:27:34.531940+00:00",
+        "latest_failure_code": null,
+        "coverage": "bounded_snapshot",
+        "absence_is_deletion": false,
+        "continuity": "unproven",
+        "freshness_sla": null
+      },
+      "counts": {
+        "reports": 2,
+        "revisions": 2,
+        "pending": 2,
+        "running": 0,
+        "completed": 0,
+        "superseded": 0
+      },
+      "revisions": [
+        {
+          "id": "0aa2d94e-83b2-409e-bf50-4022b83d80c3",
+          "native_id": "fictional-policy-001",
+          "observation_revision": 1,
+          "digest": "92af35fa24bf8af6667f86cd14e0fe3abd3cfbe21cce44e8fbe8ee7b558af4b5",
+          "payload": {
+            "id": "fictional-policy-001",
+            "url": "https://example.invalid/fictional-policy-001",
+            "title": "FICTIONAL PIPELINE FIXTURE: central bank keeps policy unchanged",
+            "content": "This invented item tests capture and recovery only. The fictional central bank left its policy setting unchanged and said further changes depend on incoming inflation data. It is not real news or an analytical assessment.",
+            "published_at": "2026-10-01T12:00:00+00:00"
+          },
+          "is_current_observation": true,
+          "source_order": "unverified",
+          "source_claimed_published_at": "2026-10-01T12:00:00+00:00",
+          "public_available_at": null,
+          "system_received_at": "2026-10-07T11:27:34.531151+00:00",
+          "durable_observed_by_at": "2026-10-07T11:27:34.542756+00:00",
+          "availability_precision": "conservative_postcommit_upper_bound",
+          "capture_attempt_id": "b152568c-9665-4c2e-af6a-718b313feaf4"
+        },
+        {
+          "id": "bf40985a-b255-4850-bcb9-b2d1743c832f",
+          "native_id": "fictional-supply-002",
+          "observation_revision": 1,
+          "digest": "9cb3420ab3e82e6f8c12dfc7c7050a37d37d6028db3a9b29249ff18dec003a34",
+          "payload": {
+            "id": "fictional-supply-002",
+            "url": "https://example.invalid/fictional-supply-002",
+            "title": "FICTIONAL PIPELINE FIXTURE: mine disruption remains unverified",
+            "content": "This invented item tests explicit uncertainty. A fictional report alleges a mine disruption; its timing and size are unresolved. No portfolio consequence is established.",
+            "published_at": null
+          },
+          "is_current_observation": true,
+          "source_order": "unverified",
+          "source_claimed_published_at": null,
+          "public_available_at": null,
+          "system_received_at": "2026-10-07T11:27:34.531151+00:00",
+          "durable_observed_by_at": "2026-10-07T11:27:34.542756+00:00",
+          "availability_precision": "conservative_postcommit_upper_bound",
+          "capture_attempt_id": "b152568c-9665-4c2e-af6a-718b313feaf4"
+        }
+      ],
+      "work": [
+        {
+          "revision_id": "0aa2d94e-83b2-409e-bf50-4022b83d80c3",
+          "current_disposition": "pending",
+          "lease_until": null,
+          "attempt_count": 0,
+          "attempts_truncated": false,
+          "attempts": []
+        },
+        {
+          "revision_id": "bf40985a-b255-4850-bcb9-b2d1743c832f",
+          "current_disposition": "pending",
+          "lease_until": null,
+          "attempt_count": 0,
+          "attempts_truncated": false,
+          "attempts": []
+        }
+      ],
+      "captures": [
+        {
+          "id": "b152568c-9665-4c2e-af6a-718b313feaf4",
+          "sequence": 1,
+          "contract_digest": "c2f2070e1ca831a38ca41ab269bf0d175a091d2e5874e94ee917a7798deb4044",
+          "admitted_at": "2026-10-07T11:27:34.527349+00:00",
+          "deadline_at": "2026-10-07T11:28:04.527349+00:00",
+          "status": "captured",
+          "code": "snapshot_captured",
+          "item_count": 2,
+          "new_revision_count": 2,
+          "transport_digest": "7efaa250412fe5e8b2bb5e90fd1e3cb63b2452c3d9716f0ad8dba0f9f738d447",
+          "received_at": "2026-10-07T11:27:34.531151+00:00",
+          "outcome_precommit_sampled_at": "2026-10-07T11:27:34.531940+00:00",
+          "coverage": "bounded_snapshot"
+        }
+      ],
+      "revisions_truncated": false,
+      "captures_truncated": false,
+      "limitations": [
+        "no_personalized_analysis",
+        "no_notifications",
+        "no_full_operational_replay",
+        "source_order_unverified",
+        "no_model_calls",
+        "no_production_daemon"
+      ]
+    },
+    "after_restart": {
+      "source": {
+        "id": "fixture-monitor",
+        "label": "Fictional monitoring feed",
+        "kind": "fictional_fixture",
+        "contract_digest": "c2f2070e1ca831a38ca41ab269bf0d175a091d2e5874e94ee917a7798deb4044",
+        "contract": {
+          "kind": "fictional_fixture",
+          "label": "Fictional monitoring feed",
+          "rights": "repository fictional fixture",
+          "coverage": "bounded_snapshot",
+          "max_bytes": 1048576,
+          "max_items": 100,
+          "adapter_version": "recorded-json-v1"
+        }
+      },
+      "health": {
+        "last_attempt_state": "captured",
+        "last_successful_capture_at": "2026-10-07T11:27:34.531940+00:00",
+        "latest_failure_code": null,
+        "coverage": "bounded_snapshot",
+        "absence_is_deletion": false,
+        "continuity": "unproven",
+        "freshness_sla": null
+      },
+      "counts": {
+        "reports": 2,
+        "revisions": 2,
+        "pending": 0,
+        "running": 0,
+        "completed": 2,
+        "superseded": 0
+      },
+      "revisions": [
+        {
+          "id": "0aa2d94e-83b2-409e-bf50-4022b83d80c3",
+          "native_id": "fictional-policy-001",
+          "observation_revision": 1,
+          "digest": "92af35fa24bf8af6667f86cd14e0fe3abd3cfbe21cce44e8fbe8ee7b558af4b5",
+          "payload": {
+            "id": "fictional-policy-001",
+            "url": "https://example.invalid/fictional-policy-001",
+            "title": "FICTIONAL PIPELINE FIXTURE: central bank keeps policy unchanged",
+            "content": "This invented item tests capture and recovery only. The fictional central bank left its policy setting unchanged and said further changes depend on incoming inflation data. It is not real news or an analytical assessment.",
+            "published_at": "2026-10-01T12:00:00+00:00"
+          },
+          "is_current_observation": true,
+          "source_order": "unverified",
+          "source_claimed_published_at": "2026-10-01T12:00:00+00:00",
+          "public_available_at": null,
+          "system_received_at": "2026-10-07T11:27:34.531151+00:00",
+          "durable_observed_by_at": "2026-10-07T11:27:34.542756+00:00",
+          "availability_precision": "conservative_postcommit_upper_bound",
+          "capture_attempt_id": "b152568c-9665-4c2e-af6a-718b313feaf4"
+        },
+        {
+          "id": "bf40985a-b255-4850-bcb9-b2d1743c832f",
+          "native_id": "fictional-supply-002",
+          "observation_revision": 1,
+          "digest": "9cb3420ab3e82e6f8c12dfc7c7050a37d37d6028db3a9b29249ff18dec003a34",
+          "payload": {
+            "id": "fictional-supply-002",
+            "url": "https://example.invalid/fictional-supply-002",
+            "title": "FICTIONAL PIPELINE FIXTURE: mine disruption remains unverified",
+            "content": "This invented item tests explicit uncertainty. A fictional report alleges a mine disruption; its timing and size are unresolved. No portfolio consequence is established.",
+            "published_at": null
+          },
+          "is_current_observation": true,
+          "source_order": "unverified",
+          "source_claimed_published_at": null,
+          "public_available_at": null,
+          "system_received_at": "2026-10-07T11:27:34.531151+00:00",
+          "durable_observed_by_at": "2026-10-07T11:27:34.542756+00:00",
+          "availability_precision": "conservative_postcommit_upper_bound",
+          "capture_attempt_id": "b152568c-9665-4c2e-af6a-718b313feaf4"
+        }
+      ],
+      "work": [
+        {
+          "revision_id": "0aa2d94e-83b2-409e-bf50-4022b83d80c3",
+          "current_disposition": "completed",
+          "lease_until": null,
+          "attempt_count": 1,
+          "attempts_truncated": false,
+          "attempts": [
+            {
+              "token": "2862196e-614a-4b2d-8154-4b1c21af23f0",
+              "sequence": 1,
+              "admitted_at": "2026-10-07T11:27:53.957994+00:00",
+              "deadline_at": "2026-10-07T11:28:23.957994+00:00",
+              "rule_version": "unclassified-preserve-v1",
+              "attempt_disposition": "completed",
+              "original_decision": {
+                "route": "unresolved_queue",
+                "state": "potential_or_unresolved",
+                "reasons": [
+                  "classifier_unavailable",
+                  "screening_unresolved"
+                ],
+                "limitation": "No classifier or portfolio assessment is implemented",
+                "model_calls": 0,
+                "early_notice": false,
+                "personalized": false
+              },
+              "finished_at": "2026-10-07T11:27:53.962643+00:00"
+            }
+          ]
+        },
+        {
+          "revision_id": "bf40985a-b255-4850-bcb9-b2d1743c832f",
+          "current_disposition": "completed",
+          "lease_until": null,
+          "attempt_count": 1,
+          "attempts_truncated": false,
+          "attempts": [
+            {
+              "token": "79816ff8-2561-4d7e-a657-fe5cb037379f",
+              "sequence": 1,
+              "admitted_at": "2026-10-07T11:27:53.965422+00:00",
+              "deadline_at": "2026-10-07T11:28:23.965422+00:00",
+              "rule_version": "unclassified-preserve-v1",
+              "attempt_disposition": "completed",
+              "original_decision": {
+                "route": "unresolved_queue",
+                "state": "potential_or_unresolved",
+                "reasons": [
+                  "classifier_unavailable",
+                  "screening_unresolved"
+                ],
+                "limitation": "No classifier or portfolio assessment is implemented",
+                "model_calls": 0,
+                "early_notice": false,
+                "personalized": false
+              },
+              "finished_at": "2026-10-07T11:27:53.967518+00:00"
+            }
+          ]
+        }
+      ],
+      "captures": [
+        {
+          "id": "b152568c-9665-4c2e-af6a-718b313feaf4",
+          "sequence": 1,
+          "contract_digest": "c2f2070e1ca831a38ca41ab269bf0d175a091d2e5874e94ee917a7798deb4044",
+          "admitted_at": "2026-10-07T11:27:34.527349+00:00",
+          "deadline_at": "2026-10-07T11:28:04.527349+00:00",
+          "status": "captured",
+          "code": "snapshot_captured",
+          "item_count": 2,
+          "new_revision_count": 2,
+          "transport_digest": "7efaa250412fe5e8b2bb5e90fd1e3cb63b2452c3d9716f0ad8dba0f9f738d447",
+          "received_at": "2026-10-07T11:27:34.531151+00:00",
+          "outcome_precommit_sampled_at": "2026-10-07T11:27:34.531940+00:00",
+          "coverage": "bounded_snapshot"
+        }
+      ],
+      "revisions_truncated": false,
+      "captures_truncated": false,
+      "limitations": [
+        "no_personalized_analysis",
+        "no_notifications",
+        "no_full_operational_replay",
+        "source_order_unverified",
+        "no_model_calls",
+        "no_production_daemon"
+      ]
+    },
+    "after_changed_payload_and_old_duplicate": {
+      "source": {
+        "id": "fixture-monitor",
+        "label": "Fictional monitoring feed",
+        "kind": "fictional_fixture",
+        "contract_digest": "c2f2070e1ca831a38ca41ab269bf0d175a091d2e5874e94ee917a7798deb4044",
+        "contract": {
+          "kind": "fictional_fixture",
+          "label": "Fictional monitoring feed",
+          "rights": "repository fictional fixture",
+          "coverage": "bounded_snapshot",
+          "max_bytes": 1048576,
+          "max_items": 100,
+          "adapter_version": "recorded-json-v1"
+        }
+      },
+      "health": {
+        "last_attempt_state": "captured",
+        "last_successful_capture_at": "2026-10-07T11:28:16.499462+00:00",
+        "latest_failure_code": null,
+        "coverage": "bounded_snapshot",
+        "absence_is_deletion": false,
+        "continuity": "unproven",
+        "freshness_sla": null
+      },
+      "counts": {
+        "reports": 2,
+        "revisions": 3,
+        "pending": 0,
+        "running": 0,
+        "completed": 2,
+        "superseded": 1
+      },
+      "revisions": [
+        {
+          "id": "0aa2d94e-83b2-409e-bf50-4022b83d80c3",
+          "native_id": "fictional-policy-001",
+          "observation_revision": 1,
+          "digest": "92af35fa24bf8af6667f86cd14e0fe3abd3cfbe21cce44e8fbe8ee7b558af4b5",
+          "payload": {
+            "id": "fictional-policy-001",
+            "url": "https://example.invalid/fictional-policy-001",
+            "title": "FICTIONAL PIPELINE FIXTURE: central bank keeps policy unchanged",
+            "content": "This invented item tests capture and recovery only. The fictional central bank left its policy setting unchanged and said further changes depend on incoming inflation data. It is not real news or an analytical assessment.",
+            "published_at": "2026-10-01T12:00:00+00:00"
+          },
+          "is_current_observation": false,
+          "source_order": "unverified",
+          "source_claimed_published_at": "2026-10-01T12:00:00+00:00",
+          "public_available_at": null,
+          "system_received_at": "2026-10-07T11:27:34.531151+00:00",
+          "durable_observed_by_at": "2026-10-07T11:27:34.542756+00:00",
+          "availability_precision": "conservative_postcommit_upper_bound",
+          "capture_attempt_id": "b152568c-9665-4c2e-af6a-718b313feaf4"
+        },
+        {
+          "id": "bf40985a-b255-4850-bcb9-b2d1743c832f",
+          "native_id": "fictional-supply-002",
+          "observation_revision": 1,
+          "digest": "9cb3420ab3e82e6f8c12dfc7c7050a37d37d6028db3a9b29249ff18dec003a34",
+          "payload": {
+            "id": "fictional-supply-002",
+            "url": "https://example.invalid/fictional-supply-002",
+            "title": "FICTIONAL PIPELINE FIXTURE: mine disruption remains unverified",
+            "content": "This invented item tests explicit uncertainty. A fictional report alleges a mine disruption; its timing and size are unresolved. No portfolio consequence is established.",
+            "published_at": null
+          },
+          "is_current_observation": true,
+          "source_order": "unverified",
+          "source_claimed_published_at": null,
+          "public_available_at": null,
+          "system_received_at": "2026-10-07T11:27:34.531151+00:00",
+          "durable_observed_by_at": "2026-10-07T11:27:34.542756+00:00",
+          "availability_precision": "conservative_postcommit_upper_bound",
+          "capture_attempt_id": "b152568c-9665-4c2e-af6a-718b313feaf4"
+        },
+        {
+          "id": "7fd05e38-e66f-4ab5-a220-1a34ff65b43c",
+          "native_id": "fictional-policy-001",
+          "observation_revision": 2,
+          "digest": "ff13405b077a7c380815ced33b521b59052faefda2bfdb5de44f0aa365b7ec77",
+          "payload": {
+            "id": "fictional-policy-001",
+            "url": "https://example.invalid/fictional-policy-001",
+            "title": "FICTIONAL PIPELINE FIXTURE: corrected policy report",
+            "content": "This invented correction replaces the earlier fictional policy item. The fictional central bank raised its policy setting. This is a mechanics fixture, not real news; it establishes no market or portfolio consequence.",
+            "published_at": "2026-10-01T12:00:00+00:00"
+          },
+          "is_current_observation": true,
+          "source_order": "unverified",
+          "source_claimed_published_at": "2026-10-01T12:00:00+00:00",
+          "public_available_at": null,
+          "system_received_at": "2026-10-07T11:28:16.121515+00:00",
+          "durable_observed_by_at": "2026-10-07T11:28:16.129968+00:00",
+          "availability_precision": "conservative_postcommit_upper_bound",
+          "capture_attempt_id": "b84c9089-9b6b-4e31-b96a-7a9af35fcc58"
+        }
+      ],
+      "work": [
+        {
+          "revision_id": "0aa2d94e-83b2-409e-bf50-4022b83d80c3",
+          "current_disposition": "superseded",
+          "lease_until": null,
+          "attempt_count": 1,
+          "attempts_truncated": false,
+          "attempts": [
+            {
+              "token": "2862196e-614a-4b2d-8154-4b1c21af23f0",
+              "sequence": 1,
+              "admitted_at": "2026-10-07T11:27:53.957994+00:00",
+              "deadline_at": "2026-10-07T11:28:23.957994+00:00",
+              "rule_version": "unclassified-preserve-v1",
+              "attempt_disposition": "completed",
+              "original_decision": {
+                "route": "unresolved_queue",
+                "state": "potential_or_unresolved",
+                "reasons": [
+                  "classifier_unavailable",
+                  "screening_unresolved"
+                ],
+                "limitation": "No classifier or portfolio assessment is implemented",
+                "model_calls": 0,
+                "early_notice": false,
+                "personalized": false
+              },
+              "finished_at": "2026-10-07T11:27:53.962643+00:00"
+            }
+          ]
+        },
+        {
+          "revision_id": "7fd05e38-e66f-4ab5-a220-1a34ff65b43c",
+          "current_disposition": "completed",
+          "lease_until": null,
+          "attempt_count": 1,
+          "attempts_truncated": false,
+          "attempts": [
+            {
+              "token": "61740ba0-4160-4bf1-8197-256b268cef8e",
+              "sequence": 1,
+              "admitted_at": "2026-10-07T11:28:16.876650+00:00",
+              "deadline_at": "2026-10-07T11:28:46.876650+00:00",
+              "rule_version": "unclassified-preserve-v1",
+              "attempt_disposition": "completed",
+              "original_decision": {
+                "route": "unresolved_queue",
+                "state": "potential_or_unresolved",
+                "reasons": [
+                  "classifier_unavailable",
+                  "screening_unresolved"
+                ],
+                "limitation": "No classifier or portfolio assessment is implemented",
+                "model_calls": 0,
+                "early_notice": false,
+                "personalized": false
+              },
+              "finished_at": "2026-10-07T11:28:16.881424+00:00"
+            }
+          ]
+        },
+        {
+          "revision_id": "bf40985a-b255-4850-bcb9-b2d1743c832f",
+          "current_disposition": "completed",
+          "lease_until": null,
+          "attempt_count": 1,
+          "attempts_truncated": false,
+          "attempts": [
+            {
+              "token": "79816ff8-2561-4d7e-a657-fe5cb037379f",
+              "sequence": 1,
+              "admitted_at": "2026-10-07T11:27:53.965422+00:00",
+              "deadline_at": "2026-10-07T11:28:23.965422+00:00",
+              "rule_version": "unclassified-preserve-v1",
+              "attempt_disposition": "completed",
+              "original_decision": {
+                "route": "unresolved_queue",
+                "state": "potential_or_unresolved",
+                "reasons": [
+                  "classifier_unavailable",
+                  "screening_unresolved"
+                ],
+                "limitation": "No classifier or portfolio assessment is implemented",
+                "model_calls": 0,
+                "early_notice": false,
+                "personalized": false
+              },
+              "finished_at": "2026-10-07T11:27:53.967518+00:00"
+            }
+          ]
+        }
+      ],
+      "captures": [
+        {
+          "id": "b152568c-9665-4c2e-af6a-718b313feaf4",
+          "sequence": 1,
+          "contract_digest": "c2f2070e1ca831a38ca41ab269bf0d175a091d2e5874e94ee917a7798deb4044",
+          "admitted_at": "2026-10-07T11:27:34.527349+00:00",
+          "deadline_at": "2026-10-07T11:28:04.527349+00:00",
+          "status": "captured",
+          "code": "snapshot_captured",
+          "item_count": 2,
+          "new_revision_count": 2,
+          "transport_digest": "7efaa250412fe5e8b2bb5e90fd1e3cb63b2452c3d9716f0ad8dba0f9f738d447",
+          "received_at": "2026-10-07T11:27:34.531151+00:00",
+          "outcome_precommit_sampled_at": "2026-10-07T11:27:34.531940+00:00",
+          "coverage": "bounded_snapshot"
+        },
+        {
+          "id": "a41d6b3d-b55c-46b4-8ac3-9e042223270c",
+          "sequence": 2,
+          "contract_digest": "c2f2070e1ca831a38ca41ab269bf0d175a091d2e5874e94ee917a7798deb4044",
+          "admitted_at": "2026-10-07T11:28:15.724398+00:00",
+          "deadline_at": "2026-10-07T11:28:45.724398+00:00",
+          "status": "captured",
+          "code": "snapshot_captured",
+          "item_count": 2,
+          "new_revision_count": 0,
+          "transport_digest": "7efaa250412fe5e8b2bb5e90fd1e3cb63b2452c3d9716f0ad8dba0f9f738d447",
+          "received_at": "2026-10-07T11:28:15.731007+00:00",
+          "outcome_precommit_sampled_at": "2026-10-07T11:28:15.732020+00:00",
+          "coverage": "bounded_snapshot"
+        },
+        {
+          "id": "b84c9089-9b6b-4e31-b96a-7a9af35fcc58",
+          "sequence": 3,
+          "contract_digest": "c2f2070e1ca831a38ca41ab269bf0d175a091d2e5874e94ee917a7798deb4044",
+          "admitted_at": "2026-10-07T11:28:16.118918+00:00",
+          "deadline_at": "2026-10-07T11:28:46.118918+00:00",
+          "status": "captured",
+          "code": "snapshot_captured",
+          "item_count": 2,
+          "new_revision_count": 1,
+          "transport_digest": "cce2ce6ba6e6b7172c909d1bea509429d7e3251430c717d2ab7ef18f5d05dfe9",
+          "received_at": "2026-10-07T11:28:16.121515+00:00",
+          "outcome_precommit_sampled_at": "2026-10-07T11:28:16.122426+00:00",
+          "coverage": "bounded_snapshot"
+        },
+        {
+          "id": "ed1f32c8-6124-4b36-830f-0b448f225ce4",
+          "sequence": 4,
+          "contract_digest": "c2f2070e1ca831a38ca41ab269bf0d175a091d2e5874e94ee917a7798deb4044",
+          "admitted_at": "2026-10-07T11:28:16.496229+00:00",
+          "deadline_at": "2026-10-07T11:28:46.496229+00:00",
+          "status": "captured",
+          "code": "snapshot_captured",
+          "item_count": 2,
+          "new_revision_count": 0,
+          "transport_digest": "7efaa250412fe5e8b2bb5e90fd1e3cb63b2452c3d9716f0ad8dba0f9f738d447",
+          "received_at": "2026-10-07T11:28:16.498690+00:00",
+          "outcome_precommit_sampled_at": "2026-10-07T11:28:16.499462+00:00",
+          "coverage": "bounded_snapshot"
+        }
+      ],
+      "revisions_truncated": false,
+      "captures_truncated": false,
+      "limitations": [
+        "no_personalized_analysis",
+        "no_notifications",
+        "no_full_operational_replay",
+        "source_order_unverified",
+        "no_model_calls",
+        "no_production_daemon"
+      ]
+    }
+  },
+  "live_capture_metadata": {
+    "source_id": "fed-press",
+    "counts": {
+      "reports": 20,
+      "revisions": 20,
+      "pending": 20,
+      "running": 0,
+      "completed": 0,
+      "superseded": 0
+    },
+    "capture": {
+      "id": "5cfc9052-9c01-4a28-ba81-aadcc4798977",
+      "sequence": 1,
+      "contract_digest": "556d51f2bf17637fc0a16d6cc1bda9a726dac142fb3dcf08c26e2cb489bc184b",
+      "admitted_at": "2026-10-07T11:28:35.391671+00:00",
+      "deadline_at": "2026-10-07T11:29:05.391671+00:00",
+      "status": "captured",
+      "code": "snapshot_captured",
+      "item_count": 20,
+      "new_revision_count": 20,
+      "transport_digest": "3e12d03b2d39e3714d76ca63f5ecf66f4edd97f19ada76dc457d73ac9abc7ba6",
+      "received_at": "2026-10-07T11:28:36.113474+00:00",
+      "outcome_precommit_sampled_at": "2026-10-07T11:28:36.116287+00:00",
+      "coverage": "bounded_snapshot"
+    },
+    "linked_articles_fetched": 0,
+    "continuous_coverage_established": false
+  },
+  "model_calls": 0,
+  "model_spend_usd": 0
+}

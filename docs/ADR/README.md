@@ -25,3 +25,5 @@ These records explain settled choices and rejected alternatives. Updated 2026-10
 The language arrangement is accepted in ADR 014 after [STACK_OPTIONS.md](../STACK_OPTIONS.md) review. ADR 016 selects Django/PostgreSQL and Django ORM/migrations with authentication, sessions, and internal admin. ADR 017 selects DRF with drf-spectacular-generated OpenAPI. Frontend and TypeScript client/validator tooling, durable worker/queue, hosting, and model providers remain unselected.
 
 [Paper positions and committed-context admission](../PAPER_POSITIONS.md) implement the existing authority and publication decisions. Their synthetic trace is implementation evidence, not a new source-rights, worker, provider or replay guarantee.
+
+The [local monitoring proof](../MONITORING_PIPELINE.md) exercises independent capture, uncertainty preservation and protected recoverable work under ADRs 002 and 015. Its fixed narrow official feed and one-pass commands do not select production sources, a daemon/queue or a durable known-at protocol. The news-data ceiling remains open.

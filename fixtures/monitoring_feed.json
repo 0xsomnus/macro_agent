@@ -1,0 +1,18 @@
+{
+  "items": [
+    {
+      "id": "fictional-policy-001",
+      "title": "FICTIONAL PIPELINE FIXTURE: central bank keeps policy unchanged",
+      "url": "https://example.invalid/fictional-policy-001",
+      "published_at": "2026-10-01T12:00:00Z",
+      "content": "This invented item tests capture and recovery only. The fictional central bank left its policy setting unchanged and said further changes depend on incoming inflation data. It is not real news or an analytical assessment."
+    },
+    {
+      "id": "fictional-supply-002",
+      "title": "FICTIONAL PIPELINE FIXTURE: mine disruption remains unverified",
+      "url": "https://example.invalid/fictional-supply-002",
+      "published_at": null,
+      "content": "This invented item tests explicit uncertainty. A fictional report alleges a mine disruption; its timing and size are unresolved. No portfolio consequence is established."
+    }
+  ]
+}

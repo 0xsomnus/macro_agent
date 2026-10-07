@@ -6,7 +6,7 @@ Macro Agent is being built as a research desk for solo discretionary macro and f
 
 This is an early backend prototype. The terminal walkthrough lets you enter your own thesis, review either a manual interpretation or a model proposal, approve both text and interpretation, attach a paper trade, and see a notice from recorded fictional news. Model compilation also raises questions about missing detail and weak assumptions, with counter-cases kept separate. Thesis and position history is private and approval is explicit.
 
-The compiler currently reads only your thesis text. It does not verify facts, use current macro context or judge investment quality. Live monitoring, sourced portfolio analysis, morning briefs, external alerts and the trader UI remain to be built. The manual walkthrough needs no model key.
+The compiler currently reads only your thesis text. It does not verify facts, use current macro context or judge investment quality. A separate monitoring harness now captures a narrow official feed, preserves source revisions and recovers pending work after restart. Continuous monitoring, sourced portfolio analysis, morning briefs, external alerts and the trader UI remain to be built. The manual walkthrough needs no model key.
 
 ## Set up locally
 
@@ -94,7 +94,27 @@ For a focused test without approval or paper entry, review one example or your o
 .venv/bin/python tools/evaluate_compilation.py --case es-universal-rate-cut
 ```
 
-The [review guide](docs/COMPILATION_REVIEW.md) explains the test cases and private feedback journal. [Source options](docs/SOURCE_OPTIONS.md) and the [first monitoring slice](docs/MONITORING_SLICE.md) are proposals for the next development stage; no news feed or daemon has been selected.
+The [review guide](docs/COMPILATION_REVIEW.md) explains the test cases and private feedback journal. [Source options](docs/SOURCE_OPTIONS.md) compare broader feeds; no production feed or daemon has been selected.
+
+## Prove monitoring capture and recovery
+
+In the configured backend terminal:
+
+```sh
+export MACRO_ENABLE_MONITORING_PROOF=1
+.venv/bin/python manage.py migrate --noinput
+.venv/bin/python manage.py monitor_capture --fixture fixtures/monitoring_feed.json
+.venv/bin/python manage.py monitor_inspect --source fixture-monitor
+```
+
+Capture leaves pending work in PostgreSQL. Exit the command or terminal, reload your database environment in a new terminal, set the monitoring flag again, then run:
+
+```sh
+.venv/bin/python manage.py monitor_work --limit 10
+.venv/bin/python manage.py monitor_inspect --source fixture-monitor
+```
+
+The [monitoring walkthrough](docs/MONITORING_PIPELINE.md) covers changed payloads, lease recovery, source failures and a real Fed RSS capture. Processing currently records explicit unresolved relevance, with zero model calls. These local commands prove capture mechanics; they do not produce portfolio analysis or alerts. Fictional fixtures require the synthetic setup flag in your development configuration.
 
 ## Inspect and develop
 

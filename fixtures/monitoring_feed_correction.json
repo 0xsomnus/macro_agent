@@ -1,0 +1,18 @@
+{
+  "items": [
+    {
+      "id": "fictional-policy-001",
+      "title": "FICTIONAL PIPELINE FIXTURE: corrected policy report",
+      "url": "https://example.invalid/fictional-policy-001",
+      "published_at": "2026-10-01T12:00:00Z",
+      "content": "This invented correction replaces the earlier fictional policy item. The fictional central bank raised its policy setting. This is a mechanics fixture, not real news; it establishes no market or portfolio consequence."
+    },
+    {
+      "id": "fictional-supply-002",
+      "title": "FICTIONAL PIPELINE FIXTURE: mine disruption remains unverified",
+      "url": "https://example.invalid/fictional-supply-002",
+      "published_at": null,
+      "content": "This invented item tests explicit uncertainty. A fictional report alleges a mine disruption; its timing and size are unresolved. No portfolio consequence is established."
+    }
+  ]
+}
