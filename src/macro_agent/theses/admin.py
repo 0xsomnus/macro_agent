@@ -6,6 +6,7 @@ from django.core.exceptions import PermissionDenied
 from .models import (
     ApprovalRecord, AuditTransition, CommandReceipt, InterpretationRecord,
     TextVersionRecord, ThesisRecord, CompilationAttempt, CompilationResult,
+    RefinementSubmission,
 )
 
 
@@ -21,7 +22,7 @@ class ThesisReadonlyAdmin(admin.ModelAdmin):
             return False
         if obj is None:
             return True
-        if isinstance(obj, (ThesisRecord, CommandReceipt, CompilationAttempt)):
+        if isinstance(obj, (ThesisRecord, CommandReceipt, CompilationAttempt, RefinementSubmission)):
             owner_id = obj.owner_id
         elif isinstance(obj, CompilationResult):
             owner_id = obj.attempt.owner_id
@@ -68,3 +69,9 @@ class CompilationAttemptAdmin(ThesisReadonlyAdmin):
 class CompilationResultAdmin(ThesisReadonlyAdmin):
     owner_lookup = "attempt__owner"
     list_display = ("attempt", "status", "stop_reason", "finished_at")
+
+
+@admin.register(RefinementSubmission)
+class RefinementSubmissionAdmin(ThesisReadonlyAdmin):
+    owner_lookup = "owner"
+    list_display = ("id", "parent_attempt", "created_at")

@@ -12,12 +12,18 @@ from django.conf import settings
 from django.db import connection, transaction
 from django.utils import timezone
 
-from macro_agent.domain.compilation import PROMPT_VERSION, SCHEMA_VERSION, build_messages, parse_compilation
+from macro_agent.domain.compilation import (
+    PROMPT_VERSION, SCHEMA_VERSION, build_messages, build_review_card,
+    parse_compilation, validate_refinement_inputs,
+)
 from macro_agent.domain.models import CompiledThesisVersion, canonical_json, text_digest
 from macro_agent.providers import PROVIDER_IDS, create_provider, ProviderError, is_explicit_model_id
 
 from . import service
-from .models import CompilationAttempt, CompilationResult, InterpretationRecord, AuditTransition
+from .models import (
+    CompilationAttempt, CompilationResult, InterpretationRecord, AuditTransition,
+    RefinementSubmission,
+)
 from .model_budget import capacity_available, lock_model_budget
 
 
@@ -65,7 +71,7 @@ def _configuration(provider_id):
             raise CompilationUnavailable("invalid internal compilation limits")
     return {**values, "provider": provider_id, "prompt_version": PROMPT_VERSION,
             "schema_version": SCHEMA_VERSION, "calls_per_attempt": 1, "automatic_retries": 0,
-            "cost_category": "private_context", "context": "exact_thesis_text_only"}
+            "cost_category": "private_context", "context": "exact_thesis_and_saved_answers"}
 
 
 def model_catalog(actor_id, *, provider=None):
@@ -111,9 +117,15 @@ def _response(attempt, thesis, at):
     return {
         "compilation": {
             "id": str(attempt.pk), "status": status, "provider": attempt.provider,
+            "input_text_version": service._text_wire(attempt.text_version),
+            "schema_version": attempt.configuration.get("schema_version"),
+            "prompt_version": attempt.configuration.get("prompt_version"),
             "model_id": attempt.model_id, "created_at": attempt.created_at.isoformat(),
             "finished_at": result.finished_at.isoformat() if result else None,
             "document": result.document if result else None,
+            "refinement_id": str(attempt.refinement_id) if attempt.refinement_id else None,
+            "refinement_inputs": attempt.refinement.cumulative_inputs if attempt.refinement_id else [],
+            "parent_attempt_id": str(attempt.refinement.parent_attempt_id) if attempt.refinement_id else None,
             "interpretation_version_id": interpretation_id,
             "is_current_draft": bool(interpretation_id
                 and str(thesis.latest_interpretation_id) == interpretation_id
@@ -150,20 +162,179 @@ def get_compilation(actor_id, thesis_id, attempt_id, *, clock=timezone.now):
         return _response(attempt, thesis, service._instant(clock, thesis))
 
 
+def get_compilation_command(actor_id, thesis_id, command_id, *, clock=timezone.now):
+    """Inspect a saved command without catalogue, credentials or inference."""
+    _gate()
+    command_id = service._uuid(command_id, "command_id")
+    with transaction.atomic():
+        service._owner(actor_id, lock=True)
+        thesis = service._record(actor_id, thesis_id, lock=True)
+        attempt = CompilationAttempt.objects.filter(owner_id=actor_id, thesis=thesis,
+                                                     command_id=command_id).first()
+        if attempt is None:
+            raise service.ThesisUnavailable("compilation unavailable")
+        return _response(attempt, thesis, service._instant(clock, thesis))
+
+
+def _current_model_attempt(thesis):
+    meaning = thesis.latest_interpretation
+    if meaning.origin != "model_compilation" or meaning.compilation_id is None:
+        return None
+    attempt = CompilationAttempt.objects.filter(pk=meaning.compilation_id, thesis=thesis,
+        owner_id=thesis.owner_id, text_version_id=thesis.latest_text_id).first()
+    if attempt is None or not CompilationResult.objects.filter(
+            attempt=attempt, status="compiled", interpretation=meaning).exists():
+        raise service.ThesisConflict("current model proposal failed provenance verification")
+    return attempt
+
+
+def _refinement_context(thesis, refinement_id):
+    current = _current_model_attempt(thesis)
+    if refinement_id is None:
+        submission = current.refinement if current and current.refinement_id else None
+    else:
+        submission = RefinementSubmission.objects.filter(pk=refinement_id, thesis=thesis,
+            owner_id=thesis.owner_id).first()
+        if submission is None:
+            raise service.ThesisUnavailable("refinement unavailable")
+        if submission.text_version_id != thesis.latest_text_id or current is None or (submission.parent_attempt_id != current.pk
+                and current.refinement_id != submission.pk):
+            raise service.ThesisConflict("refinement parent changed; review the current proposal")
+    inputs = validate_refinement_inputs(submission.cumulative_inputs if submission else ())
+    return submission, inputs
+
+
+def _refinement_response(submission, thesis, *, replayed=False):
+    current = _current_model_attempt(thesis)
+    return {"refinement": {
+        "id": str(submission.pk), "command_id": str(submission.command_id),
+        "parent_attempt_id": str(submission.parent_attempt_id),
+        "text_version_id": str(submission.text_version_id),
+        "input_text_version": service._text_wire(submission.text_version),
+        "expected_revision": submission.expected_revision,
+        "answers": submission.answers, "cumulative_inputs": submission.cumulative_inputs,
+        "created_at": submission.created_at.isoformat(), "replayed": replayed,
+        "is_current_context": bool(current and thesis.latest_text_id == submission.text_version_id
+            and (current.pk == submission.parent_attempt_id or current.refinement_id == submission.pk)),
+    }, "thesis": service._detail(thesis)}
+
+
+def _answers(value):
+    if type(value) is not list or not 1 <= len(value) <= 16:
+        raise ValueError("answers requires one to sixteen exact question answers")
+    result, indices = [], set()
+    for answer in value:
+        if type(answer) is not dict or set(answer) != {"question_index", "exact_answer"}:
+            raise ValueError("answer requires question_index and exact_answer")
+        index = answer["question_index"]
+        if type(index) is not int or not 0 <= index < 32 or index in indices:
+            raise ValueError("question_index must select a unique parent question")
+        indices.add(index)
+        result.append({"question_index": index,
+            "exact_answer": service._text(answer["exact_answer"], "exact_answer", 2000)})
+    return result
+
+
+def save_refinement(actor_id, thesis_id, command_id, expected_revision, parent_attempt_id,
+                    answers, *, clock=timezone.now):
+    """Durably save exact answers without changing governing thesis state."""
+    _gate()
+    if connection.in_atomic_block or not connection.get_autocommit():
+        raise RuntimeError("refinement requires durable admission outside a caller transaction")
+    command_id = service._uuid(command_id, "command_id")
+    parent_attempt_id = service._uuid(parent_attempt_id, "parent_attempt_id")
+    revision = service._revision(expected_revision)
+    answers = _answers(answers)
+    digest = text_digest(canonical_json({"thesis_id": thesis_id, "expected_revision": revision,
+        "parent_attempt_id": parent_attempt_id, "answers": answers}))
+    with transaction.atomic():
+        service._owner(actor_id, lock=True)
+        thesis = service._record(actor_id, thesis_id, lock=True)
+        existing = RefinementSubmission.objects.filter(owner_id=actor_id, command_id=command_id).first()
+        if existing is not None:
+            if existing.request_digest != digest or existing.thesis_id != thesis.pk:
+                raise service.ThesisConflict("refinement command already belongs to another request")
+            return _refinement_response(existing, thesis, replayed=True)
+        if thesis.revision != revision:
+            raise service.ThesisConflict("thesis changed; review the current proposal")
+        parent = CompilationAttempt.objects.filter(pk=parent_attempt_id, owner_id=actor_id,
+            thesis=thesis).first()
+        if parent is None:
+            raise service.ThesisUnavailable("compilation unavailable")
+        current = _current_model_attempt(thesis)
+        if current is None or current.pk != parent.pk or parent.text_version_id != thesis.latest_text_id:
+            raise service.ThesisConflict("refinement parent changed; review the current proposal")
+        result = CompilationResult.objects.get(attempt=parent)
+        questions = result.document["refinement_issues"]
+        if any(answer["question_index"] >= len(questions) for answer in answers):
+            raise ValueError("question_index must select a parent refinement question")
+        prior = parent.refinement.cumulative_inputs if parent.refinement_id else []
+        submission_id = uuid4()
+        cumulative = validate_refinement_inputs([*prior, *[{
+            "input_id": f"answer:{submission_id}:{answer['question_index']}",
+            "parent_attempt_id": str(parent.pk), "question_index": answer["question_index"],
+            "question": questions[answer["question_index"]]["question"],
+            "exact_answer": answer["exact_answer"],
+        } for answer in answers]])
+        at = service._instant(clock, thesis)
+        submission = RefinementSubmission.objects.create(id=submission_id, owner_id=actor_id,
+            thesis=thesis, text_version_id=thesis.latest_text_id, parent_attempt=parent,
+            command_id=command_id, expected_revision=revision, request_digest=digest,
+            answers=answers, cumulative_inputs=cumulative, created_at=at)
+        AuditTransition.objects.create(thesis=thesis, kind="refinement_saved", at=at,
+            detail={"submission_id": str(submission.pk), "parent_attempt_id": str(parent.pk),
+                    "actor_id": actor_id, "command_id": command_id,
+                    "input_ids": [item["input_id"] for item in cumulative[len(prior):]],
+                    "request_digest": digest})
+        return _refinement_response(submission, thesis)
+
+
+def get_refinement(actor_id, thesis_id, refinement_id):
+    _gate()
+    refinement_id = service._uuid(refinement_id, "refinement_id")
+    with transaction.atomic():
+        service._owner(actor_id, lock=True)
+        thesis = service._record(actor_id, thesis_id, lock=True)
+        submission = RefinementSubmission.objects.filter(pk=refinement_id, thesis=thesis,
+                                                         owner_id=actor_id).first()
+        if submission is None:
+            raise service.ThesisUnavailable("refinement unavailable")
+        return _refinement_response(submission, thesis)
+
+
+def get_refinement_command(actor_id, thesis_id, command_id):
+    _gate()
+    command_id = service._uuid(command_id, "command_id")
+    with transaction.atomic():
+        service._owner(actor_id, lock=True)
+        thesis = service._record(actor_id, thesis_id, lock=True)
+        submission = RefinementSubmission.objects.filter(command_id=command_id, thesis=thesis,
+                                                         owner_id=actor_id).first()
+        if submission is None:
+            raise service.ThesisUnavailable("refinement unavailable")
+        return _refinement_response(submission, thesis)
+
+
 def compile_thesis(actor_id, thesis_id, command_id, expected_revision, model_id, provider_id,
-                   *, provider=None, clock=timezone.now):
+                   *, refinement_id=None, provider=None, clock=timezone.now):
     _gate()
     if connection.in_atomic_block or not connection.get_autocommit():
         raise RuntimeError("compilation requires durable admission outside a caller transaction")
     command_id = service._uuid(command_id, "command_id")
     thesis_id = service._uuid(thesis_id, "thesis_id")
     revision = service._revision(expected_revision)
+    if refinement_id is not None:
+        refinement_id = service._uuid(refinement_id, "refinement_id")
     if type(provider_id) is not str or provider_id not in PROVIDER_IDS:
         raise ValueError("choose a configured provider")
     if not is_explicit_model_id(model_id):
         raise ValueError("choose an explicit catalogue model without extra tools or routing")
-    digest = text_digest(canonical_json({"thesis_id": thesis_id, "expected_revision": revision,
-                                         "model_id": model_id, "provider_id": provider_id}))
+    request = {"thesis_id": thesis_id, "expected_revision": revision,
+               "model_id": model_id, "provider_id": provider_id}
+    # Keep old command identities valid when no explicit saved answers were selected.
+    if refinement_id is not None:
+        request["refinement_id"] = refinement_id
+    digest = text_digest(canonical_json(request))
     # Ownership and saved-command comparison precede all network work.
     with transaction.atomic():
         service._owner(actor_id, lock=True)
@@ -173,6 +344,7 @@ def compile_thesis(actor_id, thesis_id, command_id, expected_revision, model_id,
             return _response(existing, thesis, service._instant(clock, thesis))
         if thesis.revision != revision:
             raise service.ThesisConflict("thesis changed; review the current draft")
+        submission, inputs = _refinement_context(thesis, refinement_id)
     if settings.MACRO_MODEL_PROVIDER != provider_id:
         raise service.ThesisConflict("provider changed; refresh the model catalogue")
     configuration = _configuration(provider_id)
@@ -196,14 +368,16 @@ def compile_thesis(actor_id, thesis_id, command_id, expected_revision, model_id,
             return _response(existing, thesis, service._instant(clock, thesis))
         if thesis.revision != revision:
             raise service.ThesisConflict("thesis changed; review the current draft")
+        submission, inputs = _refinement_context(thesis, refinement_id)
         # All aggregate admissions use this lock after owner and thesis locks.
         lock_model_budget()
         at = service._instant(clock, thesis)
         if not capacity_available(actor_id, at, configuration):
             raise CompilationBudgetExhausted("compilation admission limit reached")
-        messages = build_messages(thesis.latest_text.exact_text)
+        messages = build_messages(thesis.latest_text.exact_text, refinement_inputs=inputs)
         attempt = CompilationAttempt.objects.create(owner_id=actor_id, thesis=thesis,
             command_id=command_id, text_version=thesis.latest_text,
+            refinement=submission,
             provider=provider_id,
             expected_revision=revision, request_digest=digest, model_id=model_id,
             model_metadata={**model, "catalog_fetched_at": catalog["fetched_at"]},
@@ -212,12 +386,15 @@ def compile_thesis(actor_id, thesis_id, command_id, expected_revision, model_id,
             deadline_at=at + timedelta(seconds=configuration["timeout_seconds"] + 5))
         AuditTransition.objects.create(thesis=thesis, kind="compilation_admitted", at=at,
             detail={"attempt_id": str(attempt.pk), "actor_id": actor_id,
-                    "text_digest": thesis.latest_text.text_digest, "revision": revision})
+                    "text_digest": thesis.latest_text.text_digest, "revision": revision,
+                    "refinement_id": str(submission.pk) if submission else None,
+                    "refinement_input_digest": text_digest(canonical_json(inputs))})
     # No database locks, transaction, tools, fact retrieval or implicit retry here.
     metadata, document, status, reason = {}, None, "failed", "invalid_model_output"
     try:
         metadata = adapter.complete(model_id, messages)
-        document = parse_compilation(metadata.pop("content"), attempt.text_version.exact_text)
+        document = parse_compilation(metadata.pop("content"), attempt.text_version.exact_text,
+                                     refinement_inputs=inputs)
         status, reason = "compiled", "completed"
     except ProviderError as error:
         metadata = error.metadata
@@ -240,14 +417,16 @@ def compile_thesis(actor_id, thesis_id, command_id, expected_revision, model_id,
             status, reason = "stale", "thesis_revision_changed"
         elif status == "compiled":
             meaning = document["interpretation"]
+            card = build_review_card(document, attempt.text_version.exact_text, refinement_inputs=inputs)
             value = CompiledThesisVersion(str(uuid4()), str(attempt.text_version_id),
                 tuple(meaning["drivers"]), meaning["horizon"],
-                tuple(meaning["invalidation_signposts"]), at)
+                tuple(meaning["invalidation_signposts"]), at,
+                review_card_json=canonical_json(card))
             interpretation = InterpretationRecord.objects.create(id=value.version_id,
                 thesis=thesis, text_version_id=attempt.text_version_id, compilation=attempt,
                 drivers=meaning["drivers"], horizon=meaning["horizon"],
                 invalidation_signposts=meaning["invalidation_signposts"], known_at=at,
-                digest=value.digest, origin="model_compilation")
+                digest=value.digest, origin="model_compilation", review_card=card)
             thesis.latest_interpretation = interpretation
             thesis.revision += 1
             thesis.changed_at = at

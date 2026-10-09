@@ -8,7 +8,7 @@ Updated 2026-10-09. The next [internal weekly test](WEEKLY_WORKFLOW_TEST.md) acc
 
 ## Phase 0: reviewed contracts and internal research
 
-- Implement the [complete thesis review card and guided refinement](THESIS_ENGINE.md#required-thesis-review-card): affected assets, causal drivers, assumptions, catalysts, horizon, invalidation, counter-case/scenarios, evidence and explicit gaps. Keep agent proposals separate until approved.
+- Evaluate the [implemented text-grounded review card and guided refinement](THESIS_COMPILATION.md), including affected assets, causal paths, assumptions, catalysts, horizon, invalidation and counter-case/scenarios. Verify usefulness with a live model; external evidence, canonical relationships and sourced monitoring scope remain outstanding. Agent proposals retain their labels after review.
 - Support user-led research from an initial question or observation into a candidate thesis, including a result of no defensible thesis. Research the first example jointly and choose sources to fit it; copper remains illustrative. This is separate from deferred proactive Discovery.
 - Validate 5 to 10 representative theses within the pilot universe, including incomplete theses, factual conflicts, and attached trades. This sample tests onboarding and usefulness, not broad recall or regime reliability.
 - Pilot candidates: ES, NQ, XAU, DXY-linked trades, EUR/USD, USD/JPY, USD/CNH. DXY is also shared macro context. Validate actual venue, contract, and exposure mapping before calling a trade supported. USD/CNH is selected for China-related macro context, not asserted to rank third in standalone retail spot volume. GBP/USD is an expansion candidate.

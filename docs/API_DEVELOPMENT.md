@@ -2,7 +2,7 @@
 
 For a guided terminal walkthrough, start with [Getting started](GETTING_STARTED.md). This guide is the HTTP reference for manual requests and client development. The CLI uses these same session and approval endpoints. All shell commands run from the repository root.
 
-Updated 2026-10-06. [ADR 017](ADR/017-drf-and-openapi-boundary.md) selects DRF and drf-spectacular through delegated implementation judgment. Start with [Django setup](DJANGO_DEVELOPMENT.md). This internal API persists exact drafts, manual or model-proposed interpretation previews, explicit user approval, paper declarations and private history. [PAPER_POSITIONS.md](PAPER_POSITIONS.md) specifies attachment/revision/closure and synthetic publication context. It does not configure monitoring.
+Updated 2026-10-09. [ADR 017](ADR/017-drf-and-openapi-boundary.md) selects DRF and drf-spectacular through delegated implementation judgment. Start with [Django setup](DJANGO_DEVELOPMENT.md). This internal API persists exact drafts, model review cards, attributable refinement answers, explicit user approval, paper declarations and private history. [PAPER_POSITIONS.md](PAPER_POSITIONS.md) specifies attachment/revision/closure and synthetic publication context. It does not configure continuous monitoring.
 
 ## Session and authority
 
@@ -68,6 +68,8 @@ A proposal uses the same shape plus `expected_revision`, copied from the current
 
 Both draft versions, their exact digests, and the aggregate revision are compared under protection. A 409 requires fetching and reviewing the latest state. Do not automatically approve a replacement after a conflict. Leading/trailing whitespace, line endings, and Unicode remain exact; neither text nor interpretation strings are trimmed or normalized.
 
+For current model proposals, the interpretation hash also binds the complete review card: exact original text and answers, extracted intent, labelled proposals, counter-case, questions and evidence limitations. Reviewing that card does not adopt its agent proposals as trader belief or verify them. Legacy interpretations without cards retain their original hashes and approvals.
+
 Every successful command returns its immutable receipt plus the current thesis. An exact retry with the same command UUID returns `command.replayed: true`, the original result, and fresh current disposition. Reusing that UUID for a different request returns 409. An old approval retry can return `command.is_current_approval: false`; the original receipt does not reactivate it. Keep the command ID and exact payload together when retrying.
 
 Only UTF-8 `application/json` is accepted. Requests are capped at 128 KiB; unknown or duplicate fields, nonfinite numbers, invalid Unicode, NUL, and type coercion are rejected. Text is capped at 20,000 characters; interpretation arrays at 32 strings and each string at 1,000 characters. `expected_revision` is a positive JSON integer, not a string or boolean. List pagination accepts only `limit` (1 to 100) and `offset` (0 to 1,000,000).
@@ -116,8 +118,12 @@ The response separates the fictional source fact, prescribed screening, current 
 | GET | `/api/v1/models/` | Fetch the configured router's normalized catalogue and explicit model IDs |
 | POST | `/api/v1/theses/{id}/compile/` | Admit one private model call and propose a text-grounded interpretation |
 | GET | `/api/v1/theses/{id}/compilations/{attempt_id}/` | Read the saved result and current draft disposition without inference |
+| GET | `/api/v1/theses/{id}/compilation-commands/{command_id}/` | Recover an admitted compilation by its saved command UUID without inference |
+| POST | `/api/v1/theses/{id}/refinements/` | Save exact answers against a current proposal's questions without provider work |
+| GET | `/api/v1/theses/{id}/refinements/{refinement_id}/` | Inspect saved answers and their current applicability |
+| GET | `/api/v1/theses/{id}/refinement-commands/{command_id}/` | Recover a saved answer submission by its command UUID |
 
-Compilation accepts exactly this shape, with a new command UUID, the reviewed draft revision and provider/model copied from the fetched catalogue:
+Initial compilation accepts this shape, with a new command UUID, the reviewed draft revision and provider/model copied from the fetched catalogue. A later request may additionally specify `refinement_id`:
 
 ```json
 {
@@ -128,9 +134,30 @@ Compilation accepts exactly this shape, with a new command UUID, the reviewed dr
 }
 ```
 
-All endpoints derive ownership from the session; POST requires CSRF. Strict JSON rejects duplicate keys, unknown fields and coercion. The response separates `compilation.document` questions/hypotheses from `thesis.draft.interpretation`, labelled `model_compilation`. Approval still uses the existing exact-version/hash endpoint. A new proposal preserves the current approval.
+All endpoints derive ownership from the session; POST requires CSRF. Strict JSON rejects duplicate keys, unknown fields and coercion. The model document combines extracted drivers, horizon and invalidation with structured claim, assets, causal path, assumptions, catalysts, scenarios and monitoring scope. Every section distinguishes extracted input, proposals and gaps. Grounding names the original thesis or exact answer that supplied each quotation; attribution does not prove semantic fidelity or causal correctness.
+
+`thesis.draft.interpretation.review_card` preserves that document and its exact inputs, with backend-controlled evidence fixed to `status: unavailable` and `references: []`. Only the original text and saved answers inform this compiler. It has no external evidence, current regime or verified asset mapping. Approval uses the existing exact-version/hash endpoint, and a new proposal preserves the current approval.
 
 HTTP 200 can contain `compiled`, `stale`, `failed`, `running` or `outcome_unknown`; inspect the state before offering approval. A changed provider or draft returns 409, admission exhaustion 429, and unavailable configuration/catalogue 503. Repeating the same admitted command returns its original result and current disposition without another provider call. GET never restarts an interrupted call. A late result or intervening draft/approval change cannot install stale meaning. The text-only compiler supplies no verified factual conflicts, current macro context or monitoring readiness.
+
+### Save answers, then explicitly recompile
+
+Copy the current `thesis.revision`, compilation attempt ID and question indexes from its `refinement_issues`. Send a new command UUID to the refinement endpoint:
+
+```json
+{
+  "command_id": "23113e9b-0ad9-4cac-adf9-ea56bc84e216",
+  "expected_revision": 2,
+  "parent_attempt_id": "df466759-8faa-47a1-a538-30eb7b6366eb",
+  "answers": [{"question_index": 0, "exact_answer": "Six weeks."}]
+}
+```
+
+The service derives exact question wording and prior answer history from the owner-scoped parent. Clients cannot supply a replacement question or transcript. Saving answers makes no catalogue or model request and does not change the draft, approval or original prose. Answers are immutable, at most 2,000 characters each, with at most 16 cumulative answers and 16,000 cumulative answer characters. Overflow is rejected without truncation.
+
+For a new explicitly initiated compilation, pass the returned `refinement.id` as `refinement_id`, together with a fresh command UUID and current revision. Model switching retains the saved answers already attached to the current proposal when this field is omitted. Newly saved answers require their ID to be selected explicitly. A stale parent or answer branch requires fresh review; it cannot replace a newer proposal. A revised model result still requires its own exact approval.
+
+Persist each command UUID before transmission. After a lost response, use the corresponding compilation-command or refinement-command GET. Recovery reads the original record with current disposition, requires no model credentials and has no POST fallback. An unavailable record does not prove that the earlier request failed or was free.
 
 ## Internal retained-news analysis
 
@@ -147,5 +174,7 @@ The [terminal guide](NEWS_ANALYSIS.md) explains setup and one-report review. The
 POST accepts exactly `command_id`, `expected_approval_id`, `expected_exposure_digest`, `source_id`, `provider_id` and `model_id`. Copy the approval/digest from the reviewed context and the explicit provider/model from the catalogue. Persist the command UUID before transmission. The actor comes from the session; writes require CSRF. Duplicate JSON keys, unknown fields and coercion are rejected.
 
 The response separates retained `analysis.context`, attributed quotation claims, independent thesis/trade routes and hypotheses. HTTP 200 may contain `analysed`, `stale`, `failed`, `running`, `outcome_unknown` or `queue_empty`. Original status and current disposition are distinct. No source work is dismissed, no thesis or trade changes, and no notice is created. Compilation and news analysis share the configured admission allowance.
+
+Where present, the exact reviewed card is included in approved news context with its proposal and evidence labels preserved. The entire news context is limited to 65,536 encoded bytes, while a compiler card permits up to 524,288 bytes. A valid card can therefore be too large for news analysis; preflight rejects it before paid admission rather than trimming inputs.
 
 Admission commits before one inference outside database locks; protected completion compares current source, approval and exposure. Exact command replay cannot spend or advance the queue again, including after an empty response. Invalid or uncertain attempts are never automatically tried again for the same pinned inputs. Recovery GETs require no provider credentials and have no write fallback. Missing and foreign receipts are opaque 404 responses. Changed reviewed input or command identity returns 409, admission exhaustion 429, unavailable provider/catalogue 503, and malformed requests 400. This API does not supply continuous monitoring, verified macro context, broad coverage or sourced publication authority.

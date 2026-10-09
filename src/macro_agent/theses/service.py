@@ -141,6 +141,28 @@ def _text_wire(item: TextVersionRecord) -> dict:
     }
 
 
+def interpretation_value(item: InterpretationRecord) -> CompiledThesisVersion:
+    """Reconstruct both legacy meaning and any hash-bound review surface."""
+    value = CompiledThesisVersion(
+        str(item.pk), str(item.text_version_id), tuple(item.drivers), item.horizon,
+        tuple(item.invalidation_signposts), item.known_at,
+        review_card_json=canonical_json(item.review_card) if item.review_card is not None else None,
+    )
+    if item.review_card is not None:
+        if item.review_card["inputs"][0]["exact_text"] != item.text_version.exact_text:
+            raise ThesisConflict("review card does not bind the linked exact thesis text")
+        if item.origin != "model_compilation" or item.compilation_id is None:
+            raise ThesisConflict("review card requires immutable compilation provenance")
+        attempt = item.compilation
+        expected_inputs = attempt.refinement.cumulative_inputs if attempt.refinement_id else []
+        from .models import CompilationResult
+        result = CompilationResult.objects.filter(attempt=attempt, status="compiled", interpretation=item).first()
+        if (item.review_card["inputs"][1:] != expected_inputs or result is None
+                or item.review_card["document"] != result.document):
+            raise ThesisConflict("review card differs from saved compilation inputs or output")
+    return value
+
+
 def _meaning_wire(item: InterpretationRecord) -> dict:
     return {
         "id": str(item.pk), "text_version_id": str(item.text_version_id),
@@ -148,6 +170,7 @@ def _meaning_wire(item: InterpretationRecord) -> dict:
         "invalidation_signposts": item.invalidation_signposts,
         "known_at": as_utc(item.known_at).isoformat(), "digest": item.digest,
         "origin": item.origin,
+        "review_card": item.review_card,
     }
 
 
@@ -309,10 +332,7 @@ def approve_thesis(actor_id: str, thesis_id: str, command_id: str,
             str(text.pk), str(thesis.pk), actor_id, text.exact_text, text.created_at,
             str(text.parent_id) if text.parent_id else None,
         )
-        meaning_value = CompiledThesisVersion(
-            str(meaning.pk), str(meaning.text_version_id), tuple(meaning.drivers),
-            meaning.horizon, tuple(meaning.invalidation_signposts), meaning.known_at,
-        )
+        meaning_value = interpretation_value(meaning)
         if (text.text_digest != text_value.text_digest or meaning.digest != meaning_value.digest):
             raise ThesisConflict("stored draft failed integrity verification")
         if text_digest != text_value.text_digest or interpretation_digest != meaning_value.digest:

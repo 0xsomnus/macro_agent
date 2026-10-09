@@ -108,6 +108,7 @@ SPECTACULAR_SETTINGS = {
     "SERVE_AUTHENTICATION": ["rest_framework.authentication.SessionAuthentication"],
     "COMPONENT_SPLIT_REQUEST": True,
     "ENUM_NAME_OVERRIDES": {
+        "UnavailableEvidenceEnum": ["unavailable"],
         "CompilationStatusEnum": ["running", "outcome_unknown", "compiled", "stale", "failed"],
         "NewsAnalysisStatusEnum": ["analysed", "stale", "failed", "outcome_unknown", "running", "queue_empty"],
         "NewsRouteStatusEnum": ["potential", "review_needed", "not_identified"],

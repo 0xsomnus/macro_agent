@@ -127,6 +127,7 @@ class CompiledThesisVersion:
     horizon: str | None
     invalidation_signposts: tuple[str, ...]
     known_at: datetime
+    review_card_json: str | None = None
 
     def __post_init__(self) -> None:
         require_text(self.version_id, "version_id")
@@ -136,17 +137,29 @@ class CompiledThesisVersion:
             require_text(self.horizon, "horizon")
         object.__setattr__(self, "invalidation_signposts", _strings(self.invalidation_signposts, "invalidation_signposts"))
         object.__setattr__(self, "known_at", as_utc(self.known_at))
+        if self.review_card_json is not None:
+            from .compilation import validate_review_card_json
+            content = validate_review_card_json(self.review_card_json)
+            interpretation = json.loads(content)["document"]["interpretation"]
+            if interpretation != {"drivers": list(self.drivers), "horizon": self.horizon,
+                                  "invalidation_signposts": list(self.invalidation_signposts)}:
+                raise ValueError("review card must bind the same extracted interpretation")
+            object.__setattr__(self, "review_card_json", content)
 
     @property
     def digest(self) -> str:
-        return text_digest(canonical_json({
+        content = {
             "version_id": self.version_id,
             "thesis_version_id": self.thesis_version_id,
             "drivers": list(self.drivers),
             "horizon": self.horizon,
             "invalidation_signposts": list(self.invalidation_signposts),
             "known_at": self.known_at.isoformat(),
-        }))
+        }
+        if self.review_card_json is not None:
+            card = json.loads(self.review_card_json)
+            content.update(review_schema_version=card["schema_version"], review_card=card)
+        return text_digest(canonical_json(content))
 
 
 @dataclass(frozen=True, slots=True)

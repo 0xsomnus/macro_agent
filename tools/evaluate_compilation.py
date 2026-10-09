@@ -5,11 +5,9 @@ paper position, news call or outcome learning is performed.
 """
 
 import argparse
-from datetime import datetime, timezone
 import getpass
 from hashlib import sha256
 import json
-import os
 from pathlib import Path
 import sys
 from uuid import uuid4
@@ -32,29 +30,8 @@ DEFAULT_PACK = ROOT / "fixtures" / "compilation_cases.json"
 EMPTY_MEANING = {"drivers": [], "horizon": None, "invalidation_signposts": []}
 
 
-class ReviewJournal:
-    """Exclusive private JSONL file; each transition is flushed before proceeding."""
-
-    def __init__(self, path):
-        self.path = Path(path)
-        try:
-            descriptor = os.open(self.path, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
-            self.stream = os.fdopen(descriptor, "w", encoding="utf-8", newline="\n")
-        except OSError:
-            raise WalkthroughError("Choose a new review filename in an existing directory. Existing files are never overwritten.") from None
-
-    def append(self, kind, detail):
-        record = {"kind": kind, "client_observed_at": datetime.now(timezone.utc).isoformat(),
-                  "detail": detail}
-        try:
-            self.stream.write(json.dumps(record, ensure_ascii=False, allow_nan=False) + "\n")
-            self.stream.flush()
-            os.fsync(self.stream.fileno())
-        except OSError:
-            raise WalkthroughError("The private review journal could not be saved. No model retry will be made; check the backend's admission records before another call.") from None
-
-    def close(self):
-        self.stream.close()
+# Retain the public name used by one-report reviews.
+from desk_cli import CommandJournal as ReviewJournal
 
 
 def _rating(question, ask, say):
@@ -81,10 +58,13 @@ def _available_result(result, thesis_id, exact_text, selection):
         return "stale"
     if thesis["draft"]["text_version"]["exact_text"] != exact_text:
         raise WalkthroughError("The current compilation response differs from the requested exact input. No review or approval was accepted.")
-    document = parse_compilation(json.dumps(output["document"], ensure_ascii=False, allow_nan=False), exact_text)
+    from macro_agent.domain.compilation import build_review_card
+    inputs = output.get("refinement_inputs", [])
+    document = parse_compilation(json.dumps(output["document"], ensure_ascii=False, allow_nan=False), exact_text, refinement_inputs=inputs)
     meaning = thesis["draft"]["interpretation"]
-    if meaning["origin"] != "model_compilation" or any(
-            meaning[field] != document["interpretation"][field] for field in EMPTY_MEANING):
+    if (meaning.get("review_card") != build_review_card(document, exact_text, refinement_inputs=inputs)
+            or meaning["origin"] != "model_compilation" or any(
+            meaning[field] != document["interpretation"][field] for field in EMPTY_MEANING)):
         raise WalkthroughError("The suggested draft and compilation document disagree. No review or approval was accepted.")
     return "compiled"
 

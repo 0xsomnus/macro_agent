@@ -13,6 +13,7 @@ from django.test import TransactionTestCase, override_settings
 from django.utils import timezone
 
 from macro_agent.providers import ProviderError
+from macro_agent.domain.compilation import SECTIONS
 from macro_agent.theses import compilation, service
 from macro_agent.theses.models import AuditTransition, CompilationAttempt, CompilationBudget, CompilationResult, InterpretationRecord, TextVersionRecord
 
@@ -24,10 +25,13 @@ EMPTY = {"drivers": [], "horizon": None, "invalidation_signposts": []}
 
 def document():
     return {"interpretation": {**EMPTY, "drivers": ["Falling real yields may support gold."]},
-        "grounding": [{"field": "drivers", "index": 0, "exact_quote": "Gold may benefit if real yields fall."}],
-        "refinement_issues": [{"kind": "missing_detail", "exact_quote": None,
+        "grounding": [{"field": "drivers", "index": 0, "input_id": "thesis",
+            "exact_quote": "Gold may benefit if real yields fall."}],
+        "refinement_issues": [{"kind": "missing_detail", "input_id": None, "exact_quote": None,
             "explanation": "No horizon is supplied.", "question": "Over what period?"}],
-        "agent_hypotheses": [], "counter_case": "Unverified: another driver may dominate."}
+        "agent_hypotheses": [], "counter_case": "Unverified: another driver may dominate.",
+        "review_card": {section: {"extracted": [], "proposed": [], "gap": "Not established."}
+                        for section in SECTIONS}}
 
 
 class RecordedProvider:

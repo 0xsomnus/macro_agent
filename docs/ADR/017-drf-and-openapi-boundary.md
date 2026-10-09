@@ -16,6 +16,8 @@ Status: Accepted on 2026-10-05 through the user's delegated implementation judgm
 
 **Schema verification:** Describe requests, successful responses, and failures explicitly, then generate and validate OpenAPI. Runtime tests still prove strict parsing, ownership, exact hashes, CSRF, and approval races; schema validation alone cannot prove them. TypeScript client/validator generation tooling remains open. [drf-spectacular workflow](https://drf-spectacular.readthedocs.io/en/latest/customization.html)
 
+**Implementation update, 2026-10-09:** The same boundary now describes structured model review cards, exact saved refinement answers and read-only recovery by command UUID. The service derives questions and cumulative input history; clients submit only question indexes and exact answers. Current interpretation hashes bind the full review card while preserving legacy hashes. Labelled agent proposals remain hypotheses after review approval. Source evidence is unavailable in this text-and-answer compiler. These additive contracts do not select a worker, enable continuous monitoring or establish sourced research and daily briefs.
+
 **Rejected for this increment:** Ninja's shorter typed endpoints do not justify adding Pydantic as another contract dependency for this small boundary. Automatic model CRUD and writable history would obscure the explicit approval service. A separately handwritten OpenAPI document would introduce competing schema authority.
 
 **Still open:** Frontend tooling and TypeScript client generation; durable workers/queue; hosting and deployed authentication configuration; providers and source rights. Revisit the API choice if measured contract or maintenance costs warrant a superseding ADR.

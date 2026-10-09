@@ -4,9 +4,9 @@ Macro Agent is being built as a research desk for solo discretionary macro and f
 
 ## Current status
 
-This is an early backend prototype. The terminal walkthrough lets you enter your own thesis, review either a manual interpretation or a model proposal, approve both text and interpretation, attach a paper trade, and see a notice from recorded fictional news. Model compilation also raises questions about missing detail and weak assumptions, with counter-cases kept separate. Thesis and position history is private and approval is explicit.
+This is an early backend prototype. The terminal walkthrough lets you enter your own thesis, review either a manual interpretation or a model proposal, approve both text and interpretation, attach a paper trade, and see a notice from recorded fictional news. Model compilation now presents a structured review card, including affected assets, causal paths, assumptions, catalysts, scenarios and explicit gaps. You can save exact answers to its questions and explicitly recompile. Thesis and position history is private and approval is explicit.
 
-The compiler currently reads only your thesis text. It does not verify facts, use current macro context or judge investment quality. A monitoring harness captures a narrow official feed, preserves source revisions and recovers pending work after restart. You can now initiate analysis of the next captured report against an approved thesis and its paper trades. The mechanics are tested with recorded model output; live usefulness remains unproven. Continuous operation, broad macro context, morning briefs, external alerts and the trader UI remain to be built. The manual walkthrough needs no model key.
+The compiler currently reads only your thesis text and saved answers. It does not verify facts, use current macro context or judge investment quality. A monitoring harness captures a narrow official feed, preserves source revisions and recovers pending work after restart. You can now initiate analysis of the next captured report against an approved thesis and its paper trades. The mechanics are tested with recorded model output; live usefulness remains unproven. Continuous operation, broad macro context, morning briefs, external alerts and the trader UI remain to be built. The manual walkthrough needs no model key.
 
 The next internal test targets a week of durable paper workflow with a narrow live feed and headline-level analysis. [The test plan](docs/WEEKLY_WORKFLOW_TEST.md) distinguishes that goal from the broader desk roadmap and records the remaining compilation, context continuity, source and daily-brief work.
 
@@ -86,7 +86,7 @@ In your second terminal:
 .venv/bin/python tools/desk_cli.py happy-path --compile
 ```
 
-The terminal fetches the configured provider's catalogue and lets you search and choose a model. Review its suggested interpretation, questions and counter-case. Type `switch` to try another model before approval. Each compilation sends your thesis to the chosen provider and may incur a charge. Unknown costs remain unknown.
+The terminal fetches the configured provider's catalogue and lets you search and choose a model. Review its suggested interpretation, complete card, questions and counter-case. Type `refine` to save answers, `switch` to choose another model, or `approve` after review. Saving answers makes no model call; recompilation is separately initiated and may incur a charge. Unknown costs remain unknown. A private journal saves command IDs before requests for read-only recovery after interruption.
 
 Read [thesis compilation](docs/THESIS_COMPILATION.md) for provider switching, failure behavior and current limits.
 

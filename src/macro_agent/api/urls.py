@@ -1,7 +1,10 @@
 """Thesis and paper-position routes expose explicit application commands."""
 
 from django.urls import path
-from .compilation_views import ModelCatalogView, CompilationView, CompilationDetailView
+from .compilation_views import (
+    ModelCatalogView, CompilationView, CompilationDetailView, CompilationCommandView,
+    RefinementView, RefinementDetailView, RefinementCommandView,
+)
 from .news_analysis_views import (
     AnalyseNextView, NewsAnalysisDetailView, NewsCommandDetailView,
     NewsReviewContextView, NewsSourcesView,
@@ -28,6 +31,10 @@ urlpatterns = [
     path("models/", ModelCatalogView.as_view(), name="model-catalog"),
     path("theses/<uuid:thesis_id>/compile/", CompilationView.as_view(), name="thesis-compile"),
     path("theses/<uuid:thesis_id>/compilations/<uuid:attempt_id>/", CompilationDetailView.as_view(), name="compilation-detail"),
+    path("theses/<uuid:thesis_id>/compilation-commands/<uuid:command_id>/", CompilationCommandView.as_view(), name="compilation-command"),
+    path("theses/<uuid:thesis_id>/refinements/", RefinementView.as_view(), name="thesis-refinement"),
+    path("theses/<uuid:thesis_id>/refinements/<uuid:refinement_id>/", RefinementDetailView.as_view(), name="refinement-detail"),
+    path("theses/<uuid:thesis_id>/refinement-commands/<uuid:command_id>/", RefinementCommandView.as_view(), name="refinement-command"),
     path("lab/theses/<uuid:thesis_id>/recorded-news/", RecordedNewsView.as_view(), name="recorded-news"),
     path("schema/", PrivateSchemaView.as_view(), name="schema"),
     path("theses/", ThesisCollectionView.as_view(), name="thesis-list"),

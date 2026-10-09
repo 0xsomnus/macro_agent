@@ -2,6 +2,7 @@
 
 from dataclasses import dataclass
 from datetime import datetime
+import json
 
 from .models import (
     CompiledThesisVersion, ThesisApproval, UserThesisVersion, require_digest,
@@ -57,6 +58,9 @@ def approve_thesis(
         raise PermissionError("only the thesis owner acting as a user can approve")
     if interpretation.thesis_version_id != thesis.version_id:
         raise ValueError("interpretation is not linked to the selected thesis version")
+    if (interpretation.review_card_json is not None
+            and json.loads(interpretation.review_card_json)["inputs"][0]["exact_text"] != thesis.exact_text):
+        raise ValueError("review card must preserve the selected exact thesis text")
     if interpretation.known_at < thesis.created_at:
         raise ValueError("compiled interpretation cannot precede its linked thesis version")
     if request.thesis_version_id != thesis.version_id or request.interpretation_version_id != interpretation.version_id:

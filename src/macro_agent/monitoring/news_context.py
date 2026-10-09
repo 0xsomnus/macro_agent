@@ -93,7 +93,7 @@ def build_context(source, revision, inputs):
         raise NewsConflict("Retained source payload failed integrity verification")
     witness = DurableObservation.objects.filter(revision=revision).first()
     meaning, text, approval = inputs["interpretation"], inputs["text"], inputs["approval"]
-    return {"source": {"source_key": source.pk, "report_id": revision.report_id,
+    context = {"source": {"source_key": source.pk, "report_id": revision.report_id,
         "native_id": revision.report.native_id, "revision_id": str(revision.pk),
         "digest": revision.digest, **{key: revision.payload[key] for key in ("title", "content", "url")},
         "published_at": revision.payload["published_at"],
@@ -105,6 +105,9 @@ def build_context(source, revision, inputs):
             "exact_text": text["exact_text"], "drivers": meaning["drivers"], "horizon": meaning["horizon"],
             "invalidation_signposts": meaning["invalidation_signposts"]},
         "positions": projected_positions(inputs["exposure"])}
+    if "review_card" in meaning:
+        context["approved_thesis"]["review_card"] = meaning["review_card"]
+    return context
 
 
 def readonly_snapshot():
@@ -127,11 +130,14 @@ def review_context(actor_id, thesis_id):
         if thesis.current_approval_id is None:
             raise NewsConflict("Approve exact text and interpretation before news review")
         approval, inputs, digest = resolve(thesis, str(thesis.current_approval_id))
-        return {"thesis_id": str(thesis.pk), "approval_id": str(approval.pk), "exposure_digest": digest,
+        result = {"thesis_id": str(thesis.pk), "approval_id": str(approval.pk), "exposure_digest": digest,
             "approved_exact_text": inputs["text"]["exact_text"],
             "approved_interpretation": {key: inputs["interpretation"][key] for key in
                 ("drivers", "horizon", "invalidation_signposts")},
             "positions": projected_positions(inputs["exposure"]), "limitations": LIMITATIONS}
+        if "review_card" in inputs["interpretation"]:
+            result["approved_interpretation"]["review_card"] = inputs["interpretation"]["review_card"]
+        return result
 
 
 def news_catalog(actor_id):

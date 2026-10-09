@@ -61,16 +61,21 @@ class Client:
                 raise review.WalkthroughError("The response is unavailable; outcome and cost are unknown.")
             meaning = {"drivers": ["Gold may benefit if real yields fall."], "horizon": None,
                        "invalidation_signposts": []}
-            doc = {"interpretation": meaning, "grounding": [{"field": "drivers", "index": 0,
+            doc = {"interpretation": meaning, "grounding": [{"field": "drivers", "index": 0, "input_id": "thesis",
                     "exact_quote": "Gold may benefit if real yields fall."}],
-                   "refinement_issues": [], "agent_hypotheses": [], "counter_case": None}
+                   "refinement_issues": [], "agent_hypotheses": [], "counter_case": None,
+                   "review_card": {key: {"extracted": [], "proposed": [], "gap": "Not supplied."}
+                       for key in ("claim", "affected_assets", "causal_path", "assumptions", "catalysts", "scenarios", "monitoring_scope")}}
             if self.state == "compiled":
                 self.thesis["revision"] += 1
                 self.thesis["draft"]["interpretation"] = {"id": MEANING,
-                    "origin": "model_compilation", "digest": "c" * 64, **meaning}
+                    "origin": "model_compilation", "digest": "c" * 64, **meaning,
+                    "review_card": {"schema_version": "thesis-review-card-v1",
+                        "inputs": [{"input_id": "thesis", "exact_text": EXACT}],
+                        "document": copy.deepcopy(doc), "evidence": {"status": "unavailable", "references": []}}}
             if self.mismatch:
                 doc["interpretation"]["horizon"] = "Ten weeks"
-                doc["grounding"].append({"field": "horizon", "index": None,
+                doc["grounding"].append({"field": "horizon", "index": None, "input_id": "thesis",
                                          "exact_quote": "Gold"})
             return {"thesis": copy.deepcopy(self.thesis), "compilation": {
                 "id": TEXT, "provider": "nanogpt", "model_id": MODEL,

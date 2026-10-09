@@ -76,6 +76,7 @@ class InterpretationRecord(models.Model):
     drivers = models.JSONField()
     horizon = models.TextField(null=True)
     invalidation_signposts = models.JSONField()
+    review_card = models.JSONField(null=True)
     known_at = models.DateTimeField()
     digest = models.CharField(max_length=64)
     origin = models.CharField(max_length=32, default="user_supplied", editable=False,
@@ -182,6 +183,8 @@ class CompilationAttempt(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     thesis = models.ForeignKey(ThesisRecord, on_delete=models.PROTECT, related_name="compilations")
     text_version = models.ForeignKey(TextVersionRecord, on_delete=models.PROTECT)
+    refinement = models.ForeignKey("RefinementSubmission", null=True,
+                                   on_delete=models.PROTECT, related_name="compilations")
     expected_revision = models.PositiveBigIntegerField()
     request_digest = models.CharField(max_length=64)
     provider = models.CharField(max_length=32, default="nanogpt")
@@ -204,6 +207,35 @@ class CompilationAttempt(models.Model):
             models.CheckConstraint(condition=Q(prompt_digest__regex=DIGEST_PATTERN), name="macro_compile_prompt_digest"),
             models.CheckConstraint(condition=Q(provider__in=("nanogpt", "openrouter", "cheaperinference")),
                                    name="macro_compile_provider"),
+        ]
+
+
+class RefinementSubmission(models.Model):
+    """Exact trader answers, saved independently before any model admission."""
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    command_id = models.UUIDField()
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    thesis = models.ForeignKey(ThesisRecord, on_delete=models.PROTECT, related_name="refinements")
+    text_version = models.ForeignKey(TextVersionRecord, on_delete=models.PROTECT)
+    parent_attempt = models.ForeignKey(CompilationAttempt, on_delete=models.PROTECT,
+                                      related_name="refinement_submissions")
+    expected_revision = models.PositiveBigIntegerField()
+    request_digest = models.CharField(max_length=64)
+    answers = models.JSONField()
+    cumulative_inputs = models.JSONField()
+    created_at = models.DateTimeField()
+
+    class Meta:
+        db_table = "macro_refinement_submissions"
+        constraints = [
+            models.UniqueConstraint(fields=("owner", "command_id"), name="macro_refine_command_identity"),
+            models.UniqueConstraint(fields=("thesis", "text_version", "id"),
+                                    name="macro_refine_text_target"),
+            models.CheckConstraint(condition=Q(expected_revision__gt=0),
+                                   name="macro_refine_revision_positive"),
+            models.CheckConstraint(condition=Q(request_digest__regex=DIGEST_PATTERN),
+                                   name="macro_refine_request_digest"),
         ]
 
 

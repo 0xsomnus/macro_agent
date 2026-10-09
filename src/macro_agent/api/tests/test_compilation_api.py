@@ -18,6 +18,7 @@ from drf_spectacular.validation import validate_schema
 from macro_agent.api.compilation_serializers import (
     CompilationResponseSerializer, ModelCatalogResponseSerializer,
 )
+from macro_agent.domain.compilation import SECTIONS
 from macro_agent.providers.nanogpt import ProviderError
 from macro_agent.theses import compilation, service as theses
 from macro_agent.theses.models import CompilationAttempt, CompilationBudget
@@ -50,13 +51,15 @@ class RecordedModel:
         return {"content": json.dumps({
             "interpretation": {"drivers": ["Falling real yields may support gold."],
                                "horizon": None, "invalidation_signposts": []},
-            "grounding": [{"field": "drivers", "index": 0,
+            "grounding": [{"field": "drivers", "index": 0, "input_id": "thesis",
                            "exact_quote": "Gold may benefit if real yields fall."}],
-            "refinement_issues": [{"kind": "missing_detail", "exact_quote": None,
+            "refinement_issues": [{"kind": "missing_detail", "exact_quote": None, "input_id": None,
                                    "explanation": "The trader supplied no horizon.",
                                    "question": "What horizon do you intend?"}],
             "agent_hypotheses": [],
             "counter_case": "Unverified hypothesis: other drivers may offset this path.",
+            "review_card": {name: {"extracted": [], "proposed": [],
+                "gap": "Not resolved by this recorded test response."} for name in SECTIONS},
         }), "usage": {"prompt_tokens": 10, "completion_tokens": 20, "total_tokens": 30},
             "reported_cost_usd": None, "reported_model": MODEL_ID,
             "provider_request_id": "recorded-request", "latency_ms": 12,

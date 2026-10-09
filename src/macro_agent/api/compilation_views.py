@@ -10,7 +10,8 @@ from macro_agent.theses import service as theses
 
 from .compilation_serializers import (
     CompilationResponseSerializer, CompileThesisRequestSerializer,
-    ModelCatalogResponseSerializer,
+    ModelCatalogResponseSerializer, RefinementResponseSerializer,
+    SaveRefinementRequestSerializer,
 )
 from .serializers import ErrorResponseSerializer
 from .views import CommandConflict, ERROR_RESPONSES, InvalidCommand, ThesisAPIView, _reject_query
@@ -104,3 +105,58 @@ class CompilationDetailView(InternalCompilationAPIView):
         _reject_query(request)
         return Response(_call_service(service.get_compilation, str(request.user.pk),
                                       str(thesis_id), str(attempt_id)))
+
+
+class CompilationCommandView(InternalCompilationAPIView):
+    @extend_schema(
+        operation_id="get_compilation_command", tags=["internal compilation"],
+        responses={200: CompilationResponseSerializer, **ERROR_RESPONSES},
+        description=("Read-only recovery by the command UUID saved before transmission. "
+                     "No provider credentials, catalogue lookup, inference or POST fallback. "
+                     "Historical results are shown alongside current draft disposition."),
+    )
+    def get(self, request, thesis_id, command_id):
+        _reject_query(request)
+        return Response(_call_service(service.get_compilation_command, str(request.user.pk),
+                                      str(thesis_id), str(command_id)))
+
+
+class RefinementView(InternalCompilationAPIView):
+    @extend_schema(
+        operation_id="save_thesis_refinement", tags=["internal compilation"],
+        request=SaveRefinementRequestSerializer,
+        responses={200: RefinementResponseSerializer, **ERROR_RESPONSES},
+        description=("Save exact answers against questions from a current retained proposal, "
+                     "without a provider request, paid-call admission or thesis approval. "
+                     "The service derives question wording and bounded cumulative history. "
+                     "A new explicit compilation may reference this submission later."),
+    )
+    def post(self, request, thesis_id):
+        command = self.validated_command(request, SaveRefinementRequestSerializer)
+        return Response(_call_service(service.save_refinement, str(request.user.pk),
+                                      str(thesis_id), **command))
+
+
+class RefinementDetailView(InternalCompilationAPIView):
+    @extend_schema(
+        operation_id="get_thesis_refinement", tags=["internal compilation"],
+        responses={200: RefinementResponseSerializer, **ERROR_RESPONSES},
+        description="Read an owner-scoped saved answer submission without provider work or activation.",
+    )
+    def get(self, request, thesis_id, refinement_id):
+        _reject_query(request)
+        return Response(_call_service(service.get_refinement, str(request.user.pk),
+                                      str(thesis_id), str(refinement_id)))
+
+
+class RefinementCommandView(InternalCompilationAPIView):
+    @extend_schema(
+        operation_id="get_thesis_refinement_command", tags=["internal compilation"],
+        responses={200: RefinementResponseSerializer, **ERROR_RESPONSES},
+        description=("Read-only answer-submission recovery by saved command UUID. "
+                     "No catalogue, credentials, model request or POST fallback."),
+    )
+    def get(self, request, thesis_id, command_id):
+        _reject_query(request)
+        return Response(_call_service(service.get_refinement_command, str(request.user.pk),
+                                      str(thesis_id), str(command_id)))

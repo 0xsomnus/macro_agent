@@ -605,6 +605,66 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: ''
+  /api/v1/theses/{thesis_id}/compilation-commands/{command_id}/:
+    get:
+      operationId: get_compilation_command
+      description: Read-only recovery by the command UUID saved before transmission.
+        No provider credentials, catalogue lookup, inference or POST fallback. Historical
+        results are shown alongside current draft disposition.
+      parameters:
+      - in: path
+        name: command_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - internal compilation
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompilationResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
   /api/v1/theses/{thesis_id}/compilations/{attempt_id}/:
     get:
       operationId: get_compilation
@@ -1103,6 +1163,185 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
           description: ''
+  /api/v1/theses/{thesis_id}/refinement-commands/{command_id}/:
+    get:
+      operationId: get_thesis_refinement_command
+      description: Read-only answer-submission recovery by saved command UUID. No
+        catalogue, credentials, model request or POST fallback.
+      parameters:
+      - in: path
+        name: command_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - internal compilation
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefinementResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/theses/{thesis_id}/refinements/:
+    post:
+      operationId: save_thesis_refinement
+      description: Save exact answers against questions from a current retained proposal,
+        without a provider request, paid-call admission or thesis approval. The service
+        derives question wording and bounded cumulative history. A new explicit compilation
+        may reference this submission later.
+      parameters:
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - internal compilation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SaveRefinementRequestRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefinementResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/theses/{thesis_id}/refinements/{refinement_id}/:
+    get:
+      operationId: get_thesis_refinement
+      description: Read an owner-scoped saved answer submission without provider work
+        or activation.
+      parameters:
+      - in: path
+        name: refinement_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - internal compilation
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefinementResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
 components:
   schemas:
     AnalyseNextRequestRequest:
@@ -1227,6 +1466,34 @@ components:
       - approval
       - interpretation
       - text_version
+    ApprovedNewsInterpretation:
+      type: object
+      properties:
+        drivers:
+          type: array
+          items:
+            type: string
+            maxLength: 1000
+          maxItems: 32
+        horizon:
+          type: string
+          nullable: true
+          maxLength: 1000
+        invalidation_signposts:
+          type: array
+          items:
+            type: string
+            maxLength: 1000
+          maxItems: 32
+        review_card:
+          allOf:
+          - $ref: '#/components/schemas/PinnedReviewCard'
+          nullable: true
+      required:
+      - drivers
+      - horizon
+      - invalidation_signposts
+      additionalProperties: false
     AuditEvent:
       type: object
       properties:
@@ -1385,6 +1652,24 @@ components:
         model_id:
           type: string
           maxLength: 255
+        input_text_version:
+          $ref: '#/components/schemas/CompilationTextInput'
+        schema_version:
+          type: string
+        prompt_version:
+          type: string
+        refinement_id:
+          type: string
+          format: uuid
+          nullable: true
+        parent_attempt_id:
+          type: string
+          format: uuid
+          nullable: true
+        refinement_inputs:
+          type: array
+          items:
+            $ref: '#/components/schemas/RefinementInput'
         created_at:
           type: string
           format: date-time
@@ -1437,15 +1722,21 @@ components:
       - estimated_cost_usd
       - finished_at
       - id
+      - input_text_version
       - interpretation_version_id
       - is_current_draft
       - latency_ms
       - limitations
       - model_id
+      - parent_attempt_id
+      - prompt_version
       - provider
       - provider_request_id
+      - refinement_id
+      - refinement_inputs
       - reported_cost_usd
       - reported_model
+      - schema_version
       - status
       - stop_reason
       - usage
@@ -1469,9 +1760,13 @@ components:
         counter_case:
           type: string
           nullable: true
-          description: Unverified competing hypothesis, not a sourced factual finding
-            or trading instruction.
           maxLength: 2000
+        review_card:
+          allOf:
+          - $ref: '#/components/schemas/ReviewSections'
+          description: Required for current v2 model output; absent in retained historical
+            v1 documents. The complete card combines these sections with interpretation,
+            counter-case and questions.
       required:
       - agent_hypotheses
       - counter_case
@@ -1489,10 +1784,13 @@ components:
           maximum: 31
           minimum: 0
           nullable: true
+        input_id:
+          type: string
+          description: Named original thesis or exact trader-answer input. Absent
+            only in historical v1 documents.
+          maxLength: 100
         exact_quote:
           type: string
-          description: Exact substring of the supplied thesis. Attribution does not
-            prove semantic accuracy.
           maxLength: 1000
       required:
       - exact_quote
@@ -1530,6 +1828,10 @@ components:
       properties:
         kind:
           $ref: '#/components/schemas/CompilationRefinementIssueKindEnum'
+        input_id:
+          type: string
+          nullable: true
+          maxLength: 100
         exact_quote:
           type: string
           nullable: true
@@ -1584,6 +1886,29 @@ components:
         * `compiled` - compiled
         * `stale` - stale
         * `failed` - failed
+    CompilationTextInput:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        parent_version_id:
+          type: string
+          format: uuid
+          nullable: true
+        exact_text:
+          type: string
+        text_digest:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+      required:
+      - created_at
+      - exact_text
+      - id
+      - parent_version_id
+      - text_digest
     CompilationUsage:
       type: object
       properties:
@@ -1609,6 +1934,12 @@ components:
         command_id:
           type: string
           format: uuid
+          minLength: 1
+          maxLength: 36
+        refinement_id:
+          type: string
+          format: uuid
+          nullable: true
           minLength: 1
           maxLength: 36
         expected_revision:
@@ -1719,11 +2050,6 @@ components:
         errors: {}
       required:
       - detail
-    ExpectationsEnum:
-      enum:
-      - unavailable
-      type: string
-      description: '* `unavailable` - unavailable'
     Interpretation:
       type: object
       properties:
@@ -1754,6 +2080,12 @@ components:
           type: string
         origin:
           $ref: '#/components/schemas/OriginEnum'
+        review_card:
+          allOf:
+          - $ref: '#/components/schemas/PinnedReviewCard'
+          nullable: true
+          description: Versioned exact review surface included in the interpretation
+            hash. Labelled agent proposals remain hypotheses after review approval.
       required:
       - digest
       - drivers
@@ -2026,6 +2358,10 @@ components:
           type: array
           items:
             type: string
+        review_card:
+          allOf:
+          - $ref: '#/components/schemas/PinnedReviewCard'
+          nullable: true
       required:
       - approval_id
       - drivers
@@ -2167,7 +2503,7 @@ components:
       type: object
       properties:
         schema_version:
-          $ref: '#/components/schemas/SchemaVersionEnum'
+          $ref: '#/components/schemas/NewsDocumentSchemaVersionEnum'
         attributed_facts:
           type: array
           items:
@@ -2194,6 +2530,11 @@ components:
       - trade_route
       - trader_questions
       additionalProperties: false
+    NewsDocumentSchemaVersionEnum:
+      enum:
+      - retained-news-analysis-v1
+      type: string
+      description: '* `retained-news-analysis-v1` - retained-news-analysis-v1'
     NewsHypothesis:
       type: object
       properties:
@@ -2267,7 +2608,7 @@ components:
         approved_exact_text:
           type: string
         approved_interpretation:
-          $ref: '#/components/schemas/InterpretationInput'
+          $ref: '#/components/schemas/ApprovedNewsInterpretation'
         positions:
           type: array
           items:
@@ -2399,6 +2740,30 @@ components:
       description: |-
         * `user_supplied` - user_supplied
         * `model_compilation` - model_compilation
+    PinnedReviewCard:
+      type: object
+      properties:
+        schema_version:
+          $ref: '#/components/schemas/PinnedReviewCardSchemaVersionEnum'
+        inputs:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReviewInput'
+        document:
+          $ref: '#/components/schemas/CompilationDocument'
+        evidence:
+          $ref: '#/components/schemas/UnavailableEvidence'
+      required:
+      - document
+      - evidence
+      - inputs
+      - schema_version
+      additionalProperties: false
+    PinnedReviewCardSchemaVersionEnum:
+      enum:
+      - thesis-review-card-v1
+      type: string
+      description: '* `thesis-review-card-v1` - thesis-review-card-v1'
     PortfolioImpactEnum:
       enum:
       - unresolved
@@ -2829,7 +3194,7 @@ components:
         portfolio_impact:
           $ref: '#/components/schemas/PortfolioImpactEnum'
         expectations:
-          $ref: '#/components/schemas/ExpectationsEnum'
+          $ref: '#/components/schemas/UnavailableEvidenceEnum'
         facts:
           type: array
           items:
@@ -2952,6 +3317,211 @@ components:
       - revision
       - source_id
       - synthetic
+    Refinement:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        command_id:
+          type: string
+          format: uuid
+        parent_attempt_id:
+          type: string
+          format: uuid
+        text_version_id:
+          type: string
+          format: uuid
+        input_text_version:
+          $ref: '#/components/schemas/CompilationTextInput'
+        expected_revision:
+          type: integer
+        answers:
+          type: array
+          items:
+            $ref: '#/components/schemas/RefinementAnswer'
+        cumulative_inputs:
+          type: array
+          items:
+            $ref: '#/components/schemas/RefinementInput'
+        created_at:
+          type: string
+          format: date-time
+        replayed:
+          type: boolean
+        is_current_context:
+          type: boolean
+          description: Protected snapshot of whether this saved input can be used
+            for the current draft. Saving answers does not approve or amend the thesis.
+      required:
+      - answers
+      - command_id
+      - created_at
+      - cumulative_inputs
+      - expected_revision
+      - id
+      - input_text_version
+      - is_current_context
+      - parent_attempt_id
+      - replayed
+      - text_version_id
+    RefinementAnswer:
+      type: object
+      properties:
+        question_index:
+          type: integer
+          maximum: 31
+          minimum: 0
+        exact_answer:
+          type: string
+          maxLength: 2000
+      required:
+      - exact_answer
+      - question_index
+      additionalProperties: false
+    RefinementAnswerRequest:
+      type: object
+      properties:
+        question_index:
+          type: integer
+          maximum: 31
+          minimum: 0
+        exact_answer:
+          type: string
+          minLength: 1
+          maxLength: 2000
+      required:
+      - exact_answer
+      - question_index
+      additionalProperties: false
+    RefinementInput:
+      type: object
+      properties:
+        question_index:
+          type: integer
+          maximum: 31
+          minimum: 0
+        exact_answer:
+          type: string
+          maxLength: 2000
+        input_id:
+          type: string
+          maxLength: 100
+        parent_attempt_id:
+          type: string
+          format: uuid
+          maxLength: 36
+        question:
+          type: string
+          maxLength: 1000
+      required:
+      - exact_answer
+      - input_id
+      - parent_attempt_id
+      - question
+      - question_index
+      additionalProperties: false
+    RefinementResponse:
+      type: object
+      properties:
+        refinement:
+          $ref: '#/components/schemas/Refinement'
+        thesis:
+          $ref: '#/components/schemas/ThesisDetail'
+      required:
+      - refinement
+      - thesis
+    ReviewExtractedItem:
+      type: object
+      properties:
+        text:
+          type: string
+          maxLength: 1000
+        input_id:
+          type: string
+          maxLength: 100
+        exact_quote:
+          type: string
+          maxLength: 1000
+      required:
+      - exact_quote
+      - input_id
+      - text
+      additionalProperties: false
+    ReviewInput:
+      type: object
+      properties:
+        input_id:
+          type: string
+          maxLength: 100
+        exact_text:
+          type: string
+          maxLength: 20000
+        parent_attempt_id:
+          type: string
+          format: uuid
+          maxLength: 36
+        question_index:
+          type: integer
+          maximum: 31
+          minimum: 0
+        question:
+          type: string
+          maxLength: 1000
+        exact_answer:
+          type: string
+          maxLength: 2000
+      required:
+      - input_id
+      additionalProperties: false
+    ReviewSection:
+      type: object
+      properties:
+        extracted:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReviewExtractedItem'
+        proposed:
+          type: array
+          items:
+            type: string
+            maxLength: 1000
+          maxItems: 32
+        gap:
+          type: string
+          nullable: true
+          maxLength: 2000
+      required:
+      - extracted
+      - gap
+      - proposed
+      additionalProperties: false
+    ReviewSections:
+      type: object
+      properties:
+        claim:
+          $ref: '#/components/schemas/ReviewSection'
+        affected_assets:
+          $ref: '#/components/schemas/ReviewSection'
+        causal_path:
+          $ref: '#/components/schemas/ReviewSection'
+        assumptions:
+          $ref: '#/components/schemas/ReviewSection'
+        catalysts:
+          $ref: '#/components/schemas/ReviewSection'
+        scenarios:
+          $ref: '#/components/schemas/ReviewSection'
+        monitoring_scope:
+          $ref: '#/components/schemas/ReviewSection'
+      required:
+      - affected_assets
+      - assumptions
+      - catalysts
+      - causal_path
+      - claim
+      - monitoring_scope
+      - scenarios
+      additionalProperties: false
     RevisePositionRequest:
       type: object
       properties:
@@ -2983,11 +3553,34 @@ components:
       - investigate
       type: string
       description: '* `investigate` - investigate'
-    SchemaVersionEnum:
-      enum:
-      - retained-news-analysis-v1
-      type: string
-      description: '* `retained-news-analysis-v1` - retained-news-analysis-v1'
+    SaveRefinementRequestRequest:
+      type: object
+      properties:
+        command_id:
+          type: string
+          format: uuid
+          minLength: 1
+          maxLength: 36
+        expected_revision:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 1
+          format: int64
+        parent_attempt_id:
+          type: string
+          format: uuid
+          minLength: 1
+          maxLength: 36
+        answers:
+          type: array
+          items:
+            $ref: '#/components/schemas/RefinementAnswerRequest'
+      required:
+      - answers
+      - command_id
+      - expected_revision
+      - parent_attempt_id
+      additionalProperties: false
     StateEnum:
       enum:
       - pending
@@ -3120,6 +3713,25 @@ components:
       - limit
       - offset
       - theses
+    UnavailableEvidence:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/UnavailableEvidenceEnum'
+        references:
+          type: array
+          items:
+            type: string
+          maxItems: 0
+      required:
+      - references
+      - status
+      additionalProperties: false
+    UnavailableEvidenceEnum:
+      enum:
+      - unavailable
+      type: string
+      description: '* `unavailable` - unavailable'
   securitySchemes:
     cookieAuth:
       type: apiKey

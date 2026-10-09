@@ -5,6 +5,7 @@ requires explicit approval, and displays the recorded-news boundary's limits.
 """
 
 import argparse
+from datetime import datetime, timezone
 import getpass
 from http.client import HTTPException
 import http.cookiejar
@@ -23,11 +24,62 @@ import warnings
 MAX_RESPONSE_BYTES = 2 * 1024 * 1024
 MODEL_PAGE_SIZE = 20
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
 PROVIDER_LABELS = {"nanogpt": "NanoGPT", "openrouter": "OpenRouter", "cheaperinference": "CheaperInference"}
 
 
 class WalkthroughError(Exception):
     """An actionable error whose text contains no credentials or tokens."""
+
+
+class CommandJournal:
+    """Exclusive private JSONL journal, flushed before a consequential request."""
+
+    def __init__(self, path):
+        self.path = Path(path)
+        try:
+            descriptor = os.open(self.path, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
+            self.stream = os.fdopen(descriptor, "w", encoding="utf-8", newline="\n")
+        except OSError:
+            raise WalkthroughError("Choose a new journal filename in an existing directory. Existing files are never overwritten.") from None
+
+    def append(self, kind, detail):
+        record = {"kind": kind, "client_observed_at": datetime.now(timezone.utc).isoformat(), "detail": detail}
+        try:
+            self.stream.write(json.dumps(record, ensure_ascii=False, allow_nan=False) + "\n")
+            self.stream.flush()
+            os.fsync(self.stream.fileno())
+        except OSError:
+            raise WalkthroughError("The private command journal could not be saved. No model retry will be made; inspect the saved command before another call.") from None
+
+    def close(self):
+        self.stream.close()
+
+
+def new_command_journal(path=None):
+    if path is None:
+        directory = ROOT / ".local"
+        try:
+            directory.mkdir(mode=0o700, exist_ok=True)
+        except OSError:
+            raise WalkthroughError("Cannot create the private command journal directory. No request was made.") from None
+        path = directory / ("desk-session-" + uuid4().hex + ".jsonl")
+    return CommandJournal(path)
+
+
+def _journalled_request(client, kind, thesis_id, command, exact_text, journal, say):
+    journal.append(kind + "_requested", {"thesis_id": thesis_id, "request": command, "exact_text": exact_text})
+    say("Saved command ID: " + quoted(command["command_id"]))
+    path = f"/api/v1/theses/{thesis_id}/" + ("compile/" if kind == "compile" else "refinements/")
+    try:
+        result = client.request("POST", path, command)
+    except WalkthroughError:
+        journal.append(kind + "_response_unavailable", {"thesis_id": thesis_id,
+            "command_id": command["command_id"], "automatic_retries": 0})
+        raise WalkthroughError("The command response was not received. Its saved ID is " + quoted(command["command_id"])
+            + ". Recover that command with a read-only lookup. No retry was made; a model call may have incurred cost.") from None
+    journal.append(kind + "_response", result)
+    return result
 
 
 def _response_error(path, message):
@@ -252,6 +304,11 @@ def render_draft(thesis, *, model_generated, say):
                for name in ("drivers", "horizon", "invalidation_signposts")}
     say("Model interpretation preview, unverified:" if model_generated else "Manual interpretation to approve:")
     say(quoted(meaning))
+    if model_generated and draft["interpretation"].get("review_card") is not None:
+        pinned = draft["interpretation"]["review_card"]
+        say("Retained attributable inputs: " + quoted(pinned["inputs"]))
+        say("External evidence: " + quoted(pinned["evidence"]))
+        say("Approval binds this exact review card. Agent proposals remain unverified hypotheses, not adopted trader intent.")
     say("Text digest: " + quoted(draft["text_version"]["text_digest"]))
     say("Interpretation digest: " + quoted(draft["interpretation"]["digest"]))
 
@@ -279,9 +336,12 @@ def render_compilation(compilation, say):
     issues = document.get("refinement_issues", [])
     if not issues:
         say("  No questions were supplied. This does not establish that the thesis is sound.")
-    for issue in issues:
+    for index, issue in enumerate(issues, 1):
+        say(f"  Question {index}")
         say("  Kind: " + quoted(issue["kind"]))
         say("  Your quoted words: " + quoted(issue["exact_quote"]))
+        if issue.get("input_id") is not None:
+            say("  Supplied input: " + quoted(issue["input_id"]))
         say("  Explanation: " + quoted(issue["explanation"]))
         say("  Question: " + quoted(issue["question"]))
     say("Agent hypotheses, separate from your approved meaning:")
@@ -291,44 +351,153 @@ def render_compilation(compilation, say):
     for hypothesis in hypotheses:
         say("  Explanation: " + quoted(hypothesis["explanation"]))
         say("  Introduced assumptions: " + quoted(hypothesis["introduced_assumptions"]))
+    render_review_card(document.get("review_card"), say)
     say("Counter-case, a model hypothesis:")
     say(quoted(document.get("counter_case")))
 
 
-def compiled_review(client, thesis, *, selection, trace, ask, say):
+REVIEW_SECTIONS = (
+    ("claim", "Central claim"), ("affected_assets", "Affected assets"),
+    ("causal_path", "Causal path"), ("assumptions", "Assumptions"),
+    ("catalysts", "Catalysts"), ("scenarios", "Scenarios and counter-case"),
+    ("monitoring_scope", "Evidence and proposed monitoring scope"),
+)
+
+
+def render_review_card(card, say):
+    if card is None:
+        return
+    say("Complete thesis review card, extracted intent and agent proposals remain separate:")
+    for field, label in REVIEW_SECTIONS:
+        section = card[field]
+        say(label + ":")
+        for item in section["extracted"]:
+            say("  Extracted intent: " + quoted(item["text"]))
+            say("  Input: " + quoted(item["input_id"]) + "; exact quotation: " + quoted(item["exact_quote"]))
+        for proposal in section["proposed"]:
+            say("  Agent proposal, unverified and not adopted as trader intent: " + quoted(proposal))
+        if section["gap"] is not None:
+            say("  Unresolved: " + quoted(section["gap"]))
+
+
+def _checked_current_compilation(result, thesis_id, exact_text, selection):
+    from macro_agent.domain.compilation import build_review_card, parse_compilation
+    compilation, thesis = result["compilation"], result["thesis"]
+    if (_id(thesis["id"]) != thesis_id or thesis["draft"]["text_version"]["exact_text"] != exact_text
+            or compilation.get("model_id") != selection["model_id"]
+            or compilation.get("provider") != selection["provider_id"]):
+        raise WalkthroughError("The compilation response no longer matches your exact draft, provider or selected model. No approval was made.")
+    if (compilation["status"] != "compiled" or compilation.get("is_current_draft") is not True
+            or compilation.get("interpretation_version_id") != thesis["draft"]["interpretation"]["id"]
+            or type(compilation.get("document")) is not dict):
+        return False
+    inputs = compilation.get("refinement_inputs", [])
+    document = parse_compilation(quoted(compilation["document"]), exact_text, refinement_inputs=inputs)
+    card = build_review_card(document, exact_text, refinement_inputs=inputs)
+    meaning = thesis["draft"]["interpretation"]
+    if (meaning.get("origin") != "model_compilation" or meaning.get("review_card") != card
+            or any(meaning[field] != document["interpretation"][field]
+                   for field in ("drivers", "horizon", "invalidation_signposts"))):
+        raise WalkthroughError("The review card and current interpretation disagree. No approval was made.")
+    return True
+
+
+def _refinement_answers(issues, ask, say):
+    answers = []
+    for index, issue in enumerate(issues):
+        if len(answers) == 16:
+            say("This submission reached the 16-answer limit. Remaining questions stay unresolved.")
+            break
+        say(f"Question {index + 1}: " + quoted(issue["question"]))
+        while True:
+            answer = ask("Your answer (optional, Enter leaves unresolved): ")
+            if answer == "":
+                break
+            if len(answer) <= 2000 and answer.strip() and "\x00" not in answer:
+                try:
+                    answer.encode("utf-8", errors="strict")
+                except UnicodeError:
+                    pass
+                else:
+                    answers.append({"question_index": index, "exact_answer": answer})
+                    break
+            say("Use a nonblank answer of at most 2000 characters without NUL or invalid Unicode.")
+    return answers
+
+
+def compiled_review(client, thesis, *, selection, trace, ask, say, journal,
+                    initial_refinement_id=None, initial_refinement_inputs=()):
     thesis_id = _id(thesis["id"])
     exact_text = thesis["draft"]["text_version"]["exact_text"]
     trace["compilations"] = []
+    refinement_id = initial_refinement_id
+    expected_inputs = list(initial_refinement_inputs)
     while True:
         model_id, provider_id = selection["model_id"], selection["provider_id"]
         say(f"Your exact thesis will be sent to {PROVIDER_LABELS[provider_id]} using " + quoted(model_id) + ". This model request may incur a charge.")
-        result = client.request("POST", f"/api/v1/theses/{thesis_id}/compile/", {
-            "command_id": str(uuid4()), "expected_revision": thesis["revision"],
-            "provider_id": provider_id, "model_id": model_id,
-        })
+        command = {"command_id": str(uuid4()), "expected_revision": thesis["revision"],
+                   "provider_id": provider_id, "model_id": model_id}
+        if refinement_id is not None:
+            command["refinement_id"] = refinement_id
+        result = _journalled_request(client, "compile", thesis_id, command, exact_text, journal, say)
         trace["compilations"].append(result)
         compilation = result["compilation"]
+        if (compilation.get("refinement_inputs", []) != expected_inputs
+                or (refinement_id is not None and compilation.get("refinement_id") != refinement_id)):
+            raise WalkthroughError("The compilation lost or changed the retained answer lineage. No approval was made.")
         render_compilation(compilation, say)
         thesis = result["thesis"]
-        if (_id(thesis["id"]) != thesis_id or thesis["draft"]["text_version"]["exact_text"] != exact_text
-                or compilation.get("model_id") != model_id or compilation.get("provider") != provider_id):
-            raise WalkthroughError("The compilation response no longer matches your exact draft, provider or selected model. No approval was made.")
-        if (compilation["status"] != "compiled" or compilation.get("is_current_draft") is not True
-                or compilation.get("interpretation_version_id") != thesis["draft"]["interpretation"]["id"]
-                or type(compilation.get("document")) is not dict):
+        if not _checked_current_compilation(result, thesis_id, exact_text, selection):
             say("The result is unavailable or does not belong to the current draft. Your draft remains unapproved; no automatic retry, position or notice was created.")
             return None
         render_draft(thesis, model_generated=True, say=say)
-        choice = ask("Type approve to approve exactly this text and interpretation, switch to choose another model, or Enter to leave a draft: ").strip().lower()
-        if choice == "approve":
-            return thesis
-        if choice != "switch":
-            say("Draft left unapproved. No paper position or recorded-news notice was created.")
-            return None
-        selection = select_model(client, ask=ask, say=say)
-        if selection is None:
-            say("Draft left unapproved. No further model request was made.")
-            return None
+        while True:
+            choice = ask("Type approve to approve this exact review, refine to answer questions, switch for another model, or Enter to leave a draft: ").strip().lower()
+            if choice == "approve":
+                return thesis
+            if choice == "switch":
+                selection = select_model(client, ask=ask, say=say)
+                if selection is None:
+                    say("Draft left unapproved. No further model request was made.")
+                    return None
+                refinement_id = None
+                break
+            if choice != "refine":
+                say("Draft left unapproved. No paper position or recorded-news notice was created.")
+                return None
+            issues = compilation["document"]["refinement_issues"]
+            if not issues:
+                say("This proposal has no refinement questions. Switch model or leave the draft for later review.")
+                continue
+            answers = _refinement_answers(issues, ask, say)
+            if not answers:
+                say("No answers supplied. No refinement or further model request was made.")
+                continue
+            say("Exact answers to save, quoted to preserve whitespace: " + quoted(answers))
+            if ask("Type save to retain these answers without a model call, or Enter to discard them: ").strip().lower() != "save":
+                say("Answers discarded. No refinement or further model request was made.")
+                continue
+            command = {"command_id": str(uuid4()), "expected_revision": thesis["revision"],
+                       "parent_attempt_id": _id(compilation["id"]), "answers": answers}
+            saved = _journalled_request(client, "refinement", thesis_id, command, exact_text, journal, say)
+            refinement = saved["refinement"]
+            if (_id(saved["thesis"]["id"]) != thesis_id
+                    or saved["thesis"]["draft"]["text_version"]["exact_text"] != exact_text
+                    or refinement["parent_attempt_id"] != command["parent_attempt_id"]
+                    or refinement["is_current_context"] is not True):
+                raise WalkthroughError("Saved answers do not belong to the reviewed current context. No further model request was made.")
+            if [{"question_index": item["question_index"], "exact_answer": item["exact_answer"]}
+                    for item in refinement["answers"]] != answers:
+                raise WalkthroughError("Saved answers differ from your exact input. No further model request was made.")
+            trace.setdefault("refinements", []).append(saved)
+            thesis = saved["thesis"]
+            refinement_id = _id(refinement["id"])
+            expected_inputs = refinement["cumulative_inputs"]
+            say("Answers saved. Current approval is unchanged. No model request has been made for these answers.")
+            if ask("Type recompile to initiate one paid model request with these answers, or Enter to stop: ").strip().lower() != "recompile":
+                say("Answers remain saved. Draft left unapproved; no further model request was made.")
+                return None
+            break
 
 
 def configure_models(path, *, ask=input, secret=getpass.getpass, say=print):
@@ -388,28 +557,35 @@ def render_notice(response, say):
     return brief["context_status"] == "ready" and notice["is_current"] is True
 
 
-def happy_path(client, *, thesis_file=None, compile=False, model_id=None,
+def happy_path(client, *, thesis_file=None, compile=False, model_id=None, journal=None,
                ask=input, secret=getpass.getpass, say=print):
     if model_id is not None and not compile:
         raise WalkthroughError("Use --compile when selecting a model.")
+    owns_journal = compile and journal is None
+    if owns_journal:
+        journal = new_command_journal()
+    if compile:
+        say("Private command journal: " + quoted(str(journal.path)))
     say("Local recorded-news walkthrough. Your entries are saved in the local desk database.")
     say("Your selected model will propose an interpretation for review. Recorded news remains fictional and unanalysed."
         if compile else "No live news, model analysis, broker execution or external notification is used.")
-    username = required("Username: ", ask, say)
-    password = secret("Password: ")
-    client.login(username, password)
-    del password
     try:
+        username = required("Username: ", ask, say)
+        password = secret("Password: ")
+        client.login(username, password)
+        del password
         return _entered_happy_path(client, thesis_file=thesis_file, compile=compile,
-                                  model_id=model_id, ask=ask, say=say)
+                                  model_id=model_id, ask=ask, say=say, journal=journal)
     finally:
         try:
             client.logout()
         except WalkthroughError:
             say("Session cleanup could not reach the local server. Saved records are unchanged; the server session will expire normally.")
+        if owns_journal:
+            journal.close()
 
 
-def _entered_happy_path(client, *, thesis_file, compile, model_id, ask, say):
+def _entered_happy_path(client, *, thesis_file, compile, model_id, ask, say, journal):
     text = read_thesis(thesis_file) if thesis_file else required("Your thesis (one line): ", ask, say)
     if compile:
         selection = select_model(client, requested=model_id, ask=ask, say=say)
@@ -433,7 +609,7 @@ def _entered_happy_path(client, *, thesis_file, compile, model_id, ask, say):
     say(f"\nDraft saved: {thesis_id}")
     trace = {"mode": "recorded_example", "draft": created}
     if compile:
-        thesis = compiled_review(client, thesis, selection=selection, trace=trace, ask=ask, say=say)
+        thesis = compiled_review(client, thesis, selection=selection, trace=trace, ask=ask, say=say, journal=journal)
         if thesis is None:
             return trace
     else:
@@ -441,14 +617,7 @@ def _entered_happy_path(client, *, thesis_file, compile, model_id, ask, say):
         if ask("Type approve to approve exactly this text and interpretation, or Enter to leave a draft: ").strip().lower() != "approve":
             say("Draft left unapproved. No paper position or recorded-news notice was created.")
             return trace
-    draft = thesis["draft"]
-    approved = client.request("POST", f"/api/v1/theses/{thesis_id}/approvals/", {
-        "command_id": str(uuid4()), "expected_revision": thesis["revision"],
-        "thesis_version_id": _id(draft["text_version"]["id"]),
-        "text_digest": draft["text_version"]["text_digest"],
-        "interpretation_version_id": _id(draft["interpretation"]["id"]),
-        "interpretation_digest": draft["interpretation"]["digest"],
-    })
+    approved = approve_reviewed_thesis(client, thesis)
     approval_id = _id(approved["thesis"]["approved"]["approval"]["id"])
     trace["approval"] = approved
     say("Approved. Now attach a paper position using your own declaration.")
@@ -482,6 +651,179 @@ def _entered_happy_path(client, *, thesis_file, compile, model_id, ask, say):
     return trace
 
 
+def approve_reviewed_thesis(client, thesis):
+    thesis_id = _id(thesis["id"])
+    draft = thesis["draft"]
+    return client.request("POST", f"/api/v1/theses/{thesis_id}/approvals/", {
+        "command_id": str(uuid4()), "expected_revision": thesis["revision"],
+        "thesis_version_id": _id(draft["text_version"]["id"]),
+        "text_digest": draft["text_version"]["text_digest"],
+        "interpretation_version_id": _id(draft["interpretation"]["id"]),
+        "interpretation_digest": draft["interpretation"]["digest"],
+    })
+
+
+def compile_existing(client, thesis_id, *, refinement_id=None, model_id=None, journal=None,
+                     ask=input, secret=getpass.getpass, say=print):
+    """Explicit continuation of a retained draft, separate from read-only recovery."""
+    thesis_id = _id(thesis_id)
+    refinement_id = _id(refinement_id) if refinement_id is not None else None
+    owns_journal = journal is None
+    if owns_journal:
+        journal = new_command_journal()
+    say("Private command journal: " + quoted(str(journal.path)))
+    trace = {"mode": "retained_thesis_compilation", "thesis_id": thesis_id}
+    try:
+        username = required("Username: ", ask, say)
+        password = secret("Password: ")
+        client.login(username, password)
+        del password
+        thesis = client.request("GET", f"/api/v1/theses/{thesis_id}/")
+        if _id(thesis["id"]) != thesis_id:
+            raise WalkthroughError("The returned draft belongs to another thesis. No catalogue or model request was made.")
+        draft = thesis["draft"]
+        exact_text = draft["text_version"]["exact_text"]
+        pinned = draft["interpretation"].get("review_card")
+        inputs = []
+        if pinned is not None:
+            from macro_agent.domain.compilation import validate_review_card_json
+            validated = json.loads(validate_review_card_json(quoted(pinned)))
+            if validated["inputs"][0]["exact_text"] != exact_text:
+                raise WalkthroughError("The retained review card differs from the current exact text. No model request was made.")
+            inputs = validated["inputs"][1:]
+        if refinement_id is not None:
+            saved = client.request("GET", f"/api/v1/theses/{thesis_id}/refinements/{refinement_id}/")
+            refinement = saved["refinement"]
+            if (_id(saved["thesis"]["id"]) != thesis_id or _id(refinement["id"]) != refinement_id
+                    or saved["thesis"]["revision"] != thesis["revision"]
+                    or refinement["text_version_id"] != draft["text_version"]["id"]
+                    or refinement["input_text_version"]["exact_text"] != exact_text
+                    or refinement["is_current_context"] is not True):
+                raise WalkthroughError("The saved answers are stale or belong to another draft. No catalogue or model request was made.")
+            inputs = refinement["cumulative_inputs"]
+            from macro_agent.domain.compilation import validate_refinement_inputs
+            inputs = validate_refinement_inputs(inputs)
+            trace["saved_refinement"] = saved
+        say("Retained exact thesis: " + quoted(exact_text))
+        say("Exact answers included in this request: " + quoted(inputs))
+        say("An existing approval stays active until you explicitly approve a new reviewed proposal.")
+        selection = select_model(client, requested=model_id, ask=ask, say=say)
+        if selection is None:
+            say("No model selected. No compilation or approval was made.")
+            return trace
+        say("This is a new model request and may incur a charge. It is not recovery of an earlier call.")
+        if ask("Type run to initiate one model request with these retained inputs, or Enter to cancel: ").strip().lower() != "run":
+            say("Cancelled. No compilation or approval was made.")
+            return trace
+        reviewed = compiled_review(client, thesis, selection=selection, trace=trace, ask=ask,
+            say=say, journal=journal, initial_refinement_id=refinement_id, initial_refinement_inputs=inputs)
+        if reviewed is not None:
+            trace["approval"] = approve_reviewed_thesis(client, reviewed)
+            say("The exact text and reviewed interpretation are approved. No paper position or example news was created.")
+        return trace
+    finally:
+        try:
+            client.logout()
+        except WalkthroughError:
+            say("Session cleanup could not reach the local server. Saved records remain unchanged.")
+        if owns_journal:
+            journal.close()
+
+
+def recovery_target(*, journal_path=None, thesis_id=None, command_id=None, kind="compilation"):
+    """Read only a bounded private journal; never trust it as approval authority."""
+    if journal_path is None:
+        if thesis_id is None or command_id is None:
+            raise WalkthroughError("Supply --journal or both --thesis-id and --command-id.")
+        return {"thesis_id": _id(thesis_id), "command_id": _id(command_id), "kind": kind}
+    try:
+        with Path(journal_path).open("rb") as stream:
+            raw = stream.read(2 * 1024 * 1024 + 1)
+        if len(raw) > 2 * 1024 * 1024:
+            raise ValueError
+        # Each append writes a newline before flushing/fsync. A crash may leave
+        # a partial final append, including half a UTF-8 codepoint. Ignore only
+        # that unterminated frame before decoding; complete records stay strict.
+        if raw and not raw.endswith(b"\n"):
+            raw = raw[:raw.rfind(b"\n") + 1]
+        records = [json.loads(line) for line in raw.decode("utf-8").splitlines() if line.strip()]
+        matches = []
+        for record in records:
+            if record["kind"] not in {"compile_requested", "refinement_requested"}:
+                continue
+            detail = record["detail"]
+            request_id = _id(detail["request"]["command_id"])
+            if command_id is not None and request_id != _id(command_id):
+                continue
+            resolved_thesis = _id(detail["thesis_id"])
+            if thesis_id is not None and resolved_thesis != _id(thesis_id):
+                raise ValueError
+            matches.append({"thesis_id": resolved_thesis, "command_id": request_id,
+                "kind": "compilation" if record["kind"] == "compile_requested" else "refinement",
+                "exact_text": detail["exact_text"]})
+        if not matches:
+            raise ValueError
+        return matches[-1]
+    except (OSError, UnicodeError, ValueError, KeyError, TypeError, RecursionError):
+        raise WalkthroughError("Cannot resolve a saved command from this journal. Supply its exact thesis ID and command ID explicitly. No request was made.") from None
+
+
+def recover_command(client, target, *, ask=input, secret=getpass.getpass, say=print):
+    thesis_id, command_id = _id(target["thesis_id"]), _id(target["command_id"])
+    kind = target["kind"]
+    if kind not in {"compilation", "refinement"}:
+        raise WalkthroughError("Unknown saved command kind. No request was made.")
+    username = required("Username: ", ask, say)
+    password = secret("Password: ")
+    client.login(username, password)
+    del password
+    try:
+        path = f"/api/v1/theses/{thesis_id}/{kind}-commands/{command_id}/"
+        try:
+            response = client.request("GET", path)
+        except WalkthroughError:
+            raise WalkthroughError("The saved command receipt is unavailable. No catalogue, model request or POST fallback was made. An absent receipt does not prove an earlier provider call was unbilled.") from None
+        if _id(response["thesis"]["id"]) != thesis_id:
+            raise WalkthroughError("The saved command belongs to another thesis. No retry or approval was made.")
+        say("Read-only command recovery: " + quoted(command_id))
+        if kind == "compilation":
+            compilation = response["compilation"]
+            if compilation.get("command_id", command_id) != command_id:
+                raise WalkthroughError("The saved receipt has a different command ID. No retry was made.")
+            if compilation.get("status") not in {"compiled", "failed", "running", "stale", "outcome_unknown"}:
+                raise WalkthroughError("The saved receipt has an unknown disposition. No retry was made.")
+            original = compilation.get("input_text_version", {}).get("exact_text", target.get("exact_text"))
+            if original is None:
+                raise WalkthroughError("The saved receipt lacks its original input context. Inspect server history; no retry was made.")
+            if target.get("exact_text", original) != original:
+                raise WalkthroughError("The saved original input differs from this journal. No retry was made.")
+            if compilation.get("document") is not None:
+                from macro_agent.domain.compilation import parse_compilation, SCHEMA_VERSION
+                parse_compilation(quoted(compilation["document"]), original,
+                    refinement_inputs=compilation.get("refinement_inputs", []),
+                    schema_version=compilation.get("schema_version", SCHEMA_VERSION))
+            say("Original exact input: " + quoted(original))
+            say("Retained refinement inputs: " + quoted(compilation.get("refinement_inputs", [])))
+            render_compilation(compilation, say)
+            say("Current draft disposition: " + quoted(compilation["is_current_draft"]))
+        else:
+            refinement = response["refinement"]
+            if refinement["command_id"] != command_id:
+                raise WalkthroughError("The saved receipt has a different command ID. No retry was made.")
+            if refinement.get("input_text_version") is not None:
+                say("Original exact input: " + quoted(refinement["input_text_version"]["exact_text"]))
+            say("Saved exact answers: " + quoted(refinement["answers"]))
+            say("Retained cumulative inputs: " + quoted(refinement["cumulative_inputs"]))
+            say("Current input disposition: " + quoted(refinement["is_current_context"]))
+        say("Recovery is read-only. No model request, approval or retry was made.")
+        return response
+    finally:
+        try:
+            client.logout()
+        except WalkthroughError:
+            say("Session cleanup could not reach the local server. Saved records remain unchanged.")
+
+
 def write_trace(path, trace):
     try:
         descriptor = os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
@@ -500,25 +842,60 @@ def parser():
     happy.add_argument("--thesis-file", type=Path, help="Read exact UTF-8 thesis text, including original line endings")
     happy.add_argument("--output", type=Path, help="Optionally save your private trace to a new file, preferably under .local/")
     happy.add_argument("--compile", action="store_true", help="Ask an explicitly selected provider model for an interpretation and review questions")
+    happy.add_argument("--journal", type=Path, help="New private durable command journal; defaults to ignored .local/")
     happy.add_argument("--model", help="Select an exact model ID from the current fetched catalog; requires --compile")
+    retained = commands.add_parser("compile", help="Explicitly compile and review an existing private thesis")
+    retained.add_argument("--url", type=local_url, default="http://127.0.0.1:8000")
+    retained.add_argument("--thesis-id", required=True)
+    retained.add_argument("--refinement-id", help="Explicit saved answer submission to include after restart")
+    retained.add_argument("--model", help="Explicit model ID from the current fetched catalogue")
+    retained.add_argument("--journal", type=Path, help="New private durable command journal")
+    retained.add_argument("--output", type=Path, help="Optional new private final trace filename")
+    recover = commands.add_parser("recover", help="Read a saved compilation or refinement command without model calls")
+    recover.add_argument("--url", type=local_url, default="http://127.0.0.1:8000")
+    recover.add_argument("--journal", type=Path, help="Read request identity from a prior private command journal")
+    recover.add_argument("--thesis-id")
+    recover.add_argument("--command-id", help="Saved command UUID; defaults to last request in the journal")
+    recover.add_argument("--kind", choices=("compilation", "refinement"), default="compilation")
     commands.add_parser("configure-models", help="Choose a provider, prompt for its hidden key and create ignored .local/models.env")
     return result
 
 
 def main(argv=None):
     args = parser().parse_args(argv)
+    journal = None
     try:
         if args.command == "configure-models":
             configure_models(ROOT / ".local" / "models.env")
             return 0
+        if args.command == "recover":
+            target = recovery_target(journal_path=args.journal, thesis_id=args.thesis_id,
+                command_id=args.command_id, kind=args.kind)
+            recover_command(DeskClient(args.url), target)
+            return 0
+        if args.command == "compile":
+            thesis_id = _id(args.thesis_id)
+            refinement_id = _id(args.refinement_id) if args.refinement_id else None
+            if args.output and (args.output.exists() or not args.output.parent.is_dir()):
+                raise WalkthroughError("Choose a new trace filename in an existing directory.")
+            journal = new_command_journal(args.journal)
+            trace = compile_existing(DeskClient(args.url), thesis_id, refinement_id=refinement_id,
+                model_id=args.model, journal=journal)
+            if args.output:
+                write_trace(args.output, trace)
+            return 0
+        if args.journal is not None and not args.compile:
+            raise WalkthroughError("Use --compile when creating a command journal.")
         if args.model is not None and not args.compile:
             raise WalkthroughError("Use --compile when selecting a model.")
         if args.thesis_file:
             read_thesis(args.thesis_file)
         if args.output and (args.output.exists() or not args.output.parent.is_dir()):
             raise WalkthroughError("Choose a new trace filename in an existing directory. Existing files are never overwritten.")
+        if args.compile:
+            journal = new_command_journal(args.journal)
         trace = happy_path(DeskClient(args.url), thesis_file=args.thesis_file,
-                          compile=args.compile, model_id=args.model)
+                          compile=args.compile, model_id=args.model, journal=journal)
         if args.output:
             write_trace(args.output, trace)
             print(f"Private trace saved to {args.output}. It contains your exact thesis and paper declaration.")
@@ -530,6 +907,9 @@ def main(argv=None):
         message = str(exc) if isinstance(exc, WalkthroughError) else "The local server returned an unexpected response. Check its terminal."
         print(f"Walkthrough stopped: {message}", file=sys.stderr)
         return 1
+    finally:
+        if journal is not None:
+            journal.close()
 
 
 if __name__ == "__main__":

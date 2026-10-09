@@ -1,10 +1,10 @@
 # Test thesis compilation
 
-The internal compiler turns your exact thesis into a suggested interpretation and separate challenge questions. It proposes drivers, preserves missing horizon and signposts, highlights unsupported mechanisms and checkable premises, and offers unverified counter-cases. It does not strengthen a claim simply by rewriting it fluently.
+The internal compiler turns your exact input into a structured review card and separate challenge questions. It extracts drivers, horizon and signposts where supplied, and presents claim, affected assets, causal paths, assumptions, catalysts, scenarios and monitoring questions. Each section separates extracted intent, agent proposals and explicit gaps. It does not strengthen a claim simply by rewriting it fluently.
 
 This is the text-grounded part of the [thesis engine](THESIS_ENGINE.md). Fact verification, current macro context, source manifests and investment analysis remain outstanding. Monitoring is not configured.
 
-It does not yet produce the full thesis pack described in that design. There are no structured affected-assets, catalysts, causal-chain or scenario fields. Missing horizon or invalidation stays explicit, and the terminal currently displays clarification questions without a guided answer/recompile loop. The [weekly workflow test](WEEKLY_WORKFLOW_TEST.md) identifies these gaps separately from deeper analytical quality.
+The review card and guided answer/recompile loop are implemented. The fuller sourced thesis engine remains incomplete: this compiler receives only exact trader text and saved answers, with external evidence forced unavailable. An initial input can be a research question, but the application does not yet conduct the sourced investigation needed to develop it. The [weekly workflow test](WEEKLY_WORKFLOW_TEST.md) separates that remaining work from the runnable text-only review.
 
 ## Set up and run
 
@@ -42,9 +42,37 @@ Optional exact file input and private trace:
   --thesis-file path/to/thesis.txt --output .local/compilation-trace.json
 ```
 
-Search the fetched catalogue with `/search words`, choose a model number or exact ID, and review its output. Type `switch` to choose another model and initiate another call. Type `approve` only when the displayed text and interpretation represent your intent. Enter leaves the draft unapproved. You can also specify `--model exact/catalogue-id`; membership is still checked against the current catalogue.
+Search the fetched catalogue with `/search words`, choose a model number or exact ID, and review its output. Type `refine` to answer numbered questions, preview exact answers and save them without a model call. Then type `recompile` to initiate another call, or stop with the answers retained. Type `switch` to choose another model. Type `approve` only after inspecting the exact text, interpretation and full review card. Enter leaves the draft unapproved. You can also specify `--model exact/catalogue-id`; membership is checked against the current catalogue.
 
 After approval, the same walkthrough attaches your paper declaration and publishes a fictional recorded-news notice. That news is separate from compilation and receives no model analysis.
+
+## Save, recover and continue
+
+Model and answer commands are written to a private, flushed journal before transmission. The default path is printed under ignored `.local/`; use `--journal .local/my-new-session.jsonl` to choose a new file. Journals retain private exact inputs and responses, with owner-only permissions. Existing files are not overwritten.
+
+After interruption, read the last saved command without model work:
+
+```sh
+.venv/bin/python tools/desk_cli.py recover --journal .local/my-session.jsonl
+```
+
+Or use the saved IDs directly:
+
+```sh
+.venv/bin/python tools/desk_cli.py recover \
+  --thesis-id YOUR_THESIS_UUID --command-id SAVED_COMMAND_UUID --kind compilation
+```
+
+Use `--kind refinement` for a saved answer command. Recovery logs in and uses only a GET lookup. It needs no model key or catalogue, never substitutes current prose for historical inputs, and makes no POST fallback. A missing command remains missing; it does not establish whether a remote request ran.
+
+To deliberately continue an existing thesis after stopping, use:
+
+```sh
+.venv/bin/python tools/desk_cli.py compile --thesis-id YOUR_THESIS_UUID \
+  --refinement-id SAVED_REFINEMENT_UUID
+```
+
+This is a separate explicit model request after preview and confirmation, followed by draft review and optional approval. It does not attach a paper trade or run recorded news. Omit `--refinement-id` to reuse the current compiled answer history; saved answers not yet compiled require their explicit submission ID. Recovery itself never resumes paid work.
 
 ## Switch providers
 
@@ -55,10 +83,10 @@ The selection flow uses one normalized catalogue interface. Each adapter handles
 ## What to inspect
 
 - Exact text remains unchanged, including file whitespace, Unicode and line endings.
-- Each extracted driver, horizon or signpost has an exact quotation from your thesis. This proves attribution, not semantic fidelity.
+- Each extracted driver, horizon, signpost or review-card item identifies an exact quotation from the original input or a named saved answer. A model question is not quoteable trader intent. This proves attribution, not semantic fidelity.
 - Missing intent remains empty or null. Agent additions, introduced assumptions, questions and counter-cases appear separately.
 - Checkable premises are verification questions. Model knowledge alone cannot create a sourced factual conflict.
-- The proposal is labelled `model_compilation`. The current approval remains active until you explicitly approve the new interpretation's exact hashes.
+- The proposal is labelled `model_compilation`. The interpretation hash includes the complete review card and exact inputs. Legacy interpretations retain their old hashes. Current approval stays active until you explicitly approve a new version. Reviewing labelled agent proposals does not adopt them as intent or verify them; explicit trader answers can inform a subsequent proposal.
 
 Try an incomplete gold thesis, a conditional currency thesis, and a claim such as "Rate cuts always lift stocks." Judge whether the interpretation preserves your meaning, the questions expose consequential gaps, and the counter-case helps you reason. Successful parsing and contract tests do not establish analytical usefulness.
 
@@ -69,6 +97,8 @@ For a focused one-thesis exercise with a literal baseline and private feedback j
 One explicitly initiated attempt makes at most one model POST, with no automatic retries or model fallback. Configurable research defaults are 3,000 output tokens, a 45-second transport timeout, 20 admissions per account per rolling day and 100 across the local application. Compilation and [news analysis](NEWS_ANALYSIS.md) share that allowance. These are operating limits, not market-materiality thresholds or guaranteed dollar caps. Failed calls and uncertain admissions count toward the limits. Only one unfinished, unexpired attempt per account is admitted across both roles at a time. Deadline expiry does not prove remote cancellation.
 
 Server settings are `MACRO_COMPILATION_MAX_OUTPUT_TOKENS`, `MACRO_COMPILATION_TIMEOUT_SECONDS`, `MACRO_COMPILATION_OWNER_ATTEMPTS_PER_DAY` and `MACRO_COMPILATION_ATTEMPTS_PER_DAY`. Each attempt records the settings used. The request deadline additionally prevents late installation; a transport timeout cannot prove the upstream request was cancelled or unbilled.
+
+Saved cumulative answers are bounded to 16 entries, 2,000 characters per answer and 16,000 answer characters in total. Oversized history rejects visibly without truncation. Review-card size and news-context size are separate limits: a valid compiled card can exceed the news workflow's 65,536-byte context bound. News analysis then rejects before paid admission; compiler acceptance does not guarantee monitorability.
 
 The transport timeout covers the complete HTTP exchange, including connection and response reads. It issues no automatic second request after a disconnect. Database [lock and statement limits](DJANGO_DEVELOPMENT.md#database-wait-limits) separately bound individual database waits. Neither limit bounds the entire command or proves remote cancellation. If a result cannot be recorded after durable admission, recover by command ID and inspect its disposition before considering a new explicitly initiated attempt.
 

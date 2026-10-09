@@ -63,7 +63,9 @@ After a valid current response, type `review` to record whether attribution, ind
 | Trader questions | Consequential missing intent or context to discuss before drawing stronger conclusions. |
 | `not_identified` | No connection identified within this limited report and input. It does not establish non-materiality or resolve monitoring work. |
 
-The context includes the complete latest attached-thesis book, including closed declarations, within the existing 200-record bound. This is not the user's whole portfolio. The 65,536-byte prompt-context limit rejects oversized input before inference; it never silently truncates the book. Instrument mapping remains user-declared and unverified.
+The context includes the complete latest attached-thesis book, including closed declarations, within the existing 200-record bound. This is not the user's whole portfolio. Where present, it also preserves the exact approved review card, including original text, attributable answers, extracted intent, proposals and gaps. Review approval does not turn proposed assets, causal paths or scenarios into trader belief or verified facts. The compiler's own evidence remains explicitly unavailable; retained report quotations are separate inputs.
+
+The 65,536-byte prompt-context limit covers the whole news context and rejects oversized input before paid admission. The compiler permits cards up to 524,288 bytes, so a valid compilation may be too large for this news workflow. Inputs and the exposure book are never silently truncated. Instrument mapping remains user-declared and unverified.
 
 There is no verified current macro regime, broad news coverage, consensus or market-reaction context. The model must keep unsupported portfolio effects and causal paths hypothetical. Quotation validation proves exact attribution and valid identities, not semantic fidelity, investment usefulness or absence of unsupported reasoning. Review the explanation as well as its citations.
 

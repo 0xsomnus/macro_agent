@@ -3,6 +3,8 @@
 from django.core.validators import RegexValidator
 from rest_framework import serializers
 
+from .compilation_content_serializers import PinnedReviewCardSerializer
+
 from .compilation_serializers import CompilationUsageSerializer, PROVIDERS
 from .serializers import (
     InterpretationInputSerializer, StrictListField, StrictSerializer,
@@ -53,12 +55,16 @@ class NewsContextPositionSerializer(serializers.Serializer):
     mapping_status = serializers.ChoiceField(choices=["user_declared_unverified"])
 
 
+class ApprovedNewsInterpretationSerializer(InterpretationInputSerializer):
+    review_card = PinnedReviewCardSerializer(required=False, allow_null=True)
+
+
 class NewsReviewContextSerializer(serializers.Serializer):
     thesis_id = serializers.UUIDField()
     approval_id = serializers.UUIDField()
     exposure_digest = serializers.CharField()
     approved_exact_text = serializers.CharField(trim_whitespace=False)
-    approved_interpretation = InterpretationInputSerializer()
+    approved_interpretation = ApprovedNewsInterpretationSerializer()
     positions = NewsContextPositionSerializer(many=True)
     limitations = serializers.ListField(child=serializers.CharField())
 
@@ -89,6 +95,7 @@ class NewsApprovedThesisSerializer(serializers.Serializer):
     drivers = serializers.ListField(child=serializers.CharField(trim_whitespace=False))
     horizon = serializers.CharField(allow_null=True, trim_whitespace=False)
     invalidation_signposts = serializers.ListField(child=serializers.CharField(trim_whitespace=False))
+    review_card = PinnedReviewCardSerializer(required=False, allow_null=True)
 
 
 class NewsAnalysisContextSerializer(serializers.Serializer):

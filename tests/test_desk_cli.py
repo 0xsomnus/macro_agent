@@ -70,6 +70,18 @@ class FakeClient:
         raise AssertionError(path)
 
 
+def review_card(document, exact_text, inputs=()):
+    return {"schema_version": "thesis-review-card-v1", "inputs": [
+        {"input_id": "thesis", "exact_text": exact_text}, *inputs],
+        "document": json.loads(json.dumps(document)),
+        "evidence": {"status": "unavailable", "references": []}}
+
+
+def card_sections():
+    return {field: {"extracted": [], "proposed": [], "gap": "Not supplied."}
+            for field, _ in cli.REVIEW_SECTIONS}
+
+
 class CompilationClient(FakeClient):
     def __init__(self, *, status="compiled", current=True, credentials=True, provider="nanogpt"):
         super().__init__()
@@ -78,6 +90,10 @@ class CompilationClient(FakeClient):
         self.credentials = credentials
         self.compilation_count = 0
         self.thesis = None
+        self.receipts = {}
+        self.refinements = []
+        self.latest_refinement_id = None
+        self.compiled_refinement_id = None
         self.catalog = {
             "provider": provider, "compilation_enabled": True,
             "credentials_configured": credentials, "fetched_at": "2026-10-06T00:00:00Z",
@@ -90,35 +106,77 @@ class CompilationClient(FakeClient):
         }
 
     def request(self, method, path, body=None):
+        if method == "GET" and path == f"/api/v1/theses/{THESIS_ID}/":
+            self.calls.append((method, path, body))
+            return json.loads(json.dumps(self.thesis))
+        if method == "GET" and path.startswith(f"/api/v1/theses/{THESIS_ID}/refinements/"):
+            self.calls.append((method, path, body))
+            identity = path.rstrip("/").split("/")[-1]
+            saved = next(value for value in self.receipts.values()
+                if "refinement" in value and value["refinement"]["id"] == identity)
+            result = {"thesis": self.thesis, "refinement": saved["refinement"]}
+            return json.loads(json.dumps(result))
         if path == "/api/v1/models/":
             self.calls.append((method, path, body))
             return self.catalog
+        if "/compilation-commands/" in path or "/refinement-commands/" in path:
+            self.calls.append((method, path, body))
+            return json.loads(json.dumps(self.receipts[path.rstrip("/").split("/")[-1]]))
+        if path.endswith("/refinements/"):
+            self.calls.append((method, path, body))
+            submission_id = str(cli.uuid4())
+            self.latest_refinement_id = submission_id
+            answers = [{"input_id": f"answer:{submission_id}:{item['question_index']}",
+                        "parent_attempt_id": body["parent_attempt_id"],
+                        "question_index": item["question_index"], "question": "What supports this mechanism?",
+                        "exact_answer": item["exact_answer"]} for item in body["answers"]]
+            self.refinements.extend(answers)
+            result = {"thesis": self.thesis, "refinement": {
+                "id": submission_id, "command_id": body["command_id"],
+                "parent_attempt_id": body["parent_attempt_id"], "text_version_id": TEXT_ID,
+                "expected_revision": body["expected_revision"], "answers": answers,
+                "input_text_version": self.thesis["draft"]["text_version"],
+                "cumulative_inputs": self.refinements, "created_at": "2026-10-09T00:00:00Z",
+                "is_current_context": True}}
+            self.receipts[body["command_id"]] = json.loads(json.dumps(result))
+            return json.loads(json.dumps(result))
         if path.endswith("/compile/"):
             self.calls.append((method, path, body))
             if body["expected_revision"] != self.thesis["revision"]:
                 raise AssertionError("Client did not use latest returned revision")
+            prior_card = self.thesis["draft"]["interpretation"].get("review_card")
+            attempt_inputs = self.refinements if body.get("refinement_id") else (prior_card["inputs"][1:] if prior_card else [])
+            if body.get("refinement_id"):
+                self.compiled_refinement_id = body["refinement_id"]
             self.compilation_count += 1
             interpretation_id = str(cli.uuid4())
             meaning = {"drivers": ["Rates"], "horizon": "Weeks", "invalidation_signposts": ["Rates rise"]}
             document = {
                 "interpretation": meaning,
-                "grounding": [{"field": "drivers", "index": 0, "exact_quote": "Gold"},
-                              {"field": "horizon", "index": None, "exact_quote": "Gold"},
-                              {"field": "invalidation_signposts", "index": 0, "exact_quote": "Gold"}],
-                "refinement_issues": [{"kind": "unsupported_mechanism", "exact_quote": "Gold",
+                "grounding": [{"field": "drivers", "index": 0, "input_id": "thesis", "exact_quote": "Gold"},
+                              {"field": "horizon", "index": None, "input_id": "thesis", "exact_quote": "Gold"},
+                              {"field": "invalidation_signposts", "index": 0, "input_id": "thesis", "exact_quote": "Gold"}],
+                "refinement_issues": [{"kind": "unsupported_mechanism", "input_id": "thesis", "exact_quote": "Gold",
                                        "explanation": "The mechanism may not follow.", "question": "What supports this mechanism?"}],
                 "agent_hypotheses": [{"explanation": "USD could be an additional channel.",
                                       "introduced_assumptions": ["USD matters for this trade."]}],
-                "counter_case": "Rates might increase.",
+                "counter_case": "Rates might increase.", "review_card": card_sections(),
             }
+            document["review_card"]["affected_assets"]["extracted"] = [
+                {"text": "Gold exposure", "input_id": "thesis", "exact_quote": "Gold"}]
+            document["review_card"]["causal_path"]["proposed"] = ["An unverified real-yield channel could apply."]
             if self.status == "compiled":
                 self.thesis["revision"] += 1
                 self.thesis["draft"]["interpretation"] = {
                     "id": interpretation_id, "digest": str(self.compilation_count) * 64,
                     "origin": "model_compilation", **meaning,
+                    "review_card": review_card(document, self.thesis["draft"]["text_version"]["exact_text"], attempt_inputs),
                 }
             response = {
                 "compilation": {"id": str(cli.uuid4()), "status": self.status,
+                                "command_id": body["command_id"], "refinement_inputs": attempt_inputs,
+                                "refinement_id": self.compiled_refinement_id,
+                                "input_text_version": self.thesis["draft"]["text_version"],
                                 "model_id": body["model_id"], "provider": body["provider_id"],
                                 "created_at": "2026-10-06T00:00:00Z", "finished_at": None,
                                 "is_current_draft": self.current, "document": document if self.status == "compiled" else None,
@@ -126,6 +184,7 @@ class CompilationClient(FakeClient):
                                 "usage": {}, "reported_cost_usd": None, "estimated_cost_usd": None, "stop_reason": None},
                 "thesis": self.thesis,
             }
+            self.receipts[body["command_id"]] = json.loads(json.dumps(response))
             return json.loads(json.dumps(response))
         result = super().request(method, path, body)
         if path == "/api/v1/theses/":
@@ -564,6 +623,317 @@ class CompilationWalkthroughTests(unittest.TestCase):
                        secret=lambda prompt: "password", say=lambda value: None)
         compiles = [body for method, path, body in client.calls if path.endswith("/compile/")]
         self.assertEqual([body["provider_id"] for body in compiles], ["nanogpt", "cheaperinference"])
+
+
+class DurableRefinementTests(unittest.TestCase):
+    def run_flow(self, client, values, journal, messages=None):
+        return cli.happy_path(client, compile=True, model_id="example/model-a", journal=journal,
+            ask=answerer(values), secret=lambda prompt: "private-password",
+            say=(messages.append if messages is not None else lambda value: None))
+
+    def test_saved_answers_do_not_require_another_paid_call_or_approval(self):
+        with tempfile.TemporaryDirectory() as directory:
+            journal = cli.CommandJournal(Path(directory) / "commands.jsonl")
+            client, messages = CompilationClient(), []
+            trace = self.run_flow(client, ["trader", "Gold", "refine", "  My mechanism α  ", "save", ""], journal, messages)
+            journal.close()
+            self.assertEqual(client.compilation_count, 1)
+            self.assertNotIn("approval", trace)
+            self.assertEqual(trace["refinements"][0]["refinement"]["answers"][0]["exact_answer"], "  My mechanism α  ")
+            self.assertEqual(trace["draft"]["thesis"]["draft"]["text_version"]["exact_text"], "Gold")
+            self.assertIn("Answers remain saved", messages[-1])
+            records = [json.loads(line) for line in journal.path.read_text().splitlines()]
+            self.assertEqual([record["kind"] for record in records], [
+                "compile_requested", "compile_response", "refinement_requested", "refinement_response"])
+            self.assertEqual(stat.S_IMODE(journal.path.stat().st_mode), 0o600)
+            self.assertNotIn("private-password", journal.path.read_text())
+
+    def test_explicit_recompile_pins_saved_answers_and_approves_latest_full_card(self):
+        with tempfile.TemporaryDirectory() as directory:
+            journal = cli.CommandJournal(Path(directory) / "commands.jsonl")
+            client, messages = CompilationClient(), []
+            trace = self.run_flow(client, ["trader", "Gold", "refine", "My conditional mechanism", "save",
+                "recompile", "approve", "XAU", "long", "", "Weeks"], journal, messages)
+            journal.close()
+            compiles = [body for _, path, body in client.calls if path.endswith("/compile/")]
+            self.assertEqual(len(compiles), 2)
+            saved = trace["refinements"][0]["refinement"]
+            self.assertEqual(compiles[1]["refinement_id"], saved["id"])
+            self.assertEqual(compiles[1]["expected_revision"], 8)
+            last = trace["compilations"][-1]
+            self.assertEqual(last["thesis"]["draft"]["interpretation"]["review_card"]["inputs"][1:], saved["cumulative_inputs"])
+            approval = next(body for _, path, body in client.calls if path.endswith("/approvals/"))
+            self.assertEqual(approval["interpretation_version_id"], last["compilation"]["interpretation_version_id"])
+            self.assertEqual(approval["expected_revision"], 9)
+            output = "\n".join(messages)
+            for _, label in cli.REVIEW_SECTIONS:
+                self.assertIn(label, output)
+            self.assertIn("Agent proposal, unverified and not adopted as trader intent", output)
+            self.assertIn('"status": "unavailable"', output)
+
+    def test_answers_are_discarded_without_save_and_empty_answers_do_not_call_backend(self):
+        for values in (["trader", "Gold", "refine", "", ""],
+                       ["trader", "Gold", "refine", "An answer", "", ""]):
+            with self.subTest(values=values), tempfile.TemporaryDirectory() as directory:
+                journal = cli.CommandJournal(Path(directory) / "commands.jsonl")
+                client = CompilationClient()
+                self.run_flow(client, values, journal)
+                journal.close()
+                self.assertEqual(client.compilation_count, 1)
+                self.assertFalse(any(path.endswith("/refinements/") for _, path, _ in client.calls))
+
+    def test_full_card_mismatch_prevents_approval(self):
+        with tempfile.TemporaryDirectory() as directory:
+            journal = cli.CommandJournal(Path(directory) / "commands.jsonl")
+            client = CompilationClient()
+            request = client.request
+            def mismatch(method, path, body=None):
+                response = request(method, path, body)
+                if path.endswith("/compile/"):
+                    response["thesis"]["draft"]["interpretation"]["review_card"]["document"]["review_card"]["catalysts"]["gap"] = "Other meaning"
+                return response
+            client.request = mismatch
+            with self.assertRaisesRegex(cli.WalkthroughError, "review card"):
+                self.run_flow(client, ["trader", "Gold"], journal)
+            journal.close()
+            self.assertFalse(any(path.endswith("/approvals/") for _, path, _ in client.calls))
+
+    def test_lost_compile_response_has_durable_identity_and_get_only_recovery(self):
+        with tempfile.TemporaryDirectory() as directory:
+            journal = cli.CommandJournal(Path(directory) / "commands.jsonl")
+            client = CompilationClient()
+            request = client.request
+            def lost(method, path, body=None):
+                result = request(method, path, body)
+                if path.endswith("/compile/"):
+                    on_disk = [json.loads(line) for line in journal.path.read_text().splitlines()]
+                    self.assertEqual(on_disk[-1]["detail"]["request"]["command_id"], body["command_id"])
+                    raise cli.WalkthroughError("Lost after provider request")
+                return result
+            client.request = lost
+            with self.assertRaisesRegex(cli.WalkthroughError, "Recover that command"):
+                self.run_flow(client, ["trader", "Gold"], journal)
+            journal.close()
+            target = cli.recovery_target(journal_path=journal.path)
+            before = len(client.calls)
+            recovered = cli.recover_command(client, target, ask=answerer(["trader"]),
+                secret=lambda prompt: "password", say=lambda value: None)
+            self.assertEqual(recovered["compilation"]["status"], "compiled")
+            self.assertEqual(client.compilation_count, 1)
+            self.assertEqual(client.calls[before:], [("GET",
+                f"/api/v1/theses/{THESIS_ID}/compilation-commands/{target['command_id']}/", None)])
+
+    def test_lost_refinement_response_recovers_saved_exact_answers_without_model_call(self):
+        with tempfile.TemporaryDirectory() as directory:
+            journal = cli.CommandJournal(Path(directory) / "commands.jsonl")
+            client = CompilationClient()
+            request = client.request
+            def lost(method, path, body=None):
+                result = request(method, path, body)
+                if path.endswith("/refinements/"):
+                    raise cli.WalkthroughError("Lost after durable save")
+                return result
+            client.request = lost
+            with self.assertRaises(cli.WalkthroughError):
+                self.run_flow(client, ["trader", "Gold", "refine", "  Exact α  ", "save"], journal)
+            journal.close()
+            target = cli.recovery_target(journal_path=journal.path)
+            self.assertEqual(target["kind"], "refinement")
+            before = len(client.calls)
+            response = cli.recover_command(client, target, ask=answerer(["trader"]),
+                secret=lambda prompt: "password", say=lambda value: None)
+            self.assertEqual(response["refinement"]["answers"][0]["exact_answer"], "  Exact α  ")
+            self.assertEqual(client.compilation_count, 1)
+            self.assertEqual([method for method, _, _ in client.calls[before:]], ["GET"])
+
+    def test_missing_answers_in_recompiled_output_cannot_be_approved(self):
+        with tempfile.TemporaryDirectory() as directory:
+            journal = cli.CommandJournal(Path(directory) / "commands.jsonl")
+            client = CompilationClient()
+            request = client.request
+            def missing(method, path, body=None):
+                response = request(method, path, body)
+                if path.endswith("/compile/") and client.compilation_count == 2:
+                    response["compilation"]["refinement_inputs"] = []
+                return response
+            client.request = missing
+            with self.assertRaisesRegex(cli.WalkthroughError, "answer lineage"):
+                self.run_flow(client, ["trader", "Gold", "refine", "Conditional answer", "save", "recompile"], journal)
+            journal.close()
+            self.assertEqual(client.compilation_count, 2)
+            self.assertFalse(any(path.endswith("/approvals/") for _, path, _ in client.calls))
+
+    def test_recovery_uses_retained_original_input_after_current_text_changes(self):
+        client = CompilationClient()
+        client.request("POST", "/api/v1/theses/", {"text": "Gold", "interpretation": {
+            "drivers": [], "horizon": None, "invalidation_signposts": []}})
+        command = {"command_id": str(cli.uuid4()), "expected_revision": 7,
+            "provider_id": "nanogpt", "model_id": "example/model-a"}
+        client.request("POST", f"/api/v1/theses/{THESIS_ID}/compile/", command)
+        receipt = client.receipts[command["command_id"]]
+        receipt["thesis"]["draft"]["text_version"]["exact_text"] = "A different current thesis"
+        receipt["compilation"]["is_current_draft"] = False
+        messages = []
+        cli.recover_command(client, {"thesis_id": THESIS_ID, "command_id": command["command_id"],
+            "kind": "compilation"}, ask=answerer(["trader"]), secret=lambda prompt: "password", say=messages.append)
+        self.assertIn('Original exact input: "Gold"', messages)
+        self.assertNotIn("A different current thesis", "\n".join(messages))
+        self.assertEqual(client.compilation_count, 1)
+
+    def test_recovery_unavailable_has_no_catalogue_or_post_fallback(self):
+        client = CompilationClient()
+        def unavailable(method, path, body=None):
+            client.calls.append((method, path, body))
+            raise cli.WalkthroughError("Not found")
+        client.request = unavailable
+        with self.assertRaisesRegex(cli.WalkthroughError, "No catalogue, model request or POST fallback"):
+            cli.recover_command(client, {"thesis_id": THESIS_ID, "command_id": TEXT_ID,
+                "kind": "compilation"}, ask=answerer(["trader"]), secret=lambda prompt: "password", say=lambda value: None)
+        self.assertEqual(len(client.calls), 1)
+        self.assertEqual(client.calls[0][0], "GET")
+        self.assertTrue(client.logged_out)
+
+    def test_recovery_preserves_fsynced_request_before_partial_final_response(self):
+        for tail in (b'{"kind":"compile_response","detail":',
+                     b'{"kind":"compile_response","detail":{"text":"\xe2\x82'):
+            with self.subTest(tail=tail), tempfile.TemporaryDirectory() as directory:
+                path = Path(directory) / "commands.jsonl"
+                journal = cli.CommandJournal(path)
+                journal.append("compile_requested", {"thesis_id": THESIS_ID,
+                    "request": {"command_id": TEXT_ID}, "exact_text": "Gold α"})
+                journal.close()
+                with path.open("ab") as stream:
+                    stream.write(tail)
+                target = cli.recovery_target(journal_path=path)
+                self.assertEqual(target, {"thesis_id": THESIS_ID, "command_id": TEXT_ID,
+                    "kind": "compilation", "exact_text": "Gold α"})
+                self.assertTrue(path.read_bytes().endswith(tail))
+
+    def test_recovery_rejects_malformed_complete_or_middle_records(self):
+        for corrupt in (b'{"kind":"broken"\n', b'{"kind":"broken","value":"\xe2\x82"}\n'):
+            for middle in (False, True):
+                with self.subTest(corrupt=corrupt, middle=middle), tempfile.TemporaryDirectory() as directory:
+                    path = Path(directory) / "commands.jsonl"
+                    request = {"kind": "compile_requested", "detail": {"thesis_id": THESIS_ID,
+                        "request": {"command_id": TEXT_ID}, "exact_text": "Gold"}}
+                    encoded = json.dumps(request).encode("utf-8") + b"\n"
+                    path.write_bytes(encoded + corrupt + (encoded if middle else b""))
+                    with self.assertRaisesRegex(cli.WalkthroughError, "Cannot resolve"):
+                        cli.recovery_target(journal_path=path)
+
+    def test_journal_failure_blocks_model_post_and_does_not_retry(self):
+        with tempfile.TemporaryDirectory() as directory:
+            journal = cli.CommandJournal(Path(directory) / "commands.jsonl")
+            client = CompilationClient()
+            with patch.object(cli.os, "fsync", side_effect=OSError("disk unavailable")):
+                with self.assertRaisesRegex(cli.WalkthroughError, "journal could not be saved"):
+                    self.run_flow(client, ["trader", "Gold"], journal)
+            journal.close()
+            self.assertEqual(client.compilation_count, 0)
+
+    def test_recovery_unknown_or_historical_is_read_only_and_never_approves(self):
+        for status in ("outcome_unknown", "running", "failed", "stale", "compiled"):
+            with self.subTest(status=status):
+                client = CompilationClient(status=status, current=False)
+                created = client.request("POST", "/api/v1/theses/", {"text": "Gold", "interpretation": {
+                    "drivers": [], "horizon": None, "invalidation_signposts": []}})
+                command = {"command_id": str(cli.uuid4()), "expected_revision": 7,
+                    "provider_id": "nanogpt", "model_id": "example/model-a"}
+                client.request("POST", f"/api/v1/theses/{THESIS_ID}/compile/", command)
+                before = len(client.calls)
+                cli.recover_command(client, {"thesis_id": THESIS_ID, "command_id": command["command_id"],
+                    "kind": "compilation"}, ask=answerer(["trader"]), secret=lambda prompt: "password", say=lambda value: None)
+                self.assertEqual(client.compilation_count, 1)
+                self.assertEqual([method for method, _, _ in client.calls[before:]], ["GET"])
+
+
+class RetainedCompilationTests(unittest.TestCase):
+    def prepared(self, directory):
+        client = CompilationClient()
+        journal = cli.CommandJournal(Path(directory) / "initial.jsonl")
+        try:
+            trace = cli.happy_path(client, compile=True, model_id="example/model-a", journal=journal,
+                ask=answerer(["trader", "Gold", "refine", "  A conditional answer α  ", "save", ""]),
+                secret=lambda prompt: "password", say=lambda value: None)
+        finally:
+            journal.close()
+        client.thesis["approved"] = {"approval": {"id": APPROVAL_ID}}
+        return client, trace["refinements"][0]["refinement"]["id"]
+
+    def continuation(self, client, identity, values, directory, messages=None):
+        journal = cli.CommandJournal(Path(directory) / "continuation.jsonl")
+        try:
+            return cli.compile_existing(client, THESIS_ID, refinement_id=identity,
+                model_id="example/model-a", journal=journal, ask=answerer(values),
+                secret=lambda prompt: "password", say=(messages.append if messages is not None else lambda value: None))
+        finally:
+            journal.close()
+
+    def test_saved_answers_survive_restart_and_explicit_run_approves_new_review(self):
+        with tempfile.TemporaryDirectory() as directory:
+            client, identity = self.prepared(directory)
+            before = len(client.calls)
+            messages = []
+            request = client.request
+            observed_old_approval = []
+            def observed(method, path, body=None):
+                if path.endswith("/compile/") or path.endswith("/approvals/"):
+                    observed_old_approval.append(client.thesis["approved"]["approval"]["id"])
+                return request(method, path, body)
+            client.request = observed
+            trace = self.continuation(client, identity, ["trader", "run", "approve"], directory, messages)
+            calls = client.calls[before:]
+            self.assertEqual([(method, path.rsplit("/", 2)[-2]) for method, path, _ in calls], [
+                ("GET", THESIS_ID), ("GET", identity), ("GET", "models"), ("POST", "compile"), ("POST", "approvals")])
+            self.assertEqual(client.compilation_count, 2)
+            self.assertEqual(observed_old_approval, [APPROVAL_ID, APPROVAL_ID])
+            self.assertIn("approval", trace)
+            self.assertEqual(trace["compilations"][0]["compilation"]["refinement_inputs"][0]["exact_answer"], "  A conditional answer α  ")
+            self.assertIn("Retained exact thesis", "\n".join(messages))
+            self.assertFalse(any(path.endswith("/positions/") or path.endswith("/recorded-news/") for _, path, _ in calls))
+
+    def test_declining_run_keeps_answers_and_approval_without_paid_call(self):
+        with tempfile.TemporaryDirectory() as directory:
+            client, identity = self.prepared(directory)
+            before = len(client.calls)
+            trace = self.continuation(client, identity, ["trader", ""], directory)
+            self.assertEqual(client.compilation_count, 1)
+            self.assertNotIn("approval", trace)
+            self.assertTrue(all(method == "GET" for method, _, _ in client.calls[before:]))
+            self.assertEqual(client.thesis["approved"]["approval"]["id"], APPROVAL_ID)
+
+    def test_stale_or_foreign_refinement_stops_before_catalogue_or_paid_call(self):
+        for field, value in (("is_current_context", False), ("text_version_id", POSITION_ID)):
+            with self.subTest(field=field), tempfile.TemporaryDirectory() as directory:
+                client, identity = self.prepared(directory)
+                saved = next(item for item in client.receipts.values() if "refinement" in item)
+                saved["refinement"][field] = value
+                before = len(client.calls)
+                with self.assertRaisesRegex(cli.WalkthroughError, "stale or belong"):
+                    self.continuation(client, identity, ["trader"], directory)
+                self.assertEqual(client.compilation_count, 1)
+                self.assertEqual(len(client.calls[before:]), 2)
+                self.assertFalse(any(path == "/api/v1/models/" for _, path, _ in client.calls[before:]))
+
+    def test_unknown_new_attempt_keeps_old_approval_and_cannot_approve(self):
+        with tempfile.TemporaryDirectory() as directory:
+            client, identity = self.prepared(directory)
+            client.status = "outcome_unknown"
+            before = len(client.calls)
+            trace = self.continuation(client, identity, ["trader", "run"], directory)
+            self.assertEqual(client.compilation_count, 2)
+            self.assertNotIn("approval", trace)
+            self.assertEqual(client.thesis["approved"]["approval"]["id"], APPROVAL_ID)
+            self.assertFalse(any(path.endswith("/approvals/") for _, path, _ in client.calls[before:]))
+
+    def test_omitted_submission_inherits_only_current_compiled_answers(self):
+        with tempfile.TemporaryDirectory() as directory:
+            client, identity = self.prepared(directory)
+            trace = self.continuation(client, None, ["trader", "run", ""], directory)
+            output = trace["compilations"][0]
+            self.assertEqual(output["compilation"]["refinement_inputs"], [])
+            self.assertIsNone(output["compilation"]["refinement_id"])
+            self.assertEqual(len(client.refinements), 1)
 
 
 class ModelSetupTests(unittest.TestCase):

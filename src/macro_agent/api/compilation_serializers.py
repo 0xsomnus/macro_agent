@@ -2,6 +2,8 @@
 
 from rest_framework import serializers
 
+from .compilation_content_serializers import (CompilationDocumentSerializer, RefinementInputSerializer,
+    RefinementAnswerSerializer)
 from .serializers import (
     InterpretationInputSerializer, StrictIntegerField, StrictListField,
     StrictSerializer, StrictStringField, StrictUUIDField, ThesisDetailSerializer,
@@ -13,6 +15,7 @@ PROVIDERS = ("nanogpt", "openrouter", "cheaperinference")
 
 class CompileThesisRequestSerializer(StrictSerializer):
     command_id = StrictUUIDField()
+    refinement_id = StrictUUIDField(required=False, allow_null=True)
     expected_revision = StrictIntegerField(min_value=1, max_value=2**63 - 1)
     provider_id = serializers.ChoiceField(choices=PROVIDERS, help_text=(
         "Provider identity shown by the catalogue, pinned against backend configuration."
@@ -43,45 +46,18 @@ class ModelCatalogResponseSerializer(serializers.Serializer):
     models = CatalogModelSerializer(many=True)
 
 
-class CompilationGroundingSerializer(StrictSerializer):
-    field = serializers.ChoiceField(choices=["drivers", "horizon", "invalidation_signposts"])
-    index = StrictIntegerField(min_value=0, max_value=31, allow_null=True)
-    exact_quote = StrictStringField(max_length=1000, help_text=(
-        "Exact substring of the supplied thesis. Attribution does not prove semantic accuracy."
-    ))
-
-
-class CompilationRefinementIssueSerializer(StrictSerializer):
-    kind = serializers.ChoiceField(choices=[
-        "missing_detail", "unsupported_mechanism", "verification_needed", "ambiguity",
-        "defensible_disagreement",
-    ])
-    exact_quote = StrictStringField(max_length=1000, allow_null=True)
-    explanation = StrictStringField(max_length=2000)
-    question = StrictStringField(max_length=1000)
-
-
-class CompilationHypothesisSerializer(StrictSerializer):
-    explanation = StrictStringField(max_length=2000)
-    introduced_assumptions = StrictListField(
-        child=StrictStringField(max_length=1000), max_length=32, allow_empty=True,
-    )
-
-
-class CompilationDocumentSerializer(StrictSerializer):
-    interpretation = InterpretationInputSerializer()
-    grounding = CompilationGroundingSerializer(many=True)
-    refinement_issues = CompilationRefinementIssueSerializer(many=True)
-    agent_hypotheses = CompilationHypothesisSerializer(many=True)
-    counter_case = StrictStringField(max_length=2000, allow_null=True, help_text=(
-        "Unverified competing hypothesis, not a sourced factual finding or trading instruction."
-    ))
-
-
 class CompilationUsageSerializer(serializers.Serializer):
     prompt_tokens = serializers.IntegerField(min_value=0, allow_null=True)
     completion_tokens = serializers.IntegerField(min_value=0, allow_null=True)
     total_tokens = serializers.IntegerField(min_value=0, allow_null=True)
+
+
+class CompilationTextInputSerializer(serializers.Serializer):
+    id = serializers.UUIDField()
+    parent_version_id = serializers.UUIDField(allow_null=True)
+    exact_text = serializers.CharField(trim_whitespace=False)
+    text_digest = serializers.CharField()
+    created_at = serializers.DateTimeField()
 
 
 class CompilationSerializer(serializers.Serializer):
@@ -94,6 +70,12 @@ class CompilationSerializer(serializers.Serializer):
     ))
     provider = serializers.ChoiceField(choices=PROVIDERS)
     model_id = serializers.CharField(max_length=255)
+    input_text_version = CompilationTextInputSerializer()
+    schema_version = serializers.CharField()
+    prompt_version = serializers.CharField()
+    refinement_id = serializers.UUIDField(allow_null=True)
+    parent_attempt_id = serializers.UUIDField(allow_null=True)
+    refinement_inputs = RefinementInputSerializer(many=True)
     created_at = serializers.DateTimeField()
     finished_at = serializers.DateTimeField(allow_null=True)
     document = CompilationDocumentSerializer(allow_null=True)
@@ -116,4 +98,39 @@ class CompilationSerializer(serializers.Serializer):
 
 class CompilationResponseSerializer(serializers.Serializer):
     compilation = CompilationSerializer()
+    thesis = ThesisDetailSerializer()
+
+
+class SaveRefinementRequestSerializer(StrictSerializer):
+    command_id = StrictUUIDField()
+    expected_revision = StrictIntegerField(min_value=1, max_value=2**63 - 1)
+    parent_attempt_id = StrictUUIDField()
+    answers = RefinementAnswerSerializer(many=True, min_length=1, max_length=16)
+
+    def validate_answers(self, value):
+        indices = [answer["question_index"] for answer in value]
+        if len(set(indices)) != len(indices):
+            raise serializers.ValidationError("Each question accepts one answer per submission.")
+        return value
+
+
+class RefinementSerializer(serializers.Serializer):
+    id = serializers.UUIDField()
+    command_id = serializers.UUIDField()
+    parent_attempt_id = serializers.UUIDField()
+    text_version_id = serializers.UUIDField()
+    input_text_version = CompilationTextInputSerializer()
+    expected_revision = serializers.IntegerField()
+    answers = RefinementAnswerSerializer(many=True)
+    cumulative_inputs = RefinementInputSerializer(many=True)
+    created_at = serializers.DateTimeField()
+    replayed = serializers.BooleanField()
+    is_current_context = serializers.BooleanField(help_text=(
+        "Protected snapshot of whether this saved input can be used for the current draft. "
+        "Saving answers does not approve or amend the thesis."
+    ))
+
+
+class RefinementResponseSerializer(serializers.Serializer):
+    refinement = RefinementSerializer()
     thesis = ThesisDetailSerializer()

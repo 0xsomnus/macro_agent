@@ -9,17 +9,17 @@ Scope clarified 2026-10-09: prove the durable internal paper workflow using a na
 | Exact trader text | Preserved, versioned and approved explicitly. |
 | Drivers, horizon, invalidation | Extracted from supplied text with quotations. Missing intent remains empty/null. Drivers are interpreted mechanisms or associations, not verified causal relationships. |
 | Challenge | Refinement issues/questions, separate introduced assumptions and agent hypotheses, and an optional unverified counter-case are displayed. |
-| Affected assets, catalysts, causal chain and scenarios | No dedicated structured fields yet. An asset mentioned in prose does not establish verified instrument mapping. |
-| Collaborative refinement | Questions are displayed, but the terminal compilation loop currently offers approval, cancellation or model switching. It does not collect answers and assemble a strengthened thesis through a guided conversation. |
+| Affected assets, catalysts, causal paths and scenarios | Structured text-grounded sections distinguish extracted items, unverified proposals and gaps. This is no verified instrument mapping or canonical causal graph. |
+| Collaborative refinement | The terminal saves exact answers without model work, then supports explicit recompilation, model switching, exact approval and read-only command recovery. |
 | External evidence and monitoring manifest | Not supplied to the compiler. No factual verification or current macro regime is established. |
 
 The full design remains in [THESIS_ENGINE.md](THESIS_ENGINE.md); it is not a description of completed implementation. See [current compilation](THESIS_COMPILATION.md).
 
-## Proposed next compilation checkpoint
+## Implemented text-grounded compilation checkpoint
 
-Implement the [required thesis review card and guided refinement](THESIS_ENGINE.md#required-thesis-review-card): claim, affected assets, proposed causal path, assumptions, catalysts, horizon, invalidation, counter-case/scenarios, evidence and unresolved questions. Distinguish extracted trader intent, agent-proposed additions and unavailable evidence. Let the trader answer consequential questions and review a new immutable proposal.
+The [required review surface and guided refinement](THESIS_ENGINE.md#required-thesis-review-card) now combine claim, affected assets, proposed causal paths, assumptions, catalysts, horizon, invalidation, counter-case/scenarios and unresolved questions. External evidence remains unavailable. Exact trader answers and proposal lineage are retained separately from unchanged original prose; each new model request is explicit.
 
-A missing invalidation criterion is a gap. A suggested criterion can be useful, but cannot become approved meaning until the user explicitly accepts it. Do not invent a threshold, deadline, confidence or price target to fill a template. The approval preview must bind exactly the text and interpretation being activated. Richer proposed fields need a reviewed contract before becoming governing monitoring inputs.
+A missing invalidation criterion is a gap. Suggested additions remain agent proposals; explicit answers can express acceptance before a new compiled interpretation is reviewed. No template may invent thresholds, deadlines, confidence or targets. Approval binds the full card with its authority labels, original input and exact answers. It does not adopt every proposal as trader belief or verified evidence. The card is carried into protected news context, subject to its separate size bound; sourced monitoring inputs and verified relationships remain outstanding.
 
 ## Durable end-to-end acceptance
 
@@ -56,7 +56,7 @@ The [source comparison](SOURCE_OPTIONS.md) contains candidates. Official feeds a
 ## Remaining choices before implementation
 
 - Select the first real thesis/event and its source manifest.
-- Decide whether missing thesis details should first become proposed candidates for approval or clarification questions before any draft completion.
+- Review whether the implemented proposals and clarification questions help strengthen a real rough thesis without manufacturing conviction.
 - Review the continuity/brief contract and internal runner, including cadence, daily brief time, model allowance and explicit context bounds.
 
 The [runtime repair report](../artifacts/monitoring-runtime-repair-2026-10-09.md) records the audit repairs. [IMPLEMENTATION.md](IMPLEMENTATION.md) tracks verified status. Fixing those defects does not itself implement continuous dispatch, context continuity or daily briefs.

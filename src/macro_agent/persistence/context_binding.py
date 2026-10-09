@@ -103,9 +103,8 @@ def _resolved(thesis: ThesisRecord, expected_approval_id: str, using: str):
     text_value = UserThesisVersion(str(text.pk), str(thesis.pk), str(thesis.owner_id),
                                   text.exact_text, text.created_at,
                                   str(text.parent_id) if text.parent_id else None)
-    meaning_value = CompiledThesisVersion(str(meaning.pk), str(text.pk), tuple(meaning.drivers),
-                                        meaning.horizon, tuple(meaning.invalidation_signposts),
-                                        meaning.known_at)
+    from macro_agent.theses.service import interpretation_value
+    meaning_value = interpretation_value(meaning)
     approval_value = ThesisApproval(str(approval.pk), str(approval.actor_id), str(text.pk),
                                     text.text_digest, str(meaning.pk), meaning.digest,
                                     approval.approved_at)
@@ -128,6 +127,8 @@ def _resolved(thesis: ThesisRecord, expected_approval_id: str, using: str):
                      "revision": approval.revision},
         "exposure": book,
     }
+    if meaning.review_card is not None:
+        resolved["interpretation"]["review_card"] = meaning.review_card
     return approval, resolved, book_digest(book)
 
 

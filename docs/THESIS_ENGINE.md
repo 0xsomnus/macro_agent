@@ -1,6 +1,6 @@
 # Thesis engine
 
-Status, 2026-10-09: this document specifies intended behavior. The [current compiler](THESIS_COMPILATION.md) implements only text-grounded extraction and separate challenge output. The complete review card, guided refinement and sourced research below remain implementation work for the [weekly workflow test](WEEKLY_WORKFLOW_TEST.md).
+Status, 2026-10-09: this document specifies intended behavior. The [current compiler](THESIS_COMPILATION.md) implements a text-grounded review card, exact saved answers, guided recompilation and explicit approval. Sourced research, verified causal relationships and the monitoring manifest below remain implementation work for the [weekly workflow test](WEEKLY_WORKFLOW_TEST.md). A structured proposal is not a verified investment argument.
 
 ## Compilation contract
 

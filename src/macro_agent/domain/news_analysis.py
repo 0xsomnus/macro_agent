@@ -11,7 +11,7 @@ import json
 from .models import canonical_json, normalize_json_object
 
 
-PROMPT_VERSION = "retained-news-analysis-prompt-v1"
+PROMPT_VERSION = "retained-news-analysis-prompt-v2"
 SCHEMA_VERSION = "retained-news-analysis-v1"
 MAX_CONTENT_BYTES = 131_072
 MAX_CONTEXT_BYTES = 65_536
@@ -90,6 +90,13 @@ def _context(context):
     _strings(thesis["invalidation_signposts"], "approved signposts", limit=32)
     if thesis["horizon"] is not None:
         _text(thesis["horizon"], "approved horizon", 1000)
+    if thesis.get("review_card") is not None:
+        from .compilation import validate_review_card_json
+        card = json.loads(validate_review_card_json(canonical_json(thesis["review_card"])))
+        if (card["inputs"][0]["exact_text"] != thesis["exact_text"]
+                or any(card["document"]["interpretation"][key] != thesis[key]
+                       for key in ("drivers", "horizon", "invalidation_signposts"))):
+            raise ValueError("review card must match the supplied approved thesis and interpretation")
     position_ids = set()
     open_ids = set()
     for position in _array(context["positions"], "positions", MAX_POSITIONS):
@@ -146,6 +153,12 @@ declarations are historical context only. Quantities, mapping and gaps remain
 user-declared. Do not infer leverage, valuation or dollar effects as facts.
 
 Preserve approved text and interpretation as trader belief. Never amend them.
+An optional reviewed card preserves original trader input and exact answers,
+extracted intent, agent proposals, counter-cases and explicit gaps. Review
+approval does not adopt its agent proposals as trader belief or verify them.
+Only extracted trader inputs/answers describe approved intent. Proposed assets,
+causal paths, assumptions, catalysts and scenarios remain labelled hypotheses.
+Do not turn repetition of a proposal into evidence or a new governing driver.
 Assess thesis relevance and attached open-trade relevance separately: evidence
 can support a medium-term thesis yet introduce a near-term exposure risk. Missing
 context or insufficient excerpts require review_needed, not dismissal. Novelty

@@ -1,0 +1,1406 @@
+{
+  "method": "Actual loopback HTTP, Django sessions/CSRF and native PostgreSQL; recorded model adapter",
+  "exact_thesis": "  Gold may benefit if real yields fall.\r\nΔ",
+  "exact_answer": "  Six weeks.\r\nΔ",
+  "first": {
+    "mode": "recorded_example",
+    "draft": {
+      "command": {
+        "command_id": "3a43cd20-8522-4c7f-8fca-01a1af30cb43",
+        "kind": "create",
+        "replayed": false,
+        "result": {
+          "thesis_id": "34f301a7-14fb-4139-b87d-9730902771b9",
+          "thesis_version_id": "ccb488c7-dfb6-4aa9-bedb-4b5f7f3a4aad",
+          "interpretation_version_id": "a844be76-d0a2-4731-89ab-267aa06e5ed5",
+          "approval_id": null,
+          "revision": 1,
+          "accepted_at": "2026-10-09T11:33:04.460349+00:00"
+        },
+        "is_current_approval": false
+      },
+      "thesis": {
+        "id": "34f301a7-14fb-4139-b87d-9730902771b9",
+        "revision": 1,
+        "created_at": "2026-10-09T11:33:04.460349+00:00",
+        "changed_at": "2026-10-09T11:33:04.460349+00:00",
+        "draft": {
+          "text_version": {
+            "id": "ccb488c7-dfb6-4aa9-bedb-4b5f7f3a4aad",
+            "parent_version_id": null,
+            "exact_text": "  Gold may benefit if real yields fall.\r\nΔ",
+            "text_digest": "bca34fdf2077713b3a697252d726394639e6b62f4a3718c2fc63819baf4fb5ef",
+            "created_at": "2026-10-09T11:33:04.460349+00:00"
+          },
+          "interpretation": {
+            "id": "a844be76-d0a2-4731-89ab-267aa06e5ed5",
+            "text_version_id": "ccb488c7-dfb6-4aa9-bedb-4b5f7f3a4aad",
+            "drivers": [],
+            "horizon": null,
+            "invalidation_signposts": [],
+            "known_at": "2026-10-09T11:33:04.460349+00:00",
+            "digest": "440a82a6e70f3ed1f00ac7c7332c35ca8989b41609016ad10b99f801cfbd44f0",
+            "origin": "user_supplied",
+            "review_card": null
+          }
+        },
+        "approved": null,
+        "monitoring": "not_configured"
+      }
+    },
+    "compilations": [
+      {
+        "compilation": {
+          "id": "ffbcf51b-d1d8-4f07-ab33-1c36dcd5e3c6",
+          "status": "compiled",
+          "provider": "nanogpt",
+          "input_text_version": {
+            "id": "ccb488c7-dfb6-4aa9-bedb-4b5f7f3a4aad",
+            "parent_version_id": null,
+            "exact_text": "  Gold may benefit if real yields fall.\r\nΔ",
+            "text_digest": "bca34fdf2077713b3a697252d726394639e6b62f4a3718c2fc63819baf4fb5ef",
+            "created_at": "2026-10-09T11:33:04.460349+00:00"
+          },
+          "schema_version": "text-grounded-thesis-compilation-v2",
+          "prompt_version": "text-grounded-thesis-prompt-v2",
+          "model_id": "Qwen/Qwen3-4B",
+          "created_at": "2026-10-09T11:33:04.545543+00:00",
+          "finished_at": "2026-10-09T11:33:04.561648+00:00",
+          "document": {
+            "grounding": [
+              {
+                "field": "drivers",
+                "index": 0,
+                "input_id": "thesis",
+                "exact_quote": "Gold may benefit if real yields fall."
+              }
+            ],
+            "review_card": {
+              "claim": {
+                "gap": "Not resolved by this recorded test response.",
+                "proposed": [],
+                "extracted": []
+              },
+              "catalysts": {
+                "gap": "Not resolved by this recorded test response.",
+                "proposed": [
+                  "Unverified candidate: investigate changes in real yields."
+                ],
+                "extracted": []
+              },
+              "scenarios": {
+                "gap": "Not resolved by this recorded test response.",
+                "proposed": [],
+                "extracted": []
+              },
+              "assumptions": {
+                "gap": "Not resolved by this recorded test response.",
+                "proposed": [],
+                "extracted": []
+              },
+              "causal_path": {
+                "gap": "Not resolved by this recorded test response.",
+                "proposed": [],
+                "extracted": []
+              },
+              "affected_assets": {
+                "gap": "No actual instrument supplied.",
+                "proposed": [],
+                "extracted": [
+                  {
+                    "text": "Gold, instrument mapping remains unverified.",
+                    "input_id": "thesis",
+                    "exact_quote": "Gold"
+                  }
+                ]
+              },
+              "monitoring_scope": {
+                "gap": "Not resolved by this recorded test response.",
+                "proposed": [],
+                "extracted": []
+              }
+            },
+            "counter_case": "Unverified hypothesis: other drivers may offset this path.",
+            "interpretation": {
+              "drivers": [
+                "Falling real yields may support gold."
+              ],
+              "horizon": null,
+              "invalidation_signposts": []
+            },
+            "agent_hypotheses": [],
+            "refinement_issues": [
+              {
+                "kind": "missing_detail",
+                "input_id": null,
+                "question": "What horizon do you intend?",
+                "exact_quote": null,
+                "explanation": "The trader supplied no horizon."
+              }
+            ]
+          },
+          "refinement_id": null,
+          "refinement_inputs": [],
+          "parent_attempt_id": null,
+          "interpretation_version_id": "8cb7d2d8-612b-47b0-80cc-b3bcf3d22c76",
+          "is_current_draft": true,
+          "usage": {
+            "total_tokens": 30,
+            "prompt_tokens": 10,
+            "completion_tokens": 20
+          },
+          "reported_cost_usd": null,
+          "estimated_cost_usd": "0.00005",
+          "reported_model": "Qwen/Qwen3-4B",
+          "provider_request_id": "recorded-request",
+          "latency_ms": 12,
+          "stop_reason": "completed",
+          "limitations": [
+            "Text-grounded model proposal, not verified facts or investment analysis.",
+            "Current macro context, source verification and consensus data are unavailable.",
+            "Quoted text supports attribution, not semantic accuracy or the causal argument.",
+            "Agent additions and counter-cases remain unverified hypotheses.",
+            "Monitoring and external notification delivery are not configured."
+          ]
+        },
+        "thesis": {
+          "id": "34f301a7-14fb-4139-b87d-9730902771b9",
+          "revision": 2,
+          "created_at": "2026-10-09T11:33:04.460349+00:00",
+          "changed_at": "2026-10-09T11:33:04.561648+00:00",
+          "draft": {
+            "text_version": {
+              "id": "ccb488c7-dfb6-4aa9-bedb-4b5f7f3a4aad",
+              "parent_version_id": null,
+              "exact_text": "  Gold may benefit if real yields fall.\r\nΔ",
+              "text_digest": "bca34fdf2077713b3a697252d726394639e6b62f4a3718c2fc63819baf4fb5ef",
+              "created_at": "2026-10-09T11:33:04.460349+00:00"
+            },
+            "interpretation": {
+              "id": "8cb7d2d8-612b-47b0-80cc-b3bcf3d22c76",
+              "text_version_id": "ccb488c7-dfb6-4aa9-bedb-4b5f7f3a4aad",
+              "drivers": [
+                "Falling real yields may support gold."
+              ],
+              "horizon": null,
+              "invalidation_signposts": [],
+              "known_at": "2026-10-09T11:33:04.561648+00:00",
+              "digest": "c27873effe726bf88521227c1126226b210d2146aabf230bd4151d0cc164db51",
+              "origin": "model_compilation",
+              "review_card": {
+                "schema_version": "thesis-review-card-v1",
+                "inputs": [
+                  {
+                    "input_id": "thesis",
+                    "exact_text": "  Gold may benefit if real yields fall.\r\nΔ"
+                  }
+                ],
+                "document": {
+                  "agent_hypotheses": [],
+                  "counter_case": "Unverified hypothesis: other drivers may offset this path.",
+                  "grounding": [
+                    {
+                      "exact_quote": "Gold may benefit if real yields fall.",
+                      "field": "drivers",
+                      "index": 0,
+                      "input_id": "thesis"
+                    }
+                  ],
+                  "interpretation": {
+                    "drivers": [
+                      "Falling real yields may support gold."
+                    ],
+                    "horizon": null,
+                    "invalidation_signposts": []
+                  },
+                  "refinement_issues": [
+                    {
+                      "exact_quote": null,
+                      "explanation": "The trader supplied no horizon.",
+                      "input_id": null,
+                      "kind": "missing_detail",
+                      "question": "What horizon do you intend?"
+                    }
+                  ],
+                  "review_card": {
+                    "affected_assets": {
+                      "extracted": [
+                        {
+                          "exact_quote": "Gold",
+                          "input_id": "thesis",
+                          "text": "Gold, instrument mapping remains unverified."
+                        }
+                      ],
+                      "gap": "No actual instrument supplied.",
+                      "proposed": []
+                    },
+                    "assumptions": {
+                      "extracted": [],
+                      "gap": "Not resolved by this recorded test response.",
+                      "proposed": []
+                    },
+                    "catalysts": {
+                      "extracted": [],
+                      "gap": "Not resolved by this recorded test response.",
+                      "proposed": [
+                        "Unverified candidate: investigate changes in real yields."
+                      ]
+                    },
+                    "causal_path": {
+                      "extracted": [],
+                      "gap": "Not resolved by this recorded test response.",
+                      "proposed": []
+                    },
+                    "claim": {
+                      "extracted": [],
+                      "gap": "Not resolved by this recorded test response.",
+                      "proposed": []
+                    },
+                    "monitoring_scope": {
+                      "extracted": [],
+                      "gap": "Not resolved by this recorded test response.",
+                      "proposed": []
+                    },
+                    "scenarios": {
+                      "extracted": [],
+                      "gap": "Not resolved by this recorded test response.",
+                      "proposed": []
+                    }
+                  }
+                },
+                "evidence": {
+                  "status": "unavailable",
+                  "references": []
+                }
+              }
+            }
+          },
+          "approved": null,
+          "monitoring": "not_configured"
+        }
+      }
+    ],
+    "refinements": [
+      {
+        "refinement": {
+          "id": "7f81a418-20b8-4a31-9d2b-63f05cb9ac4c",
+          "command_id": "25a9c626-95fb-4429-b2ca-59a76f4ac94c",
+          "parent_attempt_id": "ffbcf51b-d1d8-4f07-ab33-1c36dcd5e3c6",
+          "text_version_id": "ccb488c7-dfb6-4aa9-bedb-4b5f7f3a4aad",
+          "input_text_version": {
+            "id": "ccb488c7-dfb6-4aa9-bedb-4b5f7f3a4aad",
+            "parent_version_id": null,
+            "exact_text": "  Gold may benefit if real yields fall.\r\nΔ",
+            "text_digest": "bca34fdf2077713b3a697252d726394639e6b62f4a3718c2fc63819baf4fb5ef",
+            "created_at": "2026-10-09T11:33:04.460349+00:00"
+          },
+          "expected_revision": 2,
+          "answers": [
+            {
+              "question_index": 0,
+              "exact_answer": "  Six weeks.\r\nΔ"
+            }
+          ],
+          "cumulative_inputs": [
+            {
+              "input_id": "answer:7f81a418-20b8-4a31-9d2b-63f05cb9ac4c:0",
+              "parent_attempt_id": "ffbcf51b-d1d8-4f07-ab33-1c36dcd5e3c6",
+              "question_index": 0,
+              "question": "What horizon do you intend?",
+              "exact_answer": "  Six weeks.\r\nΔ"
+            }
+          ],
+          "created_at": "2026-10-09T11:33:04.579981+00:00",
+          "replayed": false,
+          "is_current_context": true
+        },
+        "thesis": {
+          "id": "34f301a7-14fb-4139-b87d-9730902771b9",
+          "revision": 2,
+          "created_at": "2026-10-09T11:33:04.460349+00:00",
+          "changed_at": "2026-10-09T11:33:04.561648+00:00",
+          "draft": {
+            "text_version": {
+              "id": "ccb488c7-dfb6-4aa9-bedb-4b5f7f3a4aad",
+              "parent_version_id": null,
+              "exact_text": "  Gold may benefit if real yields fall.\r\nΔ",
+              "text_digest": "bca34fdf2077713b3a697252d726394639e6b62f4a3718c2fc63819baf4fb5ef",
+              "created_at": "2026-10-09T11:33:04.460349+00:00"
+            },
+            "interpretation": {
+              "id": "8cb7d2d8-612b-47b0-80cc-b3bcf3d22c76",
+              "text_version_id": "ccb488c7-dfb6-4aa9-bedb-4b5f7f3a4aad",
+              "drivers": [
+                "Falling real yields may support gold."
+              ],
+              "horizon": null,
+              "invalidation_signposts": [],
+              "known_at": "2026-10-09T11:33:04.561648+00:00",
+              "digest": "c27873effe726bf88521227c1126226b210d2146aabf230bd4151d0cc164db51",
+              "origin": "model_compilation",
+              "review_card": {
+                "inputs": [
+                  {
+                    "input_id": "thesis",
+                    "exact_text": "  Gold may benefit if real yields fall.\r\nΔ"
+                  }
+                ],
+                "document": {
+                  "grounding": [
+                    {
+                      "field": "drivers",
+                      "index": 0,
+                      "input_id": "thesis",
+                      "exact_quote": "Gold may benefit if real yields fall."
+                    }
+                  ],
+                  "review_card": {
+                    "claim": {
+                      "gap": "Not resolved by this recorded test response.",
+                      "proposed": [],
+                      "extracted": []
+                    },
+                    "catalysts": {
+                      "gap": "Not resolved by this recorded test response.",
+                      "proposed": [
+                        "Unverified candidate: investigate changes in real yields."
+                      ],
+                      "extracted": []
+                    },
+                    "scenarios": {
+                      "gap": "Not resolved by this recorded test response.",
+                      "proposed": [],
+                      "extracted": []
+                    },
+                    "assumptions": {
+                      "gap": "Not resolved by this recorded test response.",
+                      "proposed": [],
+                      "extracted": []
+                    },
+                    "causal_path": {
+                      "gap": "Not resolved by this recorded test response.",
+                      "proposed": [],
+                      "extracted": []
+                    },
+                    "affected_assets": {
+                      "gap": "No actual instrument supplied.",
+                      "proposed": [],
+                      "extracted": [
+                        {
+                          "text": "Gold, instrument mapping remains unverified.",
+                          "input_id": "thesis",
+                          "exact_quote": "Gold"
+                        }
+                      ]
+                    },
+                    "monitoring_scope": {
+                      "gap": "Not resolved by this recorded test response.",
+                      "proposed": [],
+                      "extracted": []
+                    }
+                  },
+                  "counter_case": "Unverified hypothesis: other drivers may offset this path.",
+                  "interpretation": {
+                    "drivers": [
+                      "Falling real yields may support gold."
+                    ],
+                    "horizon": null,
+                    "invalidation_signposts": []
+                  },
+                  "agent_hypotheses": [],
+                  "refinement_issues": [
+                    {
+                      "kind": "missing_detail",
+                      "input_id": null,
+                      "question": "What horizon do you intend?",
+                      "exact_quote": null,
+                      "explanation": "The trader supplied no horizon."
+                    }
+                  ]
+                },
+                "evidence": {
+                  "status": "unavailable",
+                  "references": []
+                },
+                "schema_version": "thesis-review-card-v1"
+              }
+            }
+          },
+          "approved": null,
+          "monitoring": "not_configured"
+        }
+      }
+    ]
+  },
+  "read_only_recovery": {
+    "refinement": {
+      "id": "7f81a418-20b8-4a31-9d2b-63f05cb9ac4c",
+      "command_id": "25a9c626-95fb-4429-b2ca-59a76f4ac94c",
+      "parent_attempt_id": "ffbcf51b-d1d8-4f07-ab33-1c36dcd5e3c6",
+      "text_version_id": "ccb488c7-dfb6-4aa9-bedb-4b5f7f3a4aad",
+      "input_text_version": {
+        "id": "ccb488c7-dfb6-4aa9-bedb-4b5f7f3a4aad",
+        "parent_version_id": null,
+        "exact_text": "  Gold may benefit if real yields fall.\r\nΔ",
+        "text_digest": "bca34fdf2077713b3a697252d726394639e6b62f4a3718c2fc63819baf4fb5ef",
+        "created_at": "2026-10-09T11:33:04.460349+00:00"
+      },
+      "expected_revision": 2,
+      "answers": [
+        {
+          "exact_answer": "  Six weeks.\r\nΔ",
+          "question_index": 0
+        }
+      ],
+      "cumulative_inputs": [
+        {
+          "input_id": "answer:7f81a418-20b8-4a31-9d2b-63f05cb9ac4c:0",
+          "question": "What horizon do you intend?",
+          "exact_answer": "  Six weeks.\r\nΔ",
+          "question_index": 0,
+          "parent_attempt_id": "ffbcf51b-d1d8-4f07-ab33-1c36dcd5e3c6"
+        }
+      ],
+      "created_at": "2026-10-09T11:33:04.579981+00:00",
+      "replayed": false,
+      "is_current_context": true
+    },
+    "thesis": {
+      "id": "34f301a7-14fb-4139-b87d-9730902771b9",
+      "revision": 2,
+      "created_at": "2026-10-09T11:33:04.460349+00:00",
+      "changed_at": "2026-10-09T11:33:04.561648+00:00",
+      "draft": {
+        "text_version": {
+          "id": "ccb488c7-dfb6-4aa9-bedb-4b5f7f3a4aad",
+          "parent_version_id": null,
+          "exact_text": "  Gold may benefit if real yields fall.\r\nΔ",
+          "text_digest": "bca34fdf2077713b3a697252d726394639e6b62f4a3718c2fc63819baf4fb5ef",
+          "created_at": "2026-10-09T11:33:04.460349+00:00"
+        },
+        "interpretation": {
+          "id": "8cb7d2d8-612b-47b0-80cc-b3bcf3d22c76",
+          "text_version_id": "ccb488c7-dfb6-4aa9-bedb-4b5f7f3a4aad",
+          "drivers": [
+            "Falling real yields may support gold."
+          ],
+          "horizon": null,
+          "invalidation_signposts": [],
+          "known_at": "2026-10-09T11:33:04.561648+00:00",
+          "digest": "c27873effe726bf88521227c1126226b210d2146aabf230bd4151d0cc164db51",
+          "origin": "model_compilation",
+          "review_card": {
+            "inputs": [
+              {
+                "input_id": "thesis",
+                "exact_text": "  Gold may benefit if real yields fall.\r\nΔ"
+              }
+            ],
+            "document": {
+              "grounding": [
+                {
+                  "field": "drivers",
+                  "index": 0,
+                  "input_id": "thesis",
+                  "exact_quote": "Gold may benefit if real yields fall."
+                }
+              ],
+              "review_card": {
+                "claim": {
+                  "gap": "Not resolved by this recorded test response.",
+                  "proposed": [],
+                  "extracted": []
+                },
+                "catalysts": {
+                  "gap": "Not resolved by this recorded test response.",
+                  "proposed": [
+                    "Unverified candidate: investigate changes in real yields."
+                  ],
+                  "extracted": []
+                },
+                "scenarios": {
+                  "gap": "Not resolved by this recorded test response.",
+                  "proposed": [],
+                  "extracted": []
+                },
+                "assumptions": {
+                  "gap": "Not resolved by this recorded test response.",
+                  "proposed": [],
+                  "extracted": []
+                },
+                "causal_path": {
+                  "gap": "Not resolved by this recorded test response.",
+                  "proposed": [],
+                  "extracted": []
+                },
+                "affected_assets": {
+                  "gap": "No actual instrument supplied.",
+                  "proposed": [],
+                  "extracted": [
+                    {
+                      "text": "Gold, instrument mapping remains unverified.",
+                      "input_id": "thesis",
+                      "exact_quote": "Gold"
+                    }
+                  ]
+                },
+                "monitoring_scope": {
+                  "gap": "Not resolved by this recorded test response.",
+                  "proposed": [],
+                  "extracted": []
+                }
+              },
+              "counter_case": "Unverified hypothesis: other drivers may offset this path.",
+              "interpretation": {
+                "drivers": [
+                  "Falling real yields may support gold."
+                ],
+                "horizon": null,
+                "invalidation_signposts": []
+              },
+              "agent_hypotheses": [],
+              "refinement_issues": [
+                {
+                  "kind": "missing_detail",
+                  "input_id": null,
+                  "question": "What horizon do you intend?",
+                  "exact_quote": null,
+                  "explanation": "The trader supplied no horizon."
+                }
+              ]
+            },
+            "evidence": {
+              "status": "unavailable",
+              "references": []
+            },
+            "schema_version": "thesis-review-card-v1"
+          }
+        }
+      },
+      "approved": null,
+      "monitoring": "not_configured"
+    }
+  },
+  "resumed": {
+    "mode": "retained_thesis_compilation",
+    "thesis_id": "34f301a7-14fb-4139-b87d-9730902771b9",
+    "saved_refinement": {
+      "refinement": {
+        "id": "7f81a418-20b8-4a31-9d2b-63f05cb9ac4c",
+        "command_id": "25a9c626-95fb-4429-b2ca-59a76f4ac94c",
+        "parent_attempt_id": "ffbcf51b-d1d8-4f07-ab33-1c36dcd5e3c6",
+        "text_version_id": "ccb488c7-dfb6-4aa9-bedb-4b5f7f3a4aad",
+        "input_text_version": {
+          "id": "ccb488c7-dfb6-4aa9-bedb-4b5f7f3a4aad",
+          "parent_version_id": null,
+          "exact_text": "  Gold may benefit if real yields fall.\r\nΔ",
+          "text_digest": "bca34fdf2077713b3a697252d726394639e6b62f4a3718c2fc63819baf4fb5ef",
+          "created_at": "2026-10-09T11:33:04.460349+00:00"
+        },
+        "expected_revision": 2,
+        "answers": [
+          {
+            "exact_answer": "  Six weeks.\r\nΔ",
+            "question_index": 0
+          }
+        ],
+        "cumulative_inputs": [
+          {
+            "input_id": "answer:7f81a418-20b8-4a31-9d2b-63f05cb9ac4c:0",
+            "question": "What horizon do you intend?",
+            "exact_answer": "  Six weeks.\r\nΔ",
+            "question_index": 0,
+            "parent_attempt_id": "ffbcf51b-d1d8-4f07-ab33-1c36dcd5e3c6"
+          }
+        ],
+        "created_at": "2026-10-09T11:33:04.579981+00:00",
+        "replayed": false,
+        "is_current_context": true
+      },
+      "thesis": {
+        "id": "34f301a7-14fb-4139-b87d-9730902771b9",
+        "revision": 2,
+        "created_at": "2026-10-09T11:33:04.460349+00:00",
+        "changed_at": "2026-10-09T11:33:04.561648+00:00",
+        "draft": {
+          "text_version": {
+            "id": "ccb488c7-dfb6-4aa9-bedb-4b5f7f3a4aad",
+            "parent_version_id": null,
+            "exact_text": "  Gold may benefit if real yields fall.\r\nΔ",
+            "text_digest": "bca34fdf2077713b3a697252d726394639e6b62f4a3718c2fc63819baf4fb5ef",
+            "created_at": "2026-10-09T11:33:04.460349+00:00"
+          },
+          "interpretation": {
+            "id": "8cb7d2d8-612b-47b0-80cc-b3bcf3d22c76",
+            "text_version_id": "ccb488c7-dfb6-4aa9-bedb-4b5f7f3a4aad",
+            "drivers": [
+              "Falling real yields may support gold."
+            ],
+            "horizon": null,
+            "invalidation_signposts": [],
+            "known_at": "2026-10-09T11:33:04.561648+00:00",
+            "digest": "c27873effe726bf88521227c1126226b210d2146aabf230bd4151d0cc164db51",
+            "origin": "model_compilation",
+            "review_card": {
+              "inputs": [
+                {
+                  "input_id": "thesis",
+                  "exact_text": "  Gold may benefit if real yields fall.\r\nΔ"
+                }
+              ],
+              "document": {
+                "grounding": [
+                  {
+                    "field": "drivers",
+                    "index": 0,
+                    "input_id": "thesis",
+                    "exact_quote": "Gold may benefit if real yields fall."
+                  }
+                ],
+                "review_card": {
+                  "claim": {
+                    "gap": "Not resolved by this recorded test response.",
+                    "proposed": [],
+                    "extracted": []
+                  },
+                  "catalysts": {
+                    "gap": "Not resolved by this recorded test response.",
+                    "proposed": [
+                      "Unverified candidate: investigate changes in real yields."
+                    ],
+                    "extracted": []
+                  },
+                  "scenarios": {
+                    "gap": "Not resolved by this recorded test response.",
+                    "proposed": [],
+                    "extracted": []
+                  },
+                  "assumptions": {
+                    "gap": "Not resolved by this recorded test response.",
+                    "proposed": [],
+                    "extracted": []
+                  },
+                  "causal_path": {
+                    "gap": "Not resolved by this recorded test response.",
+                    "proposed": [],
+                    "extracted": []
+                  },
+                  "affected_assets": {
+                    "gap": "No actual instrument supplied.",
+                    "proposed": [],
+                    "extracted": [
+                      {
+                        "text": "Gold, instrument mapping remains unverified.",
+                        "input_id": "thesis",
+                        "exact_quote": "Gold"
+                      }
+                    ]
+                  },
+                  "monitoring_scope": {
+                    "gap": "Not resolved by this recorded test response.",
+                    "proposed": [],
+                    "extracted": []
+                  }
+                },
+                "counter_case": "Unverified hypothesis: other drivers may offset this path.",
+                "interpretation": {
+                  "drivers": [
+                    "Falling real yields may support gold."
+                  ],
+                  "horizon": null,
+                  "invalidation_signposts": []
+                },
+                "agent_hypotheses": [],
+                "refinement_issues": [
+                  {
+                    "kind": "missing_detail",
+                    "input_id": null,
+                    "question": "What horizon do you intend?",
+                    "exact_quote": null,
+                    "explanation": "The trader supplied no horizon."
+                  }
+                ]
+              },
+              "evidence": {
+                "status": "unavailable",
+                "references": []
+              },
+              "schema_version": "thesis-review-card-v1"
+            }
+          }
+        },
+        "approved": null,
+        "monitoring": "not_configured"
+      }
+    },
+    "compilations": [
+      {
+        "compilation": {
+          "id": "02f68729-a56c-4554-b3f7-d694f4de1b6d",
+          "status": "compiled",
+          "provider": "nanogpt",
+          "input_text_version": {
+            "id": "ccb488c7-dfb6-4aa9-bedb-4b5f7f3a4aad",
+            "parent_version_id": null,
+            "exact_text": "  Gold may benefit if real yields fall.\r\nΔ",
+            "text_digest": "bca34fdf2077713b3a697252d726394639e6b62f4a3718c2fc63819baf4fb5ef",
+            "created_at": "2026-10-09T11:33:04.460349+00:00"
+          },
+          "schema_version": "text-grounded-thesis-compilation-v2",
+          "prompt_version": "text-grounded-thesis-prompt-v2",
+          "model_id": "Qwen/Qwen3-4B",
+          "created_at": "2026-10-09T11:33:04.980600+00:00",
+          "finished_at": "2026-10-09T11:33:04.995270+00:00",
+          "document": {
+            "grounding": [
+              {
+                "field": "drivers",
+                "index": 0,
+                "input_id": "thesis",
+                "exact_quote": "Gold may benefit if real yields fall."
+              },
+              {
+                "field": "horizon",
+                "index": null,
+                "input_id": "answer:7f81a418-20b8-4a31-9d2b-63f05cb9ac4c:0",
+                "exact_quote": "  Six weeks.\r\nΔ"
+              }
+            ],
+            "review_card": {
+              "claim": {
+                "gap": "Not resolved by this recorded test response.",
+                "proposed": [],
+                "extracted": []
+              },
+              "catalysts": {
+                "gap": "Not resolved by this recorded test response.",
+                "proposed": [
+                  "Unverified candidate: investigate changes in real yields."
+                ],
+                "extracted": []
+              },
+              "scenarios": {
+                "gap": "Not resolved by this recorded test response.",
+                "proposed": [],
+                "extracted": []
+              },
+              "assumptions": {
+                "gap": "Not resolved by this recorded test response.",
+                "proposed": [],
+                "extracted": []
+              },
+              "causal_path": {
+                "gap": "Not resolved by this recorded test response.",
+                "proposed": [],
+                "extracted": []
+              },
+              "affected_assets": {
+                "gap": "No actual instrument supplied.",
+                "proposed": [],
+                "extracted": [
+                  {
+                    "text": "Gold, instrument mapping remains unverified.",
+                    "input_id": "thesis",
+                    "exact_quote": "Gold"
+                  }
+                ]
+              },
+              "monitoring_scope": {
+                "gap": "Not resolved by this recorded test response.",
+                "proposed": [],
+                "extracted": []
+              }
+            },
+            "counter_case": "Unverified hypothesis: other drivers may offset this path.",
+            "interpretation": {
+              "drivers": [
+                "Falling real yields may support gold."
+              ],
+              "horizon": "  Six weeks.\r\nΔ",
+              "invalidation_signposts": []
+            },
+            "agent_hypotheses": [],
+            "refinement_issues": [
+              {
+                "kind": "missing_detail",
+                "input_id": null,
+                "question": "What horizon do you intend?",
+                "exact_quote": null,
+                "explanation": "The trader supplied no horizon."
+              }
+            ]
+          },
+          "refinement_id": "7f81a418-20b8-4a31-9d2b-63f05cb9ac4c",
+          "refinement_inputs": [
+            {
+              "input_id": "answer:7f81a418-20b8-4a31-9d2b-63f05cb9ac4c:0",
+              "question": "What horizon do you intend?",
+              "exact_answer": "  Six weeks.\r\nΔ",
+              "question_index": 0,
+              "parent_attempt_id": "ffbcf51b-d1d8-4f07-ab33-1c36dcd5e3c6"
+            }
+          ],
+          "parent_attempt_id": "ffbcf51b-d1d8-4f07-ab33-1c36dcd5e3c6",
+          "interpretation_version_id": "b5db5296-523b-461c-ac83-06c30a6180ad",
+          "is_current_draft": true,
+          "usage": {
+            "total_tokens": 30,
+            "prompt_tokens": 10,
+            "completion_tokens": 20
+          },
+          "reported_cost_usd": null,
+          "estimated_cost_usd": "0.00005",
+          "reported_model": "Qwen/Qwen3-4B",
+          "provider_request_id": "recorded-request",
+          "latency_ms": 12,
+          "stop_reason": "completed",
+          "limitations": [
+            "Text-grounded model proposal, not verified facts or investment analysis.",
+            "Current macro context, source verification and consensus data are unavailable.",
+            "Quoted text supports attribution, not semantic accuracy or the causal argument.",
+            "Agent additions and counter-cases remain unverified hypotheses.",
+            "Monitoring and external notification delivery are not configured."
+          ]
+        },
+        "thesis": {
+          "id": "34f301a7-14fb-4139-b87d-9730902771b9",
+          "revision": 3,
+          "created_at": "2026-10-09T11:33:04.460349+00:00",
+          "changed_at": "2026-10-09T11:33:04.995270+00:00",
+          "draft": {
+            "text_version": {
+              "id": "ccb488c7-dfb6-4aa9-bedb-4b5f7f3a4aad",
+              "parent_version_id": null,
+              "exact_text": "  Gold may benefit if real yields fall.\r\nΔ",
+              "text_digest": "bca34fdf2077713b3a697252d726394639e6b62f4a3718c2fc63819baf4fb5ef",
+              "created_at": "2026-10-09T11:33:04.460349+00:00"
+            },
+            "interpretation": {
+              "id": "b5db5296-523b-461c-ac83-06c30a6180ad",
+              "text_version_id": "ccb488c7-dfb6-4aa9-bedb-4b5f7f3a4aad",
+              "drivers": [
+                "Falling real yields may support gold."
+              ],
+              "horizon": "  Six weeks.\r\nΔ",
+              "invalidation_signposts": [],
+              "known_at": "2026-10-09T11:33:04.995270+00:00",
+              "digest": "704f953e72935dd06c0dc785a74703b50ef873c6525d572922c6953b9f720fcd",
+              "origin": "model_compilation",
+              "review_card": {
+                "schema_version": "thesis-review-card-v1",
+                "inputs": [
+                  {
+                    "input_id": "thesis",
+                    "exact_text": "  Gold may benefit if real yields fall.\r\nΔ"
+                  },
+                  {
+                    "input_id": "answer:7f81a418-20b8-4a31-9d2b-63f05cb9ac4c:0",
+                    "question": "What horizon do you intend?",
+                    "exact_answer": "  Six weeks.\r\nΔ",
+                    "question_index": 0,
+                    "parent_attempt_id": "ffbcf51b-d1d8-4f07-ab33-1c36dcd5e3c6"
+                  }
+                ],
+                "document": {
+                  "agent_hypotheses": [],
+                  "counter_case": "Unverified hypothesis: other drivers may offset this path.",
+                  "grounding": [
+                    {
+                      "exact_quote": "Gold may benefit if real yields fall.",
+                      "field": "drivers",
+                      "index": 0,
+                      "input_id": "thesis"
+                    },
+                    {
+                      "exact_quote": "  Six weeks.\r\nΔ",
+                      "field": "horizon",
+                      "index": null,
+                      "input_id": "answer:7f81a418-20b8-4a31-9d2b-63f05cb9ac4c:0"
+                    }
+                  ],
+                  "interpretation": {
+                    "drivers": [
+                      "Falling real yields may support gold."
+                    ],
+                    "horizon": "  Six weeks.\r\nΔ",
+                    "invalidation_signposts": []
+                  },
+                  "refinement_issues": [
+                    {
+                      "exact_quote": null,
+                      "explanation": "The trader supplied no horizon.",
+                      "input_id": null,
+                      "kind": "missing_detail",
+                      "question": "What horizon do you intend?"
+                    }
+                  ],
+                  "review_card": {
+                    "affected_assets": {
+                      "extracted": [
+                        {
+                          "exact_quote": "Gold",
+                          "input_id": "thesis",
+                          "text": "Gold, instrument mapping remains unverified."
+                        }
+                      ],
+                      "gap": "No actual instrument supplied.",
+                      "proposed": []
+                    },
+                    "assumptions": {
+                      "extracted": [],
+                      "gap": "Not resolved by this recorded test response.",
+                      "proposed": []
+                    },
+                    "catalysts": {
+                      "extracted": [],
+                      "gap": "Not resolved by this recorded test response.",
+                      "proposed": [
+                        "Unverified candidate: investigate changes in real yields."
+                      ]
+                    },
+                    "causal_path": {
+                      "extracted": [],
+                      "gap": "Not resolved by this recorded test response.",
+                      "proposed": []
+                    },
+                    "claim": {
+                      "extracted": [],
+                      "gap": "Not resolved by this recorded test response.",
+                      "proposed": []
+                    },
+                    "monitoring_scope": {
+                      "extracted": [],
+                      "gap": "Not resolved by this recorded test response.",
+                      "proposed": []
+                    },
+                    "scenarios": {
+                      "extracted": [],
+                      "gap": "Not resolved by this recorded test response.",
+                      "proposed": []
+                    }
+                  }
+                },
+                "evidence": {
+                  "status": "unavailable",
+                  "references": []
+                }
+              }
+            }
+          },
+          "approved": null,
+          "monitoring": "not_configured"
+        }
+      }
+    ],
+    "approval": {
+      "command": {
+        "command_id": "59dc8f88-cadb-41c8-81ce-6a7089386223",
+        "kind": "approve",
+        "replayed": false,
+        "result": {
+          "thesis_id": "34f301a7-14fb-4139-b87d-9730902771b9",
+          "thesis_version_id": "ccb488c7-dfb6-4aa9-bedb-4b5f7f3a4aad",
+          "interpretation_version_id": "b5db5296-523b-461c-ac83-06c30a6180ad",
+          "approval_id": "bbb3f1c3-2371-4d4f-b88d-37ccc1079cc4",
+          "revision": 4,
+          "accepted_at": "2026-10-09T11:33:05.025930+00:00"
+        },
+        "is_current_approval": true
+      },
+      "thesis": {
+        "id": "34f301a7-14fb-4139-b87d-9730902771b9",
+        "revision": 4,
+        "created_at": "2026-10-09T11:33:04.460349+00:00",
+        "changed_at": "2026-10-09T11:33:05.025930+00:00",
+        "draft": {
+          "text_version": {
+            "id": "ccb488c7-dfb6-4aa9-bedb-4b5f7f3a4aad",
+            "parent_version_id": null,
+            "exact_text": "  Gold may benefit if real yields fall.\r\nΔ",
+            "text_digest": "bca34fdf2077713b3a697252d726394639e6b62f4a3718c2fc63819baf4fb5ef",
+            "created_at": "2026-10-09T11:33:04.460349+00:00"
+          },
+          "interpretation": {
+            "id": "b5db5296-523b-461c-ac83-06c30a6180ad",
+            "text_version_id": "ccb488c7-dfb6-4aa9-bedb-4b5f7f3a4aad",
+            "drivers": [
+              "Falling real yields may support gold."
+            ],
+            "horizon": "  Six weeks.\r\nΔ",
+            "invalidation_signposts": [],
+            "known_at": "2026-10-09T11:33:04.995270+00:00",
+            "digest": "704f953e72935dd06c0dc785a74703b50ef873c6525d572922c6953b9f720fcd",
+            "origin": "model_compilation",
+            "review_card": {
+              "inputs": [
+                {
+                  "input_id": "thesis",
+                  "exact_text": "  Gold may benefit if real yields fall.\r\nΔ"
+                },
+                {
+                  "input_id": "answer:7f81a418-20b8-4a31-9d2b-63f05cb9ac4c:0",
+                  "question": "What horizon do you intend?",
+                  "exact_answer": "  Six weeks.\r\nΔ",
+                  "question_index": 0,
+                  "parent_attempt_id": "ffbcf51b-d1d8-4f07-ab33-1c36dcd5e3c6"
+                }
+              ],
+              "document": {
+                "grounding": [
+                  {
+                    "field": "drivers",
+                    "index": 0,
+                    "input_id": "thesis",
+                    "exact_quote": "Gold may benefit if real yields fall."
+                  },
+                  {
+                    "field": "horizon",
+                    "index": null,
+                    "input_id": "answer:7f81a418-20b8-4a31-9d2b-63f05cb9ac4c:0",
+                    "exact_quote": "  Six weeks.\r\nΔ"
+                  }
+                ],
+                "review_card": {
+                  "claim": {
+                    "gap": "Not resolved by this recorded test response.",
+                    "proposed": [],
+                    "extracted": []
+                  },
+                  "catalysts": {
+                    "gap": "Not resolved by this recorded test response.",
+                    "proposed": [
+                      "Unverified candidate: investigate changes in real yields."
+                    ],
+                    "extracted": []
+                  },
+                  "scenarios": {
+                    "gap": "Not resolved by this recorded test response.",
+                    "proposed": [],
+                    "extracted": []
+                  },
+                  "assumptions": {
+                    "gap": "Not resolved by this recorded test response.",
+                    "proposed": [],
+                    "extracted": []
+                  },
+                  "causal_path": {
+                    "gap": "Not resolved by this recorded test response.",
+                    "proposed": [],
+                    "extracted": []
+                  },
+                  "affected_assets": {
+                    "gap": "No actual instrument supplied.",
+                    "proposed": [],
+                    "extracted": [
+                      {
+                        "text": "Gold, instrument mapping remains unverified.",
+                        "input_id": "thesis",
+                        "exact_quote": "Gold"
+                      }
+                    ]
+                  },
+                  "monitoring_scope": {
+                    "gap": "Not resolved by this recorded test response.",
+                    "proposed": [],
+                    "extracted": []
+                  }
+                },
+                "counter_case": "Unverified hypothesis: other drivers may offset this path.",
+                "interpretation": {
+                  "drivers": [
+                    "Falling real yields may support gold."
+                  ],
+                  "horizon": "  Six weeks.\r\nΔ",
+                  "invalidation_signposts": []
+                },
+                "agent_hypotheses": [],
+                "refinement_issues": [
+                  {
+                    "kind": "missing_detail",
+                    "input_id": null,
+                    "question": "What horizon do you intend?",
+                    "exact_quote": null,
+                    "explanation": "The trader supplied no horizon."
+                  }
+                ]
+              },
+              "evidence": {
+                "status": "unavailable",
+                "references": []
+              },
+              "schema_version": "thesis-review-card-v1"
+            }
+          }
+        },
+        "approved": {
+          "approval": {
+            "id": "bbb3f1c3-2371-4d4f-b88d-37ccc1079cc4",
+            "text_version_id": "ccb488c7-dfb6-4aa9-bedb-4b5f7f3a4aad",
+            "interpretation_version_id": "b5db5296-523b-461c-ac83-06c30a6180ad",
+            "text_digest": "bca34fdf2077713b3a697252d726394639e6b62f4a3718c2fc63819baf4fb5ef",
+            "interpretation_digest": "704f953e72935dd06c0dc785a74703b50ef873c6525d572922c6953b9f720fcd",
+            "approved_at": "2026-10-09T11:33:05.025930+00:00",
+            "digest": "2aab531725397febc9bcaeffe7284a0572bc5ee8e33b8f26db5c09502b206585",
+            "revision": 4
+          },
+          "text_version": {
+            "id": "ccb488c7-dfb6-4aa9-bedb-4b5f7f3a4aad",
+            "parent_version_id": null,
+            "exact_text": "  Gold may benefit if real yields fall.\r\nΔ",
+            "text_digest": "bca34fdf2077713b3a697252d726394639e6b62f4a3718c2fc63819baf4fb5ef",
+            "created_at": "2026-10-09T11:33:04.460349+00:00"
+          },
+          "interpretation": {
+            "id": "b5db5296-523b-461c-ac83-06c30a6180ad",
+            "text_version_id": "ccb488c7-dfb6-4aa9-bedb-4b5f7f3a4aad",
+            "drivers": [
+              "Falling real yields may support gold."
+            ],
+            "horizon": "  Six weeks.\r\nΔ",
+            "invalidation_signposts": [],
+            "known_at": "2026-10-09T11:33:04.995270+00:00",
+            "digest": "704f953e72935dd06c0dc785a74703b50ef873c6525d572922c6953b9f720fcd",
+            "origin": "model_compilation",
+            "review_card": {
+              "inputs": [
+                {
+                  "input_id": "thesis",
+                  "exact_text": "  Gold may benefit if real yields fall.\r\nΔ"
+                },
+                {
+                  "input_id": "answer:7f81a418-20b8-4a31-9d2b-63f05cb9ac4c:0",
+                  "question": "What horizon do you intend?",
+                  "exact_answer": "  Six weeks.\r\nΔ",
+                  "question_index": 0,
+                  "parent_attempt_id": "ffbcf51b-d1d8-4f07-ab33-1c36dcd5e3c6"
+                }
+              ],
+              "document": {
+                "grounding": [
+                  {
+                    "field": "drivers",
+                    "index": 0,
+                    "input_id": "thesis",
+                    "exact_quote": "Gold may benefit if real yields fall."
+                  },
+                  {
+                    "field": "horizon",
+                    "index": null,
+                    "input_id": "answer:7f81a418-20b8-4a31-9d2b-63f05cb9ac4c:0",
+                    "exact_quote": "  Six weeks.\r\nΔ"
+                  }
+                ],
+                "review_card": {
+                  "claim": {
+                    "gap": "Not resolved by this recorded test response.",
+                    "proposed": [],
+                    "extracted": []
+                  },
+                  "catalysts": {
+                    "gap": "Not resolved by this recorded test response.",
+                    "proposed": [
+                      "Unverified candidate: investigate changes in real yields."
+                    ],
+                    "extracted": []
+                  },
+                  "scenarios": {
+                    "gap": "Not resolved by this recorded test response.",
+                    "proposed": [],
+                    "extracted": []
+                  },
+                  "assumptions": {
+                    "gap": "Not resolved by this recorded test response.",
+                    "proposed": [],
+                    "extracted": []
+                  },
+                  "causal_path": {
+                    "gap": "Not resolved by this recorded test response.",
+                    "proposed": [],
+                    "extracted": []
+                  },
+                  "affected_assets": {
+                    "gap": "No actual instrument supplied.",
+                    "proposed": [],
+                    "extracted": [
+                      {
+                        "text": "Gold, instrument mapping remains unverified.",
+                        "input_id": "thesis",
+                        "exact_quote": "Gold"
+                      }
+                    ]
+                  },
+                  "monitoring_scope": {
+                    "gap": "Not resolved by this recorded test response.",
+                    "proposed": [],
+                    "extracted": []
+                  }
+                },
+                "counter_case": "Unverified hypothesis: other drivers may offset this path.",
+                "interpretation": {
+                  "drivers": [
+                    "Falling real yields may support gold."
+                  ],
+                  "horizon": "  Six weeks.\r\nΔ",
+                  "invalidation_signposts": []
+                },
+                "agent_hypotheses": [],
+                "refinement_issues": [
+                  {
+                    "kind": "missing_detail",
+                    "input_id": null,
+                    "question": "What horizon do you intend?",
+                    "exact_quote": null,
+                    "explanation": "The trader supplied no horizon."
+                  }
+                ]
+              },
+              "evidence": {
+                "status": "unavailable",
+                "references": []
+              },
+              "schema_version": "thesis-review-card-v1"
+            }
+          }
+        },
+        "monitoring": "not_configured"
+      }
+    }
+  },
+  "news_context": {
+    "thesis_id": "34f301a7-14fb-4139-b87d-9730902771b9",
+    "approval_id": "bbb3f1c3-2371-4d4f-b88d-37ccc1079cc4",
+    "exposure_digest": "8c49b9a29502ca250d5c11c0c145b66744e71abb31ab5d222e6610bbdb4f336f",
+    "approved_exact_text": "  Gold may benefit if real yields fall.\r\nΔ",
+    "approved_interpretation": {
+      "drivers": [
+        "Falling real yields may support gold."
+      ],
+      "horizon": "  Six weeks.\r\nΔ",
+      "invalidation_signposts": [],
+      "review_card": {
+        "inputs": [
+          {
+            "input_id": "thesis",
+            "exact_text": "  Gold may benefit if real yields fall.\r\nΔ"
+          },
+          {
+            "input_id": "answer:7f81a418-20b8-4a31-9d2b-63f05cb9ac4c:0",
+            "question": "What horizon do you intend?",
+            "exact_answer": "  Six weeks.\r\nΔ",
+            "question_index": 0,
+            "parent_attempt_id": "ffbcf51b-d1d8-4f07-ab33-1c36dcd5e3c6"
+          }
+        ],
+        "document": {
+          "grounding": [
+            {
+              "field": "drivers",
+              "index": 0,
+              "input_id": "thesis",
+              "exact_quote": "Gold may benefit if real yields fall."
+            },
+            {
+              "field": "horizon",
+              "index": null,
+              "input_id": "answer:7f81a418-20b8-4a31-9d2b-63f05cb9ac4c:0",
+              "exact_quote": "  Six weeks.\r\nΔ"
+            }
+          ],
+          "review_card": {
+            "claim": {
+              "gap": "Not resolved by this recorded test response.",
+              "proposed": [],
+              "extracted": []
+            },
+            "catalysts": {
+              "gap": "Not resolved by this recorded test response.",
+              "proposed": [
+                "Unverified candidate: investigate changes in real yields."
+              ],
+              "extracted": []
+            },
+            "scenarios": {
+              "gap": "Not resolved by this recorded test response.",
+              "proposed": [],
+              "extracted": []
+            },
+            "assumptions": {
+              "gap": "Not resolved by this recorded test response.",
+              "proposed": [],
+              "extracted": []
+            },
+            "causal_path": {
+              "gap": "Not resolved by this recorded test response.",
+              "proposed": [],
+              "extracted": []
+            },
+            "affected_assets": {
+              "gap": "No actual instrument supplied.",
+              "proposed": [],
+              "extracted": [
+                {
+                  "text": "Gold, instrument mapping remains unverified.",
+                  "input_id": "thesis",
+                  "exact_quote": "Gold"
+                }
+              ]
+            },
+            "monitoring_scope": {
+              "gap": "Not resolved by this recorded test response.",
+              "proposed": [],
+              "extracted": []
+            }
+          },
+          "counter_case": "Unverified hypothesis: other drivers may offset this path.",
+          "interpretation": {
+            "drivers": [
+              "Falling real yields may support gold."
+            ],
+            "horizon": "  Six weeks.\r\nΔ",
+            "invalidation_signposts": []
+          },
+          "agent_hypotheses": [],
+          "refinement_issues": [
+            {
+              "kind": "missing_detail",
+              "input_id": null,
+              "question": "What horizon do you intend?",
+              "exact_quote": null,
+              "explanation": "The trader supplied no horizon."
+            }
+          ]
+        },
+        "evidence": {
+          "status": "unavailable",
+          "references": []
+        },
+        "schema_version": "thesis-review-card-v1"
+      }
+    },
+    "positions": [],
+    "limitations": [
+      "One retained report, not broad news coverage or a verified current macro regime.",
+      "Exact excerpts establish attribution, not factual truth or semantic support.",
+      "Thesis and trade connections are unverified model hypotheses for review.",
+      "The complete attached-thesis paper book is not the user's whole portfolio.",
+      "Instrument mapping, consensus, pricing and market reactions are unverified or unavailable.",
+      "No thesis amendment, notice, execution or automatic paid retry is authorized.",
+      "Source order is latest observed payload, not authoritative publisher revision order.",
+      "Input observations and preparation times are not exact durable admission commit times."
+    ]
+  },
+  "recorded_catalogue_calls": 4,
+  "recorded_completion_calls": 2,
+  "real_provider_calls": 0,
+  "real_model_spend_usd": "0",
+  "private_journal_modes": [
+    "0o600",
+    "0o600"
+  ],
+  "account_disabled_afterward": true,
+  "limits": [
+    "Recorded responses do not establish analytical quality.",
+    "No paper exposure, notice, daemon, current macro context or source research was created.",
+    "Clock samples do not measure exact commit time."
+  ]
+}

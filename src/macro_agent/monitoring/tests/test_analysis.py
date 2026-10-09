@@ -95,12 +95,15 @@ class RecordedCompilationProvider(RecordedProvider):
         self.calls += 1
         if connection.in_atomic_block:
             raise AssertionError("Inference must not hold database protection")
+        from macro_agent.domain.compilation import SECTIONS
         document = {"interpretation": MEANING, "grounding": [
-            {"field": "drivers", "index": 0, "exact_quote": "Easier policy"},
-            {"field": "horizon", "index": None, "exact_quote": "Easier policy"},
-            {"field": "invalidation_signposts", "index": 0, "exact_quote": "Easier policy"}],
+            {"field": "drivers", "input_id": "thesis", "index": 0, "exact_quote": "Easier policy"},
+            {"field": "horizon", "input_id": "thesis", "index": None, "exact_quote": "Easier policy"},
+            {"field": "invalidation_signposts", "input_id": "thesis", "index": 0, "exact_quote": "Easier policy"}],
             "refinement_issues": [], "agent_hypotheses": [],
-            "counter_case": "Unverified: policy transmission may fail."}
+            "counter_case": "Unverified: policy transmission may fail.",
+            "review_card": {name: {"extracted": [], "proposed": [],
+                "gap": "Not resolved in the recorded response."} for name in SECTIONS}}
         return {"content": json.dumps(document), "usage": compilation.UNKNOWN_USAGE,
                 "reported_cost_usd": None}
 

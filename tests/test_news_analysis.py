@@ -50,6 +50,36 @@ def response():
 
 
 class NewsAnalysisContractTests(unittest.TestCase):
+    def test_review_card_is_preserved_without_adopting_agent_proposals(self):
+        from macro_agent.domain.compilation import SECTIONS, build_review_card
+        supplied = context()
+        thesis = supplied["approved_thesis"]
+        document = {"interpretation": {key: thesis[key] for key in
+                ("drivers", "horizon", "invalidation_signposts")},
+            "grounding": [
+                {"field": "drivers", "index": 0, "input_id": "thesis", "exact_quote": "Policy easing"},
+                {"field": "horizon", "index": None, "input_id": "thesis", "exact_quote": "six months"}],
+            "refinement_issues": [], "agent_hypotheses": [], "counter_case": None,
+            "review_card": {name: {"extracted": [], "proposed": ["Unverified alternative."],
+                "gap": "No external evidence supplied."} for name in SECTIONS}}
+        thesis["review_card"] = build_review_card(document, thesis["exact_text"])
+        prompt = build_news_prompt(supplied)
+        self.assertEqual(json.loads(prompt[1]["content"])["approved_thesis"]["review_card"], thesis["review_card"])
+        self.assertIn("does not adopt its agent proposals", prompt[0]["content"])
+
+    def test_review_card_cannot_replace_surrounding_original_text_or_meaning(self):
+        from macro_agent.domain.compilation import SECTIONS, build_review_card
+        supplied = context()
+        thesis = supplied["approved_thesis"]
+        document = {"interpretation": {"drivers": [], "horizon": None, "invalidation_signposts": []},
+            "grounding": [], "refinement_issues": [], "agent_hypotheses": [], "counter_case": None,
+            "review_card": {name: {"extracted": [], "proposed": [], "gap": "Unknown."} for name in SECTIONS}}
+        for text in (thesis["exact_text"], "Different original input."):
+            with self.subTest(text=text):
+                thesis["review_card"] = build_review_card(document, text)
+                with self.assertRaises(ValueError):
+                    build_news_prompt(supplied)
+
     def parse(self, document, supplied=None):
         return validate_news_document(json.dumps(document, ensure_ascii=False), supplied or context())
 

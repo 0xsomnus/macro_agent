@@ -7,12 +7,12 @@ Start with [Getting started](GETTING_STARTED.md) to run the current prototype. T
 | Guide | Use it for |
 | --- | --- |
 | [Getting started](GETTING_STARTED.md) | Install dependencies, create a local database and test your own inputs with recorded news |
-| [Thesis compilation](THESIS_COMPILATION.md) | Configure a provider, select models and test interpretations and challenge questions |
+| [Thesis compilation](THESIS_COMPILATION.md) | Configure a provider, review a structured thesis card, answer questions and explicitly recompile |
 | [Compilation review](COMPILATION_REVIEW.md) | Compare one model response with a literal baseline and record private feedback |
 | [Monitoring pipeline proof](MONITORING_PIPELINE.md) | Capture updates, restart and recover durable work; inspect source revisions and failures |
 | [News analysis](NEWS_ANALYSIS.md) | Analyse the next captured report against approved meaning and paper trades, then review separate thesis and trade effects |
-| [Weekly workflow test](WEEKLY_WORKFLOW_TEST.md) | Narrow headline-based durability target, actual compilation gaps and prerequisites before a week-long run |
-| [API guide](API_DEVELOPMENT.md) | Log in, create a thesis, approve it and inspect private history |
+| [Weekly workflow test](WEEKLY_WORKFLOW_TEST.md) | Narrow headline-based durability target and remaining source, continuity, runner and daily-brief prerequisites |
+| [API guide](API_DEVELOPMENT.md) | Log in, save drafts and refinement answers, approve exact versions, and recover private commands |
 | [Paper positions](PAPER_POSITIONS.md) | Attach, revise and close a paper trade; understand brief invalidation |
 | [Django development](DJANGO_DEVELOPMENT.md) | Database operations, tests, migration SQL and internal inspection |
 | [Implementation](IMPLEMENTATION.md) | Verified modules, test evidence and remaining limitations |
