@@ -36,6 +36,7 @@ Start with [Getting started](GETTING_STARTED.md) to run the current prototype. T
 | Document | What it explains |
 | --- | --- |
 | [Architecture](ARCHITECTURE.md) | System components, persistence, authority and reliability |
+| [Context continuity proposal](CONTEXT_CONTINUITY.md) | Evidence/context versions, correction ordering, daily-review and internal-runner choices awaiting review |
 | [Domain model](DOMAIN_MODEL.md) | Theses, positions, events, knowledge, assessments and history |
 | [Event ontology](EVENT_ONTOLOGY.md) | Event families, revision semantics and provenance |
 | [Agent runtime](AGENT_RUNTIME.md) | Context assembly, specialist roles and bounded work |

@@ -15,6 +15,16 @@ The first live desk needs unexpected global developments as well as official rel
 
 ## Proposed order
 
+### Narrow official-source recheck, 2026-10-09
+
+The [Fed press feed](https://www.federalreserve.gov/feeds/press_all.xml) returned HTTP 200 with 20 RSS items in a bounded read-only probe. Items carried headline, link, GUID, description, category and publication claim; the first two descriptions repeated the headlines. The [official directory](https://www.federalreserve.gov/feeds/feeds.htm) describes links, headlines and brief summaries. This is headline/summary input, with no archive-completeness or latency proof. The existing adapter's `truncated=False` only describes its local parser bound, not publisher coverage.
+
+BLS officially lists [release feeds](https://www.bls.gov/feed/) and an [Eastern Time release calendar](https://www.bls.gov/schedule/news_release/). Direct CPI, Employment Situation and calendar endpoint probes returned HTTP 403 from this environment. Public documentation was accessible, but usable acquisition and actual payload compatibility remain unverified. A schedule is planned timing, not publication or receipt evidence.
+
+The [Fed policy](https://www.federalreserve.gov/disclaimer.htm) and [BLS copyright policy](https://www.bls.gov/opub/copyright-information.htm) still support the narrow first-party text proposal with attribution and their stated exceptions. Exclude third-party material, copyrighted photographs/illustrations, and protected seals, logos and emblems. Neither policy specifically discusses inference routers. Linked pages require their own scope review. No source was activated, linked article fetched, account created or paid call made in this recheck.
+
+### Broader feed evaluation
+
 Compare a Newsquawk enterprise evaluation quote with a Benzinga API evaluation. Ask for a small internal application licence before purchasing a retail terminal subscription. Test the same global macro examples on both, including an off-map severe disruption, a correction and gradual offsetting developments. Provider editorial selection may omit developments relevant to a particular thesis; it is an upstream recall dependency.
 
 While that choice remains open, recorded receipts can prove daemon recovery and an official-source connector can prove a limited permitted acquisition path. GDELT metadata is an optional context experiment. It cannot turn keyword search into the general watcher or authorize arbitrary article retrieval. None of these interim paths should be called full continuous desk coverage.

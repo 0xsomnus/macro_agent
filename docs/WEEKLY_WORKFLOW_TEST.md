@@ -34,6 +34,8 @@ Context selection needs an explicit bound and exclusion record. Overflow must re
 
 ## Proposed continuity and daily-brief contract
 
+[CONTEXT_CONTINUITY.md](CONTEXT_CONTINUITY.md) develops this proposal into records, correction ordering, recovery boundaries and decisions for the first internal runner. It does not mark those components implemented.
+
 | Record | Minimum purpose |
 | --- | --- |
 | Immutable evidence-set version | Names each retained revision, source contract and receipt/availability witness, plus cutoff, selection-policy version, grouping uncertainty, exclusions and backlog. |
