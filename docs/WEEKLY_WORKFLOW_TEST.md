@@ -17,7 +17,7 @@ The full design remains in [THESIS_ENGINE.md](THESIS_ENGINE.md); it is not a des
 
 ## Proposed next compilation checkpoint
 
-Present a concise review card containing the claim, affected assets, proposed causal path, assumptions, catalysts, horizon, invalidation, counter-case and unresolved questions. Distinguish extracted trader intent, agent-proposed additions and unavailable evidence. Let the trader answer consequential questions and review a new immutable proposal.
+Implement the [required thesis review card and guided refinement](THESIS_ENGINE.md#required-thesis-review-card): claim, affected assets, proposed causal path, assumptions, catalysts, horizon, invalidation, counter-case/scenarios, evidence and unresolved questions. Distinguish extracted trader intent, agent-proposed additions and unavailable evidence. Let the trader answer consequential questions and review a new immutable proposal.
 
 A missing invalidation criterion is a gap. A suggested criterion can be useful, but cannot become approved meaning until the user explicitly accepts it. Do not invent a threshold, deadline, confidence or price target to fill a template. The approval preview must bind exactly the text and interpretation being activated. Richer proposed fields need a reviewed contract before becoming governing monitoring inputs.
 
@@ -49,7 +49,7 @@ Before unattended activation, record the actual thesis/exposure, sources, accept
 
 ## Source fit
 
-A narrow feed is sufficient when it addresses the test thesis. Fed sources may support its policy/rates branch, but do not supply copper mine-disruption coverage. A copper supply example needs the relevant official publisher or permitted headline source. Copper is currently an illustrative test case, not a newly validated instrument pack.
+A narrow feed is sufficient when it addresses the test thesis. The first real thesis and appropriate sources will be researched jointly; no copper thesis is selected. For illustration, Fed sources may support a policy/rates branch but do not supply copper mine-disruption coverage. Copper is not a newly validated instrument pack. The product must also support [user-led research from a question or observation](THESIS_ENGINE.md#user-led-research-before-a-thesis-exists), without requiring a fully formed thesis on entry.
 
 The [source comparison](SOURCE_OPTIONS.md) contains candidates. Official feeds and permitted headline/metadata APIs can prove different parts of ingestion. Linked full articles are not automatically licensed for retention or inference. No new provider, paid subscription or production source is selected by this test plan.
 

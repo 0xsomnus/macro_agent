@@ -1,5 +1,7 @@
 # Thesis engine
 
+Status, 2026-10-09: this document specifies intended behavior. The [current compiler](THESIS_COMPILATION.md) implements only text-grounded extraction and separate challenge output. The complete review card, guided refinement and sourced research below remain implementation work for the [weekly workflow test](WEEKLY_WORKFLOW_TEST.md).
+
 ## Compilation contract
 
 Input: exact user thesis, asset or position context, horizon where supplied, optional explicit assumptions and sensitivity. Output: an immutable `CompiledThesisVersion` draft linked to exact user text, plus separate refinement issues and proposed amendments. Compilation never silently substitutes new user belief.
@@ -12,6 +14,35 @@ Input: exact user thesis, asset or position context, horizon where supplied, opt
 6. Compile a canonical source manifest mapping each driver to its observation, source, cadence, threshold candidate, fallback, and coverage status.
 7. Show an epistemic quality diagnostic: causal coherence, empirical support, current-regime support, expectation awareness, counter-case strength, and observability. The diagnostic is a prompt for scrutiny, not a veto.
 8. Show a concise interpretation of main drivers, horizon, and invalidation signposts, including unresolved items. User explicitly approves both exact `UserThesisVersion` text and the interpreted `CompiledThesisVersion`, revises a draft, or keeps visible conflicts. An append-only `CompiledThesisActivation` records what became active and the authority for doing so.
+
+## Required thesis review card
+
+Present the following together before approval, rather than scattering the thesis across model prose and questions. Each element must be populated or explicitly marked unresolved or not applicable, with a reason. A complete review surface does not imply a complete or verified investment argument.
+
+| Element | Required content |
+| --- | --- |
+| Central claim | What the trader believes may happen, and the conditional forecast or direction where supplied. |
+| Affected assets | Relevant assets, economies and underlying exposures; distinguish these from an actual instrument or attached trade. Unverified mappings remain labelled. |
+| Causal drivers | Proposed transmission path, links between drivers and affected assets, conditions and limitations. Distinguish causal hypotheses from observed associations. |
+| Assumptions | What must hold, distinguishing trader-supplied assumptions from agent-proposed additions and sourced observations. |
+| Catalysts | Developments that could advance, delay or challenge the argument, linked to the relevant driver; timing remains unknown unless supported or supplied. |
+| Horizon | The thesis's intended period, separately from catalyst timing and any attached trade's horizon. |
+| Invalidation and signposts | Observable conditions that challenge the argument, plus supporting or weakening signposts. Do not invent thresholds or equate a price stop with thesis invalidation. |
+| Counter-case and scenarios | A credible competing explanation and conditional base/upside/downside paths where defensible. No forced price targets or probabilities. |
+| Evidence and monitoring scope | Supporting and conflicting source references, retained revisions, factual conflicts, proposed watched inputs and coverage gaps. Missing evidence stays unavailable. |
+| Open questions | Consequential gaps and what the trader or a bounded investigation must resolve. |
+
+Label extracted trader intent, agent proposals and external evidence separately throughout the card. A fluent proposal cannot become a sourced fact, verified causal relationship or approved intent by appearing in this structure. Headline-only research must disclose its depth and cannot imply article-level verification or a known market expectation.
+
+The guided flow is: initial input, draft card and consequential questions, trader answers, revised immutable proposal, then exact approval preview. Preserve attributable trader inputs and links between proposals; do not replace the original prompt with a model rewrite. The trader can revise, decline or leave gaps visible. Proposed additions only enter active monitoring meaning after explicit approval. The richer contract must be reflected in versioned domain and approval hashes before these fields become governing inputs; this specification does not change the current API schema.
+
+## User-led research before a thesis exists
+
+A trader may begin with a question, observation or event rather than an investment conclusion. Help them define a bounded research question, examine permitted evidence and counter-evidence, and construct a candidate review card together. Ask consequential questions without requiring the trader to know the complete fundamental framework in advance.
+
+Retain the initial question and research inputs separately from any proposed thesis. No thesis, conviction, horizon, trade or active monitoring mandate is inferred merely because research began. The result may be a tentative candidate, further questions or no defensible thesis. Search requires a named unresolved question, bounded allowance and recorded provenance/cost.
+
+This user-initiated workflow is distinct from deferred Discovery, which proactively proposes opportunities from macro context. Copper was illustrative; the first internal example thesis and its appropriate sources will be researched jointly rather than hard-coded as a supported copper pack.
 
 ## Collaborative refinement of rough theses
 
@@ -54,6 +85,9 @@ The LLM may propose and explain assumptions. Versioned deterministic code calcul
 
 ## Acceptance
 
+- A prompt produces one review card covering claim, affected assets, drivers/causal path, assumptions, catalysts, horizon, invalidation, counter-case/scenarios, evidence/coverage and gaps. Unknowns are explicit; no template manufactures missing intent or evidence.
+- A trader can answer consequential questions and inspect the resulting new proposal before approving it. Prior inputs/proposals remain traceable and approval does not silently extend to later revisions.
+- A trader can start with a research question and jointly develop or reject a candidate thesis without enabling proactive Discovery or automatically starting monitoring.
 - Compiler preserves exact user input and requires explicit approval of text and concise interpretation before active monitoring.
 - A factual error is visible before the assessment, with a source link and a path to keep the thesis as written.
 - An assessment can disagree without modifying user belief; user feedback creates a new record.
