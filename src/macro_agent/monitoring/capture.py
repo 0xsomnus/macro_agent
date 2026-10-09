@@ -34,7 +34,7 @@ def canonical_digest(value):
 
 def admit_capture(source_id, contract, *, clock=timezone.now):
     require_local_proof(synthetic=contract.get("kind") == "fictional_fixture")
-    if connection.in_atomic_block:
+    if connection.in_atomic_block or not connection.get_autocommit():
         raise ValueError("Capture admission must commit before transport")
     digest = canonical_digest(contract)
     with transaction.atomic():
@@ -70,7 +70,7 @@ def _protected_attempt(attempt_id, clock):
 
 def fail_capture(attempt_id, code, *, clock=timezone.now):
     require_local_proof()
-    if connection.in_atomic_block:
+    if connection.in_atomic_block or not connection.get_autocommit():
         raise ValueError("Failure disposition must own its transaction")
     with transaction.atomic():
         attempt, source, now = _protected_attempt(attempt_id, clock)
@@ -87,7 +87,7 @@ def commit_batch(attempt_id, batch, *, clock=timezone.now):
     require_local_proof()
     if not isinstance(batch, SourceBatch) or batch.truncated:
         raise ValueError("A complete bounded SourceBatch is required")
-    if connection.in_atomic_block:
+    if connection.in_atomic_block or not connection.get_autocommit():
         raise ValueError("Receipt commit must own its transaction")
     with transaction.atomic():
         attempt, source, now = _protected_attempt(attempt_id, clock)
@@ -125,7 +125,7 @@ def commit_batch(attempt_id, batch, *, clock=timezone.now):
 def observe_capture(attempt_id, *, clock=timezone.now):
     """Recoverable postcommit witness; it is an upper bound, not exact known_at."""
     require_local_proof()
-    if connection.in_atomic_block:
+    if connection.in_atomic_block or not connection.get_autocommit():
         raise ValueError("Observation requires already committed input")
     attempt = CaptureAttempt.objects.get(pk=attempt_id)
     with transaction.atomic():

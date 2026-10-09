@@ -9,6 +9,8 @@ from pathlib import Path
 
 from django.core.exceptions import ImproperlyConfigured
 
+from .db_settings import postgres_options
+
 BASE_DIR = Path(__file__).resolve().parents[3]
 SECRET_KEY = os.environ.get("MACRO_SECRET_KEY")
 if not SECRET_KEY:
@@ -60,7 +62,7 @@ DATABASES = {"default": {
     "HOST": os.environ.get("MACRO_DB_HOST", "127.0.0.1"),
     "PORT": os.environ.get("MACRO_DB_PORT", "5432"),
     "CONN_MAX_AGE": 0,
-    "OPTIONS": {"connect_timeout": 5},
+    "OPTIONS": postgres_options(os.environ),
     "TEST": {"NAME": os.environ.get("MACRO_TEST_DB_NAME", "test_macro_agent")},
 }}
 USE_TZ = True

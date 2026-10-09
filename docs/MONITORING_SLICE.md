@@ -4,6 +4,8 @@ Status: broader implementation plan, updated 2026-10-07. The trader chose to pro
 
 ## Outcome and boundary
 
+For the internal [weekly workflow test](WEEKLY_WORKFLOW_TEST.md), the trader explicitly accepts a narrow live feed and headline-level analysis. Prioritize durable compilation/refinement, source ingestion, context continuity and daily briefs. This relaxes analytical depth and source breadth for that experiment; source fit, visible gaps, approved meaning and recovery remain required. It does not change the broader paper-pilot coverage gates below.
+
 For one approved thesis and its attached paper trade, capture a permitted continuous news feed plus a relevant official complement, preserve revisions, and explain a development against the trader's view and exposure. A credible urgent case can produce a narrower qualified notice while impact remains unresolved. Later analysis and corrections update that same brief.
 
 The instrument list limits supported exposure promises, not contextual geography. Keep relevant global developments and offsetting evidence in the context. Scheduled releases alone, headline forwarding and the existing fictional notice do not prove this outcome. Morning briefs and external delivery remain later parts of Phase 1, with their own readiness gates.

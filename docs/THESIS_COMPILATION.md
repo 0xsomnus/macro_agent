@@ -4,6 +4,8 @@ The internal compiler turns your exact thesis into a suggested interpretation an
 
 This is the text-grounded part of the [thesis engine](THESIS_ENGINE.md). Fact verification, current macro context, source manifests and investment analysis remain outstanding. Monitoring is not configured.
 
+It does not yet produce the full thesis pack described in that design. There are no structured affected-assets, catalysts, causal-chain or scenario fields. Missing horizon or invalidation stays explicit, and the terminal currently displays clarification questions without a guided answer/recompile loop. The [weekly workflow test](WEEKLY_WORKFLOW_TEST.md) identifies these gaps separately from deeper analytical quality.
+
 ## Set up and run
 
 Complete [local setup](GETTING_STARTED.md), including your account and database. From the repository root:
@@ -67,6 +69,8 @@ For a focused one-thesis exercise with a literal baseline and private feedback j
 One explicitly initiated attempt makes at most one model POST, with no automatic retries or model fallback. Configurable research defaults are 3,000 output tokens, a 45-second transport timeout, 20 admissions per account per rolling day and 100 across the local application. Compilation and [news analysis](NEWS_ANALYSIS.md) share that allowance. These are operating limits, not market-materiality thresholds or guaranteed dollar caps. Failed calls and uncertain admissions count toward the limits. Only one unfinished, unexpired attempt per account is admitted across both roles at a time. Deadline expiry does not prove remote cancellation.
 
 Server settings are `MACRO_COMPILATION_MAX_OUTPUT_TOKENS`, `MACRO_COMPILATION_TIMEOUT_SECONDS`, `MACRO_COMPILATION_OWNER_ATTEMPTS_PER_DAY` and `MACRO_COMPILATION_ATTEMPTS_PER_DAY`. Each attempt records the settings used. The request deadline additionally prevents late installation; a transport timeout cannot prove the upstream request was cancelled or unbilled.
+
+The transport timeout covers the complete HTTP exchange, including connection and response reads. It issues no automatic second request after a disconnect. Database [lock and statement limits](DJANGO_DEVELOPMENT.md#database-wait-limits) separately bound individual database waits. Neither limit bounds the entire command or proves remote cancellation. If a result cannot be recorded after durable admission, recover by command ID and inspect its disposition before considering a new explicitly initiated attempt.
 
 | State | Meaning |
 | --- | --- |

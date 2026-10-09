@@ -32,29 +32,40 @@ def unresolved_decision():
 
 def claim_work(*, lease_seconds=30, clock=timezone.now):
     require_local_proof()
-    if connection.in_atomic_block:
+    if connection.in_atomic_block or not connection.get_autocommit():
         raise ValueError("Lease admission must commit before processing")
     if type(lease_seconds) is not int or not 1 <= lease_seconds <= 300:
         raise ValueError("Lease seconds must be between 1 and 300")
-    # The processing count is bounded; this proof scans configured sources.
-    # Serialize each source first, avoiding a work->source lock inversion.
-    for source_id in SourceState.objects.order_by("pk").values_list("pk", flat=True):
+
+    # This finite queue snapshot is only a selection hint. Recheck eligibility
+    # using the trusted clock after source->work protection. Include running
+    # leases so recovery also works with an injected clock, without sampling it
+    # before protection. Receipt/identity ordering prevents a busy first source
+    # with newer arrivals from starving older work belonging to another source.
+    candidates = ScreeningWork.objects.filter(
+        Q(state="pending") | Q(state="running")
+    ).order_by("revision__system_received_at", "revision_id").values_list(
+        "pk", "revision__report__source_id")
+    unavailable_sources = set()
+    # Chunking bounds fetch memory, not eligibility. There is no first-N cutoff
+    # that could hide runnable work behind locked rows or live leases. A claim
+    # can scan the current queue; work_once separately bounds processed records.
+    for work_id, source_id in candidates.iterator(chunk_size=100):
+        if source_id in unavailable_sources:
+            continue
         with transaction.atomic():
-            source = SourceState.objects.select_for_update().get(pk=source_id)
-            candidates = list(ScreeningWork.objects.filter(
-                revision__report__source=source).filter(
-                Q(state="pending") | Q(state="running")
-            # Pending first, then earliest lease, so live leases cannot hide
-            # runnable work beyond the candidate bound.
-            ).order_by("state", "lease_until", "revision__system_received_at", "revision_id").values_list("pk", flat=True)[:100])
-            work = None
-            for candidate in candidates:
-                locked = ScreeningWork.objects.select_for_update().get(pk=candidate)
-                now = as_utc(clock())
-                if locked.state == "pending" or (locked.state == "running" and locked.lease_until <= now):
-                    work = locked
-                    break
+            source = SourceState.objects.select_for_update(skip_locked=True).filter(
+                pk=source_id).first()
+            if source is None:
+                unavailable_sources.add(source_id)
+                continue
+            work = ScreeningWork.objects.select_for_update(skip_locked=True).filter(
+                pk=work_id).first()
             if work is None:
+                continue
+            now = as_utc(clock())
+            if not (work.state == "pending" or (
+                    work.state == "running" and work.lease_until <= now)):
                 continue
             revision = work.revision
             if SourceReport.objects.get(pk=revision.report_id).current_revision_id != revision.id:
@@ -75,7 +86,7 @@ def claim_work(*, lease_seconds=30, clock=timezone.now):
 
 def complete_work(token, *, clock=timezone.now):
     require_local_proof()
-    if connection.in_atomic_block:
+    if connection.in_atomic_block or not connection.get_autocommit():
         raise ValueError("Completion must own its transaction")
     attempt = ScreeningAttempt.objects.select_related("work__revision__report").get(pk=token)
     decision = unresolved_decision()  # Independent of models, no network side effects.

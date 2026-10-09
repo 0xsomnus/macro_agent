@@ -11,6 +11,7 @@ Start with [Getting started](GETTING_STARTED.md) to run the current prototype. T
 | [Compilation review](COMPILATION_REVIEW.md) | Compare one model response with a literal baseline and record private feedback |
 | [Monitoring pipeline proof](MONITORING_PIPELINE.md) | Capture updates, restart and recover durable work; inspect source revisions and failures |
 | [News analysis](NEWS_ANALYSIS.md) | Analyse the next captured report against approved meaning and paper trades, then review separate thesis and trade effects |
+| [Weekly workflow test](WEEKLY_WORKFLOW_TEST.md) | Narrow headline-based durability target, actual compilation gaps and prerequisites before a week-long run |
 | [API guide](API_DEVELOPMENT.md) | Log in, create a thesis, approve it and inspect private history |
 | [Paper positions](PAPER_POSITIONS.md) | Attach, revise and close a paper trade; understand brief invalidation |
 | [Django development](DJANGO_DEVELOPMENT.md) | Database operations, tests, migration SQL and internal inspection |

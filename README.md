@@ -8,6 +8,8 @@ This is an early backend prototype. The terminal walkthrough lets you enter your
 
 The compiler currently reads only your thesis text. It does not verify facts, use current macro context or judge investment quality. A monitoring harness captures a narrow official feed, preserves source revisions and recovers pending work after restart. You can now initiate analysis of the next captured report against an approved thesis and its paper trades. The mechanics are tested with recorded model output; live usefulness remains unproven. Continuous operation, broad macro context, morning briefs, external alerts and the trader UI remain to be built. The manual walkthrough needs no model key.
 
+The next internal test targets a week of durable paper workflow with a narrow live feed and headline-level analysis. [The test plan](docs/WEEKLY_WORKFLOW_TEST.md) distinguishes that goal from the broader desk roadmap and records the remaining compilation, context continuity, source and daily-brief work.
+
 ## Set up locally
 
 You need Python 3.13 and PostgreSQL 17. Docker is one option for PostgreSQL; an existing local installation also works. Start with a separate development database.

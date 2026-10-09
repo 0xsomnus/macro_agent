@@ -153,7 +153,7 @@ def get_compilation(actor_id, thesis_id, attempt_id, *, clock=timezone.now):
 def compile_thesis(actor_id, thesis_id, command_id, expected_revision, model_id, provider_id,
                    *, provider=None, clock=timezone.now):
     _gate()
-    if connection.in_atomic_block:
+    if connection.in_atomic_block or not connection.get_autocommit():
         raise RuntimeError("compilation requires durable admission outside a caller transaction")
     command_id = service._uuid(command_id, "command_id")
     thesis_id = service._uuid(thesis_id, "thesis_id")

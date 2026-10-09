@@ -4,9 +4,9 @@ The official feed is a rolling snapshot, not a completeness contract. Published
 dates are publisher claims; received_at is the local read observation, not a
 durable commit time or proof of first public availability. RSS markup is reduced
 to plain text; the transport digest retains the identity of the original bytes.
-Rejected response bytes are not retained for operational replay. The urllib
-timeout bounds socket operations, not total elapsed time; persistence must fence
-late capture results against the current admission rather than assuming a deadline.
+Rejected response bytes are not retained for operational replay. The transport
+applies a total elapsed request deadline, including response reads. Persistence
+still fences capture results against the current admission.
 
 Verified on 2026-10-07 against the Board's source directory and reuse policy:
 https://www.federalreserve.gov/feeds/feeds.htm
@@ -27,6 +27,8 @@ import urllib.error
 import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
+
+from macro_agent.transport.http import BoundedOpener, TransportError
 
 
 MAX_BATCH_BYTES = 1024 * 1024
@@ -139,7 +141,7 @@ class SourceSpec:
     kind: str
     max_items: int = MAX_ITEMS
     max_bytes: int = MAX_BATCH_BYTES
-    # urllib's socket-operation timeout, not a total elapsed-request guarantee.
+    # Total transport deadline; local cancellation does not prove remote state.
     timeout_seconds: int = 10
 
 
@@ -300,24 +302,19 @@ def parse_rss(raw: bytes, *, received_at: datetime, spec: SourceSpec) -> SourceB
     return SourceBatch(tuple(items), received_at, "bounded_snapshot", False, sha256(raw).hexdigest())
 
 
-class _NoRedirects(urllib.request.HTTPRedirectHandler):
-    def redirect_request(self, req, fp, code, msg, headers, newurl):
-        return None
-
-
 def fetch_source(source_id: str) -> SourceBatch:
     """One allowlisted HTTPS GET, outside persistence and without retries."""
     if type(source_id) is not str or source_id not in source_specs:
         raise SourceError("unknown_source")
     spec = source_specs[source_id]
-    opener = urllib.request.build_opener(urllib.request.ProxyHandler({}), _NoRedirects())
+    opener = BoundedOpener()
     request = urllib.request.Request(spec.url, method="GET", headers={
         "Accept": "application/rss+xml, application/xml, text/xml",
         "Accept-Encoding": "identity",
         "User-Agent": "MacroAgentInternalProof/0.1 (+https://github.com/0xsomnus/macro_agent)",
     })
     try:
-        with opener.open(request, timeout=spec.timeout_seconds) as response:
+        with opener.open(request, timeout=spec.timeout_seconds, limit=spec.max_bytes) as response:
             if response.status != 200 or response.geturl() != spec.url:
                 raise SourceError("invalid_response")
             if response.headers.get("Content-Encoding", "identity").lower() != "identity":
@@ -334,6 +331,9 @@ def fetch_source(source_id: str) -> SourceBatch:
                 raise SourceError("byte_limit")
             if length is not None and len(raw) != int(length):
                 raise SourceError("incomplete_response")
+    except TransportError as error:
+        code = error.code if error.code in ("byte_limit", "invalid_response", "incomplete_response") else "transport_error"
+        raise SourceError(code) from None
     except urllib.error.HTTPError as error:
         status = error.code
         error.close()

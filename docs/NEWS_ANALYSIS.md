@@ -92,6 +92,8 @@ Recovery logs in, reads the saved receipt and displays historical context with c
 
 Compilation and news analysis share defaults of 20 owner admissions and 100 aggregate admissions per rolling 24 hours. Only one unexpired admitted attempt per owner is allowed across both roles. Deadline expiry does not prove a remote call stopped. The default output cap is 3,000 tokens and provider timeout 45 seconds, subject to the existing [configured limits](THESIS_COMPILATION.md#limits-and-failures). Reported charges and usage-derived estimates remain distinct; absent costs stay unknown. Call and token limits are not a guaranteed dollar ceiling. Capture remains independent of this analytical allowance.
 
+Provider transport applies a total HTTP deadline, including slowly arriving headers/body, and prevents automatic reconnect retries. An ambiguous model POST remains `outcome_unknown`. Database wait limits can also abort completion after admission; read-only recovery by command ID remains the safe first step. Neither local timeout proves remote cancellation or zero billing. See [runtime repair evidence](../artifacts/monitoring-runtime-repair-2026-10-09.md).
+
 ## Try the official source later
 
 Capture the narrow [reviewed Fed feed](MONITORING_PIPELINE.md#try-the-narrow-official-feed), then use `--source fed-press` instead. Only retained permitted feed fields are sent; linked articles are not fetched. A successful snapshot or analysis does not prove timely continuous coverage. Fictional sources and the reviewed official feed are the currently permitted internal inputs; broader sources require their own rights review.

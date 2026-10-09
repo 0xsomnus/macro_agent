@@ -56,10 +56,11 @@ class Response:
 
 class FakeOpener:
     def __init__(self, result):
-        self.result, self.calls = result, []
+        self.result, self.calls, self.limits = result, [], []
 
-    def open(self, request, *, timeout):
+    def open(self, request, *, timeout, limit):
         self.calls.append((request, timeout))
+        self.limits.append(limit)
         if isinstance(self.result, Exception):
             raise self.result
         return self.result
@@ -67,7 +68,7 @@ class FakeOpener:
 
 def configured(result, **options):
     fake = FakeOpener(result)
-    with patch.object(nanogpt.urllib.request, "build_opener", return_value=fake) as builder:
+    with patch.object(nanogpt, "BoundedOpener", return_value=fake) as builder:
         provider = NanoGPT(KEY, **options)
     return provider, fake, builder
 
@@ -91,6 +92,7 @@ class NanoGPTTests(unittest.TestCase):
         self.assertNotIn("Authorization", dict(request.header_items()))
         self.assertEqual(response.read_sizes, [nanogpt.MAX_CATALOG_BYTES + 1])
         self.assertTrue(response.closed)
+        self.assertEqual(fake.limits, [nanogpt.MAX_CATALOG_BYTES])
 
     def test_unknown_or_incompatible_price_units_are_never_guessed(self):
         cases = [{"prompt": 0.1, "completion": 0.2},
@@ -194,14 +196,11 @@ class NanoGPTTests(unittest.TestCase):
                 self.assertEqual(fake.calls, [])
         self.assertTrue(is_explicit_model_id(MODEL + ":thinking"))
 
-    def test_proxy_environment_is_disabled_and_redirect_handler_cannot_follow(self):
-        provider, _, builder = configured(Response(completion()))
-        handlers = builder.call_args.args
-        self.assertEqual(handlers[0].proxies, {})
-        self.assertIsInstance(handlers[1], urllib.request.HTTPRedirectHandler)
-        request = urllib.request.Request(nanogpt.COMPLETIONS_URL)
-        for status in (301, 302, 303, 307, 308):
-            self.assertIsNone(handlers[1].redirect_request(request, None, status, "redirect", {}, "https://other.example"))
+    def test_provider_uses_shared_bounded_transport(self):
+        provider, fake, builder = configured(Response(completion()))
+        provider.complete(MODEL, MESSAGES)
+        builder.assert_called_once_with()
+        self.assertEqual(fake.limits, [nanogpt.MAX_RESPONSE_BYTES])
 
     def test_redirect_or_wrong_origin_response_is_rejected_once(self):
         for result in (Response(completion(), url="https://other.example"),
@@ -297,7 +296,7 @@ class NanoGPTTests(unittest.TestCase):
 
     def test_empty_key_allows_public_catalog_but_never_inference(self):
         response = Response({"data": [{"id": MODEL}]}, url=nanogpt.MODELS_URL)
-        with patch.object(nanogpt.urllib.request, "build_opener", return_value=FakeOpener(response)):
+        with patch.object(nanogpt, "BoundedOpener", return_value=FakeOpener(response)):
             provider = NanoGPT("")
         self.assertEqual(provider.list_models()["models"][0]["id"], MODEL)
         with self.assertRaises(ProviderError) as raised:

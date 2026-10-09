@@ -21,6 +21,8 @@ from time import perf_counter
 import urllib.error
 import urllib.request
 
+from macro_agent.transport.http import BoundedOpener, TransportError
+
 
 MODELS_URL = "https://nano-gpt.com/api/v1/models?detailed=true"
 COMPLETIONS_URL = "https://nano-gpt.com/api/v1/chat/completions"
@@ -47,11 +49,6 @@ usage for rejected/truncated output, but never includes partial model text.
         self.code = code
         self.metadata = dict(metadata or {})
         super().__init__(f"Model provider request failed ({code}).")
-
-
-class _NoRedirects(urllib.request.HTTPRedirectHandler):
-    def redirect_request(self, req, fp, code, msg, headers, newurl):
-        return None
 
 
 def is_explicit_model_id(value) -> bool:
@@ -139,9 +136,7 @@ class ChatProvider:
         self._api_key = api_key
         self.timeout_seconds = timeout_seconds
         self.max_output_tokens = max_output_tokens
-        # Empty ProxyHandler disables proxy environment variables. urllib's
-        # default HTTPSHandler retains certificate and hostname verification.
-        self._opener = urllib.request.build_opener(urllib.request.ProxyHandler({}), _NoRedirects())
+        self._opener = BoundedOpener()
 
     def _identifier(self, value, limit=512):
         if (type(value) is not str or not value or len(value) > limit
@@ -167,7 +162,9 @@ class ChatProvider:
         request = urllib.request.Request(url, data=body, headers=headers, method=method)
         metadata = {}
         try:
-            with self._opener.open(request, timeout=self.timeout_seconds if timeout_seconds is None else timeout_seconds) as response:
+            with self._opener.open(request,
+                    timeout=self.timeout_seconds if timeout_seconds is None else timeout_seconds,
+                    limit=limit) as response:
                 metadata["provider_request_id"] = next((self._identifier(response.headers.get(name))
                     for name in self.request_id_headers if response.headers.get(name)), None)
                 if response.geturl() != url or response.status != 200:
@@ -191,6 +188,15 @@ class ChatProvider:
                 except ProviderError as error:
                     raise ProviderError(error.code, metadata=metadata) from None
                 return parsed, metadata
+        except TransportError as error:
+            metadata["provider_request_id"] = next((self._identifier(error.headers.get(name))
+                for name in self.request_id_headers if error.headers.get(name)), None)
+            if error.code in ("timeout", "unavailable", "incomplete_response"):
+                code = "outcome_unknown" if body is not None else (
+                    "timeout" if error.code == "timeout" else "unavailable")
+            else:
+                code = "invalid_response"
+            raise ProviderError(code, metadata=metadata) from None
         except urllib.error.HTTPError as error:
             # Do not read or surface an error body: it may echo credentials,
             # thesis text, provider internals or arbitrary remote instructions.

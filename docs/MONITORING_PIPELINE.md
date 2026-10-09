@@ -102,6 +102,10 @@ The JSON report contains `source`, `health`, `counts`, `revisions` and `work`. C
 
 Network fetching happens outside database locks. Capture admission permits one in-flight fetch per source until its 30-second deadline; no automatic fetch retry is issued. Per-source protection serialises receipt revision and work admission. There is no cursor-completeness promise: byte/item limits and failures remain visible, and a snapshot cannot guarantee recovery of items that disappeared between polls.
 
+Transport has a total request deadline covering connection and response reads, including slowly arriving headers or body. Capture admission and the local transport deadline are separate protections. Local cancellation does not establish remote cancellation. PostgreSQL connections also have explicit [lock and statement wait limits](DJANGO_DEVELOPMENT.md#database-wait-limits); these do not bound an entire command.
+
+Work claims select oldest retained work across sources and skip locked source/work rows while preserving source-first protection. Running leases are reconsidered under a protected clock; live leases and locked rows cannot hide later eligible work behind a fixed candidate cutoff. Selection may scan the finite queue, so a processing limit is not a fixed query-work bound. No immediately claimable candidate does not prove that the durable queue is empty. See the [runtime repair evidence](../artifacts/monitoring-runtime-repair-2026-10-09.md).
+
 ## Verified mechanics and limits
 
 On 2026-10-07, 26 monitoring tests passed against PostgreSQL, including crash recovery through an independent connection, both changed-payload/completion lock orderings observed on the server, lease fencing, immutable evidence, work admission beyond 100 live leases, and coherent read-only inspection during a concurrent source change. Tests also verify mid-batch rollback, naive-clock rejection, inspection limits and preservation of original receipt/witness times after duplicate capture.

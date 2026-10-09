@@ -14,7 +14,7 @@ from django.utils import timezone
 
 from macro_agent.providers import ProviderError
 from macro_agent.theses import compilation, service
-from macro_agent.theses.models import CompilationAttempt, CompilationBudget, CompilationResult, InterpretationRecord, TextVersionRecord
+from macro_agent.theses.models import AuditTransition, CompilationAttempt, CompilationBudget, CompilationResult, InterpretationRecord, TextVersionRecord
 
 
 EXACT = "  Gold may benefit if real yields fall.\r\nΔ\r\n"
@@ -38,13 +38,15 @@ class RecordedProvider:
 
     def list_models(self):
         self.catalog_calls += 1
+        if connection.in_atomic_block or not connection.get_autocommit():
+            raise AssertionError("catalogue retrieval must not retain a transaction or locks")
         return {"fetched_at": timezone.now().isoformat(), "models": [{"id": MODEL, "name": "Test model",
             "context_length": 32768, "input_price_usd_per_million": "1",
             "output_price_usd_per_million": "2", "capabilities": {"chat_completions": True}}]}
 
     def complete(self, model_id, messages):
         self.calls += 1
-        if connection.in_atomic_block:
+        if connection.in_atomic_block or not connection.get_autocommit():
             raise AssertionError("inference must not retain a transaction or locks")
         if self.callback:
             self.callback()
@@ -72,6 +74,53 @@ class CompilationPersistenceTests(TransactionTestCase):
         text, meaning = thesis["draft"]["text_version"], thesis["draft"]["interpretation"]
         return service.approve_thesis(self.actor, thesis["id"], str(uuid4()), text["id"],
             text["text_digest"], meaning["id"], meaning["digest"], thesis["revision"])
+
+    def test_caller_transactions_are_rejected_before_catalogue_or_admission(self):
+        command = str(uuid4())
+        with transaction.atomic(), self.assertNumQueries(0):
+            with self.assertRaisesMessage(RuntimeError, "durable admission"):
+                self.compile(command)
+        connection.set_autocommit(False)
+        try:
+            self.assertFalse(connection.in_atomic_block)
+            with self.assertNumQueries(0):
+                with self.assertRaisesMessage(RuntimeError, "durable admission"):
+                    self.compile(command)
+        finally:
+            connection.rollback()
+            connection.set_autocommit(True)
+        self.assertEqual(self.provider.catalog_calls, 0)
+        self.assertEqual(self.provider.calls, 0)
+        self.assertFalse(CompilationAttempt.objects.exists())
+        self.assertFalse(CompilationResult.objects.exists())
+        self.assertFalse(AuditTransition.objects.filter(kind="compilation_admitted").exists())
+        self.assertEqual(InterpretationRecord.objects.count(), 1)
+
+    def test_inference_observes_independently_committed_admission(self):
+        command = str(uuid4())
+
+        def read_admission():
+            close_old_connections()
+            try:
+                attempt = CompilationAttempt.objects.get(command_id=command)
+                return (str(attempt.thesis_id), attempt.text_version.exact_text,
+                        AuditTransition.objects.filter(thesis_id=attempt.thesis_id,
+                            kind="compilation_admitted",
+                            detail__attempt_id=str(attempt.pk)).count(),
+                        CompilationResult.objects.filter(attempt=attempt).exists())
+            finally:
+                close_old_connections()
+
+        def inspect_admission():
+            with ThreadPoolExecutor(max_workers=1) as pool:
+                visible = pool.submit(read_admission).result(timeout=5)
+            self.assertEqual(visible, (self.thesis["id"], EXACT, 1, False))
+
+        self.provider.callback = inspect_admission
+        result = self.compile(command)
+        self.assertEqual(result["compilation"]["status"], "compiled")
+        self.assertEqual(self.provider.catalog_calls, 1)
+        self.assertEqual(self.provider.calls, 1)
 
     def test_model_proposal_and_explicit_approval_have_distinct_authority(self):
         result = self.compile()

@@ -71,10 +71,11 @@ class Response:
 
 class Opener:
     def __init__(self, response):
-        self.response, self.calls = response, []
+        self.response, self.calls, self.limits = response, [], []
 
-    def open(self, request, *, timeout):
+    def open(self, request, *, timeout, limit):
         self.calls.append((request, timeout))
+        self.limits.append(limit)
         if isinstance(self.response, Exception):
             raise self.response
         return self.response
@@ -98,7 +99,7 @@ class SourceCaptureTests(unittest.TestCase):
 
     def fetch(self, response):
         opener = Opener(response)
-        with patch.object(sources.urllib.request, "build_opener", return_value=opener):
+        with patch.object(sources, "BoundedOpener", return_value=opener):
             result = fetch_source("fed-press")
         return result, opener
 
@@ -235,17 +236,14 @@ class SourceCaptureTests(unittest.TestCase):
         self.assertTrue(response.closed)
         self.assertEqual(len(batch.items), 1)
         self.assertEqual(len(opener.calls), 1)
+        self.assertEqual(opener.limits, [sources.MAX_BATCH_BYTES])
 
-    def test_proxy_environment_disabled_redirects_cannot_follow_and_unknown_source_never_dispatches(self):
+    def test_shared_bounded_transport_and_unknown_source_never_dispatches(self):
         opener = Opener(Response(rss()))
-        with patch.object(sources.urllib.request, "build_opener", return_value=opener) as builder:
+        with patch.object(sources, "BoundedOpener", return_value=opener) as builder:
             fetch_source("fed-press")
             self.assert_code("unknown_source", lambda: fetch_source("https://attacker.invalid/feed"))
-        handlers = builder.call_args.args
-        self.assertEqual(handlers[0].proxies, {})
-        self.assertIsInstance(handlers[1], urllib.request.HTTPRedirectHandler)
-        for status in (301, 302, 303, 307, 308):
-            self.assertIsNone(handlers[1].redirect_request(urllib.request.Request(SPEC.url), None, status, "redirect", {}, "https://other.invalid/feed"))
+        builder.assert_called_once_with()
         self.assertEqual(len(opener.calls), 1)
 
     def test_transport_bounds_and_unexpected_compression_are_rejected_before_parse(self):
@@ -271,7 +269,7 @@ class SourceCaptureTests(unittest.TestCase):
                 body = io.BytesIO(b"remote private error detail")
                 remote = urllib.error.HTTPError(SPEC.url, status, "remote private error detail", {}, body)
                 opener = Opener(remote)
-                with patch.object(sources.urllib.request, "build_opener", return_value=opener):
+                with patch.object(sources, "BoundedOpener", return_value=opener):
                     error = self.assert_code(code, lambda: fetch_source("fed-press"))
                 self.assertNotIn("remote private", str(error))
                 self.assertTrue(body.closed)
@@ -283,7 +281,7 @@ class SourceCaptureTests(unittest.TestCase):
         for response in samples:
             with self.subTest(response=type(response).__name__):
                 opener = Opener(response)
-                with patch.object(sources.urllib.request, "build_opener", return_value=opener):
+                with patch.object(sources, "BoundedOpener", return_value=opener):
                     error = self.assert_code("transport_error", lambda: fetch_source("fed-press"))
                 self.assertNotIn("private", str(error))
                 self.assertEqual(len(opener.calls), 1)

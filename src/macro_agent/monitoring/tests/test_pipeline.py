@@ -409,16 +409,18 @@ class PostgreSQLMonitoringPipelineTests(TransactionTestCase):
         self.assertEqual(len(report["work"]), 100)
         self.assertTrue(report["revisions_truncated"])
 
-    def test_claim_clock_waits_for_work_row_protection(self):
+    def test_claim_skips_protected_work_without_sampling_clock(self):
         self.capture(self.item())
         revision = self.revision()
         held, release, attempted, sampled = (Event() for _ in range(4))
-        holder_pid, waiter_pid = {}, {}
+
+        def clock():
+            sampled.set()
+            return timezone.now()
 
         def holder():
             with transaction.atomic():
                 ScreeningWork.objects.select_for_update().get(pk=revision.pk)
-                holder_pid["pid"] = connection.connection.info.backend_pid
                 held.set()
                 if not release.wait(10):
                     raise TimeoutError("Work protection not released")
@@ -426,13 +428,8 @@ class PostgreSQLMonitoringPipelineTests(TransactionTestCase):
         def waiter():
             def observe(execute, sql, params, many, context):
                 if "FOR UPDATE" in sql and ScreeningWork._meta.db_table in sql:
-                    waiter_pid["pid"] = context["connection"].connection.info.backend_pid
                     attempted.set()
                 return execute(sql, params, many, context)
-
-            def clock():
-                sampled.set()
-                return timezone.now()
 
             with connection.execute_wrapper(observe):
                 return work_service.claim_work(clock=clock)
@@ -443,13 +440,13 @@ class PostgreSQLMonitoringPipelineTests(TransactionTestCase):
                 self.assertTrue(held.wait(10))
                 waiting = pool.submit(independent, waiter)
                 self.assertTrue(attempted.wait(10))
-                self.server_lock_wait(waiter_pid["pid"], holder_pid["pid"],
-                                      table=ScreeningWork._meta.db_table)
+                self.assertIsNone(waiting.result(timeout=5))
                 self.assertFalse(sampled.is_set())
+                self.assertFalse(ScreeningAttempt.objects.exists())
             finally:
                 release.set()
             locked.result(timeout=10)
-            claim = waiting.result(timeout=10)
+        claim = work_service.claim_work(clock=clock)
         self.assertTrue(sampled.is_set())
         self.assertEqual(claim.work_id, revision.pk)
 

@@ -67,6 +67,12 @@ The first command runs 111 framework-independent and SQLite laboratory tests. Th
 
 Every publication and evidence-head writer locks its brief before reading governing versions. Bound briefs first protect owner and thesis. Approval and exposure changes lock every affected brief in sorted order before sampling time. Reasoning occurs outside these transactions. Separate owners can progress concurrently; bound activity within an owner is conservatively serialized. Both HTTP boundaries derive their actor from the session; future workers must bind their actor to a reviewed authenticated principal as well.
 
+## Database wait limits
+
+Every application connection sets a positive PostgreSQL lock timeout and statement timeout, defaulting to 5,000 ms and 15,000 ms. Override them with `MACRO_DB_LOCK_TIMEOUT_MS` and `MACRO_DB_STATEMENT_TIMEOUT_MS` before starting the process. Values must be integers from 1 to 300,000 ms, with the lock limit shorter than the statement limit. Connection establishment retains its separate five-second limit. These are internal operating limits, not the pilot's agreed news-latency targets.
+
+Timeout aborts the affected database transaction; it does not undo a provider request. After durable model admission, a missing completion remains an unresolved attempt for inspection, without an automatic paid retry. New internal workers must handle database timeout/backoff visibly and preserve pending work. A per-statement limit does not bound an entire multi-statement application operation or queue scan.
+
 ## Read the records and database changes
 
 ```sh
