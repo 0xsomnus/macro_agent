@@ -2,6 +2,8 @@
 
 Scope clarified 2026-10-09: prove the durable internal paper workflow using a narrow live feed and headline-level analysis. Deep investment analysis, comprehensive coverage and a production trading desk are not acceptance criteria for this test. Source fit, context continuity and the confirmed runtime defects remain prerequisites.
 
+Accepted next direction, 2026-10-09: begin with a deterministic daily evidence review and separate Django capture/analytical processes using durable PostgreSQL scheduling and leases, per [ADR 018](ADR/018-internal-runtime-and-daily-review.md). The pure daily-review domain foundation has 22 recorded-input tests. Database scheduling, context lineage, publication integration and continuous operation remain unimplemented.
+
 ## Current compilation versus the intended thesis pack
 
 | Element | Current behavior |
@@ -26,15 +28,15 @@ A missing invalidation criterion is a gap. Suggested additions remain agent prop
 1. Enter a limited thesis, inspect its compilation/challenge, answer consequential gaps and approve exact meaning. Attach a manual paper trade with explicit gaps.
 2. Capture a reviewed live API/feed and the relevant official complement repeatedly. Preserve headline text, source identity/revisions, receipt/durability timing and visible acquisition failures. Capture continues when analysis is unavailable.
 3. Maintain a sourced starting context and versioned cumulative evidence. Each new assessment names its predecessor and explains what changed for the thesis and trade separately. Related reports, distinct developments, corrections and offsetting evidence remain distinguishable; no count of headlines becomes a measure of conviction.
-4. Produce a concise daily review from retained eligible evidence, with pending investigations, coverage status, unknown costs and source links. Repeated scheduling cannot duplicate the same daily artifact. Corrected sources or changed approved inputs cannot leave obsolete analysis represented as current.
+4. Produce a deterministic daily review from retained evidence and analyses available during the reporting interval, including late analyses of older reports, with pending investigations, coverage status, unknown costs and source links. Repeated scheduling cannot duplicate the same daily artifact. Corrected sources or changed approved inputs cannot leave obsolete analysis represented as current.
 5. Restart after capture, admission and brief persistence. Preserve pending work and original outcomes. Never silently repeat an uncertain paid call. Replayed commands cannot reactivate old state.
 6. Review the week for lost work, duplicate work, stale output, missed eligible reports, useful updates and effort spent reconstructing context. Profit or loss is not the durability acceptance criterion.
 
 Context selection needs an explicit bound and exclusion record. Overflow must reject or visibly narrow the assessment; it cannot silently discard exposure or important evidence. A headline supports attribution to that headline, not its truth, a complete causal account or market expectations. Market-data-dependent claims remain unavailable.
 
-## Proposed continuity and daily-brief contract
+## Continuity and daily-review implementation contract
 
-[CONTEXT_CONTINUITY.md](CONTEXT_CONTINUITY.md) develops this proposal into records, correction ordering, recovery boundaries and decisions for the first internal runner. It does not mark those components implemented.
+[CONTEXT_CONTINUITY.md](CONTEXT_CONTINUITY.md) develops the accepted direction into proposed records, correction ordering, recovery boundaries and remaining decisions for the first internal runner. Those database and runtime components are not implemented.
 
 | Record | Minimum purpose |
 | --- | --- |
@@ -47,18 +49,21 @@ Reuse existing publication generations, immutable assessments and atomic notific
 
 Later arrivals after a declared cutoff queue the next update. A correction or permission withdrawal affecting included evidence invalidates affected current output and pending notices. Keeping these cases separate prevents constant capture from indefinitely staling a valid assessment of an explicit earlier cutoff. A quiet receipt does not prove that nothing happened in the market.
 
-Before unattended activation, record the actual thesis/exposure, sources, acceptable detection delay, daily briefing time and model allowance. Production runtime selection remains separate. These are proposed contracts for review, not implemented records or authority.
+Report and analysis eligibility use separate conservative postcommit availability witnesses over `(previous cutoff, current cutoff]`, not publication, receipt or analysis finish time. A late analysis can therefore be new while its source report is background. Missing witnesses remain explicit and cannot be backdated. Current disposition is observed at preparation and labelled with that time; it is not reconstructed cutoff currentness.
+
+Before unattended activation, review the actual thesis/exposure, sources, cadence/detection target, daily time/timezone, explicit context and work bounds, allowances, ambiguous-call disposition and missed-slot policy. Production queue selection remains separate. Call/token limits do not establish a dollar ceiling. Neither a lease expiry nor a missed slot authorizes an uncertain paid retry.
 
 ## Source fit
 
-A narrow feed is sufficient when it addresses the test thesis. The first real thesis and appropriate sources will be researched jointly; no copper thesis is selected. For illustration, Fed sources may support a policy/rates branch but do not supply copper mine-disruption coverage. Copper is not a newly validated instrument pack. The product must also support [user-led research from a question or observation](THESIS_ENGINE.md#user-led-research-before-a-thesis-exists), without requiring a fully formed thesis on entry.
+A narrow feed is sufficient when it addresses the test thesis. The first joint research question is which assets are affected by AI buildout and whether it is too late to position over a few weeks to months. Candidate expressions are an Exness `XCUUSD` copper CFD and AMD/NVDA equity perpetuals. These are not approved trades, validated instrument mappings or supported packs; no trading thesis or source manifest is selected. Equity and valuation requirements remain to be reviewed. The product must support [user-led research from a question or observation](THESIS_ENGINE.md#user-led-research-before-a-thesis-exists), including a result of no defensible thesis.
 
 The [source comparison](SOURCE_OPTIONS.md) contains candidates. Official feeds and permitted headline/metadata APIs can prove different parts of ingestion. Linked full articles are not automatically licensed for retention or inference. No new provider, paid subscription or production source is selected by this test plan.
 
-## Remaining choices before implementation
+## Remaining work and activation choices
 
-- Select the first real thesis/event and its source manifest.
+- Research the AI-buildout question into a tentative thesis and counter-case, validate any candidate exposure, and review its source manifest.
 - Review whether the implemented proposals and clarification questions help strengthen a real rough thesis without manufacturing conviction.
-- Review the continuity/brief contract and internal runner, including cadence, daily brief time, model allowance and explicit context bounds.
+- Implement scheduler, context lineage and correction-aware daily publication under the accepted internal direction.
+- Review cadence, daily time/timezone, bounds, allowances, ambiguous-call and missed-slot policies before unattended activation.
 
 The [runtime repair report](../artifacts/monitoring-runtime-repair-2026-10-09.md) records the audit repairs. [IMPLEMENTATION.md](IMPLEMENTATION.md) tracks verified status. Fixing those defects does not itself implement continuous dispatch, context continuity or daily briefs.

@@ -36,7 +36,7 @@ Start with [Getting started](GETTING_STARTED.md) to run the current prototype. T
 | Document | What it explains |
 | --- | --- |
 | [Architecture](ARCHITECTURE.md) | System components, persistence, authority and reliability |
-| [Context continuity proposal](CONTEXT_CONTINUITY.md) | Evidence/context versions, correction ordering, daily-review and internal-runner choices awaiting review |
+| [Context continuity](CONTEXT_CONTINUITY.md) | Accepted internal runtime and daily-review directions, evidence/context contracts and remaining implementation choices |
 | [Domain model](DOMAIN_MODEL.md) | Theses, positions, events, knowledge, assessments and history |
 | [Event ontology](EVENT_ONTOLOGY.md) | Event families, revision semantics and provenance |
 | [Agent runtime](AGENT_RUNTIME.md) | Context assembly, specialist roles and bounded work |
@@ -48,4 +48,6 @@ Start with [Getting started](GETTING_STARTED.md) to run the current prototype. T
 
 [Audit resolutions](AUDIT_RESOLUTION.md) and [development start](DEVELOPMENT_START.md) preserve the earlier design discussion and reference experiments. [Implementation](IMPLEMENTATION.md) is the source for current verified status; historical milestones are not promises of present coverage.
 
-The [paper desk trace](../artifacts/paper-desk-audit.md) shows the synthetic workflow. [Earlier PostgreSQL](../artifacts/postgresql-audit.md), [thesis approval](../artifacts/thesis-audit.md) and [SQLite](../artifacts/publication-audit.md) reports preserve prior evidence. Complete records, generated schemas and migration SQL remain in `artifacts/`; executable code and fixtures remain outside the documentation folder.
+The [paper desk trace](../artifacts/paper-desk-audit.md) shows the synthetic workflow. The [daily-review trace](../artifacts/daily-review-domain-audit.md) illustrates retained analyses, stale history and deferred evidence in pure domain assembly. The [AI infrastructure research pack](../research/ai-infrastructure/2026-10-09/README.md) records the first user-led market question, primary evidence and narrow paper-instrument feasibility. It is manual research, not approved trading authority or an automated source feed.
+
+[Earlier PostgreSQL](../artifacts/postgresql-audit.md), [thesis approval](../artifacts/thesis-audit.md) and [SQLite](../artifacts/publication-audit.md) reports preserve prior evidence. Complete records, generated schemas and migration SQL remain in `artifacts/`; executable code and fixtures remain outside the documentation folder.

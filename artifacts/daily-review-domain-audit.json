@@ -1,0 +1,501 @@
+{
+  "synthetic": true,
+  "scope": "pure domain assembly, no persistence or provider calls",
+  "time_limit": "All timestamps and availability witnesses are invented fixture inputs.",
+  "candidate_digest": "81d2bf3f47c89c76219387235eafddada0e53344c6041c776f9c067c06e35faf",
+  "candidate": {
+    "analyses": {
+      "background": [],
+      "deferred": [
+        {
+          "analysis_id": "postcutoff-analysis",
+          "availability_witness_at": "2026-10-09T00:11:00+00:00",
+          "costs": {
+            "estimated_cost_usd": "0.0002",
+            "reported_cost_usd": null
+          },
+          "created_at": "2026-10-08T23:50:00+00:00",
+          "current_disposition": "stale",
+          "current_stale_reasons": [
+            "approved_meaning_changed"
+          ],
+          "deferred_reason": "available_after_cutoff",
+          "disposition_observed_at": "2026-10-09T01:00:00+00:00",
+          "document": {
+            "attributed_facts": [
+              {
+                "exact_quote": "The fictional central bank cut its policy rate and opened a temporary liquidity facility following reports of funding stress.",
+                "fact_id": "f1",
+                "field": "content",
+                "source_revision_id": "old-report"
+              }
+            ],
+            "hypotheses": [
+              {
+                "assumptions": [
+                  "The policy easing is relevant to the trader's medium-term equity mechanism.",
+                  "The reported stress could affect credit or risk appetite beyond the affected institutions.",
+                  "A leveraged or financed product would have additional exposure, which is not established by the supplied declaration."
+                ],
+                "counter_case": "Unverified competing hypothesis: the liquidity facility could contain the reported stress and easing could offset its effect before the paper position is adversely affected.",
+                "explanation": "Unverified hypothesis: policy easing could support medium-term equity conditions, while unresolved funding stress could create a separate near-term risk to the attached long exposure.",
+                "fact_ids": [
+                  "f1"
+                ],
+                "horizon": null,
+                "hypothesis_id": "h1",
+                "position_ids": [
+                  "fixture-position"
+                ],
+                "signposts": [
+                  "For later investigation, examine permitted evidence on the reported funding stress and the liquidity facility's effect."
+                ],
+                "transmission": "If funding stress constrains credit or prompts risk reduction before easing helps activity, the declared NQ long could face adverse conditions; if the product is leveraged, financing or margin needs could matter separately.",
+                "uncertainty": "No credit, market-consensus, reaction or verified leverage data were supplied. The feed item is fictional and cannot establish a live macro regime or portfolio effect."
+              }
+            ],
+            "schema_version": "retained-news-analysis-v1",
+            "thesis_route": {
+              "explanation": "The reported policy easing may support the trader's medium-term easing mechanism. The excerpt does not establish earnings, real yields or the market's response.",
+              "fact_ids": [
+                "f1"
+              ],
+              "status": "potential"
+            },
+            "trade_route": {
+              "explanation": "Reported funding stress could expose the declared long NQ paper position to a nearer-term adverse path even if easing supports the medium-term thesis. Leverage, instrument mapping and sizing effects remain unverified.",
+              "fact_ids": [
+                "f1"
+              ],
+              "position_ids": [
+                "fixture-position"
+              ],
+              "status": "potential"
+            },
+            "trader_questions": [
+              "How does the position horizon compare with the medium-term thesis horizon?",
+              "Is the declared product leveraged or financed, and which funding evidence would challenge your view?"
+            ]
+          },
+          "finished_at": "2026-10-09T00:10:00+00:00",
+          "original_context": {
+            "approved_thesis": {
+              "approval_id": "approval-original",
+              "drivers": [
+                "Policy easing"
+              ],
+              "exact_text": "Policy easing may support equities.",
+              "horizon": "six months",
+              "interpretation_id": "meaning-original",
+              "invalidation_signposts": [],
+              "thesis_id": "fixture-thesis"
+            },
+            "positions": [
+              {
+                "direction": "long",
+                "position_id": "fixture-position",
+                "status": "open",
+                "underlying": "NQ",
+                "version_id": "position-version-current"
+              }
+            ],
+            "source": {
+              "content": "This invented item tests independent thesis and trade analysis only. The fictional central bank cut its policy rate and opened a temporary liquidity facility following reports of funding stress. No market prices, consensus expectations, real-yield observations or verified portfolio effects are supplied. This is not real news.",
+              "digest": "85aa29318921d11199d7913bbe162549fc5de2169b28930bb4ffe81bd6bac268",
+              "published_at": "2026-10-01T12:00:00Z",
+              "revision_id": "old-report",
+              "source_key": "fixture-divergence",
+              "title": "FICTIONAL ANALYSIS FIXTURE: policy easing accompanies reported funding stress (old-report)",
+              "url": "https://example.invalid/fictional-news-divergence"
+            }
+          },
+          "original_stale_reasons": [],
+          "original_status": "analysed",
+          "source_revision_id": "old-report",
+          "stop_reason": null
+        },
+        {
+          "analysis_id": "unresolved-admission",
+          "availability_witness_at": null,
+          "costs": {
+            "estimated_cost_usd": null,
+            "reported_cost_usd": null
+          },
+          "created_at": "2026-10-08T10:00:00+00:00",
+          "current_disposition": "unresolved",
+          "current_stale_reasons": [],
+          "deferred_reason": "availability_unproven",
+          "disposition_observed_at": "2026-10-09T01:00:00+00:00",
+          "document": null,
+          "finished_at": null,
+          "original_context": {
+            "approved_thesis": {
+              "approval_id": "approval-original",
+              "drivers": [
+                "Policy easing"
+              ],
+              "exact_text": "Policy easing may support equities.",
+              "horizon": "six months",
+              "interpretation_id": "meaning-original",
+              "invalidation_signposts": [],
+              "thesis_id": "fixture-thesis"
+            },
+            "positions": [
+              {
+                "direction": "long",
+                "position_id": "fixture-position",
+                "status": "open",
+                "underlying": "NQ",
+                "version_id": "position-version-current"
+              }
+            ],
+            "source": {
+              "content": "This invented item tests independent thesis and trade analysis only. The fictional central bank cut its policy rate and opened a temporary liquidity facility following reports of funding stress. No market prices, consensus expectations, real-yield observations or verified portfolio effects are supplied. This is not real news.",
+              "digest": "7ecb5b686e4f18043e563c30185778e44bcd3456a0056532db252aa54531e241",
+              "published_at": "2026-10-01T12:00:00Z",
+              "revision_id": "unproven-report",
+              "source_key": "fixture-divergence",
+              "title": "FICTIONAL ANALYSIS FIXTURE: policy easing accompanies reported funding stress (unproven-report)",
+              "url": "https://example.invalid/fictional-news-divergence"
+            }
+          },
+          "original_stale_reasons": [],
+          "original_status": null,
+          "source_revision_id": "unproven-report",
+          "stop_reason": "Fictional crash after admission; remote outcome remains unknown."
+        }
+      ],
+      "new": [
+        {
+          "analysis_id": "current-analysis",
+          "availability_witness_at": "2026-10-08T08:00:01+00:00",
+          "costs": {
+            "estimated_cost_usd": "0.0002",
+            "reported_cost_usd": null
+          },
+          "created_at": "2026-10-08T07:00:00+00:00",
+          "current_disposition": "current",
+          "current_stale_reasons": [],
+          "deferred_reason": null,
+          "disposition_observed_at": "2026-10-09T01:00:00+00:00",
+          "document": {
+            "attributed_facts": [
+              {
+                "exact_quote": "The fictional central bank cut its policy rate and opened a temporary liquidity facility following reports of funding stress.",
+                "fact_id": "f1",
+                "field": "content",
+                "source_revision_id": "new-report"
+              }
+            ],
+            "hypotheses": [
+              {
+                "assumptions": [
+                  "The policy easing is relevant to the trader's medium-term equity mechanism.",
+                  "The reported stress could affect credit or risk appetite beyond the affected institutions.",
+                  "A leveraged or financed product would have additional exposure, which is not established by the supplied declaration."
+                ],
+                "counter_case": "Unverified competing hypothesis: the liquidity facility could contain the reported stress and easing could offset its effect before the paper position is adversely affected.",
+                "explanation": "Unverified hypothesis: policy easing could support medium-term equity conditions, while unresolved funding stress could create a separate near-term risk to the attached long exposure.",
+                "fact_ids": [
+                  "f1"
+                ],
+                "horizon": null,
+                "hypothesis_id": "h1",
+                "position_ids": [
+                  "fixture-position"
+                ],
+                "signposts": [
+                  "For later investigation, examine permitted evidence on the reported funding stress and the liquidity facility's effect."
+                ],
+                "transmission": "If funding stress constrains credit or prompts risk reduction before easing helps activity, the declared NQ long could face adverse conditions; if the product is leveraged, financing or margin needs could matter separately.",
+                "uncertainty": "No credit, market-consensus, reaction or verified leverage data were supplied. The feed item is fictional and cannot establish a live macro regime or portfolio effect."
+              }
+            ],
+            "schema_version": "retained-news-analysis-v1",
+            "thesis_route": {
+              "explanation": "The reported policy easing may support the trader's medium-term easing mechanism. The excerpt does not establish earnings, real yields or the market's response.",
+              "fact_ids": [
+                "f1"
+              ],
+              "status": "potential"
+            },
+            "trade_route": {
+              "explanation": "Reported funding stress could expose the declared long NQ paper position to a nearer-term adverse path even if easing supports the medium-term thesis. Leverage, instrument mapping and sizing effects remain unverified.",
+              "fact_ids": [
+                "f1"
+              ],
+              "position_ids": [
+                "fixture-position"
+              ],
+              "status": "potential"
+            },
+            "trader_questions": [
+              "How does the position horizon compare with the medium-term thesis horizon?",
+              "Is the declared product leveraged or financed, and which funding evidence would challenge your view?"
+            ]
+          },
+          "finished_at": "2026-10-08T08:00:00+00:00",
+          "original_context": {
+            "approved_thesis": {
+              "approval_id": "approval-current",
+              "drivers": [
+                "Policy easing"
+              ],
+              "exact_text": "Policy easing may support equities.",
+              "horizon": "six months",
+              "interpretation_id": "meaning-current",
+              "invalidation_signposts": [],
+              "thesis_id": "fixture-thesis"
+            },
+            "positions": [
+              {
+                "direction": "long",
+                "position_id": "fixture-position",
+                "status": "open",
+                "underlying": "NQ",
+                "version_id": "position-version-current"
+              }
+            ],
+            "source": {
+              "content": "This invented item tests independent thesis and trade analysis only. The fictional central bank cut its policy rate and opened a temporary liquidity facility following reports of funding stress. No market prices, consensus expectations, real-yield observations or verified portfolio effects are supplied. This is not real news.",
+              "digest": "70c4256ed9ae07e2299bda71845cf29d3a5ebbfa57a22e7afb399180e0cf74ef",
+              "published_at": "2026-10-01T12:00:00Z",
+              "revision_id": "new-report",
+              "source_key": "fixture-divergence",
+              "title": "FICTIONAL ANALYSIS FIXTURE: policy easing accompanies reported funding stress (new-report)",
+              "url": "https://example.invalid/fictional-news-divergence"
+            }
+          },
+          "original_stale_reasons": [],
+          "original_status": "analysed",
+          "source_revision_id": "new-report",
+          "stop_reason": null
+        },
+        {
+          "analysis_id": "late-analysis-of-old-report",
+          "availability_witness_at": "2026-10-08T03:00:00+00:00",
+          "costs": {
+            "estimated_cost_usd": "0.0002",
+            "reported_cost_usd": null
+          },
+          "created_at": "2026-10-07T23:00:00+00:00",
+          "current_disposition": "stale",
+          "current_stale_reasons": [
+            "approved_meaning_changed"
+          ],
+          "deferred_reason": null,
+          "disposition_observed_at": "2026-10-09T01:00:00+00:00",
+          "document": {
+            "attributed_facts": [
+              {
+                "exact_quote": "The fictional central bank cut its policy rate and opened a temporary liquidity facility following reports of funding stress.",
+                "fact_id": "f1",
+                "field": "content",
+                "source_revision_id": "old-report"
+              }
+            ],
+            "hypotheses": [
+              {
+                "assumptions": [
+                  "The policy easing is relevant to the trader's medium-term equity mechanism.",
+                  "The reported stress could affect credit or risk appetite beyond the affected institutions.",
+                  "A leveraged or financed product would have additional exposure, which is not established by the supplied declaration."
+                ],
+                "counter_case": "Unverified competing hypothesis: the liquidity facility could contain the reported stress and easing could offset its effect before the paper position is adversely affected.",
+                "explanation": "Unverified hypothesis: policy easing could support medium-term equity conditions, while unresolved funding stress could create a separate near-term risk to the attached long exposure.",
+                "fact_ids": [
+                  "f1"
+                ],
+                "horizon": null,
+                "hypothesis_id": "h1",
+                "position_ids": [
+                  "fixture-position"
+                ],
+                "signposts": [
+                  "For later investigation, examine permitted evidence on the reported funding stress and the liquidity facility's effect."
+                ],
+                "transmission": "If funding stress constrains credit or prompts risk reduction before easing helps activity, the declared NQ long could face adverse conditions; if the product is leveraged, financing or margin needs could matter separately.",
+                "uncertainty": "No credit, market-consensus, reaction or verified leverage data were supplied. The feed item is fictional and cannot establish a live macro regime or portfolio effect."
+              }
+            ],
+            "schema_version": "retained-news-analysis-v1",
+            "thesis_route": {
+              "explanation": "The reported policy easing may support the trader's medium-term easing mechanism. The excerpt does not establish earnings, real yields or the market's response.",
+              "fact_ids": [
+                "f1"
+              ],
+              "status": "potential"
+            },
+            "trade_route": {
+              "explanation": "Reported funding stress could expose the declared long NQ paper position to a nearer-term adverse path even if easing supports the medium-term thesis. Leverage, instrument mapping and sizing effects remain unverified.",
+              "fact_ids": [
+                "f1"
+              ],
+              "position_ids": [
+                "fixture-position"
+              ],
+              "status": "potential"
+            },
+            "trader_questions": [
+              "How does the position horizon compare with the medium-term thesis horizon?",
+              "Is the declared product leveraged or financed, and which funding evidence would challenge your view?"
+            ]
+          },
+          "finished_at": "2026-10-08T02:00:00+00:00",
+          "original_context": {
+            "approved_thesis": {
+              "approval_id": "approval-original",
+              "drivers": [
+                "Policy easing"
+              ],
+              "exact_text": "Policy easing may support equities.",
+              "horizon": "six months",
+              "interpretation_id": "meaning-original",
+              "invalidation_signposts": [],
+              "thesis_id": "fixture-thesis"
+            },
+            "positions": [
+              {
+                "direction": "long",
+                "position_id": "fixture-position",
+                "status": "open",
+                "underlying": "NQ",
+                "version_id": "position-version-current"
+              }
+            ],
+            "source": {
+              "content": "This invented item tests independent thesis and trade analysis only. The fictional central bank cut its policy rate and opened a temporary liquidity facility following reports of funding stress. No market prices, consensus expectations, real-yield observations or verified portfolio effects are supplied. This is not real news.",
+              "digest": "85aa29318921d11199d7913bbe162549fc5de2169b28930bb4ffe81bd6bac268",
+              "published_at": "2026-10-01T12:00:00Z",
+              "revision_id": "old-report",
+              "source_key": "fixture-divergence",
+              "title": "FICTIONAL ANALYSIS FIXTURE: policy easing accompanies reported funding stress (old-report)",
+              "url": "https://example.invalid/fictional-news-divergence"
+            }
+          },
+          "original_stale_reasons": [],
+          "original_status": "analysed",
+          "source_revision_id": "old-report",
+          "stop_reason": null
+        }
+      ]
+    },
+    "assembly_inference_calls": 0,
+    "assembly_inference_cost_usd": "0",
+    "issues": [
+      {
+        "analysis_id": null,
+        "detail": {
+          "detail": "Only this synthetic source was selected; broad market coverage is absent."
+        },
+        "issue_id": "fictional-coverage-gap",
+        "kind": "coverage_gap",
+        "source_id": "fixture-divergence"
+      }
+    ],
+    "limitations": [
+      "No new eligible reports does not establish that no market events occurred.",
+      "Exact retained quotations establish attribution, not factual truth or investment usefulness.",
+      "Current disposition is a caller observation at preparation, not reconstructed cutoff state.",
+      "Cross-source independence, current macro regime and market expectations remain unverified.",
+      "This deterministic review grants no approval, publication, notification or paid-retry authority."
+    ],
+    "new_eligible_report_count": 1,
+    "period": {
+      "cutoff_inclusive": "2026-10-09T00:00:00+00:00",
+      "prepared_at": "2026-10-09T01:00:00+00:00",
+      "start_exclusive": "2026-10-08T00:00:00+00:00"
+    },
+    "reports": {
+      "background": [
+        {
+          "availability_witness_at": "2026-10-07T00:00:00+00:00",
+          "deferred_reason": null,
+          "payload": {
+            "content": "This invented item tests independent thesis and trade analysis only. The fictional central bank cut its policy rate and opened a temporary liquidity facility following reports of funding stress. No market prices, consensus expectations, real-yield observations or verified portfolio effects are supplied. This is not real news.",
+            "id": "old-report",
+            "published_at": "2026-10-01T12:00:00Z",
+            "title": "FICTIONAL ANALYSIS FIXTURE: policy easing accompanies reported funding stress (old-report)",
+            "url": "https://example.invalid/fictional-news-divergence"
+          },
+          "payload_digest": "85aa29318921d11199d7913bbe162549fc5de2169b28930bb4ffe81bd6bac268",
+          "received_at": "2026-10-06T00:00:00+00:00",
+          "report_id": "old-report-report",
+          "revision_id": "old-report",
+          "source_contract_digest": "074e648e103797a9d8e83cefd6fe268ad06c2e1ef6f6dcdc4ae0129e3643bd8e",
+          "source_contract_version_id": "fictional-contract-v1",
+          "source_id": "fixture-divergence"
+        }
+      ],
+      "deferred": [
+        {
+          "availability_witness_at": null,
+          "deferred_reason": "availability_unproven",
+          "payload": {
+            "content": "This invented item tests independent thesis and trade analysis only. The fictional central bank cut its policy rate and opened a temporary liquidity facility following reports of funding stress. No market prices, consensus expectations, real-yield observations or verified portfolio effects are supplied. This is not real news.",
+            "id": "unproven-report",
+            "published_at": "2026-10-01T12:00:00Z",
+            "title": "FICTIONAL ANALYSIS FIXTURE: policy easing accompanies reported funding stress (unproven-report)",
+            "url": "https://example.invalid/fictional-news-divergence"
+          },
+          "payload_digest": "7ecb5b686e4f18043e563c30185778e44bcd3456a0056532db252aa54531e241",
+          "received_at": "2026-10-08T09:00:00+00:00",
+          "report_id": "unproven-report-report",
+          "revision_id": "unproven-report",
+          "source_contract_digest": "074e648e103797a9d8e83cefd6fe268ad06c2e1ef6f6dcdc4ae0129e3643bd8e",
+          "source_contract_version_id": "fictional-contract-v1",
+          "source_id": "fixture-divergence"
+        }
+      ],
+      "new": [
+        {
+          "availability_witness_at": "2026-10-08T06:00:01+00:00",
+          "deferred_reason": null,
+          "payload": {
+            "content": "This invented item tests independent thesis and trade analysis only. The fictional central bank cut its policy rate and opened a temporary liquidity facility following reports of funding stress. No market prices, consensus expectations, real-yield observations or verified portfolio effects are supplied. This is not real news.",
+            "id": "new-report",
+            "published_at": "2026-10-01T12:00:00Z",
+            "title": "FICTIONAL ANALYSIS FIXTURE: policy easing accompanies reported funding stress (new-report)",
+            "url": "https://example.invalid/fictional-news-divergence"
+          },
+          "payload_digest": "70c4256ed9ae07e2299bda71845cf29d3a5ebbfa57a22e7afb399180e0cf74ef",
+          "received_at": "2026-10-08T06:00:00+00:00",
+          "report_id": "new-report-report",
+          "revision_id": "new-report",
+          "source_contract_digest": "074e648e103797a9d8e83cefd6fe268ad06c2e1ef6f6dcdc4ae0129e3643bd8e",
+          "source_contract_version_id": "fictional-contract-v1",
+          "source_id": "fixture-divergence"
+        }
+      ]
+    },
+    "schema_version": "deterministic-daily-evidence-review-v1",
+    "scope": {
+      "approval_id": "approval-current",
+      "exposure_digest": "7243061a7c09004191a4e068567f75d10adfeea9fa26e11c7330ad65b2ca24a3",
+      "exposure_version_ids": [
+        "position-version-current"
+      ],
+      "interpretation_id": "meaning-current",
+      "owner_id": "fictional-owner",
+      "predecessor_assessment_id": null,
+      "predecessor_context_id": "fictional-predecessor-context",
+      "source_contracts": [
+        {
+          "digest": "074e648e103797a9d8e83cefd6fe268ad06c2e1ef6f6dcdc4ae0129e3643bd8e",
+          "source_id": "fixture-divergence",
+          "version_id": "fictional-contract-v1"
+        }
+      ],
+      "thesis_id": "fixture-thesis"
+    },
+    "unknown_reported_cost_analysis_ids": [
+      "current-analysis",
+      "late-analysis-of-old-report",
+      "postcutoff-analysis",
+      "unresolved-admission"
+    ],
+    "unresolved_analysis_ids": [
+      "unresolved-admission"
+    ]
+  }
+}

@@ -14,6 +14,7 @@ The [getting-started guide](GETTING_STARTED.md) is the human entry point. The in
 | [time.py](../src/macro_agent/domain/time.py) | Public availability, actual receipt, durable availability, UTC handling, and operational replay |
 | [routing.py](../src/macro_agent/domain/routing.py) | Investigation and notice eligibility, uncertain screening, severe surprises, and fixture accumulation with offsets |
 | [publication.py](../src/macro_agent/domain/publication.py) | Supported factual notice validation, dependency pins, currentness, and publication generation |
+| [daily_review.py](../src/macro_agent/domain/daily_review.py) | Deterministic retained-evidence assembly, explicit periods/bounds, stale history and deferred availability; no publication authority |
 | [application/publication.py](../src/macro_agent/application/publication.py) | Protected read, decision, atomic save, and idempotent retry |
 | [ports.py](../src/macro_agent/ports.py) | Persistence ordering contract independent of database libraries |
 | [persistence/models.py](../src/macro_agent/persistence/models.py) | Owner-scoped versions, heads, assessments, current pointer, outbox intent, work, and audit records |
@@ -184,3 +185,21 @@ The terminal saves command IDs in an owner-only journal before transmission. Rea
 All **588 tests pass**: 305 core/client/provider/transport and 283 PostgreSQL/API tests. Django checks, migration comparison, dependency compatibility and generated OpenAPI validation pass. Migration 0003 applied locally. The [HTTP audit](../artifacts/compilation-refinement-audit.md) and [complete synthetic records](../artifacts/compilation-refinement-audit.json) show stop, no-key recovery, explicit resumed compilation, exact approval and card-preserving news context. Two recorded completions and four recorded catalogue calls were used; real provider calls and model spend were zero. The temporary account was disabled afterward.
 
 Inspect the [pure compiler contract](../src/macro_agent/domain/compilation.py), [retention service](../src/macro_agent/theses/compilation.py), [migration](../src/macro_agent/theses/migrations/0003_review_card_refinement.py), [generated SQL](../artifacts/thesis-0003.sql), [strict API tests](../src/macro_agent/api/tests/test_refinement_api.py) and [restart client](../tools/desk_cli.py). These checks prove mechanics and authority, not live usefulness. Source-backed research, macro context continuity, appropriate live sources, continuous operation and daily briefs remain outstanding.
+
+## Deterministic daily-review foundation, 2026-10-09
+
+[ADR 018](ADR/018-internal-runtime-and-daily-review.md) records the accepted internal runtime direction and deterministic daily evidence review before cumulative model synthesis. The independent [domain builder](../src/macro_agent/domain/daily_review.py) now assembles exact supplied retained reports, analyses and diagnostics. New availability falls in `(previous cutoff, current cutoff]`; late analysis of an older report can enter the new analysis interval. Missing or later availability witnesses defer the record visibly. Current stale status is an observation at preparation, separate from the original result and cutoff.
+
+The caller supplies conservative postcommit observations, complete exposure references, original analysis contexts and exact source-contract versions. Multiple historical contracts for one source remain distinct. Validation rejects inconsistent source payloads, impossible time orderings, contradictory current governing references, duplicate identities and explicit count/byte overflow. Retained quotations and hypotheses are validated against their original context. There is no semantic deduplication, invented earlier availability, dropped exposure or silent truncation.
+
+All **327 core/client/provider/transport tests pass**, including **22 new daily-review tests**. The unchanged PostgreSQL/API suite's 283-test result remains the previous increment's evidence; it was not rerun for this pure-domain addition. The [runnable fictional demonstration](../tools/daily_review_demo.py), [readable trace](../artifacts/daily-review-domain-audit.md) and [complete candidate](../artifacts/daily-review-domain-audit.json) expose background evidence, late/stale analysis, unresolved admission, postcutoff evidence, coverage gaps and unknown billed costs. Assembly makes zero model or network calls. Compute/storage costs were not measured.
+
+To reproduce the trace without a database or model key:
+
+```sh
+.venv/bin/python tools/daily_review_demo.py --output .local/daily-review.json --report .local/daily-review.md
+```
+
+This is a value-contract foundation. Permission, owner authorization, actual currentness and input completeness remain caller responsibilities. No evidence/context tables, context chain, schedule/lease service, daily API/CLI, source-correction fanout or publication integration was added. It grants no thesis approval, notice or paid-retry authority. Continuous monitoring and scheduled daily briefs are still unavailable.
+
+The [AI infrastructure research pack](../research/ai-infrastructure/2026-10-09/README.md) separately records dated primary evidence, price/valuation gaps and requested copper-CFD/equity-perp feasibility. It is manual research, not a compiler evidence adapter, approved trade thesis or licensed automated feed.

@@ -10,6 +10,8 @@ The compiler currently reads only your thesis text and saved answers. It does no
 
 The next internal test targets a week of durable paper workflow with a narrow live feed and headline-level analysis. [The test plan](docs/WEEKLY_WORKFLOW_TEST.md) distinguishes that goal from the broader desk roadmap and records the remaining compilation, context continuity, source and daily-brief work.
 
+The first [research pack](research/ai-infrastructure/2026-10-09/README.md) examines AI infrastructure beneficiaries, copper CFDs and semiconductor stock perps. It separates sourced observations from candidate hypotheses and unknown entry valuation. A deterministic daily-review builder now retains prior analyses and visible gaps, but it is not yet connected to persistence or a schedule.
+
 ## Set up locally
 
 You need Python 3.13 and PostgreSQL 17. Docker is one option for PostgreSQL; an existing local installation also works. Start with a separate development database.
