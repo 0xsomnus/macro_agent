@@ -20,7 +20,7 @@ from macro_agent.providers import PROVIDER_IDS, ProviderError, create_provider, 
 from macro_agent.theses import compilation, service as theses
 from macro_agent.theses.model_budget import capacity_available, lock_model_budget
 
-from .models import NewsAnalysisAttempt, NewsAnalysisResult, NewsReviewReceipt, SourceRevision
+from .models import NewsAnalysisAttempt, NewsAnalysisResult, NewsReviewReceipt, SourceRevision, SourceState
 from .news_context import (LIMITATIONS, NewsConflict, NewsDisabled, NewsMissing,
     allowed_source, build_context, gate, news_catalog, protected_source, readonly_snapshot,
     resolve, review_context, set_readonly)
@@ -249,16 +249,24 @@ def analyse_next(actor_id, thesis_id, command_id, expected_approval_id, expected
     except (ValueError, TypeError, KeyError):
         metadata.pop("content", None)
     with transaction.atomic():
-        source = protected_source(source_id)
+        # Admission already authorized this call. A later permission withdrawal
+        # cannot erase its returned outcome or authorize another paid request.
+        # Protect the source to order against permission writers, then preserve
+        # the outcome with stale reasons instead of requiring fresh-use rights.
+        source = SourceState.objects.select_for_update().get(pk=source_id)
         thesis = lock_owner_thesis(actor_id, thesis_id, "default")
         _, current_inputs, _ = resolve(thesis, str(thesis.current_approval_id))
         current_source = SourceRevision.objects.select_related("report__current_revision").get(
             pk=attempt.source_revision_id).report.current_revision
+        from macro_agent.desk.models import SourceContractHead
+        permission = SourceContractHead.objects.select_related("version").filter(source=source).first()
         at = _at(clock, thesis, resolved=current_inputs)
         if at < attempt.created_at:
             raise NewsConflict("Trusted clock precedes analysis admission")
         if current_source is not None and at < current_source.system_received_at:
             raise NewsConflict("Trusted clock precedes observed source state")
+        if permission is not None and at < permission.version.observed_at:
+            raise NewsConflict("Trusted clock precedes source permission observation")
         stale = _stale_reasons(attempt, thesis)
         if at >= attempt.deadline_at:
             status, reason = "outcome_unknown", "completion_deadline_exceeded"

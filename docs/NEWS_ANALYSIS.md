@@ -71,6 +71,8 @@ There is no verified current macro regime, broad news coverage, consensus or mar
 
 ## Recovery, currentness and costs
 
+Permission withdrawal blocks new source use. If inference was already admitted and dispatched, completion retains its returned document and provider metadata under the source lock, with stale disposition when permission changed. Completion cannot backdate the permission observation. A failed or uncertain result remains failed or uncertain; withdrawal and saved-command replay never authorize another model call. Retention of already admitted history is separate from permission to fetch or process new source inputs.
+
 Admission is committed before inference, and network calls run outside database locks. The saved attempt pins approved meaning, the complete exposure book, source revision/contract, prompt/schema versions and provider/model metadata. Protected operations acquire source, owner, thesis and budget protection in that order. Input observations are conservative preparation evidence, not exact admission commit times.
 
 The original result and its current disposition remain separate. A changed source revision, source contract/permission, approved meaning or paper book makes earlier analysis stale. A draft-only change leaves unchanged approved meaning in force. Current disposition is read from a coherent snapshot, so historical success cannot reactivate obsolete inputs. Completion cannot be recorded before protected source or exposure state it has observed.
