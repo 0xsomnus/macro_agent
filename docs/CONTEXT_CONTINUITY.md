@@ -1,6 +1,6 @@
 # Durable context and daily reviews
 
-Status, 2026-10-09: the first daily surface and internal runtime direction are accepted in [ADR 018](ADR/018-internal-runtime-and-daily-review.md). A pure [daily-review domain module](../src/macro_agent/domain/daily_review.py) has 22 recorded-input tests. It does not select sources, obtain availability witnesses, persist reviews or run work. No database scheduler, context chain, publication integration or continuous runner is implemented.
+Status, 2026-10-10: [ADR 018](ADR/018-internal-runtime-and-daily-review.md) now has an internal PostgreSQL implementation: immutable evidence/context/review records, versioned source permissions, durable schedule slots and separate capture/analysis runners. The [operator guide](CONTINUOUS_RUNNER.md) explains configuration and recovery. Daily reviews are deterministic retained evidence, not cumulative LLM synthesis. Daily publication, current pointers and notifications remain unimplemented.
 
 The next slice must retain what the desk has seen, explain changes against prior analysis and recover without losing evidence or repeating uncertain paid work. The first research question is which assets benefit or suffer from AI buildout, and whether positioning over a few weeks to months is already late. Candidate expressions are an Exness `XCUUSD` copper CFD and AMD/NVDA equity perpetuals. These are research candidates, not verified instrument mappings, approved positions or supported asset packs. No trading thesis or source manifest is approved; the original copper example and synthetic gold case are not selected theses.
 
@@ -55,9 +55,9 @@ Synchronous correction fanout needs an explicit internal bound because it can de
 
 ## Accepted internal runtime direction
 
-For the internal test, use separate Django capture and analytical processes backed by durable PostgreSQL scheduling and leases. A model call in the analytical process must not delay polling in the capture process. This accepted direction leaves the scheduling records and runner to implement; it does not select a production queue.
+For the internal test, use separate Django capture and analytical processes backed by durable PostgreSQL scheduling and leases. A model call in the analytical process must not delay polling in the capture process. The internal scheduler and runner implement this direction; a production queue remains unselected.
 
-Save a stable task/command identity before inference admission. Scheduling work with no admitted call can recover through a lease. Once inference has been admitted, restart inspects the saved outcome; lease expiry does not authorize another paid request. Unknown remote completion and billing remain visible. Capture continues when analytical work is degraded.
+Save a stable task/command identity before inference admission. Scheduling work with no admitted call can recover through a lease. A conservative dispatch marker is committed before inference admission. After that marker, restart only inspects the saved outcome; lease expiry does not authorize another paid request. Unknown remote completion and billing remain visible. Capture continues when analytical work is degraded.
 
 Daily identity should be stable by owner, thesis, kind and local reporting date. A changed schedule version alone must not create another daily slot. Intended schedule time and actual creation time remain separate. Late/backfilled work cannot imply that the desk produced it on time.
 
@@ -73,11 +73,21 @@ The existing 22 pure-domain tests cover interval boundaries, late analysis, miss
 
 - Research the selected AI-buildout question into a tentative hypothesis, test alternatives and expectations, then review matching sources and permitted payload scope. A result of no defensible thesis remains valid.
 - Validate candidate instrument availability, actual exposures, basis and financing, and any required equity/valuation support before declaring a supported route. No execution is authorized.
-- Design durable scheduler, context lineage and typed daily publication integration, including correction propagation and an internal fanout bound.
-- Before unattended activation: polling/detection target, briefing time, bounds, allowances, ambiguous-call disposition and missed-slot policy. A dollar ceiling remains open; call/token limits do not prove one.
+- Add cumulative sourced macro assessment and typed daily publication integration, including correction propagation and an internal fanout bound.
+- Before unattended activation: polling/detection target, briefing time, bounds, allowances, operator resolution of ambiguous calls. Missed daily dates create once and label late; older blocked daily work bars later assembly. A dollar ceiling remains open; call/token limits do not prove one.
 
 ## Required evidence
 
 Force correction/publication and permission-withdrawal races through independent PostgreSQL connections. Verify approval/exposure changes during inference, predecessor comparisons, later arrivals without false staleness, duplicate daily ticks, schedule changes, missed slots and restarts after capture, admission and review persistence.
 
 Also prove source/model failure independence, visible context overflow, strict owner scope, unresolved paid outcomes and read-only recovery. Extend the shared model-budget accounting when cumulative attempts are added; an uncounted new attempt table would bypass the current aggregate allowance.
+
+## Implemented persistence and recovery boundaries, 2026-10-10
+
+Evidence and private context use relational revision, contract, approval, interpretation, exposure and predecessor references plus exact immutable snapshots. Source-contract imports are labelled observations of the existing allowlisted adapter manifest. They do not claim a newly reviewed contract governed historical capture. Source withdrawal is versioned and enforced by capture and analysis even when the continuous-desk flag is disabled.
+
+The first context has unavailable starting macro context and predecessor assessment. Later contexts retain lineage and changes to approved meaning/exposure; no summary is promoted into canonical knowledge. One-report inference still receives the approved thesis and paper book, not an accumulated macro-context prompt.
+
+Missing receipt witnesses are reconciled in explicit batches from retained revisions, even if the next feed omits them. Result witnesses are independently observed after commit. Recovery records actual observation time; missed evidence remains deferred from earlier cutoffs. Complete review selection rejects record/byte overflow atomically.
+
+No daily record is installed as a current published brief. Inspection computes current disposition from present approval, complete exposure, included report heads and source permissions without changing original content. Distinct later reports do not invalidate an earlier cutoff; included corrections do. Publication/correction fanout remains a separate required increment.

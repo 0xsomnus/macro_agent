@@ -59,7 +59,7 @@ For current verification, substitute `.local/native-db.env` for `.local/db.env` 
 
 ```sh
 .venv/bin/python -m unittest discover -s tests -v
-.venv/bin/python manage.py test macro_agent.persistence.tests macro_agent.theses.tests macro_agent.positions.tests macro_agent.api.tests --noinput --verbosity 2
+.venv/bin/python manage.py test macro_agent.persistence.tests macro_agent.theses.tests macro_agent.positions.tests macro_agent.api.tests macro_agent.monitoring.tests macro_agent.desk.tests macro_agent.scheduling.tests --noinput --verbosity 2
 .venv/bin/python manage.py makemigrations --check --dry-run
 ```
 

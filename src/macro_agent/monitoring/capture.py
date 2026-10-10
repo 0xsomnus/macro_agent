@@ -41,6 +41,9 @@ def admit_capture(source_id, contract, *, clock=timezone.now):
         SourceState.objects.get_or_create(pk=source_id, defaults={
             "contract": contract, "contract_digest": digest})
         source = SourceState.objects.select_for_update().get(pk=source_id)
+        from macro_agent.desk.permissions import permission_allows
+        if permission_allows(source.pk) is False:
+            raise PermissionError("Source processing permission was withdrawn")
         now = as_utc(clock())
         if source.contract_digest != digest:
             raise ValueError("Source contract changed; review under a new source identity")
@@ -62,6 +65,9 @@ def admit_capture(source_id, contract, *, clock=timezone.now):
 def _protected_attempt(attempt_id, clock):
     attempt = CaptureAttempt.objects.get(pk=attempt_id)
     source = SourceState.objects.select_for_update().get(pk=attempt.source_id)
+    from macro_agent.desk.permissions import permission_allows
+    if permission_allows(source.pk) is False:
+        raise PermissionError("Source processing permission was withdrawn")
     now = as_utc(clock())
     if source.active_capture != attempt.id or now >= attempt.deadline_at:
         raise CaptureFenced("Capture admission expired or was replaced")
@@ -137,6 +143,36 @@ def observe_capture(attempt_id, *, clock=timezone.now):
                 raise ValueError("Observation clock predates receipt")
             DurableObservation.objects.get_or_create(revision=revision,
                 defaults={"observed_by_at": now})
+
+
+def observe_retained(source_ids, limit, *, clock=timezone.now):
+    """Reconcile missing receipt witnesses after restart in explicit batches.
+
+    This observes already committed revisions, including ones no longer in a
+    feed snapshot. A late witness cannot establish availability before it was
+    actually observed. Batching here does not truncate a daily evidence set.
+    """
+    require_local_proof()
+    if connection.in_atomic_block or not connection.get_autocommit():
+        raise ValueError("Observation requires already committed input")
+    if type(limit) is not int or not 1 <= limit <= 2**31 - 1:
+        raise ValueError("Receipt observation requires an explicit positive bound")
+    if type(source_ids) not in (list, tuple) or not source_ids or len(set(source_ids)) != len(source_ids):
+        raise ValueError("Receipt observation requires unique source identities")
+    with transaction.atomic():
+        sources = list(SourceState.objects.select_for_update().filter(pk__in=source_ids).order_by("pk"))
+        if len(sources) != len(source_ids):
+            raise ValueError("Selected source is unavailable")
+        rows = list(SourceRevision.objects.filter(report__source_id__in=source_ids,
+            durableobservation__isnull=True).order_by("system_received_at", "pk")[:limit + 1])
+        now = as_utc(clock())
+        for revision in rows[:limit]:
+            if now < revision.system_received_at:
+                raise ValueError("Observation clock predates receipt")
+            DurableObservation.objects.create(revision=revision, observed_by_at=now)
+    return {"observed_revision_ids": [str(row.pk) for row in rows[:limit]],
+            "observed_by_at": now.isoformat(), "more_pending": len(rows) > limit,
+            "batch_limit": limit, "exact_commit_time": False}
 
 
 def capture(source_id, contract, loader, *, clock=timezone.now, after_commit=None):

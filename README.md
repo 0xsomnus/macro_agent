@@ -6,11 +6,11 @@ Macro Agent is being built as a research desk for solo discretionary macro and f
 
 This is an early backend prototype. The terminal walkthrough lets you enter your own thesis, review either a manual interpretation or a model proposal, approve both text and interpretation, attach a paper trade, and see a notice from recorded fictional news. Model compilation now presents a structured review card, including affected assets, causal paths, assumptions, catalysts, scenarios and explicit gaps. You can save exact answers to its questions and explicitly recompile. Thesis and position history is private and approval is explicit.
 
-The compiler currently reads only your thesis text and saved answers. It does not verify facts, use current macro context or judge investment quality. A monitoring harness captures a narrow official feed, preserves source revisions and recovers pending work after restart. You can now initiate analysis of the next captured report against an approved thesis and its paper trades. The mechanics are tested with recorded model output; live usefulness remains unproven. Continuous operation, broad macro context, morning briefs, external alerts and the trader UI remain to be built. The manual walkthrough needs no model key.
+The compiler currently reads only your thesis text and saved answers. It does not verify facts, use current macro context or judge investment quality. A monitoring harness captures a narrow official feed, preserves source revisions and recovers pending work after restart. You can now initiate analysis of the next captured report against an approved thesis and its paper trades. The mechanics are tested with recorded model output; live usefulness remains unproven. An internal runner now connects separate capture and analysis processes, PostgreSQL scheduling and retained daily evidence reviews. Broad macro context, synthesized morning briefs, external alerts and the trader UI remain to be built. The manual walkthrough needs no model key.
 
 The next internal test targets a week of durable paper workflow with a narrow live feed and headline-level analysis. [The test plan](docs/WEEKLY_WORKFLOW_TEST.md) distinguishes that goal from the broader desk roadmap and records the remaining compilation, context continuity, source and daily-brief work.
 
-The first [research pack](research/ai-infrastructure/2026-10-09/README.md) examines AI infrastructure beneficiaries, copper CFDs and semiconductor stock perps. It separates sourced observations from candidate hypotheses and unknown entry valuation. A deterministic daily-review builder now retains prior analyses and visible gaps, but it is not yet connected to persistence or a schedule.
+The first [research pack](research/ai-infrastructure/2026-10-09/README.md) examines AI infrastructure beneficiaries, copper CFDs and semiconductor stock perps. It separates sourced observations from candidate hypotheses and unknown entry valuation. Daily reviews now retain evidence, original analyses, exact approved inputs and predecessor context in PostgreSQL. They make no new model call and expose missing context explicitly.
 
 ## Set up locally
 
@@ -98,7 +98,7 @@ For a focused test without approval or paper entry, review one example or your o
 .venv/bin/python tools/evaluate_compilation.py --case es-universal-rate-cut
 ```
 
-The [review guide](docs/COMPILATION_REVIEW.md) explains the test cases and private feedback journal. [Source options](docs/SOURCE_OPTIONS.md) compare broader feeds; no production feed or daemon has been selected.
+The [review guide](docs/COMPILATION_REVIEW.md) explains the test cases and private feedback journal. [Source options](docs/SOURCE_OPTIONS.md) compare broader feeds; no production feed has been selected.
 
 ## Prove monitoring capture and recovery
 
@@ -131,6 +131,12 @@ Follow [the news analysis guide](docs/NEWS_ANALYSIS.md) to enable the internal e
 You review the approved inputs and select a model. Typing `run` asks the backend to select the next report automatically, analyse it once and stop for your review. The response separates exact source quotations, thesis relevance, open-trade relevance and proposed consequences. The example tests news that supports a medium-term thesis while exposing a near-term trade risk.
 
 This call may incur a provider charge. Analysis preserves your thesis and trades, leaves monitoring work unresolved, and creates no alert. The guide covers private journals, read-only recovery after a lost response, costs and current limits.
+
+## Run the internal continuous desk
+
+Follow [the runner guide](docs/CONTINUOUS_RUNNER.md) to preview an approved thesis, configure its source manifest, explicit timing and allowances, then start separate capture and analytical processes. This is an internal operator workflow. No unattended watch is enabled by default.
+
+The runner creates each missed daily review once and labels late preparation. Restart recovers retained evidence and saved command outcomes; an uncertain model call is never automatically repeated. Daily output is a private evidence review with gaps and costs, not yet a synthesized macro brief or alert. The AI research workflow still needs a reviewed thesis and matching permitted sources.
 
 ## Inspect and develop
 

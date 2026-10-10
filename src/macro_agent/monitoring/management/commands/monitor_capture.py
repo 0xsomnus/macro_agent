@@ -34,7 +34,7 @@ class Command(BaseCommand):
             loader = lambda: fetch_source(source_id)
         try:
             result = capture(source_id, contract, loader)
-        except (PermissionDenied, CaptureBusy, CaptureFenced, SourceError, ValueError, OSError) as error:
+        except (PermissionDenied, PermissionError, CaptureBusy, CaptureFenced, SourceError, ValueError, OSError) as error:
             raise CommandError(str(error)) from error
         self.stdout.write(render({"source_id": source_id, "capture_id": str(result.attempt_id),
             "status": result.status, "code": result.code, "items": result.item_count,

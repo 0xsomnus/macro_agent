@@ -2,7 +2,7 @@
 
 Scope clarified 2026-10-09: prove the durable internal paper workflow using a narrow live feed and headline-level analysis. Deep investment analysis, comprehensive coverage and a production trading desk are not acceptance criteria for this test. Source fit, context continuity and the confirmed runtime defects remain prerequisites.
 
-Accepted next direction, 2026-10-09: begin with a deterministic daily evidence review and separate Django capture/analytical processes using durable PostgreSQL scheduling and leases, per [ADR 018](ADR/018-internal-runtime-and-daily-review.md). The pure daily-review domain foundation has 22 recorded-input tests. Database scheduling, context lineage, publication integration and continuous operation remain unimplemented.
+Accepted next direction, 2026-10-09: begin with a deterministic daily evidence review and separate Django capture/analytical processes using durable PostgreSQL scheduling and leases, per [ADR 018](ADR/018-internal-runtime-and-daily-review.md). The [internal runner](CONTINUOUS_RUNNER.md) now provides PostgreSQL scheduling, immutable context lineage, retained daily evidence and separate capture/analysis processes. Cumulative macro synthesis, protected daily publication and a live weekly soak remain outstanding.
 
 ## Current compilation versus the intended thesis pack
 
@@ -36,7 +36,7 @@ Context selection needs an explicit bound and exclusion record. Overflow must re
 
 ## Continuity and daily-review implementation contract
 
-[CONTEXT_CONTINUITY.md](CONTEXT_CONTINUITY.md) develops the accepted direction into proposed records, correction ordering, recovery boundaries and remaining decisions for the first internal runner. Those database and runtime components are not implemented.
+[CONTEXT_CONTINUITY.md](CONTEXT_CONTINUITY.md) develops the accepted direction into proposed records, correction ordering, recovery boundaries and remaining decisions for the first internal runner. The evidence/context records, scheduler and internal runner are implemented; cumulative model assessment and daily publication remain outstanding.
 
 | Record | Minimum purpose |
 | --- | --- |
@@ -63,7 +63,7 @@ The [source comparison](SOURCE_OPTIONS.md) contains candidates. Official feeds a
 
 - Research the AI-buildout question into a tentative thesis and counter-case, validate any candidate exposure, and review its source manifest.
 - Review whether the implemented proposals and clarification questions help strengthen a real rough thesis without manufacturing conviction.
-- Implement scheduler, context lineage and correction-aware daily publication under the accepted internal direction.
-- Review cadence, daily time/timezone, bounds, allowances, ambiguous-call and missed-slot policies before unattended activation.
+- Add sourced cumulative macro assessment and correction-aware daily publication under the accepted internal direction.
+- Review cadence, daily time/timezone, bounds, allowances, operator handling of ambiguous calls before unattended activation. Missed daily reviews create once and label late, as agreed.
 
-The [runtime repair report](../artifacts/monitoring-runtime-repair-2026-10-09.md) records the audit repairs. [IMPLEMENTATION.md](IMPLEMENTATION.md) tracks verified status. Fixing those defects does not itself implement continuous dispatch, context continuity or daily briefs.
+The [runtime repair report](../artifacts/monitoring-runtime-repair-2026-10-09.md) records the audit repairs. [IMPLEMENTATION.md](IMPLEMENTATION.md) tracks verified status. The new runner separately implements continuous dispatch and deterministic retained context. It still needs matching permitted sources, a reviewed thesis and live operating evidence before the weekly test.

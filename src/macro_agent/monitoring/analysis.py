@@ -34,6 +34,14 @@ class NewsBudgetExhausted(RuntimeError):
     pass
 
 
+def model_configuration(provider_id):
+    """Safe configuration shared by watch review and actual news admission."""
+    configuration = compilation._configuration(provider_id)
+    configuration.update(prompt_version=PROMPT_VERSION, schema_version=SCHEMA_VERSION,
+        cost_category="private_investigation", context="one_retained_report_and_approved_paper_book")
+    return configuration
+
+
 def _saved_response(actor_id, command_id, digest, thesis, clock):
     row = NewsReviewReceipt.objects.filter(owner_id=actor_id, command_id=command_id).select_related("attempt").first()
     if row is not None and (row.request_digest != digest or row.thesis_id != thesis.pk):
@@ -191,9 +199,7 @@ def analyse_next(actor_id, thesis_id, command_id, expected_approval_id, expected
     if settings.MACRO_MODEL_PROVIDER != provider_id or not settings.MACRO_MODEL_API_KEY:
         raise NewsUnavailable("Configure the selected provider in the backend environment")
     try:
-        configuration = compilation._configuration(provider_id)
-        configuration.update(prompt_version=PROMPT_VERSION, schema_version=SCHEMA_VERSION,
-            cost_category="private_investigation", context="one_retained_report_and_approved_paper_book")
+        configuration = model_configuration(provider_id)
         adapter = provider or create_provider(provider_id, settings.MACRO_MODEL_API_KEY,
             timeout_seconds=configuration["timeout_seconds"], max_output_tokens=configuration["max_output_tokens"])
         catalog = adapter.list_models()

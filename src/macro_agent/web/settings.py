@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     "macro_agent.web.apps.WebConfig", "macro_agent.persistence.apps.PersistenceConfig",
     "macro_agent.theses.apps.ThesesConfig", "macro_agent.positions.apps.PositionsConfig",
     "macro_agent.monitoring.apps.MonitoringConfig",
+    "macro_agent.desk.apps.DeskConfig", "macro_agent.scheduling.apps.SchedulingConfig",
     "rest_framework", "drf_spectacular",
 ]
 MIDDLEWARE = [
@@ -75,6 +76,7 @@ MACRO_ALLOW_SYNTHETIC_SETUP = False
 MACRO_ENABLE_MODEL_COMPILATION = False
 MACRO_ENABLE_MONITORING_PROOF = False
 MACRO_ENABLE_NEWS_ANALYSIS = False
+MACRO_ENABLE_CONTINUOUS_DESK = False
 MACRO_MODEL_PROVIDER = os.environ.get("MACRO_MODEL_PROVIDER", "nanogpt")
 MACRO_MODEL_API_KEY = os.environ.get("MACRO_MODEL_API_KEY", "")
 # Internal research limits, recorded with every admission and configurable.

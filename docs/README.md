@@ -11,6 +11,7 @@ Start with [Getting started](GETTING_STARTED.md) to run the current prototype. T
 | [Compilation review](COMPILATION_REVIEW.md) | Compare one model response with a literal baseline and record private feedback |
 | [Monitoring pipeline proof](MONITORING_PIPELINE.md) | Capture updates, restart and recover durable work; inspect source revisions and failures |
 | [News analysis](NEWS_ANALYSIS.md) | Analyse the next captured report against approved meaning and paper trades, then review separate thesis and trade effects |
+| [Internal continuous runner](CONTINUOUS_RUNNER.md) | Configure separate capture/analysis processes, inspect daily evidence and recover saved work |
 | [Weekly workflow test](WEEKLY_WORKFLOW_TEST.md) | Narrow headline-based durability target and remaining source, continuity, runner and daily-brief prerequisites |
 | [API guide](API_DEVELOPMENT.md) | Log in, save drafts and refinement answers, approve exact versions, and recover private commands |
 | [Paper positions](PAPER_POSITIONS.md) | Attach, revise and close a paper trade; understand brief invalidation |

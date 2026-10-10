@@ -51,13 +51,18 @@ def gate():
         raise NewsDisabled("Internal news review unavailable")
 
 
-def allowed_source(row):
+def _adapter_allowed_source(row):
     if row.contract.get("kind") == "fictional_fixture":
         return bool(settings.MACRO_ALLOW_SYNTHETIC_SETUP and row.pk.startswith("fixture-"))
     if row.pk not in source_specs:
         return False
     contract = {**asdict(source_specs[row.pk]), "adapter_version": "rss-v1", "coverage": "bounded_snapshot"}
     return row.contract_digest == text_digest(canonical_json(contract))
+
+
+def allowed_source(row):
+    from macro_agent.desk.permissions import permission_allows
+    return _adapter_allowed_source(row) and permission_allows(row.pk) is not False
 
 
 def protected_source(source_id):
