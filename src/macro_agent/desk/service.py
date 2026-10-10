@@ -9,7 +9,7 @@ from django.utils import timezone
 
 from macro_agent.domain.daily_review import (
     DailyReviewLimits, DailyReviewPeriod, DailyReviewScope, RetainedNewsAnalysis,
-    RetainedReport, ReviewIssue, SourceContractReference, build_daily_review,
+    RetainedReport, ReviewIssue, ReviewCapacityExceeded, SourceContractReference, build_daily_review,
 )
 from macro_agent.domain.models import canonical_json, text_digest
 from macro_agent.domain.time import as_utc
@@ -65,7 +65,7 @@ def _lock_sources(source_ids):
 def _bounded(query, bound, label):
     rows = list(query[:bound + 1])
     if len(rows) > bound:
-        raise ValueError(f"Complete {label} exceeds its configured bound; no records were discarded")
+        raise ReviewCapacityExceeded(f"Complete {label} exceeds its configured bound; no records were discarded")
     return rows
 
 
@@ -222,7 +222,7 @@ def create_review(actor_id, thesis_id, command_id, start, cutoff, source_ids, li
             raise theses.ThesisConflict("Approve exact thesis meaning before daily review")
         approval, resolved, exposure = _resolved(thesis, str(thesis.current_approval_id), "default")
         if len(resolved["exposure"]["positions"]) > MAX_POSITION_RECORDS:
-            raise ValueError("Complete attached exposure exceeds the existing internal record bound")
+            raise ReviewCapacityExceeded("Complete attached exposure exceeds the existing internal record bound")
         predecessor = DailyReview.objects.select_related("context__evidence").filter(
             owner_id=actor_id, thesis=thesis).order_by("-cutoff").first()
         if predecessor is not None and (predecessor.cutoff != start or cutoff <= predecessor.cutoff):
@@ -299,7 +299,7 @@ def create_review(actor_id, thesis_id, command_id, start, cutoff, source_ids, li
             "changes_since_predecessor": {"approved_meaning_changed": bool(predecessor and predecessor.context.approval_id != approval.pk),
                 "exposure_changed": bool(predecessor and predecessor.context.exposure_digest != exposure)}}
         if len(canonical_json({"review": candidate.to_dict(), "inputs": original_inputs}).encode("utf-8")) > limits.encoded_bytes:
-            raise ValueError("Complete review and private context exceed the configured encoded bound")
+            raise ReviewCapacityExceeded("Complete review and private context exceed the configured encoded bound")
         manifest = [{"source_id": item.source_id, "version_id": str(item.pk), "digest": item.digest,
             "provenance": item.provenance, "observed_at": item.observed_at.isoformat(), "permitted": item.permitted}
             for item in contracts]

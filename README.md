@@ -136,7 +136,9 @@ This call may incur a provider charge. Analysis preserves your thesis and trades
 
 Follow [the runner guide](docs/CONTINUOUS_RUNNER.md) to preview an approved thesis, configure its source manifest, explicit timing and allowances, then start separate capture and analytical processes. This is an internal operator workflow. No unattended watch is enabled by default.
 
-The runner creates each missed daily review once and labels late preparation. Restart recovers retained evidence and saved command outcomes; an uncertain model call is never automatically repeated. Daily output is a private evidence review with gaps and costs, not yet a synthesized macro brief or alert. The AI research workflow still needs a reviewed thesis and matching permitted sources.
+The runner creates each missed daily review once and labels late preparation. Restart recovers retained evidence and saved command outcomes; an uncertain model call is never automatically repeated. [Job inspection and recovery](docs/JOB_RECOVERY.md) explains blocked jobs and the explicit operator recovery command. Use `desk_inspect --owner OWNER_UUID --watch-id WATCH_UUID --brief` for a readable saved-state summary. Daily output is a private evidence review with gaps and costs, not yet a synthesized macro brief or alert. The AI research workflow still needs a reviewed thesis and matching permitted sources.
+
+The latest [free-source research](research/source-options-2026-10-10.md) compares yfinance, GDELT metadata and official feeds. GDELT is a proposed adapter; live Yahoo automated-use permission remains unresolved. Neither is activated by this research.
 
 ## Inspect and develop
 

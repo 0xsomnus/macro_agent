@@ -93,6 +93,7 @@ class SlotLease(models.Model):
     admitted_at = models.DateTimeField()
     deadline_at = models.DateTimeField()
     mode = models.CharField(max_length=8, choices=[("execute", "execute"), ("recover", "recover")])
+    recovery = models.ForeignKey("SlotRecovery", null=True, on_delete=models.PROTECT, related_name="leases")
 
     class Meta:
         constraints = [
@@ -124,3 +125,26 @@ class AnalysisDispatch(models.Model):
 
     class Meta:
         constraints = [models.CheckConstraint(condition=Q(request_digest__regex=r"^[0-9a-f]{64}$"), name="schedule_dispatch_digest")]
+
+
+class SlotRecovery(models.Model):
+    """Immutable operator decision, never proof of remote cancellation or billing."""
+
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    command_id = models.UUIDField()
+    slot = models.ForeignKey(ScheduledSlot, on_delete=models.PROTECT, related_name="recoveries")
+    prior_lease = models.OneToOneField(SlotLease, on_delete=models.PROTECT, related_name="manual_recovery")
+    watch_version = models.ForeignKey(WatchVersion, on_delete=models.PROTECT)
+    action = models.CharField(max_length=16, choices=[("retry", "retry"), ("reconcile", "reconcile")])
+    reason = models.CharField(max_length=2000)
+    created_at = models.DateTimeField()
+    request_digest = models.CharField(max_length=64)
+    initial_lease_token = models.UUIDField(unique=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=("owner", "command_id"), name="schedule_recovery_command"),
+            models.CheckConstraint(condition=Q(action__in=("retry", "reconcile")), name="schedule_recovery_action"),
+            models.CheckConstraint(condition=Q(request_digest__regex=r"^[0-9a-f]{64}$"), name="schedule_recovery_digest"),
+        ]

@@ -15,6 +15,8 @@ from django.utils import timezone
 from macro_agent.domain.daily_review import DailyReviewLimits
 from macro_agent.desk import service as desk
 from macro_agent.scheduling import service as schedule
+from macro_agent.scheduling.recovery import begin_recovery
+from macro_agent.theses.service import ThesisUnavailable
 
 from . import analysis, capture, news_context
 from .gates import require_local_proof
@@ -157,13 +159,60 @@ def _analysis_slot(lease, provider, clock):
 def _daily_slot(lease, clock):
     from datetime import datetime
     config = lease["configuration"]
-    response = desk.create_review(lease["owner_id"], lease["thesis_id"], lease["command_id"],
-        datetime.fromisoformat(lease["period_start"]), datetime.fromisoformat(lease["cutoff"]),
-        tuple(row["source_id"] for row in config["sources"]), DailyReviewLimits(**config["context_bounds"]),
-        clock=clock)
+    # A result retained before a crash wins over newly reviewed bounds. Preserve
+    # its exact inputs, preparation time and present stale/prepared disposition.
+    try:
+        response = desk.get_review_command(lease["owner_id"], lease["thesis_id"], lease["command_id"], clock=clock)
+    except ThesisUnavailable:
+        response = desk.create_review(lease["owner_id"], lease["thesis_id"], lease["command_id"],
+            datetime.fromisoformat(lease["period_start"]), datetime.fromisoformat(lease["cutoff"]),
+            tuple(row["source_id"] for row in config["sources"]), DailyReviewLimits(**config["context_bounds"]),
+            clock=clock)
     late = lease["late"] or datetime.fromisoformat(response["review"]["prepared_at"]) > datetime.fromisoformat(lease["cutoff"])
     return "completed", {"review": response, "late": late,
                          "intended_at": lease["intended_at"], "model_calls": 0}
+
+
+def execute_lease(lease, *, loaders=None, provider=None, clock=timezone.now):
+    """Execute one admitted fenced lease, shared by ticks and operator recovery."""
+    gate()
+    if connection.in_atomic_block or not connection.get_autocommit():
+        raise RuntimeError("Runner execution requires independent committed transactions")
+    kind, actor_id = lease["kind"], lease["owner_id"]
+    try:
+        if kind == "capture":
+            status, payload = _capture_slot(lease, loaders or {}, clock)
+        elif kind == "analysis":
+            status, payload = _analysis_slot(lease, provider, clock)
+            if lease["mode"] != "recover":
+                desk.observe_analysis_results(actor_id, lease["thesis_id"],
+                    tuple(row["source_id"] for row in lease["configuration"]["sources"]),
+                    lease["configuration"]["context_bounds"]["analyses"], clock=clock)
+        else:
+            status, payload = _daily_slot(lease, clock)
+    except DatabaseError:
+        raise  # Retained work survives; never invent remote failure/cancellation.
+    except (ValueError, PermissionError, PermissionDenied, RuntimeError) as error:
+        status, payload = "blocked", _safe_failure(error)
+    try:
+        outcome = schedule.complete_slot(actor_id, lease["token"], status, payload, clock=clock)
+    except schedule.ScheduleFenced:
+        outcome = {"status": "lease_lost", "code": "slot_completion_fenced",
+                   "recovery_needed": True, "paid_retry_authorized": False}
+    return {"kind": kind, "slot_id": lease["slot_id"], "outcome": outcome}
+
+
+def recover_job(actor_id, slot_id, command_id, expected_last_token, expected_watch_revision,
+                action, reason, *, loaders=None, provider=None, clock=timezone.now):
+    """An exact repeated operator command inspects its receipt and never executes."""
+    gate()
+    result = begin_recovery(actor_id, slot_id, command_id, expected_last_token,
+                           expected_watch_revision, action, reason, clock=clock)
+    if result["replayed"]:
+        return {**result, "processed": None, "publication": "none", "external_notifications": "none"}
+    processed = execute_lease(result["lease"], loaders=loaders, provider=provider, clock=clock)
+    return {**result, "current_slot_state": processed["outcome"].get("current_slot_state"),
+            "processed": processed, "publication": "none", "external_notifications": "none"}
 
 
 def run_tick(actor_id, watch_id, role, *, loaders=None, provider=None, clock=timezone.now):
@@ -198,27 +247,6 @@ def run_tick(actor_id, watch_id, role, *, loaders=None, provider=None, clock=tim
         lease = schedule.claim_due(actor_id, kind, watch_id=watch_id, clock=clock)
         if lease is None:
             continue
-        try:
-            if kind == "capture":
-                status, payload = _capture_slot(lease, loaders or {}, clock)
-            elif kind == "analysis":
-                status, payload = _analysis_slot(lease, provider, clock)
-                desk.observe_analysis_results(actor_id, lease["thesis_id"],
-                    tuple(row["source_id"] for row in lease["configuration"]["sources"]),
-                    lease["configuration"]["context_bounds"]["analyses"], clock=clock)
-            else:
-                status, payload = _daily_slot(lease, clock)
-        except DatabaseError:
-            raise
-        except (ValueError, PermissionError, PermissionDenied, RuntimeError) as error:
-            status, payload = "blocked", _safe_failure(error)
-        try:
-            outcome = schedule.complete_slot(actor_id, lease["token"], status, payload, clock=clock)
-        except schedule.ScheduleFenced:
-            # Retained capture/result work survives. A new lease can inspect it;
-            # a slow worker must never publish through an expired lease.
-            outcome = {"status": "lease_lost", "code": "slot_completion_fenced",
-                       "recovery_needed": True, "paid_retry_authorized": False}
-        processed.append({"kind": kind, "slot_id": lease["slot_id"], "outcome": outcome})
+        processed.append(execute_lease(lease, loaders=loaders, provider=provider, clock=clock))
     return {"scheduled": scheduled, "receipt_observations": receipts, "processed": processed,
             "publication": "none", "external_notifications": "none"}

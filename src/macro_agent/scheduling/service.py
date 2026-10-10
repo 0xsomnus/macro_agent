@@ -47,6 +47,10 @@ class InferenceAlreadyStarted(ScheduleConflict):
     pass
 
 
+class AnalysisAllowanceExhausted(ScheduleConflict):
+    pass
+
+
 def gate():
     require_local_proof()
     if not getattr(settings, "MACRO_ENABLE_CONTINUOUS_DESK", False):
@@ -216,7 +220,12 @@ def enqueue_due(actor_id, watch_id, *, kind=None, clock=timezone.now):
 
 def _claim_wire(lease, slot):
     marker = AnalysisDispatch.objects.filter(slot=slot).first()
-    return {**_slot_wire(slot), "token": str(lease.pk), "lease_deadline": lease.deadline_at.isoformat(),
+    version = lease.recovery.watch_version if lease.recovery_id else slot.watch_version
+    return {**_slot_wire(slot), "configuration": version.configuration,
+        "original_watch_version_id": str(slot.watch_version_id), "watch_version_id": str(version.pk),
+        "recovery_id": str(lease.recovery_id) if lease.recovery_id else None,
+        "lease_sequence": lease.sequence,
+        "token": str(lease.pk), "lease_deadline": lease.deadline_at.isoformat(),
         "mode": lease.mode, "analysis_request": marker.request if marker else None}
 
 
@@ -269,7 +278,9 @@ def claim_due(actor_id, kind, *, watch_id=None, clock=timezone.now):
                     local_date__lt=slot.local_date).exclude(state="completed").exists():
                 unavailable.add(candidate_watch_id)
                 continue
-            config = slot.watch_version.configuration
+            old = SlotLease.objects.get(pk=slot.active_token) if slot.state == "running" else None
+            recovery = old.recovery if old and old.recovery_id else None
+            config = recovery.watch_version.configuration if recovery else slot.watch_version.configuration
             marker = AnalysisDispatch.objects.filter(slot=slot).first()
             if kind == "analysis" and marker is None:
                 active = ScheduledSlot.objects.filter(watch=watch, kind=kind, state="running", lease_until__gt=at).count()
@@ -277,13 +288,12 @@ def claim_due(actor_id, kind, *, watch_id=None, clock=timezone.now):
                     unavailable.add(candidate_watch_id)
                     continue
             if slot.state == "running":
-                old = SlotLease.objects.get(pk=slot.active_token)
                 if at < old.admitted_at:
                     raise ScheduleConflict("Trusted clock precedes the active lease")
                 SlotOutcome.objects.create(lease=old, status="expired", finished_at=at,
                     payload={"reason": "lease_expired", "paid_retry_authorized": False,
                              "dispatch_started": marker is not None})
-            lease = SlotLease.objects.create(slot=slot, sequence=slot.attempt_count + 1,
+            lease = SlotLease.objects.create(slot=slot, recovery=recovery, sequence=slot.attempt_count + 1,
                 admitted_at=at, deadline_at=at + timedelta(seconds=config["lease_seconds"]),
                 mode="recover" if marker else "execute")
             slot.state, slot.active_token, slot.lease_until = "running", lease.pk, lease.deadline_at
@@ -329,7 +339,7 @@ def mark_analysis_started(actor_id, token, request, *, clock=timezone.now):
             raise ScheduleConflict("Only analysis slots may record a model dispatch")
         if AnalysisDispatch.objects.filter(slot=slot).exists():
             raise InferenceAlreadyStarted("Dispatch already started; use read-only command recovery")
-        config = slot.watch_version.configuration
+        config = lease.recovery.watch_version.configuration if lease.recovery_id else slot.watch_version.configuration
         if (request["source_id"] not in {item["source_id"] for item in config["sources"]}
                 or request["expected_approval_id"] != config["approval_id"]
                 or request["expected_exposure_digest"] != config["exposure_digest"]
@@ -343,13 +353,14 @@ def mark_analysis_started(actor_id, token, request, *, clock=timezone.now):
             started_at__gt=at - timedelta(seconds=allowance["window_seconds"])).count()
         failed = SlotOutcome.objects.filter(lease__slot__watch=watch, lease__slot__kind="analysis",
             lease__slot__analysisdispatch__isnull=False,
-            status__in=("failed", "unresolved", "blocked")).values_list("lease__slot_id", flat=True)
+            status__in=("failed", "unresolved", "blocked")).exclude(
+                lease__slot__state="completed").values_list("lease__slot_id", flat=True)
         uncertain = (AnalysisDispatch.objects.filter(slot__watch=watch, lease__deadline_at__lte=at)
             .exclude(slot__state="completed").values_list("slot_id", flat=True))
         unresolved = ScheduledSlot.objects.filter(watch=watch, kind="analysis").filter(
             Q(pk__in=failed) | Q(pk__in=uncertain)).count()
         if dispatches >= allowance["analysis_dispatches"] or unresolved >= allowance["unresolved_slots"]:
-            raise ScheduleConflict("Additional per-watch analysis allowance exhausted; no dispatch admitted")
+            raise AnalysisAllowanceExhausted("Additional per-watch analysis allowance exhausted; no dispatch admitted")
         marker = AnalysisDispatch.objects.create(slot=slot, lease=lease, request=request,
             request_digest=text_digest(canonical_json(request)), started_at=at)
         watch.changed_at = at
@@ -418,11 +429,15 @@ def inspect_watch(actor_id, watch_id):
             for lease in slot.leases.order_by("sequence"):
                 outcome = SlotOutcome.objects.filter(lease=lease).first()
                 row["leases"].append({"token": str(lease.pk), "sequence": lease.sequence, "mode": lease.mode,
+                    "recovery_id": str(lease.recovery_id) if lease.recovery_id else None,
+                    "effective_watch_version_id": str(lease.recovery.watch_version_id) if lease.recovery_id else str(slot.watch_version_id),
                     "admitted_at": lease.admitted_at.isoformat(), "deadline_at": lease.deadline_at.isoformat(),
                     "outcome": {"status": outcome.status, "payload": outcome.payload,
                                 "finished_at": outcome.finished_at.isoformat()} if outcome else None})
             marker = AnalysisDispatch.objects.filter(slot=slot).first()
             row["analysis_request"] = marker.request if marker else None
+            from .recovery import recovery_wire
+            row["recoveries"] = [recovery_wire(item) for item in slot.recoveries.order_by("created_at", "id")]
             slots.append(row)
         return {**current, "slots": slots,
             "limitations": ["Inspection does not expire leases or authorize paid retries.",

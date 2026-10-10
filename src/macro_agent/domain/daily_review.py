@@ -20,6 +20,10 @@ from .time import as_utc
 SCHEMA_VERSION = "deterministic-daily-evidence-review-v1"
 
 
+class ReviewCapacityExceeded(ValueError):
+    """Complete context cannot fit; no evidence may be silently discarded."""
+
+
 def _text(value, field):
     if type(value) is not str or not value.strip() or "\x00" in value:
         raise ValueError(f"{field} requires nonblank text without NUL")
@@ -67,8 +71,10 @@ def _instant(value):
 
 
 def _items(values, kind, limit, field):
-    if type(values) not in (list, tuple) or len(values) > limit:
-        raise ValueError(f"{field} exceeds its explicit bound; do not truncate")
+    if type(values) not in (list, tuple):
+        raise ValueError(f"{field} requires a list or tuple")
+    if len(values) > limit:
+        raise ReviewCapacityExceeded(f"{field} exceeds its explicit bound; do not truncate")
     result = tuple(values)
     if any(type(value) is not kind for value in result):
         raise ValueError(f"{field} requires {kind.__name__} values")
@@ -321,7 +327,7 @@ def build_daily_review(*, period: DailyReviewPeriod, scope: DailyReviewScope,
     analyses = _items(analyses, RetainedNewsAnalysis, limits.analyses, "analyses")
     issues = _items(issues, ReviewIssue, limits.issues, "issues")
     if len(scope.exposure_version_ids) > limits.exposure_versions or len(scope.source_contracts) > limits.source_contracts:
-        raise ValueError("complete exposure or source manifest exceeds its bound; do not truncate")
+        raise ReviewCapacityExceeded("complete exposure or source manifest exceeds its bound; do not truncate")
     contracts = {(item.source_id, item.version_id): item for item in scope.source_contracts}
     source_ids = {item.source_id for item in scope.source_contracts}
     report_map = {item.revision_id: item for item in reports}
@@ -425,5 +431,5 @@ def build_daily_review(*, period: DailyReviewPeriod, scope: DailyReviewScope,
             "This deterministic review grants no approval, publication, notification or paid-retry authority."],
         "assembly_inference_calls": 0, "assembly_inference_cost_usd": "0"})
     if len(content.encode("utf-8")) > limits.encoded_bytes:
-        raise ValueError("daily review exceeds its explicit encoded bound; do not truncate")
+        raise ReviewCapacityExceeded("daily review exceeds its explicit encoded bound; do not truncate")
     return DailyReviewCandidate(content)

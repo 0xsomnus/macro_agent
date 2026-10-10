@@ -32,6 +32,7 @@ from macro_agent.monitoring.models import NewsAnalysisResult, SourceState
 from macro_agent.monitoring.sources import SourceBatch, SourceItem
 from macro_agent.positions import service as positions
 from macro_agent.scheduling import service as schedule
+from macro_agent.scheduling.diagnostics import render_brief, summarize_watch
 from macro_agent.theses import service as theses
 
 
@@ -66,7 +67,7 @@ class RecordedProvider:
             "reported_cost_usd": None, "finish_reason": "stop", "latency_ms": 1}
 
 
-def demonstrate():
+def demonstrate(*, include_recovery=False):
     runner.gate()
     from macro_agent.monitoring.gates import require_local_proof
     require_local_proof(synthetic=True)
@@ -112,7 +113,7 @@ def demonstrate():
             "timezone": "UTC", "daily_time": cutoff.strftime("%H:%M"),
             "daily_start_date": cutoff.date().isoformat(), "daily_backlog_limit": 8,
             "context_bounds": {"reports": 100, "analyses": 100, "exposure_versions": 200,
-                "issues": 100, "source_contracts": 16, "encoded_bytes": 1000000},
+                "issues": 100, "source_contracts": 16, "encoded_bytes": 1 if include_recovery else 1000000},
             "allowances": {"window_seconds": 604800, "analysis_dispatches": 1,
                 "inflight_slots": 1, "unresolved_slots": 1}}
         watch = schedule.configure_watch(actor, thesis["id"], str(uuid4()), 0, config, clock=clock)
@@ -134,6 +135,25 @@ def demonstrate():
             recovered_analysis = tick("analysis")
         at = cutoff + timedelta(hours=1)
         late = tick("analysis")
+        recovery_trace = None
+        if include_recovery:
+            blocked = next(item for item in late["processed"] if item["kind"] == "daily_review")
+            assert blocked["outcome"]["status"] == "blocked"
+            assert blocked["outcome"]["payload"]["code"] == "ReviewCapacityExceeded"
+            assert not DailyReview.objects.filter(owner=user).exists()
+            before = schedule.inspect_watch(actor, watch["watch_id"])
+            changed = {**config, "context_bounds": {**config["context_bounds"], "encoded_bytes": 1000000}}
+            watch = schedule.configure_watch(actor, thesis["id"], str(uuid4()), watch["revision"], changed, clock=clock)
+            recovery_command = str(uuid4())
+            args = (actor, blocked["slot_id"], recovery_command, blocked["outcome"]["token"],
+                    watch["revision"], "retry", "Fictional operator reviewed the complete context and increased its byte bound.")
+            repaired = runner.recover_job(*args, clock=clock)
+            assert repaired["current_slot_state"] == "completed"
+            with patch.object(runner, "execute_lease", side_effect=AssertionError("Historical replay cannot execute")):
+                replay = runner.recover_job(*args, clock=clock)
+            assert replay["replayed"] and replay["processed"] is None
+            recovery_trace = {"before": before, "brief_before": render_brief(summarize_watch(before)),
+                              "recovery": repaired, "historical_replay": replay}
         first = DailyReview.objects.get(owner=user)
         original = desk.inspect_review(actor, str(first.pk), clock=clock)
         tick("analysis")
@@ -153,6 +173,7 @@ def demonstrate():
             "watch": watch, "capture_restart": recovered_capture,
             "analysis_result_restart_without_key": recovered_analysis,
             "late_daily_tick": late, "second_daily_tick": second,
+            "audited_job_recovery": recovery_trace,
             "original_review": original, "after_source_correction": corrected,
             "inspection": schedule.inspect_watch(actor, watch["watch_id"]),
             "recorded_model_calls": provider.calls, "recorded_catalogue_calls": provider.catalog_calls,
@@ -170,12 +191,13 @@ def demonstrate():
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--with-job-recovery", action="store_true")
     args = parser.parse_args()
     if args.output.exists():
         parser.error("Refusing to overwrite an existing trace")
     with override_settings(MACRO_MODEL_PROVIDER="nanogpt", MACRO_MODEL_API_KEY="recorded-only",
                            SETTINGS_MODULE="macro_agent.web.local_settings"):
-        result = demonstrate()
+        result = demonstrate(include_recovery=args.with_job_recovery)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print("Saved fictional trace. Real network/model calls: 0. Temporary account disabled.")

@@ -57,13 +57,14 @@ Before unattended activation, review the actual thesis/exposure, sources, cadenc
 
 A narrow feed is sufficient when it addresses the test thesis. The first joint research question is which assets are affected by AI buildout and whether it is too late to position over a few weeks to months. Candidate expressions are an Exness `XCUUSD` copper CFD and AMD/NVDA equity perpetuals. These are not approved trades, validated instrument mappings or supported packs; no trading thesis or source manifest is selected. Equity and valuation requirements remain to be reviewed. The product must support [user-led research from a question or observation](THESIS_ENGINE.md#user-led-research-before-a-thesis-exists), including a result of no defensible thesis.
 
-The [source comparison](SOURCE_OPTIONS.md) contains candidates. Official feeds and permitted headline/metadata APIs can prove different parts of ingestion. Linked full articles are not automatically licensed for retention or inference. No new provider, paid subscription or production source is selected by this test plan.
+The [source comparison](SOURCE_OPTIONS.md) contains candidates. The [free-source research](../research/source-options-2026-10-10.md) adds yfinance, bounded GDELT metadata and future entitlement-scoped user wire credentials. Live Yahoo automated-use permission remains unresolved; GDELT is a proposed adapter. Official feeds and permitted headline/metadata APIs can prove different parts of ingestion. Linked full articles are not automatically licensed for retention or inference. No new provider, paid subscription or production source is selected by this test plan.
 
 ## Remaining work and activation choices
 
 - Research the AI-buildout question into a tentative thesis and counter-case, validate any candidate exposure, and review its source manifest.
 - Review whether the implemented proposals and clarification questions help strengthen a real rough thesis without manufacturing conviction.
 - Add sourced cumulative macro assessment and correction-aware daily publication under the accepted internal direction.
+- Exercise [implemented audited job recovery](JOB_RECOVERY.md) against real failure causes during the supervised run. Its recorded tests do not resolve missing/uncertain remote model outcomes.
 - Review cadence, daily time/timezone, bounds, allowances, operator handling of ambiguous calls before unattended activation. Missed daily reviews create once and label late, as agreed.
 
 The [runtime repair report](../artifacts/monitoring-runtime-repair-2026-10-09.md) records the audit repairs. [IMPLEMENTATION.md](IMPLEMENTATION.md) tracks verified status. The new runner separately implements continuous dispatch and deterministic retained context. It still needs matching permitted sources, a reviewed thesis and live operating evidence before the weekly test.

@@ -1,4 +1,3 @@
-import json
 from pathlib import Path
 from time import sleep
 
@@ -6,10 +5,9 @@ from django.db import DatabaseError
 from django.core.exceptions import PermissionDenied
 from django.core.management.base import BaseCommand, CommandError
 
-from macro_agent.domain.models import normalize_json_object
+from macro_agent.monitoring.fixture_loading import fixture_loaders
 from macro_agent.monitoring.output import render
 from macro_agent.monitoring.runner import run_tick
-from macro_agent.monitoring.sources import load_recorded
 
 
 class Command(BaseCommand):
@@ -30,19 +28,10 @@ class Command(BaseCommand):
             raise CommandError("Continuous operation needs --idle-seconds between 0.1 and 60")
         if maximum is not None and maximum < 1:
             raise CommandError("--max-ticks must be positive")
-        loaders = {}
-        if options["fixture_map"]:
-            try:
-                path = options["fixture_map"]
-                if path.stat().st_size > 65_536:
-                    raise ValueError
-                mapping = json.loads(normalize_json_object(path.read_text(encoding="utf-8")))
-                if not mapping or any(type(key) is not str or not key.startswith("fixture-")
-                        or type(value) is not str or not value for key, value in mapping.items()):
-                    raise ValueError
-                loaders = {key: (lambda value=value: load_recorded(value)) for key, value in mapping.items()}
-            except (ValueError, TypeError, OSError):
-                raise CommandError("Fixture map requires bounded fixture-source to local-file entries") from None
+        try:
+            loaders = fixture_loaders(options["fixture_map"])
+        except ValueError as error:
+            raise CommandError(str(error)) from None
         count = 0
         try:
             while True:
