@@ -2,6 +2,8 @@
 
 This internal terminal exercise connects retained news to your exact approved thesis and attached paper trades. You choose a source and model; the backend selects one report, makes at most one inference call, then stops for your review. It does not run continuously, amend your thesis, change trades or publish an alert.
 
+The [continuous runner](CONTINUOUS_RUNNER.md) separately supports explicit [cumulative context](CUMULATIVE_CONTEXT.md) opt-in. This manual terminal/HTTP flow remains v1 single-report analysis; saved reads preserve v2 results produced by cumulative watches.
+
 The initial example is fictional: policy easing may support a medium-term equity thesis, while reported funding stress could create a separate near-term risk for an attached NQ long. The purpose is to test whether the model considers the view and the trade independently, with assumptions and counter-cases visible.
 
 ## Prepare the backend

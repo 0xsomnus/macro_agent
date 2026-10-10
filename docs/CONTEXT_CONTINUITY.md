@@ -1,6 +1,6 @@
 # Durable context and daily reviews
 
-Status, 2026-10-10: [ADR 018](ADR/018-internal-runtime-and-daily-review.md) now has an internal PostgreSQL implementation: immutable evidence/context/review records, versioned source permissions, durable schedule slots and separate capture/analysis runners. The [operator guide](CONTINUOUS_RUNNER.md) explains configuration and recovery. Daily reviews are deterministic retained evidence, not cumulative LLM synthesis. Daily publication, current pointers and notifications remain unimplemented.
+Status, 2026-10-10: [ADR 018](ADR/018-internal-runtime-and-daily-review.md) now has an internal PostgreSQL implementation: immutable evidence/context/review records, versioned source permissions, durable schedule slots and separate capture/analysis runners. The [operator guide](CONTINUOUS_RUNNER.md) explains configuration and recovery. Daily reviews are deterministic retained evidence. [Cumulative model context](CUMULATIVE_CONTEXT.md) is implemented for explicitly reviewed internal news watches. Daily publication, current pointers and notifications remain unimplemented.
 
 The next slice must retain what the desk has seen, explain changes against prior analysis and recover without losing evidence or repeating uncertain paid work. The first research question is which assets benefit or suffer from AI buildout, and whether positioning over a few weeks to months is already late. Candidate expressions are an Exness `XCUUSD` copper CFD and AMD/NVDA equity perpetuals. These are research candidates, not verified instrument mappings, approved positions or supported asset packs. No trading thesis or source manifest is approved; the original copper example and synthetic gold case are not selected theses.
 
@@ -21,7 +21,7 @@ The next slice must retain what the desk has seen, explain changes against prior
 | Private thesis-context version | Exact approved inputs and full exposure, evidence set, predecessor context and assessment, unresolved questions and explicit unavailable starting macro context where necessary. |
 | Durable watch/schedule version | Reviewed thesis, sources, provider/model, cadence, timezone/briefing time, explicit context bounds and allowances. Changing configuration cannot rewrite an admitted run. |
 | Daily slot and review version | Stable owner/thesis/kind/local-date slot, reporting interval/cutoff, actual preparation/publication observations, selected context and retained analysis, source health and unresolved work. Preserve original outcome separately from current disposition observed at preparation. |
-| Later cumulative analysis admission/result | Exact context/predecessor, command identity, prompt/model/configuration and allowance admitted before inference. Completion compares protected dependencies before installing a new current result. |
+| Cumulative analysis admission/result | Exact context/predecessor, command identity, prompt/model/configuration and allowance admitted before inference. Completion compares protected dependencies before retaining the outcome and its original disposition; it installs no published current pointer. |
 
 Use relational references for ownership, lineage and correction lookup alongside immutable JSON snapshots for inspection. Do not backfill historical records with claims that these new contracts governed their original execution.
 
@@ -86,21 +86,21 @@ Also prove source/model failure independence, visible context overflow, strict o
 
 Evidence and private context use relational revision, contract, approval, interpretation, exposure and predecessor references plus exact immutable snapshots. Source-contract imports are labelled observations of the existing allowlisted adapter manifest. They do not claim a newly reviewed contract governed historical capture. Source withdrawal is versioned and enforced by capture and analysis even when the continuous-desk flag is disabled.
 
-The first context has unavailable starting macro context and predecessor assessment. Later contexts retain lineage and changes to approved meaning/exposure; no summary is promoted into canonical knowledge. One-report inference still receives the approved thesis and paper book, not an accumulated macro-context prompt.
+The first context has unavailable starting macro context and predecessor assessment. Later contexts retain lineage and changes to approved meaning/exposure; no summary is promoted into canonical knowledge. Legacy one-report inference retains its original contract. Opted-in watches now add eligible retained reports, original labelled analyses and explicit context gaps at admission; neither mode establishes a verified macro regime.
 
 Missing receipt witnesses are reconciled in explicit batches from retained revisions, even if the next feed omits them. Result witnesses are independently observed after commit. Recovery records actual observation time; missed evidence remains deferred from earlier cutoffs. Complete review selection rejects record/byte overflow atomically.
 
 No daily record is installed as a current published brief. Inspection computes current disposition from present approval, complete exposure, included report heads and source permissions without changing original content. Distinct later reports do not invalidate an earlier cutoff; included corrections do. Publication/correction fanout remains a separate required increment.
 
-## Next cumulative-context increment
+## Implemented cumulative-context increment
 
-The implementation review identified these dependencies before one-report inference can become cumulative:
+The cumulative increment implements this sequence, with a recorded end-to-end trace linked from the [operator guide](CUMULATIVE_CONTEXT.md):
 
 1. Extract the existing complete evidence assembly from daily preparation for reuse at analysis admission. Persist a private context for that admission, including eligible reports and retained analyses received since the last daily review. Reusing only the latest daily context would omit intraday evidence.
-2. Pin that context identity and digest on the existing news-analysis attempt, reviewed preview, request digest and scheduler dispatch identity. Keep admission within the existing shared model allowance; a separate uncounted attempt table would bypass it.
+2. Pin that context identity and digest on the existing news-analysis attempt. The reviewed preview, request digest and scheduler dispatch pin the source manifest and bounds; exact evidence identity is established later at protected admission. Keep admission within the existing shared model allowance; a separate uncounted attempt table would bypass it.
 3. Include eligible prior source payloads, original labelled analyses, offsetting evidence, unresolved work and explicit gaps. Prior model output remains interpretation. Reject complete-context byte overflow before catalogue or inference; do not silently select the first few reports.
 4. Version the output contract to permit quotations from multiple included reports and explicit comparisons with prior analyses. Preserve the historical single-report validator so old results remain inspectable. Deferred evidence cannot support a factual quotation.
 5. Compare every consumed permission, contract and included report head under source protection, then owner/thesis protection. A changed dependency preserves the returned outcome as stale and grants no publication authority. New distinct reports after the cutoff do not themselves stale that context.
 6. Prove that earlier counterevidence can offset a supportive new headline, intraday analyses enter the next context, invalid citations fail, overflow makes zero calls, and saved-command recovery never resends inference. Force dependency changes during inference with independent PostgreSQL connections.
 
-This is an implementation sequence, not a claim of completed continuity or a new shared macro-context policy. Current daily-review HTTP reads expose existing retained history; they do not fill the model-context gap.
+Recorded tests establish retained-input continuity and recovery, not live analytical usefulness or a new shared macro-context policy. The compiler still lacks current sourced context. Daily briefing publication, source fit and supervised weekly evaluation remain required.

@@ -30,7 +30,7 @@ def gate():
         raise PermissionError("Internal continuous desk is disabled")
 
 
-def enrollment_preview(actor_id, thesis_id):
+def enrollment_preview(actor_id, thesis_id, *, cumulative=False):
     """Inspect existing authority and safe configuration, never fetch a model."""
     gate()
     context = news_context.review_context(actor_id, thesis_id)
@@ -41,7 +41,8 @@ def enrollment_preview(actor_id, thesis_id):
                    for row in SourceState.objects.order_by("id") if news_context.allowed_source(row)]
     return {"thesis": context, "sources": sources,
             "provider": settings.MACRO_MODEL_PROVIDER,
-            "model_configuration": analysis.model_configuration(settings.MACRO_MODEL_PROVIDER),
+            "model_configuration": analysis.model_configuration(settings.MACRO_MODEL_PROVIDER, cumulative=True)
+                if cumulative else analysis.model_configuration(settings.MACRO_MODEL_PROVIDER),
             "limitations": ["No model catalogue or inference request was made.",
                             "Timing, bounds and allowances require explicit configuration."]}
 
@@ -120,7 +121,10 @@ def _analysis_slot(lease, provider, clock):
     if (current["approval_id"] != config["approval_id"]
             or current["exposure_digest"] != config["exposure_digest"]):
         return "blocked", {"code": "reviewed_approval_or_exposure_changed", "model_calls": 0}
-    if analysis.model_configuration(config["provider"]) != config["model_configuration"]:
+    cumulative = config["model_configuration"].get("context") == "complete_retained_context"
+    expected_model_configuration = (analysis.model_configuration(config["provider"], cumulative=True)
+        if cumulative else analysis.model_configuration(config["provider"]))
+    if expected_model_configuration != config["model_configuration"]:
         return "blocked", {"code": "model_configuration_changed", "model_calls": 0}
     if settings.MACRO_MODEL_PROVIDER != config["provider"] or not settings.MACRO_MODEL_API_KEY:
         return "blocked", {"code": "selected_provider_not_configured", "model_calls": 0}
@@ -143,11 +147,15 @@ def _analysis_slot(lease, provider, clock):
     request = {"source_id": revision.report.source_id, "expected_approval_id": config["approval_id"],
         "expected_exposure_digest": config["exposure_digest"], "provider": config["provider"],
         "model_id": config["model_id"], "model_configuration": config["model_configuration"]}
+    if cumulative:
+        request.update(context_source_ids=source_ids, context_bounds=config["context_bounds"])
     schedule.mark_analysis_started(lease["owner_id"], lease["token"], request, clock=clock)
     try:
         response = analysis.analyse_next(lease["owner_id"], lease["thesis_id"], lease["command_id"],
             request["expected_approval_id"], request["expected_exposure_digest"], request["source_id"],
-            request["model_id"], request["provider"], provider=provider, clock=clock)
+            request["model_id"], request["provider"], provider=provider, clock=clock,
+            **({"context_source_ids": tuple(source_ids),
+                "context_limits": DailyReviewLimits(**config["context_bounds"])} if cumulative else {}))
     except DatabaseError:
         raise
     except (ValueError, PermissionError, RuntimeError):

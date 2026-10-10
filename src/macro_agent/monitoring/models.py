@@ -139,6 +139,8 @@ class NewsAnalysisAttempt(models.Model):
     thesis = models.ForeignKey("macro_theses.ThesisRecord", on_delete=models.PROTECT)
     approval = models.ForeignKey("macro_theses.ApprovalRecord", on_delete=models.PROTECT)
     source_revision = models.ForeignKey(SourceRevision, on_delete=models.PROTECT)
+    admission_context = models.ForeignKey("macro_desk.PrivateContext", null=True,
+        on_delete=models.PROTECT, related_name="news_analysis_attempts")
     exposure_digest = models.CharField(max_length=64)
     request_digest = models.CharField(max_length=64)
     resolved_inputs = models.JSONField()

@@ -102,6 +102,12 @@ class NewsAnalysisContextSerializer(serializers.Serializer):
     source = NewsSourceSnapshotSerializer()
     approved_thesis = NewsApprovedThesisSerializer()
     positions = NewsContextPositionSerializer(many=True)
+    cumulative = serializers.JSONField(required=False, help_text=(
+        "Immutable admission-time cumulative envelope: pinned report and prior-analysis membership, "
+        "original dispositions, deferred work, gaps, cutoff, lineage and exact projection digest. "
+        "Retained model interpretations are not factual sources or publication authority. "
+        "This field does not enable cumulative analysis through the manual POST endpoint."
+    ))
 
 
 class NewsAttributedFactSerializer(StrictSerializer):
@@ -134,13 +140,25 @@ class NewsHypothesisSerializer(StrictSerializer):
     signposts = StrictListField(child=StrictStringField(max_length=2000), max_length=16)
 
 
+class NewsEvidenceComparisonSerializer(StrictSerializer):
+    prior_analysis_ids = StrictListField(child=StrictUUIDField(), min_length=1, max_length=16)
+    fact_ids = StrictListField(child=StrictStringField(max_length=2000), min_length=1, max_length=16)
+    relationship = serializers.ChoiceField(choices=["strengthens", "weakens", "offsets", "unresolved"])
+    explanation = StrictStringField(max_length=2000)
+    uncertainty = StrictStringField(max_length=2000)
+
+
 class NewsDocumentSerializer(StrictSerializer):
-    schema_version = serializers.ChoiceField(choices=["retained-news-analysis-v1"])
+    schema_version = serializers.ChoiceField(choices=["retained-news-analysis-v1", "retained-news-analysis-v2"])
     attributed_facts = NewsAttributedFactSerializer(many=True)
     thesis_route = NewsThesisRouteSerializer()
     trade_route = NewsTradeRouteSerializer()
     hypotheses = NewsHypothesisSerializer(many=True)
     trader_questions = StrictListField(child=StrictStringField(max_length=2000), max_length=16)
+    evidence_comparisons = NewsEvidenceComparisonSerializer(many=True, required=False, help_text=(
+        "Present only in v2 retained analyses. References eligible prior model interpretations and "
+        "this document's source-grounded facts; comparisons confer no canonical-update authority."
+    ))
 
 
 class NewsAnalysisSerializer(serializers.Serializer):

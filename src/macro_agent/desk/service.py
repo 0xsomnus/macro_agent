@@ -82,6 +82,9 @@ def _status(attempt, result, thesis, exposure, sources, heads):
         reasons.append("source_contract_changed")
     if not allowed_source(source):
         reasons.append("source_contract_unavailable")
+    if getattr(attempt, "admission_context_id", None) is not None:
+        from macro_agent.monitoring.cumulative import cumulative_stale_reasons
+        reasons.extend(cumulative_stale_reasons(attempt))
     original = result.stale_reasons if result else []
     reasons = sorted(set(reasons + original))
     status = "stale" if reasons or result and result.status == "stale" else (
@@ -207,6 +210,127 @@ def observe_analysis_results(actor_id, thesis_id, source_ids, limit, *, clock=ti
                 "observed_by_at": at.isoformat(), "method": "postcommit_read", "exact_commit_time": False}
 
 
+def _assemble_evidence(actor_id, thesis, approval, resolved, exposure, sources, contracts,
+                       start, cutoff, at, limits, predecessor=None, *, include_original_context=True):
+    """One eligibility policy for daily reviews and admission-time contexts.
+
+    The caller protects the selected source rows and owner/thesis, supplies
+    source permission snapshots and samples the clock after protection.
+    No rows are written here. Historical documents keep their original
+    contexts for validation; callers may project that inspection content.
+    """
+    thesis_id = str(thesis.pk)
+    source_ids = [source.pk for source in sources]
+    period = DailyReviewPeriod(start, cutoff, at)
+    revisions = _bounded(SourceRevision.objects.filter(report__source_id__in=source_ids)
+        .select_related("report", "report__current_revision", "durableobservation")
+        .order_by("system_received_at", "id"), limits.reports, "retained source revisions")
+    attempts = _bounded(NewsAnalysisAttempt.objects.filter(owner_id=actor_id, thesis=thesis,
+        source_revision__report__source_id__in=source_ids).select_related(
+            "source_revision__report", "approval", "admission_context__evidence",
+            "result", "result__analysisresultobservation")
+        .order_by("created_at", "id"), limits.analyses, "retained private analyses")
+    by_source = {source.pk: source for source in sources}
+    by_contract = {item.source_id: item for item in contracts}
+    heads = {row.report_id: row.report.current_revision_id for row in revisions}
+    reports, analyses, issues = [], [], []
+    for attempt in attempts:
+        if getattr(attempt, "admission_context_id", None) is not None:
+            governing = {item["source_id"] for item in attempt.admission_context.evidence.source_manifest}
+            if not governing.issubset(by_source):
+                raise theses.ThesisConflict("Complete governing source manifest is required for retained cumulative analyses")
+    for row in revisions:
+        contract, witness = by_contract[row.report.source_id], getattr(row, "durableobservation", None)
+        reports.append(RetainedReport(str(row.pk), str(row.report_id), row.report.source_id,
+            str(contract.pk), contract.digest, canonical_json(row.payload), row.digest,
+            row.system_received_at, witness.observed_by_at if witness else None))
+        if heads[row.report_id] != row.pk:
+            issues.append(ReviewIssue("superseded:" + str(row.pk), "coverage_gap",
+                canonical_json({"code": "historical_source_revision", "head_at_preparation": str(heads[row.report_id])}),
+                source_id=row.report.source_id))
+    for attempt in attempts:
+        result = getattr(attempt, "result", None)
+        witness = getattr(result, "analysisresultobservation", None) if result else None
+        disposition, reasons = _status(attempt, result, thesis, exposure, by_source, heads)
+        metadata = result.provider_metadata if result else {}
+        analyses.append(RetainedNewsAnalysis(str(attempt.pk), actor_id, thesis_id,
+            str(attempt.source_revision_id), attempt.created_at, result.finished_at if result else None,
+            witness.observed_by_at if witness else None, result.status if result else None,
+            tuple(result.stale_reasons) if result else (), disposition, tuple(reasons),
+            canonical_json(attempt.context), canonical_json(result.document) if result and result.document is not None else None,
+            canonical_json({"reported_cost_usd": metadata.get("reported_cost_usd"),
+                "estimated_cost_usd": compilation._estimate(attempt, metadata)}), result.stop_reason if result else None))
+    work = _bounded(ScreeningWork.objects.filter(revision__report__source_id__in=source_ids)
+        .exclude(state="superseded").select_related("revision__report").order_by("revision_id"),
+        limits.issues, "screening-work diagnostics")
+    for row in work:
+        issues.append(ReviewIssue("screening:" + str(row.pk), "unresolved_work",
+            canonical_json({"state": row.state, "attempt_count": row.attempt_count,
+                "lease_until": row.lease_until.isoformat() if row.lease_until else None,
+                "decision": "relevance_unresolved"}), source_id=row.revision.report.source_id))
+    for source in sources:
+        latest = CaptureOutcome.objects.filter(attempt__source=source).order_by("-attempt__sequence").first()
+        if (source.last_successful_capture_at is not None and at < source.last_successful_capture_at
+                or latest is not None and at < latest.finished_at):
+            raise theses.ThesisConflict("Preparation observation cannot precede retained source health")
+        issues.append(ReviewIssue("coverage:" + source.pk, "coverage_gap", canonical_json({
+            "coverage": "bounded_snapshot", "complete_market_coverage": False,
+            "last_successful_capture_at": source.last_successful_capture_at.isoformat() if source.last_successful_capture_at else None,
+            "last_outcome": latest.status if latest else None,
+            "last_code": latest.code if latest else None,
+            "active_capture_id": str(source.active_capture) if source.active_capture else None}), source_id=source.pk))
+    scope = DailyReviewScope(actor_id, thesis_id, str(approval.pk), str(approval.interpretation_id),
+        exposure, tuple(item["version_id"] for item in resolved["exposure"]["positions"]),
+        tuple(SourceContractReference(item.source_id, str(item.pk), item.digest) for item in contracts),
+        str(predecessor.pk) if predecessor else None, None)
+    candidate = build_daily_review(period=period, scope=scope, reports=tuple(reports), analyses=tuple(analyses),
+        issues=tuple(issues), limits=limits, include_original_context=include_original_context)
+    source_snapshots = [{"source_id": item.source_id, "version_id": str(item.pk), "digest": item.digest,
+        "contract": item.contract, "provenance": item.provenance, "reviewer_id": str(item.reviewer_id),
+        "reason": item.reason, "observed_at": item.observed_at.isoformat(), "permitted": item.permitted,
+        "parent_id": str(item.parent_id) if item.parent_id else None} for item in contracts]
+    original_inputs = {"approved_user": resolved, "source_contracts": source_snapshots,
+        "starting_macro_context": {"status": "unavailable"},
+        "predecessor_assessment": {"status": "unavailable", "reason": "No cumulative model assessment is implemented."},
+        "changes_since_predecessor": {"approved_meaning_changed": bool(predecessor and predecessor.approval_id != approval.pk),
+            "exposure_changed": bool(predecessor and predecessor.exposure_digest != exposure)}}
+    manifest = [{"source_id": item.source_id, "version_id": str(item.pk), "digest": item.digest,
+        "provenance": item.provenance, "observed_at": item.observed_at.isoformat(), "permitted": item.permitted}
+        for item in contracts]
+    return {"candidate": candidate, "revisions": revisions, "attempts": attempts,
+        "heads": heads, "contracts": contracts, "by_contract": by_contract,
+        "source_snapshots": source_snapshots, "original_inputs": original_inputs, "manifest": manifest}
+
+
+def _persist_private_context(actor_id, thesis, approval, resolved, exposure, assembly,
+                             start, cutoff, at, limits, predecessor=None, *,
+                             original_inputs=None, context_id=None,
+                             policy_version="complete-retained-sources-v1"):
+    """Persist exact protected membership; never publish or invoke a provider."""
+    revisions, attempts = assembly["revisions"], assembly["attempts"]
+    contracts, by_contract = assembly["contracts"], assembly["by_contract"]
+    heads, manifest = assembly["heads"], assembly["manifest"]
+    original_inputs = original_inputs if original_inputs is not None else assembly["original_inputs"]
+    evidence = EvidenceSet.objects.create(owner_id=actor_id, thesis=thesis, start=start, cutoff=cutoff,
+        prepared_at=at, limits=asdict(limits), source_manifest=manifest, policy_version=policy_version)
+    EvidenceSource.objects.bulk_create([EvidenceSource(evidence=evidence, source_id=item.source_id,
+        contract=item) for item in contracts])
+    EvidenceRevision.objects.bulk_create([EvidenceRevision(evidence=evidence, revision=row,
+        contract=by_contract[row.report.source_id], witness=getattr(row, "durableobservation", None),
+        head_at_preparation_id=heads[row.report_id]) for row in revisions])
+    EvidenceAnalysis.objects.bulk_create([EvidenceAnalysis(evidence=evidence, attempt=attempt,
+        result=getattr(attempt, "result", None), witness=getattr(getattr(attempt, "result", None),
+            "analysisresultobservation", None)) for attempt in attempts])
+    context = PrivateContext.objects.create(**({"id": context_id} if context_id else {}), owner_id=actor_id, thesis=thesis, approval=approval,
+        interpretation_id=approval.interpretation_id, evidence=evidence,
+        predecessor=predecessor, exposure_digest=exposure,
+        resolved_inputs=original_inputs, prepared_at=at)
+    ContextExposure.objects.bulk_create([ContextExposure(context=context,
+        position_id=position["position_id"], version_id=position["version_id"])
+        for position in resolved["exposure"]["positions"]])
+    return context
+
+
 def create_review(actor_id, thesis_id, command_id, start, cutoff, source_ids, limits,
                   *, clock=timezone.now):
     gate()
@@ -249,98 +373,16 @@ def create_review(actor_id, thesis_id, command_id, start, cutoff, source_ids, li
         if predecessor is not None and (predecessor.cutoff != start or cutoff <= predecessor.cutoff):
             raise theses.ThesisConflict("Review must continue the latest retained cutoff; missed older slots cannot replace it")
         at = _at(clock, thesis, resolved=resolved)
-        period = DailyReviewPeriod(start, cutoff, at)
         contracts = [contract_snapshot(source, actor_id, at) for source in sources]
         if any(item.observed_at > at for item in contracts):
             raise theses.ThesisConflict("Preparation clock precedes source permission state")
-        revisions = _bounded(SourceRevision.objects.filter(report__source_id__in=source_ids)
-            .select_related("report", "report__current_revision", "durableobservation")
-            .order_by("system_received_at", "id"), limits.reports, "retained source revisions")
-        attempts = _bounded(NewsAnalysisAttempt.objects.filter(owner_id=actor_id, thesis=thesis,
-            source_revision__report__source_id__in=source_ids).select_related(
-                "source_revision__report", "result", "result__analysisresultobservation")
-            .order_by("created_at", "id"), limits.analyses, "retained private analyses")
-        by_source = {source.pk: source for source in sources}
-        by_contract = {item.source_id: item for item in contracts}
-        heads = {row.report_id: row.report.current_revision_id for row in revisions}
-        reports, analyses, issues = [], [], []
-        for row in revisions:
-            contract, witness = by_contract[row.report.source_id], getattr(row, "durableobservation", None)
-            reports.append(RetainedReport(str(row.pk), str(row.report_id), row.report.source_id,
-                str(contract.pk), contract.digest, canonical_json(row.payload), row.digest,
-                row.system_received_at, witness.observed_by_at if witness else None))
-            if heads[row.report_id] != row.pk:
-                issues.append(ReviewIssue("superseded:" + str(row.pk), "coverage_gap",
-                    canonical_json({"code": "historical_source_revision", "head_at_preparation": str(heads[row.report_id])}),
-                    source_id=row.report.source_id))
-        for attempt in attempts:
-            result = getattr(attempt, "result", None)
-            witness = getattr(result, "analysisresultobservation", None) if result else None
-            disposition, reasons = _status(attempt, result, thesis, exposure, by_source, heads)
-            metadata = result.provider_metadata if result else {}
-            analyses.append(RetainedNewsAnalysis(str(attempt.pk), actor_id, thesis_id,
-                str(attempt.source_revision_id), attempt.created_at, result.finished_at if result else None,
-                witness.observed_by_at if witness else None, result.status if result else None,
-                tuple(result.stale_reasons) if result else (), disposition, tuple(reasons),
-                canonical_json(attempt.context), canonical_json(result.document) if result and result.document is not None else None,
-                canonical_json({"reported_cost_usd": metadata.get("reported_cost_usd"),
-                    "estimated_cost_usd": compilation._estimate(attempt, metadata)}), result.stop_reason if result else None))
-        work = _bounded(ScreeningWork.objects.filter(revision__report__source_id__in=source_ids)
-            .exclude(state="superseded").select_related("revision__report").order_by("revision_id"),
-            limits.issues, "screening-work diagnostics")
-        for row in work:
-            issues.append(ReviewIssue("screening:" + str(row.pk), "unresolved_work",
-                canonical_json({"state": row.state, "attempt_count": row.attempt_count,
-                    "lease_until": row.lease_until.isoformat() if row.lease_until else None,
-                    "decision": "relevance_unresolved"}), source_id=row.revision.report.source_id))
-        for source in sources:
-            latest = CaptureOutcome.objects.filter(attempt__source=source).order_by("-attempt__sequence").first()
-            if (source.last_successful_capture_at is not None and at < source.last_successful_capture_at
-                    or latest is not None and at < latest.finished_at):
-                raise theses.ThesisConflict("Preparation observation cannot precede retained source health")
-            issues.append(ReviewIssue("coverage:" + source.pk, "coverage_gap", canonical_json({
-                "coverage": "bounded_snapshot", "complete_market_coverage": False,
-                "last_successful_capture_at": source.last_successful_capture_at.isoformat() if source.last_successful_capture_at else None,
-                "last_outcome": latest.status if latest else None,
-                "last_code": latest.code if latest else None,
-                "active_capture_id": str(source.active_capture) if source.active_capture else None}), source_id=source.pk))
-        scope = DailyReviewScope(actor_id, thesis_id, str(approval.pk), str(approval.interpretation_id),
-            exposure, tuple(item["version_id"] for item in resolved["exposure"]["positions"]),
-            tuple(SourceContractReference(item.source_id, str(item.pk), item.digest) for item in contracts),
-            str(predecessor.context_id) if predecessor else None, None)
-        candidate = build_daily_review(period=period, scope=scope, reports=tuple(reports), analyses=tuple(analyses),
-            issues=tuple(issues), limits=limits)
-        source_snapshots = [{"source_id": item.source_id, "version_id": str(item.pk), "digest": item.digest,
-            "contract": item.contract, "provenance": item.provenance, "reviewer_id": str(item.reviewer_id),
-            "reason": item.reason, "observed_at": item.observed_at.isoformat(), "permitted": item.permitted,
-            "parent_id": str(item.parent_id) if item.parent_id else None} for item in contracts]
-        original_inputs = {"approved_user": resolved, "source_contracts": source_snapshots,
-            "starting_macro_context": {"status": "unavailable"},
-            "predecessor_assessment": {"status": "unavailable", "reason": "No cumulative model assessment is implemented."},
-            "changes_since_predecessor": {"approved_meaning_changed": bool(predecessor and predecessor.context.approval_id != approval.pk),
-                "exposure_changed": bool(predecessor and predecessor.context.exposure_digest != exposure)}}
+        assembly = _assemble_evidence(actor_id, thesis, approval, resolved, exposure, sources,
+            contracts, start, cutoff, at, limits, predecessor.context if predecessor else None)
+        candidate, original_inputs = assembly["candidate"], assembly["original_inputs"]
         if len(canonical_json({"review": candidate.to_dict(), "inputs": original_inputs}).encode("utf-8")) > limits.encoded_bytes:
             raise ReviewCapacityExceeded("Complete review and private context exceed the configured encoded bound")
-        manifest = [{"source_id": item.source_id, "version_id": str(item.pk), "digest": item.digest,
-            "provenance": item.provenance, "observed_at": item.observed_at.isoformat(), "permitted": item.permitted}
-            for item in contracts]
-        evidence = EvidenceSet.objects.create(owner_id=actor_id, thesis=thesis, start=start, cutoff=cutoff,
-            prepared_at=at, limits=asdict(limits), source_manifest=manifest)
-        EvidenceSource.objects.bulk_create([EvidenceSource(evidence=evidence, source_id=item.source_id,
-            contract=item) for item in contracts])
-        EvidenceRevision.objects.bulk_create([EvidenceRevision(evidence=evidence, revision=row,
-            contract=by_contract[row.report.source_id], witness=getattr(row, "durableobservation", None),
-            head_at_preparation_id=heads[row.report_id]) for row in revisions])
-        EvidenceAnalysis.objects.bulk_create([EvidenceAnalysis(evidence=evidence, attempt=attempt,
-            result=getattr(attempt, "result", None), witness=getattr(getattr(attempt, "result", None),
-                "analysisresultobservation", None)) for attempt in attempts])
-        context = PrivateContext.objects.create(owner_id=actor_id, thesis=thesis, approval=approval,
-            interpretation_id=approval.interpretation_id, evidence=evidence,
-            predecessor=predecessor.context if predecessor else None, exposure_digest=exposure,
-            resolved_inputs=original_inputs, prepared_at=at)
-        ContextExposure.objects.bulk_create([ContextExposure(context=context,
-            position_id=position["position_id"], version_id=position["version_id"])
-            for position in resolved["exposure"]["positions"]])
+        context = _persist_private_context(actor_id, thesis, approval, resolved, exposure, assembly,
+            start, cutoff, at, limits, predecessor.context if predecessor else None)
         row = DailyReview.objects.create(owner_id=actor_id, thesis=thesis, command_id=command_id,
             context=context, request_digest=request_digest, start=start, cutoff=cutoff, prepared_at=at,
             content=candidate.to_dict(), digest=candidate.digest)

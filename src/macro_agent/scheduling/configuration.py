@@ -59,7 +59,11 @@ def configuration(value):
         raise ValueError("an explicit model identity is required")
     value["model_configuration"] = json_object(value["model_configuration"], "model configuration")
     from macro_agent.monitoring.analysis import model_configuration
-    expected = model_configuration(value["provider"])
+    context = value["model_configuration"].get("context")
+    if context not in ("one_retained_report_and_approved_paper_book", "complete_retained_context"):
+        raise ValueError("model context mode must be explicitly reviewed")
+    expected = (model_configuration(value["provider"], cumulative=True)
+        if context == "complete_retained_context" else model_configuration(value["provider"]))
     if set(value["model_configuration"]) != set(expected) or value["model_configuration"] != expected:
         raise ValueError("model configuration must exactly match the current safe server configuration")
     for name in ("capture_interval_seconds", "analysis_interval_seconds", "lease_seconds", "daily_backlog_limit"):

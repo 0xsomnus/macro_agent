@@ -33,6 +33,8 @@ An active owner, approved thesis and already retained source contracts are prere
 .venv/bin/python manage.py desk_watch --owner OWNER_UUID --thesis-id THESIS_UUID --preview
 ```
 
+For cumulative monitoring, add `--cumulative` to the preview command. It returns the reviewed `complete_retained_context` model configuration; [the context guide](CUMULATIVE_CONTEXT.md) explains admission, bounds and the recorded proof. Existing watches and the manual HTTP analysis flow retain their configured single-report behavior.
+
 Save a JSON object in ignored `.local/watch.json`. It must contain exactly these fields; copy the approval, complete exposure digest, selected source digests and complete model configuration from the preview. Model selection is an explicit supported catalogue ID, with no inferred routing.
 
 | Fields | Required value |
@@ -75,7 +77,7 @@ For fictional capture, add `--fixture-map .local/fixture-map.json`. This bounded
 
 ## Daily review behavior
 
-The first daily surface is a private deterministic context assembled from retained evidence and analyses, with source links, original labels, coverage failures, unresolved work and known/unknown costs. Assembly makes no new model call. There is no LLM macro synthesis, external briefing publication, notification or current-context pointer in this increment. Model hypotheses retain their original labels.
+The first daily surface is a private deterministic context assembled from retained evidence and analyses, with source links, original labels, coverage failures, unresolved work and known/unknown costs. Assembly makes no new model call. Opted-in news analyses can now compare cumulative retained context, but daily assembly itself remains deterministic. There is no verified LLM macro regime, external briefing publication, notification or current-context pointer in this increment. Model hypotheses retain their original labels.
 
 Authenticated local clients can list saved reviews with `GET /api/v1/theses/{id}/daily-reviews/` and inspect full retained content with `GET /api/v1/daily-reviews/{id}/`. [The API guide](API_DEVELOPMENT.md#internal-daily-review-inspection) explains pagination, gates and snapshot semantics. These reads preserve the original review and separately observe current staleness; they cannot create, retry or publish work.
 

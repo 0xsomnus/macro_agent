@@ -2641,6 +2641,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/NewsContextPosition'
+        cumulative:
+          description: 'Immutable admission-time cumulative envelope: pinned report
+            and prior-analysis membership, original dispositions, deferred work, gaps,
+            cutoff, lineage and exact projection digest. Retained model interpretations
+            are not factual sources or publication authority. This field does not
+            enable cumulative analysis through the manual POST endpoint.'
       required:
       - approved_thesis
       - positions
@@ -2860,6 +2866,13 @@ components:
             type: string
             maxLength: 2000
           maxItems: 16
+        evidence_comparisons:
+          type: array
+          items:
+            $ref: '#/components/schemas/NewsEvidenceComparison'
+          description: Present only in v2 retained analyses. References eligible prior
+            model interpretations and this document's source-grounded facts; comparisons
+            confer no canonical-update authority.
       required:
       - attributed_facts
       - hypotheses
@@ -2871,8 +2884,44 @@ components:
     NewsDocumentSchemaVersionEnum:
       enum:
       - retained-news-analysis-v1
+      - retained-news-analysis-v2
       type: string
-      description: '* `retained-news-analysis-v1` - retained-news-analysis-v1'
+      description: |-
+        * `retained-news-analysis-v1` - retained-news-analysis-v1
+        * `retained-news-analysis-v2` - retained-news-analysis-v2
+    NewsEvidenceComparison:
+      type: object
+      properties:
+        prior_analysis_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+            maxLength: 36
+          maxItems: 16
+          minItems: 1
+        fact_ids:
+          type: array
+          items:
+            type: string
+            maxLength: 2000
+          maxItems: 16
+          minItems: 1
+        relationship:
+          $ref: '#/components/schemas/RelationshipEnum'
+        explanation:
+          type: string
+          maxLength: 2000
+        uncertainty:
+          type: string
+          maxLength: 2000
+      required:
+      - explanation
+      - fact_ids
+      - prior_analysis_ids
+      - relationship
+      - uncertainty
+      additionalProperties: false
     NewsHypothesis:
       type: object
       properties:
@@ -3779,6 +3828,18 @@ components:
       required:
       - refinement
       - thesis
+    RelationshipEnum:
+      enum:
+      - strengthens
+      - weakens
+      - offsets
+      - unresolved
+      type: string
+      description: |-
+        * `strengthens` - strengthens
+        * `weakens` - weakens
+        * `offsets` - offsets
+        * `unresolved` - unresolved
     RetainedDailyReview:
       type: object
       properties:

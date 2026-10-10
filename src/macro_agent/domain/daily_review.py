@@ -313,16 +313,22 @@ def _classification(witness, period):
 
 def build_daily_review(*, period: DailyReviewPeriod, scope: DailyReviewScope,
                        reports: tuple[RetainedReport, ...], analyses: tuple[RetainedNewsAnalysis, ...],
-                       issues: tuple[ReviewIssue, ...], limits: DailyReviewLimits) -> DailyReviewCandidate:
+                       issues: tuple[ReviewIssue, ...], limits: DailyReviewLimits,
+                       include_original_context: bool = True) -> DailyReviewCandidate:
     """Assemble every supplied input or reject; never fetch, infer or truncate.
 
     Retained documents are validated against their original contexts, including
     historical exposure, rather than rewritten to fit today's approved thesis.
     Current disposition is a caller observation at preparation, which may be
     later than the evidence cutoff. This function does not establish it.
+    A cumulative projection may omit original context only after the same full
+    binding checks. The original retained attempt remains the audit authority;
+    its complete context is never recursively copied into later model inputs.
     """
     if type(period) is not DailyReviewPeriod or type(scope) is not DailyReviewScope or type(limits) is not DailyReviewLimits:
         raise ValueError("review requires typed period, scope and explicit limits")
+    if type(include_original_context) is not bool:
+        raise ValueError("original context projection requires an explicit boolean")
     reports = _items(reports, RetainedReport, limits.reports, "reports")
     analyses = _items(analyses, RetainedNewsAnalysis, limits.analyses, "analyses")
     issues = _items(issues, ReviewIssue, limits.issues, "issues")
@@ -389,7 +395,7 @@ def build_daily_review(*, period: DailyReviewPeriod, scope: DailyReviewScope,
         costs = json.loads(analysis.costs_json)
         if costs["reported_cost_usd"] is None:
             unknown_cost.append(analysis.analysis_id)
-        analysis_sections[section].append({"analysis_id": analysis.analysis_id,
+        projected_analysis = {"analysis_id": analysis.analysis_id,
             "source_revision_id": analysis.source_revision_id, "created_at": _instant(analysis.created_at),
             "finished_at": _instant(analysis.finished_at),
             "availability_witness_at": _instant(analysis.availability_witness_at),
@@ -397,8 +403,11 @@ def build_daily_review(*, period: DailyReviewPeriod, scope: DailyReviewScope,
             "current_disposition": analysis.current_disposition,
             "current_stale_reasons": list(analysis.current_stale_reasons),
             "disposition_observed_at": _instant(period.prepared_at), "stop_reason": analysis.stop_reason,
-            "original_context": context, "document": json.loads(analysis.document_json) if analysis.document_json else None,
-            "costs": costs, "deferred_reason": reason})
+            "document": json.loads(analysis.document_json) if analysis.document_json else None,
+            "costs": costs, "deferred_reason": reason}
+        if include_original_context:
+            projected_analysis["original_context"] = context
+        analysis_sections[section].append(projected_analysis)
         if analysis.original_status in (None, "failed", "outcome_unknown"):
             unresolved.append(analysis.analysis_id)
     diagnostics = []

@@ -1,0 +1,1345 @@
+{
+  "scope": "Recorded fictional PostgreSQL cumulative-context trace in a unique temporary database",
+  "configuration_values": "demonstration inputs, not operating defaults",
+  "approved_thesis": {
+    "id": "72b653fa-8421-4d9d-95e5-ccfd682ea444",
+    "revision": 2,
+    "created_at": "2026-10-10T16:42:40.068531+00:00",
+    "changed_at": "2026-10-10T16:42:40.076288+00:00",
+    "draft": {
+      "text_version": {
+        "id": "e487a50c-569f-4ed4-9cce-75559f520f23",
+        "parent_version_id": null,
+        "exact_text": "  Easier policy may support equities.\r\nΔ\r\n",
+        "text_digest": "c529bf049cbbbe0aa9dc5379c221150e8c9db874ddab10feac3dca6891309d00",
+        "created_at": "2026-10-10T16:42:40.068531+00:00"
+      },
+      "interpretation": {
+        "id": "d3e9d058-dbd0-439c-9dc3-55183eee03b9",
+        "text_version_id": "e487a50c-569f-4ed4-9cce-75559f520f23",
+        "drivers": [
+          "Easier policy"
+        ],
+        "horizon": "medium term",
+        "invalidation_signposts": [
+          "Policy transmission fails"
+        ],
+        "known_at": "2026-10-10T16:42:40.068531+00:00",
+        "digest": "f30eaf2e15da8f1288bb7f0fe68d0467356340ed6e920c81f6e9067560bc0471",
+        "origin": "user_supplied",
+        "review_card": null
+      }
+    },
+    "approved": {
+      "approval": {
+        "id": "935013aa-d3a7-41ca-99fa-6cb1963e6115",
+        "text_version_id": "e487a50c-569f-4ed4-9cce-75559f520f23",
+        "interpretation_version_id": "d3e9d058-dbd0-439c-9dc3-55183eee03b9",
+        "text_digest": "c529bf049cbbbe0aa9dc5379c221150e8c9db874ddab10feac3dca6891309d00",
+        "interpretation_digest": "f30eaf2e15da8f1288bb7f0fe68d0467356340ed6e920c81f6e9067560bc0471",
+        "approved_at": "2026-10-10T16:42:40.076288+00:00",
+        "digest": "be95c27ef8a6fc5f4012e05638f46c397494c11092d9c5441849fac722b03f66",
+        "revision": 2
+      },
+      "text_version": {
+        "id": "e487a50c-569f-4ed4-9cce-75559f520f23",
+        "parent_version_id": null,
+        "exact_text": "  Easier policy may support equities.\r\nΔ\r\n",
+        "text_digest": "c529bf049cbbbe0aa9dc5379c221150e8c9db874ddab10feac3dca6891309d00",
+        "created_at": "2026-10-10T16:42:40.068531+00:00"
+      },
+      "interpretation": {
+        "id": "d3e9d058-dbd0-439c-9dc3-55183eee03b9",
+        "text_version_id": "e487a50c-569f-4ed4-9cce-75559f520f23",
+        "drivers": [
+          "Easier policy"
+        ],
+        "horizon": "medium term",
+        "invalidation_signposts": [
+          "Policy transmission fails"
+        ],
+        "known_at": "2026-10-10T16:42:40.068531+00:00",
+        "digest": "f30eaf2e15da8f1288bb7f0fe68d0467356340ed6e920c81f6e9067560bc0471",
+        "origin": "user_supplied",
+        "review_card": null
+      }
+    },
+    "monitoring": "not_configured"
+  },
+  "reviewed_watch": {
+    "watch_id": "d572792f-3dbf-4a0d-90a4-1da6b38eea6c",
+    "owner_id": "5bd89756-840c-4aa3-b212-fc8a751db347",
+    "thesis_id": "72b653fa-8421-4d9d-95e5-ccfd682ea444",
+    "revision": 1,
+    "watch_version_id": "a5ce61a4-61cf-49ef-bcc0-37d6dc0e3002",
+    "configuration": {
+      "sources": [
+        {
+          "source_id": "fixture-cumulative-trace",
+          "contract_digest": "6357b05f6ebf2d2eddba4f4c93870b025fd8d37815836e6208de685b1f0568dd"
+        }
+      ],
+      "model_id": "recorded/cumulative-desk",
+      "provider": "nanogpt",
+      "timezone": "UTC",
+      "allowances": {
+        "inflight_slots": 1,
+        "window_seconds": 3600,
+        "unresolved_slots": 1,
+        "analysis_dispatches": 2
+      },
+      "daily_time": "19:42",
+      "approval_id": "935013aa-d3a7-41ca-99fa-6cb1963e6115",
+      "lease_seconds": 30,
+      "context_bounds": {
+        "issues": 100,
+        "reports": 100,
+        "analyses": 100,
+        "encoded_bytes": 1000000,
+        "source_contracts": 16,
+        "exposure_versions": 200
+      },
+      "schema_version": "internal-desk-watch-v1",
+      "exposure_digest": "9dada6733b3a97ddc8421175a18638835a34790ad33035b08b1722b1ec4cd4f4",
+      "daily_start_date": "2026-10-10",
+      "daily_backlog_limit": 8,
+      "model_configuration": {
+        "context": "complete_retained_context",
+        "provider": "nanogpt",
+        "cost_category": "private_investigation",
+        "prompt_version": "retained-news-analysis-prompt-v3",
+        "schema_version": "retained-news-analysis-v2",
+        "timeout_seconds": 45,
+        "automatic_retries": 0,
+        "calls_per_attempt": 1,
+        "max_output_tokens": 3000,
+        "owner_attempts_per_day": 20,
+        "aggregate_attempts_per_day": 100
+      },
+      "capture_interval_seconds": 60,
+      "analysis_interval_seconds": 60
+    },
+    "configuration_digest": "e8a3acb8ded08efb2951cec6b0c76a96a417e2981bf72624ef82b66789e97d1b",
+    "changed_at": "2026-10-10T16:42:41.086505+00:00",
+    "next_capture_at": "2026-10-10T16:42:41.086505+00:00",
+    "next_analysis_at": "2026-10-10T16:42:41.086505+00:00",
+    "next_daily_date": "2026-10-10",
+    "replayed": false,
+    "original_watch_version_id": "a5ce61a4-61cf-49ef-bcc0-37d6dc0e3002"
+  },
+  "first_tick": {
+    "scheduled": {
+      "watch_id": "d572792f-3dbf-4a0d-90a4-1da6b38eea6c",
+      "slots": [
+        {
+          "slot_id": "0c97d9f0-9a0c-42de-bf4c-c060b2c6e270",
+          "command_id": "0efac7e9-7e73-44d7-9f68-aaf186f09213",
+          "watch_id": "d572792f-3dbf-4a0d-90a4-1da6b38eea6c",
+          "watch_version_id": "a5ce61a4-61cf-49ef-bcc0-37d6dc0e3002",
+          "owner_id": "5bd89756-840c-4aa3-b212-fc8a751db347",
+          "thesis_id": "72b653fa-8421-4d9d-95e5-ccfd682ea444",
+          "kind": "analysis",
+          "intended_at": "2026-10-10T16:42:41.086505+00:00",
+          "created_at": "2026-10-10T16:42:41.086505+00:00",
+          "period_start": null,
+          "cutoff": null,
+          "local_date": null,
+          "late": false,
+          "coalesced_intervals": 0,
+          "state": "pending",
+          "attempt_count": 0,
+          "configuration": {
+            "sources": [
+              {
+                "source_id": "fixture-cumulative-trace",
+                "contract_digest": "6357b05f6ebf2d2eddba4f4c93870b025fd8d37815836e6208de685b1f0568dd"
+              }
+            ],
+            "model_id": "recorded/cumulative-desk",
+            "provider": "nanogpt",
+            "timezone": "UTC",
+            "allowances": {
+              "inflight_slots": 1,
+              "window_seconds": 3600,
+              "unresolved_slots": 1,
+              "analysis_dispatches": 2
+            },
+            "daily_time": "19:42",
+            "approval_id": "935013aa-d3a7-41ca-99fa-6cb1963e6115",
+            "lease_seconds": 30,
+            "context_bounds": {
+              "issues": 100,
+              "reports": 100,
+              "analyses": 100,
+              "encoded_bytes": 1000000,
+              "source_contracts": 16,
+              "exposure_versions": 200
+            },
+            "schema_version": "internal-desk-watch-v1",
+            "exposure_digest": "9dada6733b3a97ddc8421175a18638835a34790ad33035b08b1722b1ec4cd4f4",
+            "daily_start_date": "2026-10-10",
+            "daily_backlog_limit": 8,
+            "model_configuration": {
+              "context": "complete_retained_context",
+              "provider": "nanogpt",
+              "cost_category": "private_investigation",
+              "prompt_version": "retained-news-analysis-prompt-v3",
+              "schema_version": "retained-news-analysis-v2",
+              "timeout_seconds": 45,
+              "automatic_retries": 0,
+              "calls_per_attempt": 1,
+              "max_output_tokens": 3000,
+              "owner_attempts_per_day": 20,
+              "aggregate_attempts_per_day": 100
+            },
+            "capture_interval_seconds": 60,
+            "analysis_interval_seconds": 60
+          }
+        }
+      ],
+      "daily_backlog": null
+    },
+    "receipt_observations": {
+      "observed_revision_ids": [],
+      "observed_by_at": "2026-10-10T16:42:41.086505+00:00",
+      "more_pending": false,
+      "batch_limit": 100,
+      "exact_commit_time": false
+    },
+    "processed": [
+      {
+        "kind": "analysis",
+        "slot_id": "0c97d9f0-9a0c-42de-bf4c-c060b2c6e270",
+        "outcome": {
+          "token": "92e2acf4-2221-41e5-8fd3-dfb31be38ffc",
+          "slot_id": "0c97d9f0-9a0c-42de-bf4c-c060b2c6e270",
+          "status": "completed",
+          "payload": {
+            "analysis": {
+              "context": {
+                "approved_thesis": {
+                  "approval_id": "935013aa-d3a7-41ca-99fa-6cb1963e6115",
+                  "drivers": [
+                    "Easier policy"
+                  ],
+                  "exact_text": "  Easier policy may support equities.\r\nΔ\r\n",
+                  "horizon": "medium term",
+                  "interpretation_id": "d3e9d058-dbd0-439c-9dc3-55183eee03b9",
+                  "invalidation_signposts": [
+                    "Policy transmission fails"
+                  ],
+                  "thesis_id": "72b653fa-8421-4d9d-95e5-ccfd682ea444",
+                  "thesis_version_id": "e487a50c-569f-4ed4-9cce-75559f520f23"
+                },
+                "cumulative": {
+                  "analyses": [],
+                  "context_id": "1cfeedd4-6f69-4fb3-9f14-b605e5444766",
+                  "cutoff": "2026-10-10T16:42:41.086505+00:00",
+                  "deferred_analyses": [],
+                  "deferred_reports": [],
+                  "digest": "7259a19495f4d6bae18573d76307d1c45c74f8a5e67f305b25210c873199da19",
+                  "gaps": [
+                    "No new eligible reports does not establish that no market events occurred.",
+                    "Exact retained quotations establish attribution, not factual truth or investment usefulness.",
+                    "Current disposition is a caller observation at preparation, not reconstructed cutoff state.",
+                    "Cross-source independence, current macro regime and market expectations remain unverified.",
+                    "This deterministic review grants no approval, publication, notification or paid-retry authority.",
+                    "Starting macro context is unavailable; retained reports do not establish the current regime.",
+                    "Prior analyses are model interpretations, not independently verified facts.",
+                    "{\"analysis_id\":null,\"detail\":{\"active_capture_id\":null,\"complete_market_coverage\":false,\"coverage\":\"bounded_snapshot\",\"last_code\":\"snapshot_captured\",\"last_outcome\":\"captured\",\"last_successful_capture_at\":\"2026-10-10T16:42:41.086505+00:00\"},\"issue_id\":\"coverage:fixture-cumulative-trace\",\"kind\":\"coverage_gap\",\"source_id\":\"fixture-cumulative-trace\"}",
+                    "{\"analysis_id\":null,\"detail\":{\"attempt_count\":0,\"decision\":\"relevance_unresolved\",\"lease_until\":null,\"state\":\"pending\"},\"issue_id\":\"screening:4062c765-21d4-47d5-85f2-353c9b0918b5\",\"kind\":\"unresolved_work\",\"source_id\":\"fixture-cumulative-trace\"}"
+                  ],
+                  "policy_version": "complete-retained-cumulative-news-v1",
+                  "predecessor_context_id": null,
+                  "reports": [
+                    {
+                      "availability_witness_at": "2026-10-10T16:42:41.086505+00:00",
+                      "content": "Fictional lenders reported persistent funding stress and tighter credit conditions.",
+                      "digest": "66ab6b6816744608c9a8bf52f31758f7e3201d16ec1facc62398a013d36d047c",
+                      "head_at_preparation_id": "4062c765-21d4-47d5-85f2-353c9b0918b5",
+                      "id": "funding",
+                      "is_current_revision": true,
+                      "published_at": "2026-10-09T16:42:41.086505+00:00",
+                      "received_at": "2026-10-10T16:42:41.086505+00:00",
+                      "report_id": "1",
+                      "revision_id": "4062c765-21d4-47d5-85f2-353c9b0918b5",
+                      "section": "new",
+                      "source_contract_digest": "6357b05f6ebf2d2eddba4f4c93870b025fd8d37815836e6208de685b1f0568dd",
+                      "source_contract_provenance": "existing_allowlisted_adapter_manifest",
+                      "source_key": "fixture-cumulative-trace",
+                      "title": "Fictional funding constraints",
+                      "url": "https://example.invalid/funding"
+                    }
+                  ]
+                },
+                "positions": [
+                  {
+                    "direction": "long",
+                    "expiry": null,
+                    "horizon": null,
+                    "mapping_status": "user_declared_unverified",
+                    "missing_fields": [
+                      "product_id",
+                      "venue",
+                      "quote_currency",
+                      "horizon",
+                      "quantity",
+                      "quantity_unit"
+                    ],
+                    "position_id": "06031bdf-9b73-4d7f-a2b9-d330c76f6764",
+                    "product_id": null,
+                    "quantity": null,
+                    "quantity_unit": null,
+                    "quote_currency": null,
+                    "status": "open",
+                    "underlying": "NQ",
+                    "venue": null,
+                    "version_id": "75967f67-e100-4709-94a3-2e328f8e5f0f"
+                  }
+                ],
+                "source": {
+                  "availability_witness_at": "2026-10-10T16:42:41.086505+00:00",
+                  "content": "Fictional lenders reported persistent funding stress and tighter credit conditions.",
+                  "digest": "66ab6b6816744608c9a8bf52f31758f7e3201d16ec1facc62398a013d36d047c",
+                  "is_fixture": true,
+                  "native_id": "funding",
+                  "published_at": "2026-10-09T16:42:41.086505+00:00",
+                  "received_at": "2026-10-10T16:42:41.086505+00:00",
+                  "report_id": 1,
+                  "revision_id": "4062c765-21d4-47d5-85f2-353c9b0918b5",
+                  "source_key": "fixture-cumulative-trace",
+                  "title": "Fictional funding constraints",
+                  "url": "https://example.invalid/funding"
+                }
+              },
+              "created_at": "2026-10-10T16:42:41.086505+00:00",
+              "current_disposition": "current",
+              "document": {
+                "attributed_facts": [
+                  {
+                    "exact_quote": "Fictional lenders reported persistent funding stress and tighter credit conditions.",
+                    "fact_id": "f1",
+                    "field": "content",
+                    "source_revision_id": "4062c765-21d4-47d5-85f2-353c9b0918b5"
+                  }
+                ],
+                "evidence_comparisons": [],
+                "hypotheses": [
+                  {
+                    "assumptions": [
+                      "The fictional funding report is relevant to the trader's expected policy transmission."
+                    ],
+                    "counter_case": "A subsequent policy response could contain the reported funding constraints.",
+                    "explanation": "Unverified hypothesis: persistent funding stress could offset expected policy support.",
+                    "fact_ids": [
+                      "f1"
+                    ],
+                    "horizon": null,
+                    "hypothesis_id": "h1",
+                    "position_ids": [
+                      "06031bdf-9b73-4d7f-a2b9-d330c76f6764"
+                    ],
+                    "signposts": [
+                      "Investigate permitted subsequent evidence on funding conditions and policy measures."
+                    ],
+                    "transmission": "If tighter funding restrains credit, easier policy may not support activity over the holding period.",
+                    "uncertainty": "No verified current regime, market reaction, expectations or leverage data are supplied."
+                  }
+                ],
+                "schema_version": "retained-news-analysis-v2",
+                "thesis_route": {
+                  "explanation": "Reported funding stress could obstruct the approved easier-policy transmission mechanism.",
+                  "fact_ids": [
+                    "f1"
+                  ],
+                  "status": "potential"
+                },
+                "trade_route": {
+                  "explanation": "Tighter funding could create a nearer-term adverse path for the fictional NQ long.",
+                  "fact_ids": [
+                    "f1"
+                  ],
+                  "position_ids": [
+                    "06031bdf-9b73-4d7f-a2b9-d330c76f6764"
+                  ],
+                  "status": "potential"
+                },
+                "trader_questions": [
+                  "How does the position horizon compare with the medium-term thesis horizon?",
+                  "Is the declared product leveraged or financed, and which funding evidence would challenge your view?"
+                ]
+              },
+              "estimated_cost_usd": null,
+              "finished_at": "2026-10-10T16:42:41.086505+00:00",
+              "id": "d0ecffb2-d318-496e-a2b0-8f1e1b020dca",
+              "latency_ms": 1,
+              "limitations": [
+                "Complete eligible retained context from the explicit source manifest, not broad news coverage or a verified macro regime.",
+                "Exact excerpts establish attribution, not factual truth or semantic support.",
+                "Thesis and trade connections are unverified model hypotheses for review.",
+                "The complete attached-thesis paper book is not the user's whole portfolio.",
+                "Instrument mapping, consensus, pricing and market reactions are unverified or unavailable.",
+                "No thesis amendment, notice, execution or automatic paid retry is authorized.",
+                "Source order is latest observed payload, not authoritative publisher revision order.",
+                "Input observations and preparation times are not exact durable admission commit times."
+              ],
+              "model_id": "recorded/cumulative-desk",
+              "provider": "nanogpt",
+              "provider_request_id": "fictional-cumulative-request-1",
+              "replayed": false,
+              "reported_cost_usd": null,
+              "reported_model": "recorded/cumulative-desk",
+              "source_revision_id": "4062c765-21d4-47d5-85f2-353c9b0918b5",
+              "stale_reasons": [],
+              "status": "analysed",
+              "stop_reason": "completed",
+              "unresolved_attempt_count": 0,
+              "usage": {
+                "completion_tokens": 50,
+                "prompt_tokens": 100,
+                "total_tokens": 150
+              }
+            },
+            "paid_retry_authorized": false
+          },
+          "finished_at": "2026-10-10T16:42:41.086505+00:00",
+          "current_slot_state": "completed",
+          "replayed": false
+        }
+      }
+    ],
+    "publication": "none",
+    "external_notifications": "none"
+  },
+  "first_analysis": {
+    "analysis": {
+      "id": "d0ecffb2-d318-496e-a2b0-8f1e1b020dca",
+      "status": "analysed",
+      "current_disposition": "current",
+      "replayed": false,
+      "source_revision_id": "4062c765-21d4-47d5-85f2-353c9b0918b5",
+      "provider": "nanogpt",
+      "model_id": "recorded/cumulative-desk",
+      "created_at": "2026-10-10T16:42:41.086505+00:00",
+      "finished_at": "2026-10-10T16:42:41.086505+00:00",
+      "context": {
+        "source": {
+          "url": "https://example.invalid/funding",
+          "title": "Fictional funding constraints",
+          "digest": "66ab6b6816744608c9a8bf52f31758f7e3201d16ec1facc62398a013d36d047c",
+          "content": "Fictional lenders reported persistent funding stress and tighter credit conditions.",
+          "native_id": "funding",
+          "report_id": 1,
+          "is_fixture": true,
+          "source_key": "fixture-cumulative-trace",
+          "received_at": "2026-10-10T16:42:41.086505+00:00",
+          "revision_id": "4062c765-21d4-47d5-85f2-353c9b0918b5",
+          "published_at": "2026-10-09T16:42:41.086505+00:00",
+          "availability_witness_at": "2026-10-10T16:42:41.086505+00:00"
+        },
+        "positions": [
+          {
+            "venue": null,
+            "expiry": null,
+            "status": "open",
+            "horizon": null,
+            "quantity": null,
+            "direction": "long",
+            "product_id": null,
+            "underlying": "NQ",
+            "version_id": "75967f67-e100-4709-94a3-2e328f8e5f0f",
+            "position_id": "06031bdf-9b73-4d7f-a2b9-d330c76f6764",
+            "quantity_unit": null,
+            "mapping_status": "user_declared_unverified",
+            "missing_fields": [
+              "product_id",
+              "venue",
+              "quote_currency",
+              "horizon",
+              "quantity",
+              "quantity_unit"
+            ],
+            "quote_currency": null
+          }
+        ],
+        "cumulative": {
+          "gaps": [
+            "No new eligible reports does not establish that no market events occurred.",
+            "Exact retained quotations establish attribution, not factual truth or investment usefulness.",
+            "Current disposition is a caller observation at preparation, not reconstructed cutoff state.",
+            "Cross-source independence, current macro regime and market expectations remain unverified.",
+            "This deterministic review grants no approval, publication, notification or paid-retry authority.",
+            "Starting macro context is unavailable; retained reports do not establish the current regime.",
+            "Prior analyses are model interpretations, not independently verified facts.",
+            "{\"analysis_id\":null,\"detail\":{\"active_capture_id\":null,\"complete_market_coverage\":false,\"coverage\":\"bounded_snapshot\",\"last_code\":\"snapshot_captured\",\"last_outcome\":\"captured\",\"last_successful_capture_at\":\"2026-10-10T16:42:41.086505+00:00\"},\"issue_id\":\"coverage:fixture-cumulative-trace\",\"kind\":\"coverage_gap\",\"source_id\":\"fixture-cumulative-trace\"}",
+            "{\"analysis_id\":null,\"detail\":{\"attempt_count\":0,\"decision\":\"relevance_unresolved\",\"lease_until\":null,\"state\":\"pending\"},\"issue_id\":\"screening:4062c765-21d4-47d5-85f2-353c9b0918b5\",\"kind\":\"unresolved_work\",\"source_id\":\"fixture-cumulative-trace\"}"
+          ],
+          "cutoff": "2026-10-10T16:42:41.086505+00:00",
+          "digest": "7259a19495f4d6bae18573d76307d1c45c74f8a5e67f305b25210c873199da19",
+          "reports": [
+            {
+              "id": "funding",
+              "url": "https://example.invalid/funding",
+              "title": "Fictional funding constraints",
+              "digest": "66ab6b6816744608c9a8bf52f31758f7e3201d16ec1facc62398a013d36d047c",
+              "content": "Fictional lenders reported persistent funding stress and tighter credit conditions.",
+              "section": "new",
+              "report_id": "1",
+              "source_key": "fixture-cumulative-trace",
+              "received_at": "2026-10-10T16:42:41.086505+00:00",
+              "revision_id": "4062c765-21d4-47d5-85f2-353c9b0918b5",
+              "published_at": "2026-10-09T16:42:41.086505+00:00",
+              "is_current_revision": true,
+              "head_at_preparation_id": "4062c765-21d4-47d5-85f2-353c9b0918b5",
+              "source_contract_digest": "6357b05f6ebf2d2eddba4f4c93870b025fd8d37815836e6208de685b1f0568dd",
+              "availability_witness_at": "2026-10-10T16:42:41.086505+00:00",
+              "source_contract_provenance": "existing_allowlisted_adapter_manifest"
+            }
+          ],
+          "analyses": [],
+          "context_id": "1cfeedd4-6f69-4fb3-9f14-b605e5444766",
+          "policy_version": "complete-retained-cumulative-news-v1",
+          "deferred_reports": [],
+          "deferred_analyses": [],
+          "predecessor_context_id": null
+        },
+        "approved_thesis": {
+          "drivers": [
+            "Easier policy"
+          ],
+          "horizon": "medium term",
+          "thesis_id": "72b653fa-8421-4d9d-95e5-ccfd682ea444",
+          "exact_text": "  Easier policy may support equities.\r\nΔ\r\n",
+          "approval_id": "935013aa-d3a7-41ca-99fa-6cb1963e6115",
+          "interpretation_id": "d3e9d058-dbd0-439c-9dc3-55183eee03b9",
+          "thesis_version_id": "e487a50c-569f-4ed4-9cce-75559f520f23",
+          "invalidation_signposts": [
+            "Policy transmission fails"
+          ]
+        }
+      },
+      "document": {
+        "hypotheses": [
+          {
+            "horizon": null,
+            "fact_ids": [
+              "f1"
+            ],
+            "signposts": [
+              "Investigate permitted subsequent evidence on funding conditions and policy measures."
+            ],
+            "assumptions": [
+              "The fictional funding report is relevant to the trader's expected policy transmission."
+            ],
+            "explanation": "Unverified hypothesis: persistent funding stress could offset expected policy support.",
+            "uncertainty": "No verified current regime, market reaction, expectations or leverage data are supplied.",
+            "counter_case": "A subsequent policy response could contain the reported funding constraints.",
+            "position_ids": [
+              "06031bdf-9b73-4d7f-a2b9-d330c76f6764"
+            ],
+            "transmission": "If tighter funding restrains credit, easier policy may not support activity over the holding period.",
+            "hypothesis_id": "h1"
+          }
+        ],
+        "trade_route": {
+          "status": "potential",
+          "fact_ids": [
+            "f1"
+          ],
+          "explanation": "Tighter funding could create a nearer-term adverse path for the fictional NQ long.",
+          "position_ids": [
+            "06031bdf-9b73-4d7f-a2b9-d330c76f6764"
+          ]
+        },
+        "thesis_route": {
+          "status": "potential",
+          "fact_ids": [
+            "f1"
+          ],
+          "explanation": "Reported funding stress could obstruct the approved easier-policy transmission mechanism."
+        },
+        "schema_version": "retained-news-analysis-v2",
+        "attributed_facts": [
+          {
+            "field": "content",
+            "fact_id": "f1",
+            "exact_quote": "Fictional lenders reported persistent funding stress and tighter credit conditions.",
+            "source_revision_id": "4062c765-21d4-47d5-85f2-353c9b0918b5"
+          }
+        ],
+        "trader_questions": [
+          "How does the position horizon compare with the medium-term thesis horizon?",
+          "Is the declared product leveraged or financed, and which funding evidence would challenge your view?"
+        ],
+        "evidence_comparisons": []
+      },
+      "usage": {
+        "total_tokens": 150,
+        "prompt_tokens": 100,
+        "completion_tokens": 50
+      },
+      "reported_cost_usd": null,
+      "estimated_cost_usd": null,
+      "reported_model": "recorded/cumulative-desk",
+      "provider_request_id": "fictional-cumulative-request-1",
+      "latency_ms": 1,
+      "stop_reason": "completed",
+      "stale_reasons": [],
+      "limitations": [
+        "Complete eligible retained context from the explicit source manifest, not broad news coverage or a verified macro regime.",
+        "Exact excerpts establish attribution, not factual truth or semantic support.",
+        "Thesis and trade connections are unverified model hypotheses for review.",
+        "The complete attached-thesis paper book is not the user's whole portfolio.",
+        "Instrument mapping, consensus, pricing and market reactions are unverified or unavailable.",
+        "No thesis amendment, notice, execution or automatic paid retry is authorized.",
+        "Source order is latest observed payload, not authoritative publisher revision order.",
+        "Input observations and preparation times are not exact durable admission commit times."
+      ],
+      "unresolved_attempt_count": 0
+    }
+  },
+  "second_analysis": {
+    "analysis": {
+      "id": "66f46f06-b0f1-4175-ae5f-58af75266eda",
+      "status": "analysed",
+      "current_disposition": "current",
+      "replayed": false,
+      "source_revision_id": "6082ed17-ed16-4266-971d-3256f929b9fc",
+      "provider": "nanogpt",
+      "model_id": "recorded/cumulative-desk",
+      "created_at": "2026-10-10T16:43:42.086505+00:00",
+      "finished_at": "2026-10-10T16:43:42.086505+00:00",
+      "context": {
+        "source": {
+          "url": "https://example.invalid/easing",
+          "title": "Fictional policy response",
+          "digest": "a88a1e58b9cc3877443de23d21edfd51fc38a5a6cb5d464b4b16fe0cb4a2c068",
+          "content": "The fictional central bank cut its policy rate and opened a temporary liquidity facility following reports of funding stress.",
+          "native_id": "easing",
+          "report_id": 2,
+          "is_fixture": true,
+          "source_key": "fixture-cumulative-trace",
+          "received_at": "2026-10-10T16:43:42.086505+00:00",
+          "revision_id": "6082ed17-ed16-4266-971d-3256f929b9fc",
+          "published_at": "2026-10-09T16:43:42.086505+00:00",
+          "availability_witness_at": "2026-10-10T16:43:42.086505+00:00"
+        },
+        "positions": [
+          {
+            "venue": null,
+            "expiry": null,
+            "status": "open",
+            "horizon": null,
+            "quantity": null,
+            "direction": "long",
+            "product_id": null,
+            "underlying": "NQ",
+            "version_id": "75967f67-e100-4709-94a3-2e328f8e5f0f",
+            "position_id": "06031bdf-9b73-4d7f-a2b9-d330c76f6764",
+            "quantity_unit": null,
+            "mapping_status": "user_declared_unverified",
+            "missing_fields": [
+              "product_id",
+              "venue",
+              "quote_currency",
+              "horizon",
+              "quantity",
+              "quantity_unit"
+            ],
+            "quote_currency": null
+          }
+        ],
+        "cumulative": {
+          "gaps": [
+            "No new eligible reports does not establish that no market events occurred.",
+            "Exact retained quotations establish attribution, not factual truth or investment usefulness.",
+            "Current disposition is a caller observation at preparation, not reconstructed cutoff state.",
+            "Cross-source independence, current macro regime and market expectations remain unverified.",
+            "This deterministic review grants no approval, publication, notification or paid-retry authority.",
+            "Starting macro context is unavailable; retained reports do not establish the current regime.",
+            "Prior analyses are model interpretations, not independently verified facts.",
+            "{\"analysis_id\":null,\"detail\":{\"active_capture_id\":null,\"complete_market_coverage\":false,\"coverage\":\"bounded_snapshot\",\"last_code\":\"snapshot_captured\",\"last_outcome\":\"captured\",\"last_successful_capture_at\":\"2026-10-10T16:43:42.086505+00:00\"},\"issue_id\":\"coverage:fixture-cumulative-trace\",\"kind\":\"coverage_gap\",\"source_id\":\"fixture-cumulative-trace\"}",
+            "{\"analysis_id\":null,\"detail\":{\"attempt_count\":0,\"decision\":\"relevance_unresolved\",\"lease_until\":null,\"state\":\"pending\"},\"issue_id\":\"screening:4062c765-21d4-47d5-85f2-353c9b0918b5\",\"kind\":\"unresolved_work\",\"source_id\":\"fixture-cumulative-trace\"}",
+            "{\"analysis_id\":null,\"detail\":{\"attempt_count\":0,\"decision\":\"relevance_unresolved\",\"lease_until\":null,\"state\":\"pending\"},\"issue_id\":\"screening:6082ed17-ed16-4266-971d-3256f929b9fc\",\"kind\":\"unresolved_work\",\"source_id\":\"fixture-cumulative-trace\"}",
+            "{\"changes_since_predecessor\":{\"approved_meaning_changed\":false,\"exposure_changed\":false}}"
+          ],
+          "cutoff": "2026-10-10T16:43:42.086505+00:00",
+          "digest": "cb83155d7ff4911d045e9002762608adf22a357eb95a0597011c8dd8d508535d",
+          "reports": [
+            {
+              "id": "easing",
+              "url": "https://example.invalid/easing",
+              "title": "Fictional policy response",
+              "digest": "a88a1e58b9cc3877443de23d21edfd51fc38a5a6cb5d464b4b16fe0cb4a2c068",
+              "content": "The fictional central bank cut its policy rate and opened a temporary liquidity facility following reports of funding stress.",
+              "section": "new",
+              "report_id": "2",
+              "source_key": "fixture-cumulative-trace",
+              "received_at": "2026-10-10T16:43:42.086505+00:00",
+              "revision_id": "6082ed17-ed16-4266-971d-3256f929b9fc",
+              "published_at": "2026-10-09T16:43:42.086505+00:00",
+              "is_current_revision": true,
+              "head_at_preparation_id": "6082ed17-ed16-4266-971d-3256f929b9fc",
+              "source_contract_digest": "6357b05f6ebf2d2eddba4f4c93870b025fd8d37815836e6208de685b1f0568dd",
+              "availability_witness_at": "2026-10-10T16:43:42.086505+00:00",
+              "source_contract_provenance": "existing_allowlisted_adapter_manifest"
+            },
+            {
+              "id": "funding",
+              "url": "https://example.invalid/funding",
+              "title": "Fictional funding constraints",
+              "digest": "66ab6b6816744608c9a8bf52f31758f7e3201d16ec1facc62398a013d36d047c",
+              "content": "Fictional lenders reported persistent funding stress and tighter credit conditions.",
+              "section": "background",
+              "report_id": "1",
+              "source_key": "fixture-cumulative-trace",
+              "received_at": "2026-10-10T16:42:41.086505+00:00",
+              "revision_id": "4062c765-21d4-47d5-85f2-353c9b0918b5",
+              "published_at": "2026-10-09T16:42:41.086505+00:00",
+              "is_current_revision": true,
+              "head_at_preparation_id": "4062c765-21d4-47d5-85f2-353c9b0918b5",
+              "source_contract_digest": "6357b05f6ebf2d2eddba4f4c93870b025fd8d37815836e6208de685b1f0568dd",
+              "availability_witness_at": "2026-10-10T16:42:41.086505+00:00",
+              "source_contract_provenance": "existing_allowlisted_adapter_manifest"
+            }
+          ],
+          "analyses": [
+            {
+              "costs": {
+                "reported_cost_usd": null,
+                "estimated_cost_usd": null
+              },
+              "section": "background",
+              "document": {
+                "hypotheses": [
+                  {
+                    "horizon": null,
+                    "fact_ids": [
+                      "f1"
+                    ],
+                    "signposts": [
+                      "Investigate permitted subsequent evidence on funding conditions and policy measures."
+                    ],
+                    "assumptions": [
+                      "The fictional funding report is relevant to the trader's expected policy transmission."
+                    ],
+                    "explanation": "Unverified hypothesis: persistent funding stress could offset expected policy support.",
+                    "uncertainty": "No verified current regime, market reaction, expectations or leverage data are supplied.",
+                    "counter_case": "A subsequent policy response could contain the reported funding constraints.",
+                    "position_ids": [
+                      "06031bdf-9b73-4d7f-a2b9-d330c76f6764"
+                    ],
+                    "transmission": "If tighter funding restrains credit, easier policy may not support activity over the holding period.",
+                    "hypothesis_id": "h1"
+                  }
+                ],
+                "trade_route": {
+                  "status": "potential",
+                  "fact_ids": [
+                    "f1"
+                  ],
+                  "explanation": "Tighter funding could create a nearer-term adverse path for the fictional NQ long.",
+                  "position_ids": [
+                    "06031bdf-9b73-4d7f-a2b9-d330c76f6764"
+                  ]
+                },
+                "thesis_route": {
+                  "status": "potential",
+                  "fact_ids": [
+                    "f1"
+                  ],
+                  "explanation": "Reported funding stress could obstruct the approved easier-policy transmission mechanism."
+                },
+                "schema_version": "retained-news-analysis-v2",
+                "attributed_facts": [
+                  {
+                    "field": "content",
+                    "fact_id": "f1",
+                    "exact_quote": "Fictional lenders reported persistent funding stress and tighter credit conditions.",
+                    "source_revision_id": "4062c765-21d4-47d5-85f2-353c9b0918b5"
+                  }
+                ],
+                "trader_questions": [
+                  "How does the position horizon compare with the medium-term thesis horizon?",
+                  "Is the declared product leveraged or financed, and which funding evidence would challenge your view?"
+                ],
+                "evidence_comparisons": []
+              },
+              "model_id": "recorded/cumulative-desk",
+              "provider": "nanogpt",
+              "created_at": "2026-10-10T16:42:41.086505+00:00",
+              "analysis_id": "d0ecffb2-d318-496e-a2b0-8f1e1b020dca",
+              "approval_id": "935013aa-d3a7-41ca-99fa-6cb1963e6115",
+              "finished_at": "2026-10-10T16:42:41.086505+00:00",
+              "stop_reason": "completed",
+              "stale_reasons": [],
+              "context_digest": "4b24816fa6aa3039007df5538e14cf228f1aba2d5fa843bf853e393878707d52",
+              "exposure_digest": "9dada6733b3a97ddc8421175a18638835a34790ad33035b08b1722b1ec4cd4f4",
+              "original_status": "analysed",
+              "interpretation_id": "d3e9d058-dbd0-439c-9dc3-55183eee03b9",
+              "source_revision_id": "4062c765-21d4-47d5-85f2-353c9b0918b5",
+              "current_disposition": "current",
+              "original_stale_reasons": [],
+              "availability_witness_at": "2026-10-10T16:42:41.086505+00:00",
+              "disposition_observed_at": "2026-10-10T16:43:42.086505+00:00"
+            }
+          ],
+          "context_id": "38036c50-1873-4b39-8c6f-1d9c78c74211",
+          "policy_version": "complete-retained-cumulative-news-v1",
+          "deferred_reports": [],
+          "deferred_analyses": [],
+          "predecessor_context_id": "1cfeedd4-6f69-4fb3-9f14-b605e5444766"
+        },
+        "approved_thesis": {
+          "drivers": [
+            "Easier policy"
+          ],
+          "horizon": "medium term",
+          "thesis_id": "72b653fa-8421-4d9d-95e5-ccfd682ea444",
+          "exact_text": "  Easier policy may support equities.\r\nΔ\r\n",
+          "approval_id": "935013aa-d3a7-41ca-99fa-6cb1963e6115",
+          "interpretation_id": "d3e9d058-dbd0-439c-9dc3-55183eee03b9",
+          "thesis_version_id": "e487a50c-569f-4ed4-9cce-75559f520f23",
+          "invalidation_signposts": [
+            "Policy transmission fails"
+          ]
+        }
+      },
+      "document": {
+        "hypotheses": [
+          {
+            "horizon": null,
+            "fact_ids": [
+              "f1",
+              "f2"
+            ],
+            "signposts": [
+              "Investigate permitted subsequent evidence on funding conditions and the facility's use."
+            ],
+            "assumptions": [
+              "The earlier report remains relevant after the liquidity facility was announced."
+            ],
+            "explanation": "Unverified hypothesis: easing may support the medium-term thesis while persistent funding constraints create a nearer-term adverse path.",
+            "uncertainty": "Both reports are fictional. The facility's effect, market expectations and the product's leverage remain unknown.",
+            "counter_case": "The facility could contain the reported funding stress before it affects the declared position.",
+            "position_ids": [
+              "06031bdf-9b73-4d7f-a2b9-d330c76f6764"
+            ],
+            "transmission": "If tighter funding restrains credit before easing affects activity, the attached long could face adverse conditions despite policy support.",
+            "hypothesis_id": "h1"
+          }
+        ],
+        "trade_route": {
+          "status": "potential",
+          "fact_ids": [
+            "f1",
+            "f2"
+          ],
+          "explanation": "Earlier reported funding stress could offset nearer-term benefits for the declared NQ long. No price reaction or verified leverage was supplied.",
+          "position_ids": [
+            "06031bdf-9b73-4d7f-a2b9-d330c76f6764"
+          ]
+        },
+        "thesis_route": {
+          "status": "potential",
+          "fact_ids": [
+            "f1",
+            "f2"
+          ],
+          "explanation": "The reported easing supports the approved policy mechanism, while the earlier credit report leaves its transmission unresolved."
+        },
+        "schema_version": "retained-news-analysis-v2",
+        "attributed_facts": [
+          {
+            "field": "content",
+            "fact_id": "f1",
+            "exact_quote": "The fictional central bank cut its policy rate and opened a temporary liquidity facility following reports of funding stress.",
+            "source_revision_id": "6082ed17-ed16-4266-971d-3256f929b9fc"
+          },
+          {
+            "field": "content",
+            "fact_id": "f2",
+            "exact_quote": "Fictional lenders reported persistent funding stress and tighter credit conditions.",
+            "source_revision_id": "4062c765-21d4-47d5-85f2-353c9b0918b5"
+          }
+        ],
+        "trader_questions": [
+          "Which evidence would show that funding conditions have improved enough for your holding horizon?"
+        ],
+        "evidence_comparisons": [
+          {
+            "fact_ids": [
+              "f1",
+              "f2"
+            ],
+            "explanation": "The newly reported policy response may offset the earlier interpretation of persistent funding stress; the earlier source claim still limits confidence in immediate relief.",
+            "uncertainty": "The reports do not establish whether the facility has resolved the funding constraints or how markets priced the response.",
+            "relationship": "offsets",
+            "prior_analysis_ids": [
+              "d0ecffb2-d318-496e-a2b0-8f1e1b020dca"
+            ]
+          }
+        ]
+      },
+      "usage": {
+        "total_tokens": 150,
+        "prompt_tokens": 100,
+        "completion_tokens": 50
+      },
+      "reported_cost_usd": null,
+      "estimated_cost_usd": null,
+      "reported_model": "recorded/cumulative-desk",
+      "provider_request_id": "fictional-cumulative-request-2",
+      "latency_ms": 1,
+      "stop_reason": "completed",
+      "stale_reasons": [],
+      "limitations": [
+        "Complete eligible retained context from the explicit source manifest, not broad news coverage or a verified macro regime.",
+        "Exact excerpts establish attribution, not factual truth or semantic support.",
+        "Thesis and trade connections are unverified model hypotheses for review.",
+        "The complete attached-thesis paper book is not the user's whole portfolio.",
+        "Instrument mapping, consensus, pricing and market reactions are unverified or unavailable.",
+        "No thesis amendment, notice, execution or automatic paid retry is authorized.",
+        "Source order is latest observed payload, not authoritative publisher revision order.",
+        "Input observations and preparation times are not exact durable admission commit times."
+      ],
+      "unresolved_attempt_count": 0
+    }
+  },
+  "context_lineage": {
+    "first_context_id": "1cfeedd4-6f69-4fb3-9f14-b605e5444766",
+    "second_context_id": "38036c50-1873-4b39-8c6f-1d9c78c74211",
+    "second_predecessor_context_id": "1cfeedd4-6f69-4fb3-9f14-b605e5444766",
+    "first_cumulative_digest": "7259a19495f4d6bae18573d76307d1c45c74f8a5e67f305b25210c873199da19",
+    "second_cumulative_digest": "cb83155d7ff4911d045e9002762608adf22a357eb95a0597011c8dd8d508535d",
+    "first_prompt_context_digest": "4b24816fa6aa3039007df5538e14cf228f1aba2d5fa843bf853e393878707d52",
+    "second_prompt_context_digest": "f2de297eb083101d5bedcfde39ec146064d6b01c09f46e9905a679c9581877b7"
+  },
+  "dispatch_requests": [
+    {
+      "model_id": "recorded/cumulative-desk",
+      "provider": "nanogpt",
+      "source_id": "fixture-cumulative-trace",
+      "context_bounds": {
+        "issues": 100,
+        "reports": 100,
+        "analyses": 100,
+        "encoded_bytes": 1000000,
+        "source_contracts": 16,
+        "exposure_versions": 200
+      },
+      "context_source_ids": [
+        "fixture-cumulative-trace"
+      ],
+      "model_configuration": {
+        "context": "complete_retained_context",
+        "provider": "nanogpt",
+        "cost_category": "private_investigation",
+        "prompt_version": "retained-news-analysis-prompt-v3",
+        "schema_version": "retained-news-analysis-v2",
+        "timeout_seconds": 45,
+        "automatic_retries": 0,
+        "calls_per_attempt": 1,
+        "max_output_tokens": 3000,
+        "owner_attempts_per_day": 20,
+        "aggregate_attempts_per_day": 100
+      },
+      "expected_approval_id": "935013aa-d3a7-41ca-99fa-6cb1963e6115",
+      "expected_exposure_digest": "9dada6733b3a97ddc8421175a18638835a34790ad33035b08b1722b1ec4cd4f4"
+    },
+    {
+      "model_id": "recorded/cumulative-desk",
+      "provider": "nanogpt",
+      "source_id": "fixture-cumulative-trace",
+      "context_bounds": {
+        "issues": 100,
+        "reports": 100,
+        "analyses": 100,
+        "encoded_bytes": 1000000,
+        "source_contracts": 16,
+        "exposure_versions": 200
+      },
+      "context_source_ids": [
+        "fixture-cumulative-trace"
+      ],
+      "model_configuration": {
+        "context": "complete_retained_context",
+        "provider": "nanogpt",
+        "cost_category": "private_investigation",
+        "prompt_version": "retained-news-analysis-prompt-v3",
+        "schema_version": "retained-news-analysis-v2",
+        "timeout_seconds": 45,
+        "automatic_retries": 0,
+        "calls_per_attempt": 1,
+        "max_output_tokens": 3000,
+        "owner_attempts_per_day": 20,
+        "aggregate_attempts_per_day": 100
+      },
+      "expected_approval_id": "935013aa-d3a7-41ca-99fa-6cb1963e6115",
+      "expected_exposure_digest": "9dada6733b3a97ddc8421175a18638835a34790ad33035b08b1722b1ec4cd4f4"
+    }
+  ],
+  "before_result_restart": {
+    "recorded_model_calls": 2,
+    "recorded_catalogue_calls": 2
+  },
+  "recovery_without_key": {
+    "scheduled": {
+      "watch_id": "d572792f-3dbf-4a0d-90a4-1da6b38eea6c",
+      "slots": [],
+      "daily_backlog": null
+    },
+    "receipt_observations": {
+      "observed_revision_ids": [],
+      "observed_by_at": "2026-10-10T16:44:13.086505+00:00",
+      "more_pending": false,
+      "batch_limit": 100,
+      "exact_commit_time": false
+    },
+    "processed": [
+      {
+        "kind": "analysis",
+        "slot_id": "0477a459-57ca-4d1a-b069-27899f1765bf",
+        "outcome": {
+          "token": "55c31d0c-ba11-4192-a7b4-22a4f562e31b",
+          "slot_id": "0477a459-57ca-4d1a-b069-27899f1765bf",
+          "status": "completed",
+          "payload": {
+            "analysis": {
+              "context": {
+                "approved_thesis": {
+                  "approval_id": "935013aa-d3a7-41ca-99fa-6cb1963e6115",
+                  "drivers": [
+                    "Easier policy"
+                  ],
+                  "exact_text": "  Easier policy may support equities.\r\nΔ\r\n",
+                  "horizon": "medium term",
+                  "interpretation_id": "d3e9d058-dbd0-439c-9dc3-55183eee03b9",
+                  "invalidation_signposts": [
+                    "Policy transmission fails"
+                  ],
+                  "thesis_id": "72b653fa-8421-4d9d-95e5-ccfd682ea444",
+                  "thesis_version_id": "e487a50c-569f-4ed4-9cce-75559f520f23"
+                },
+                "cumulative": {
+                  "analyses": [
+                    {
+                      "analysis_id": "d0ecffb2-d318-496e-a2b0-8f1e1b020dca",
+                      "approval_id": "935013aa-d3a7-41ca-99fa-6cb1963e6115",
+                      "availability_witness_at": "2026-10-10T16:42:41.086505+00:00",
+                      "context_digest": "4b24816fa6aa3039007df5538e14cf228f1aba2d5fa843bf853e393878707d52",
+                      "costs": {
+                        "estimated_cost_usd": null,
+                        "reported_cost_usd": null
+                      },
+                      "created_at": "2026-10-10T16:42:41.086505+00:00",
+                      "current_disposition": "current",
+                      "disposition_observed_at": "2026-10-10T16:43:42.086505+00:00",
+                      "document": {
+                        "attributed_facts": [
+                          {
+                            "exact_quote": "Fictional lenders reported persistent funding stress and tighter credit conditions.",
+                            "fact_id": "f1",
+                            "field": "content",
+                            "source_revision_id": "4062c765-21d4-47d5-85f2-353c9b0918b5"
+                          }
+                        ],
+                        "evidence_comparisons": [],
+                        "hypotheses": [
+                          {
+                            "assumptions": [
+                              "The fictional funding report is relevant to the trader's expected policy transmission."
+                            ],
+                            "counter_case": "A subsequent policy response could contain the reported funding constraints.",
+                            "explanation": "Unverified hypothesis: persistent funding stress could offset expected policy support.",
+                            "fact_ids": [
+                              "f1"
+                            ],
+                            "horizon": null,
+                            "hypothesis_id": "h1",
+                            "position_ids": [
+                              "06031bdf-9b73-4d7f-a2b9-d330c76f6764"
+                            ],
+                            "signposts": [
+                              "Investigate permitted subsequent evidence on funding conditions and policy measures."
+                            ],
+                            "transmission": "If tighter funding restrains credit, easier policy may not support activity over the holding period.",
+                            "uncertainty": "No verified current regime, market reaction, expectations or leverage data are supplied."
+                          }
+                        ],
+                        "schema_version": "retained-news-analysis-v2",
+                        "thesis_route": {
+                          "explanation": "Reported funding stress could obstruct the approved easier-policy transmission mechanism.",
+                          "fact_ids": [
+                            "f1"
+                          ],
+                          "status": "potential"
+                        },
+                        "trade_route": {
+                          "explanation": "Tighter funding could create a nearer-term adverse path for the fictional NQ long.",
+                          "fact_ids": [
+                            "f1"
+                          ],
+                          "position_ids": [
+                            "06031bdf-9b73-4d7f-a2b9-d330c76f6764"
+                          ],
+                          "status": "potential"
+                        },
+                        "trader_questions": [
+                          "How does the position horizon compare with the medium-term thesis horizon?",
+                          "Is the declared product leveraged or financed, and which funding evidence would challenge your view?"
+                        ]
+                      },
+                      "exposure_digest": "9dada6733b3a97ddc8421175a18638835a34790ad33035b08b1722b1ec4cd4f4",
+                      "finished_at": "2026-10-10T16:42:41.086505+00:00",
+                      "interpretation_id": "d3e9d058-dbd0-439c-9dc3-55183eee03b9",
+                      "model_id": "recorded/cumulative-desk",
+                      "original_stale_reasons": [],
+                      "original_status": "analysed",
+                      "provider": "nanogpt",
+                      "section": "background",
+                      "source_revision_id": "4062c765-21d4-47d5-85f2-353c9b0918b5",
+                      "stale_reasons": [],
+                      "stop_reason": "completed"
+                    }
+                  ],
+                  "context_id": "38036c50-1873-4b39-8c6f-1d9c78c74211",
+                  "cutoff": "2026-10-10T16:43:42.086505+00:00",
+                  "deferred_analyses": [],
+                  "deferred_reports": [],
+                  "digest": "cb83155d7ff4911d045e9002762608adf22a357eb95a0597011c8dd8d508535d",
+                  "gaps": [
+                    "No new eligible reports does not establish that no market events occurred.",
+                    "Exact retained quotations establish attribution, not factual truth or investment usefulness.",
+                    "Current disposition is a caller observation at preparation, not reconstructed cutoff state.",
+                    "Cross-source independence, current macro regime and market expectations remain unverified.",
+                    "This deterministic review grants no approval, publication, notification or paid-retry authority.",
+                    "Starting macro context is unavailable; retained reports do not establish the current regime.",
+                    "Prior analyses are model interpretations, not independently verified facts.",
+                    "{\"analysis_id\":null,\"detail\":{\"active_capture_id\":null,\"complete_market_coverage\":false,\"coverage\":\"bounded_snapshot\",\"last_code\":\"snapshot_captured\",\"last_outcome\":\"captured\",\"last_successful_capture_at\":\"2026-10-10T16:43:42.086505+00:00\"},\"issue_id\":\"coverage:fixture-cumulative-trace\",\"kind\":\"coverage_gap\",\"source_id\":\"fixture-cumulative-trace\"}",
+                    "{\"analysis_id\":null,\"detail\":{\"attempt_count\":0,\"decision\":\"relevance_unresolved\",\"lease_until\":null,\"state\":\"pending\"},\"issue_id\":\"screening:4062c765-21d4-47d5-85f2-353c9b0918b5\",\"kind\":\"unresolved_work\",\"source_id\":\"fixture-cumulative-trace\"}",
+                    "{\"analysis_id\":null,\"detail\":{\"attempt_count\":0,\"decision\":\"relevance_unresolved\",\"lease_until\":null,\"state\":\"pending\"},\"issue_id\":\"screening:6082ed17-ed16-4266-971d-3256f929b9fc\",\"kind\":\"unresolved_work\",\"source_id\":\"fixture-cumulative-trace\"}",
+                    "{\"changes_since_predecessor\":{\"approved_meaning_changed\":false,\"exposure_changed\":false}}"
+                  ],
+                  "policy_version": "complete-retained-cumulative-news-v1",
+                  "predecessor_context_id": "1cfeedd4-6f69-4fb3-9f14-b605e5444766",
+                  "reports": [
+                    {
+                      "availability_witness_at": "2026-10-10T16:43:42.086505+00:00",
+                      "content": "The fictional central bank cut its policy rate and opened a temporary liquidity facility following reports of funding stress.",
+                      "digest": "a88a1e58b9cc3877443de23d21edfd51fc38a5a6cb5d464b4b16fe0cb4a2c068",
+                      "head_at_preparation_id": "6082ed17-ed16-4266-971d-3256f929b9fc",
+                      "id": "easing",
+                      "is_current_revision": true,
+                      "published_at": "2026-10-09T16:43:42.086505+00:00",
+                      "received_at": "2026-10-10T16:43:42.086505+00:00",
+                      "report_id": "2",
+                      "revision_id": "6082ed17-ed16-4266-971d-3256f929b9fc",
+                      "section": "new",
+                      "source_contract_digest": "6357b05f6ebf2d2eddba4f4c93870b025fd8d37815836e6208de685b1f0568dd",
+                      "source_contract_provenance": "existing_allowlisted_adapter_manifest",
+                      "source_key": "fixture-cumulative-trace",
+                      "title": "Fictional policy response",
+                      "url": "https://example.invalid/easing"
+                    },
+                    {
+                      "availability_witness_at": "2026-10-10T16:42:41.086505+00:00",
+                      "content": "Fictional lenders reported persistent funding stress and tighter credit conditions.",
+                      "digest": "66ab6b6816744608c9a8bf52f31758f7e3201d16ec1facc62398a013d36d047c",
+                      "head_at_preparation_id": "4062c765-21d4-47d5-85f2-353c9b0918b5",
+                      "id": "funding",
+                      "is_current_revision": true,
+                      "published_at": "2026-10-09T16:42:41.086505+00:00",
+                      "received_at": "2026-10-10T16:42:41.086505+00:00",
+                      "report_id": "1",
+                      "revision_id": "4062c765-21d4-47d5-85f2-353c9b0918b5",
+                      "section": "background",
+                      "source_contract_digest": "6357b05f6ebf2d2eddba4f4c93870b025fd8d37815836e6208de685b1f0568dd",
+                      "source_contract_provenance": "existing_allowlisted_adapter_manifest",
+                      "source_key": "fixture-cumulative-trace",
+                      "title": "Fictional funding constraints",
+                      "url": "https://example.invalid/funding"
+                    }
+                  ]
+                },
+                "positions": [
+                  {
+                    "direction": "long",
+                    "expiry": null,
+                    "horizon": null,
+                    "mapping_status": "user_declared_unverified",
+                    "missing_fields": [
+                      "product_id",
+                      "venue",
+                      "quote_currency",
+                      "horizon",
+                      "quantity",
+                      "quantity_unit"
+                    ],
+                    "position_id": "06031bdf-9b73-4d7f-a2b9-d330c76f6764",
+                    "product_id": null,
+                    "quantity": null,
+                    "quantity_unit": null,
+                    "quote_currency": null,
+                    "status": "open",
+                    "underlying": "NQ",
+                    "venue": null,
+                    "version_id": "75967f67-e100-4709-94a3-2e328f8e5f0f"
+                  }
+                ],
+                "source": {
+                  "availability_witness_at": "2026-10-10T16:43:42.086505+00:00",
+                  "content": "The fictional central bank cut its policy rate and opened a temporary liquidity facility following reports of funding stress.",
+                  "digest": "a88a1e58b9cc3877443de23d21edfd51fc38a5a6cb5d464b4b16fe0cb4a2c068",
+                  "is_fixture": true,
+                  "native_id": "easing",
+                  "published_at": "2026-10-09T16:43:42.086505+00:00",
+                  "received_at": "2026-10-10T16:43:42.086505+00:00",
+                  "report_id": 2,
+                  "revision_id": "6082ed17-ed16-4266-971d-3256f929b9fc",
+                  "source_key": "fixture-cumulative-trace",
+                  "title": "Fictional policy response",
+                  "url": "https://example.invalid/easing"
+                }
+              },
+              "created_at": "2026-10-10T16:43:42.086505+00:00",
+              "current_disposition": "current",
+              "document": {
+                "attributed_facts": [
+                  {
+                    "exact_quote": "The fictional central bank cut its policy rate and opened a temporary liquidity facility following reports of funding stress.",
+                    "fact_id": "f1",
+                    "field": "content",
+                    "source_revision_id": "6082ed17-ed16-4266-971d-3256f929b9fc"
+                  },
+                  {
+                    "exact_quote": "Fictional lenders reported persistent funding stress and tighter credit conditions.",
+                    "fact_id": "f2",
+                    "field": "content",
+                    "source_revision_id": "4062c765-21d4-47d5-85f2-353c9b0918b5"
+                  }
+                ],
+                "evidence_comparisons": [
+                  {
+                    "explanation": "The newly reported policy response may offset the earlier interpretation of persistent funding stress; the earlier source claim still limits confidence in immediate relief.",
+                    "fact_ids": [
+                      "f1",
+                      "f2"
+                    ],
+                    "prior_analysis_ids": [
+                      "d0ecffb2-d318-496e-a2b0-8f1e1b020dca"
+                    ],
+                    "relationship": "offsets",
+                    "uncertainty": "The reports do not establish whether the facility has resolved the funding constraints or how markets priced the response."
+                  }
+                ],
+                "hypotheses": [
+                  {
+                    "assumptions": [
+                      "The earlier report remains relevant after the liquidity facility was announced."
+                    ],
+                    "counter_case": "The facility could contain the reported funding stress before it affects the declared position.",
+                    "explanation": "Unverified hypothesis: easing may support the medium-term thesis while persistent funding constraints create a nearer-term adverse path.",
+                    "fact_ids": [
+                      "f1",
+                      "f2"
+                    ],
+                    "horizon": null,
+                    "hypothesis_id": "h1",
+                    "position_ids": [
+                      "06031bdf-9b73-4d7f-a2b9-d330c76f6764"
+                    ],
+                    "signposts": [
+                      "Investigate permitted subsequent evidence on funding conditions and the facility's use."
+                    ],
+                    "transmission": "If tighter funding restrains credit before easing affects activity, the attached long could face adverse conditions despite policy support.",
+                    "uncertainty": "Both reports are fictional. The facility's effect, market expectations and the product's leverage remain unknown."
+                  }
+                ],
+                "schema_version": "retained-news-analysis-v2",
+                "thesis_route": {
+                  "explanation": "The reported easing supports the approved policy mechanism, while the earlier credit report leaves its transmission unresolved.",
+                  "fact_ids": [
+                    "f1",
+                    "f2"
+                  ],
+                  "status": "potential"
+                },
+                "trade_route": {
+                  "explanation": "Earlier reported funding stress could offset nearer-term benefits for the declared NQ long. No price reaction or verified leverage was supplied.",
+                  "fact_ids": [
+                    "f1",
+                    "f2"
+                  ],
+                  "position_ids": [
+                    "06031bdf-9b73-4d7f-a2b9-d330c76f6764"
+                  ],
+                  "status": "potential"
+                },
+                "trader_questions": [
+                  "Which evidence would show that funding conditions have improved enough for your holding horizon?"
+                ]
+              },
+              "estimated_cost_usd": null,
+              "finished_at": "2026-10-10T16:43:42.086505+00:00",
+              "id": "66f46f06-b0f1-4175-ae5f-58af75266eda",
+              "latency_ms": 1,
+              "limitations": [
+                "Complete eligible retained context from the explicit source manifest, not broad news coverage or a verified macro regime.",
+                "Exact excerpts establish attribution, not factual truth or semantic support.",
+                "Thesis and trade connections are unverified model hypotheses for review.",
+                "The complete attached-thesis paper book is not the user's whole portfolio.",
+                "Instrument mapping, consensus, pricing and market reactions are unverified or unavailable.",
+                "No thesis amendment, notice, execution or automatic paid retry is authorized.",
+                "Source order is latest observed payload, not authoritative publisher revision order.",
+                "Input observations and preparation times are not exact durable admission commit times."
+              ],
+              "model_id": "recorded/cumulative-desk",
+              "provider": "nanogpt",
+              "provider_request_id": "fictional-cumulative-request-2",
+              "replayed": true,
+              "reported_cost_usd": null,
+              "reported_model": "recorded/cumulative-desk",
+              "source_revision_id": "6082ed17-ed16-4266-971d-3256f929b9fc",
+              "stale_reasons": [],
+              "status": "analysed",
+              "stop_reason": "completed",
+              "unresolved_attempt_count": 0,
+              "usage": {
+                "completion_tokens": 50,
+                "prompt_tokens": 100,
+                "total_tokens": 150
+              }
+            },
+            "paid_retry_authorized": false
+          },
+          "finished_at": "2026-10-10T16:44:13.086505+00:00",
+          "current_slot_state": "completed",
+          "replayed": false
+        }
+      }
+    ],
+    "publication": "none",
+    "external_notifications": "none"
+  },
+  "daily_reviews_created": 0,
+  "recorded_model_calls": 2,
+  "recorded_catalogue_calls": 2,
+  "real_model_calls": 0,
+  "real_network_calls": 0,
+  "real_model_spend_usd": "0",
+  "compute_storage_cost": "not measured",
+  "fictional_account_disabled_after_trace": true,
+  "limits": [
+    "Recorded reasoning is fixture content, not live model usefulness.",
+    "Complete means the eligible retained selected-source set within explicit bounds, not broad macro coverage.",
+    "No current daily publication, external delivery, broker access or unattended live watch.",
+    "Controlled times and postcommit witnesses do not establish exact commit timestamps.",
+    "This sequential trace does not replace independent database race tests or a supervised weekly pilot."
+  ],
+  "database_isolation": {
+    "temporary_database": "test_cumulative_context_demo_701b9161aac14ca7",
+    "dropped_after_trace": true,
+    "existing_trader_records_used": false
+  }
+}

@@ -62,6 +62,28 @@ def build(*, reports=(), analyses=(), issues=(), scope=SCOPE, limits=LIMITS, per
 
 
 class DailyReviewTests(unittest.TestCase):
+    def test_cumulative_projection_omits_nested_context_after_full_binding_checks(self):
+        source = report()
+        retained = analysis(source)
+        full = build(reports=(source,), analyses=(retained,)).to_dict()
+        projected = build_daily_review(period=PERIOD, scope=SCOPE, reports=(source,),
+            analyses=(retained,), issues=(), limits=LIMITS, include_original_context=False).to_dict()
+        expected = full["analyses"]["new"][0]
+        self.assertEqual(expected.pop("original_context"), json.loads(retained.context_json))
+        self.assertEqual(projected, full)
+        altered = json.loads(retained.context_json)
+        altered["approved_thesis"]["thesis_id"] = "another-private-thesis"
+        wrong_scope = replace(retained, context_json=canonical_json(altered))
+        with self.assertRaisesRegex(ValueError, "bind the exact"):
+            build_daily_review(period=PERIOD, scope=SCOPE, reports=(source,),
+                analyses=(wrong_scope,), issues=(), limits=LIMITS, include_original_context=False)
+
+    def test_original_context_projection_rejects_boolean_coercion(self):
+        for value in (None, 0, 1, "false"):
+            with self.subTest(value=value), self.assertRaisesRegex(ValueError, "explicit boolean"):
+                build_daily_review(period=PERIOD, scope=SCOPE, reports=(), analyses=(),
+                    issues=(), limits=LIMITS, include_original_context=value)
+
     def test_explicit_period_boundaries_and_no_publication_timestamp_selection(self):
         earlier = report(witness=START, identity="earlier")
         current = report(witness=CUTOFF, identity="current")

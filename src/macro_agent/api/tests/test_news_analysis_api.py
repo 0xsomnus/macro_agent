@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 import uuid
 from contextlib import redirect_stderr
+from dataclasses import replace
 from unittest.mock import patch
 
 from django.conf import settings
@@ -20,10 +21,12 @@ from macro_agent.api.news_analysis_serializers import (
     NewsReviewContextSerializer,
 )
 from macro_agent.monitoring import analysis, capture
-from macro_agent.monitoring.models import NewsAnalysisAttempt, ScreeningWork
+from macro_agent.monitoring.models import NewsAnalysisAttempt, ScreeningWork, SourceState
 from macro_agent.monitoring.sources import load_recorded
 from macro_agent.persistence.models import NotificationIntent
 from macro_agent.providers import ProviderError
+from macro_agent.domain.daily_review import DailyReviewLimits
+from macro_agent.desk import service as desk
 
 
 ROOT = Path(__file__).resolve().parents[4]
@@ -60,6 +63,22 @@ class RecordedNewsModel:
             "prompt_tokens": 10, "completion_tokens": 20, "total_tokens": 30},
             "reported_cost_usd": None, "reported_model": MODEL,
             "provider_request_id": "recorded-news-request", "latency_ms": 12, "finish_reason": "stop"}
+
+
+class CumulativeRecordedNewsModel(RecordedNewsModel):
+    def complete(self, model_id, messages):
+        metadata = super().complete(model_id, messages)
+        context = json.loads(messages[1]["content"])
+        document = json.loads(metadata["content"])
+        document["schema_version"] = "retained-news-analysis-v2"
+        prior_ids = [item["analysis_id"] for item in context["cumulative"]["analyses"]
+            if item["document"] is not None and item["original_status"] in ("analysed", "stale")]
+        document["evidence_comparisons"] = [{"prior_analysis_ids": [prior_ids[0]],
+            "fact_ids": ["f1"], "relationship": "unresolved",
+            "explanation": "The later fictional report does not settle the earlier interpretation.",
+            "uncertainty": "No independent evidence verifies the reported policy transmission."}] if prior_ids else []
+        metadata["content"] = json.dumps(document)
+        return metadata
 
 
 @override_settings(PASSWORD_HASHERS=["django.contrib.auth.hashers.MD5PasswordHasher"],
@@ -157,6 +176,44 @@ class NewsAnalysisAPITests(TransactionTestCase):
         self.assertEqual(detail.json()["analysis"]["document"], first["document"])
         self.assertEqual(self.adapter.catalog_calls, 1)
         self.assertEqual(self.adapter.completion_calls, 1)
+
+    @override_settings(MACRO_ENABLE_CONTINUOUS_DESK=True,
+                       SETTINGS_MODULE="macro_agent.web.local_settings")
+    def test_get_preserves_cumulative_context_and_comparisons_without_enabling_manual_post(self):
+        first = self.analysed()["analysis"]
+        actor = str(self.owner.pk)
+        desk.observe_analysis_results(actor, self.thesis_id, [SOURCE], 100)
+        batch = load_recorded(ROOT / "fixtures" / "news_analysis_case.json")
+        capture.capture(SOURCE, SourceState.objects.get(pk=SOURCE).contract,
+            lambda: replace(batch, items=tuple(replace(item, native_id="second-" + item.native_id)
+                for item in batch.items), received_at=timezone.now()))
+        adapter, command_id = CumulativeRecordedNewsModel(), str(uuid.uuid4())
+        result = analysis.analyse_next(actor, self.thesis_id, command_id, self.approval_id,
+            self.preview["exposure_digest"], SOURCE, MODEL, "nanogpt", provider=adapter,
+            context_source_ids=[SOURCE], context_limits=DailyReviewLimits(reports=100, analyses=100,
+                exposure_versions=200, issues=300, source_contracts=16, encoded_bytes=2_000_000))
+        saved = result["analysis"]
+        self.assertEqual(saved["status"], "analysed")
+        self.assertEqual(saved["document"]["evidence_comparisons"][0]["prior_analysis_ids"], [first["id"]])
+        for path in (self.detail_path(saved["id"]),
+                f"/api/v1/theses/{self.thesis_id}/news-commands/{command_id}/"):
+            response = self.client.get(path)
+            self.assertEqual(response.status_code, 200, response.content)
+            received = response.json()
+            self.assertEqual(received["analysis"]["context"]["cumulative"], saved["context"]["cumulative"])
+            serializer = NewsAnalysisResponseSerializer(data=received)
+            self.assertTrue(serializer.is_valid(), serializer.errors)
+            represented = NewsAnalysisResponseSerializer(instance=received).data
+            self.assertEqual(represented["analysis"]["context"]["cumulative"], saved["context"]["cumulative"])
+            self.assertEqual(represented["analysis"]["document"]["evidence_comparisons"],
+                             saved["document"]["evidence_comparisons"])
+        self.assertEqual(adapter.completion_calls, 1)
+        self.assertEqual(adapter.catalog_calls, 1)
+        self.assertEqual(self.post(self.path, self.body(context_source_ids=[SOURCE])).status_code, 400)
+        self.assertEqual(self.adapter.completion_calls, 1)
+        legacy = NewsAnalysisResponseSerializer(instance={"analysis": first}).data["analysis"]
+        self.assertNotIn("cumulative", legacy["context"])
+        self.assertNotIn("evidence_comparisons", legacy["document"])
 
     def test_staff_foreign_and_missing_theses_and_attempts_are_opaque(self):
         first = self.analysed()["analysis"]
@@ -294,6 +351,12 @@ class NewsAnalysisAPITests(TransactionTestCase):
         self.assertEqual(recovery["security"], [{"cookieAuth": []}])
         self.assertIn("no model catalogue call", recovery["description"])
         self.assertEqual({parameter["name"] for parameter in recovery["parameters"]}, {"command_id", "thesis_id"})
+        retained_context = schema["components"]["schemas"]["NewsAnalysisContext"]
+        self.assertIn("cumulative", retained_context["properties"])
+        self.assertNotIn("cumulative", retained_context["required"])
+        document = schema["components"]["schemas"]["NewsDocument"]
+        self.assertIn("evidence_comparisons", document["properties"])
+        self.assertNotIn("evidence_comparisons", document["required"])
 
     def test_command_receipt_recovery_is_read_only_and_includes_saved_empty_queue(self):
         command = self.body()

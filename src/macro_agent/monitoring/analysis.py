@@ -4,6 +4,7 @@ No stored current pointer, no publication, no automatic paid retries. Current
 disposition is computed from a coherent snapshot of approval, book and source.
 """
 
+from dataclasses import asdict
 from datetime import timedelta
 import json
 
@@ -11,6 +12,8 @@ from django.conf import settings
 from django.db import connection, transaction
 from django.utils import timezone
 
+from macro_agent.domain.daily_review import DailyReviewLimits
+from macro_agent.domain.cumulative_news import CUMULATIVE_PROMPT_VERSION, CUMULATIVE_SCHEMA_VERSION
 from macro_agent.domain.models import canonical_json, text_digest
 from macro_agent.domain.news_analysis import PROMPT_VERSION, SCHEMA_VERSION, build_news_prompt, validate_news_document
 from macro_agent.domain.time import as_utc
@@ -34,11 +37,13 @@ class NewsBudgetExhausted(RuntimeError):
     pass
 
 
-def model_configuration(provider_id):
+def model_configuration(provider_id, *, cumulative=False):
     """Safe configuration shared by watch review and actual news admission."""
     configuration = compilation._configuration(provider_id)
-    configuration.update(prompt_version=PROMPT_VERSION, schema_version=SCHEMA_VERSION,
-        cost_category="private_investigation", context="one_retained_report_and_approved_paper_book")
+    configuration.update(prompt_version=CUMULATIVE_PROMPT_VERSION if cumulative else PROMPT_VERSION,
+        schema_version=CUMULATIVE_SCHEMA_VERSION if cumulative else SCHEMA_VERSION,
+        cost_category="private_investigation",
+        context="complete_retained_context" if cumulative else "one_retained_report_and_approved_paper_book")
     return configuration
 
 
@@ -74,6 +79,9 @@ def _stale_reasons(attempt, thesis):
         reasons.append("source_contract_changed")
     if not allowed_source(source):
         reasons.append("source_contract_unavailable")
+    if attempt.admission_context_id is not None:
+        from .cumulative import cumulative_stale_reasons
+        reasons.extend(cumulative_stale_reasons(attempt))
     return reasons
 
 
@@ -84,6 +92,13 @@ def _unresolved_count(thesis):
 
 def _response(attempt, thesis, at, *, replayed=False):
     result = NewsAnalysisResult.objects.filter(attempt=attempt).first()
+    if attempt.admission_context_id is not None:
+        from .cumulative import check_cumulative_clock
+        _, inputs, _ = resolve(thesis, str(thesis.current_approval_id))
+        _at(lambda: at, thesis, resolved=inputs)
+        if at < attempt.created_at or result is not None and at < result.finished_at:
+            raise NewsConflict("Disposition observation cannot precede retained analysis state")
+        check_cumulative_clock(attempt, at)
     status = result.status if result else ("outcome_unknown" if at >= attempt.deadline_at else "running")
     stale = _stale_reasons(attempt, thesis)
     disposition = ("stale" if stale or status == "stale" else "current" if status == "analysed" else "unresolved")
@@ -99,7 +114,7 @@ def _response(attempt, thesis, at, *, replayed=False):
         "latency_ms": metadata.get("latency_ms"),
         "stop_reason": result.stop_reason if result else ("response_not_recorded" if status == "outcome_unknown" else None),
         "stale_reasons": sorted(set(stale + (result.stale_reasons if result else []))),
-        "limitations": LIMITATIONS, "unresolved_attempt_count": _unresolved_count(thesis)}}
+        "limitations": _limitations(attempt), "unresolved_attempt_count": _unresolved_count(thesis)}}
 
 
 def _empty(thesis, provider_id, model_id):
@@ -156,8 +171,49 @@ def get_news_command(actor_id, thesis_id, command_id, *, clock=timezone.now):
         return _receipt_response(receipt, thesis, clock)
 
 
+def _limitations(attempt):
+    if attempt.admission_context_id is None:
+        return LIMITATIONS
+    return ["Complete eligible retained context from the explicit source manifest, not broad news coverage or a verified macro regime.",
+        *LIMITATIONS[1:]]
+
+
+def _context_scope(source_id, context_source_ids, context_limits):
+    if context_source_ids is None:
+        if context_limits is not None:
+            raise ValueError("Context limits require an explicit cumulative manifest")
+        return None
+    from macro_agent.desk import service as desk
+    desk.gate()
+    ids = desk._source_ids(context_source_ids)
+    if source_id not in ids or type(context_limits) is not DailyReviewLimits:
+        raise ValueError("Cumulative admission requires the focus source and explicit typed context bounds")
+    if len(ids) > context_limits.source_contracts:
+        raise ValueError("Complete source manifest exceeds the configured contract bound")
+    return ids
+
+
+def _protected_sources(source_id, scope, *, completing=False):
+    if scope is None:
+        if completing:
+            return [SourceState.objects.select_for_update().get(pk=source_id)]
+        return [protected_source(source_id)]
+    from .cumulative import lock_sources
+    return lock_sources(scope, require_permitted=not completing)
+
+
+def _cumulative_context(actor_id, thesis, approval, inputs, exposure, sources, revision, limits, at, *, persist):
+    from macro_agent.desk.analysis_context import build_analysis_context
+    context = build_context(next(row for row in sources if row.pk == revision.report.source_id), revision, inputs)
+    private, envelope = build_analysis_context(actor_id, thesis, approval, inputs, exposure,
+        sources, revision, limits, at, persist=persist)
+    context["cumulative"] = envelope
+    return private, context
+
+
 def analyse_next(actor_id, thesis_id, command_id, expected_approval_id, expected_exposure_digest,
-                 source_id, model_id, provider_id, *, provider=None, clock=timezone.now):
+                 source_id, model_id, provider_id, *, provider=None, clock=timezone.now,
+                 context_source_ids=None, context_limits=None):
     gate()
     if connection.in_atomic_block or not connection.get_autocommit():
         raise RuntimeError("News analysis requires durable admission outside a caller transaction")
@@ -171,8 +227,12 @@ def analyse_next(actor_id, thesis_id, command_id, expected_approval_id, expected
     if (type(expected_exposure_digest) is not str or len(expected_exposure_digest) != 64
             or any(c not in "0123456789abcdef" for c in expected_exposure_digest)):
         raise ValueError("Review the complete exposure digest")
-    digest = text_digest(canonical_json({"thesis_id": thesis_id, "approval_id": expected_approval_id,
-        "exposure_digest": expected_exposure_digest, "source_id": source_id, "provider_id": provider_id, "model_id": model_id}))
+    scope = _context_scope(source_id, context_source_ids, context_limits)
+    request = {"thesis_id": thesis_id, "approval_id": expected_approval_id,
+        "exposure_digest": expected_exposure_digest, "source_id": source_id, "provider_id": provider_id, "model_id": model_id}
+    if scope is not None:
+        request.update(context_source_ids=scope, context_bounds=asdict(context_limits))
+    digest = text_digest(canonical_json(request))
     # Ownership and saved identity precede any source disclosure or network call.
     with readonly_snapshot():
         set_readonly()
@@ -183,7 +243,8 @@ def analyse_next(actor_id, thesis_id, command_id, expected_approval_id, expected
             return existing
     # Protected preflight prevents empty/oversized/conflicting input from paying.
     with transaction.atomic():
-        source = protected_source(source_id)
+        sources = _protected_sources(source_id, scope)
+        source = next(row for row in sources if row.pk == source_id)
         thesis = lock_owner_thesis(actor_id, thesis_id, "default")
         existing = _saved_response(actor_id, command_id, digest, thesis, clock)
         if existing is not None:
@@ -195,11 +256,17 @@ def analyse_next(actor_id, thesis_id, command_id, expected_approval_id, expected
         if revision is None:
             return _save_empty(actor_id, thesis, command_id, digest, provider_id, model_id,
                                _at(clock, thesis, resolved=inputs))
-        build_news_prompt(build_context(source, revision, inputs))
+        if scope is None:
+            context = build_context(source, revision, inputs)
+        else:
+            at = _at(clock, thesis, resolved=inputs)
+            _, context = _cumulative_context(actor_id, thesis, approval, inputs, exposure,
+                sources, revision, context_limits, at, persist=False)
+        build_news_prompt(context)
     if settings.MACRO_MODEL_PROVIDER != provider_id or not settings.MACRO_MODEL_API_KEY:
         raise NewsUnavailable("Configure the selected provider in the backend environment")
     try:
-        configuration = model_configuration(provider_id)
+        configuration = model_configuration(provider_id, cumulative=scope is not None)
         adapter = provider or create_provider(provider_id, settings.MACRO_MODEL_API_KEY,
             timeout_seconds=configuration["timeout_seconds"], max_output_tokens=configuration["max_output_tokens"])
         catalog = adapter.list_models()
@@ -209,7 +276,8 @@ def analyse_next(actor_id, thesis_id, command_id, expected_approval_id, expected
     if model is None or model["capabilities"].get("chat_completions") is False:
         raise ValueError("Selected model is unavailable")
     with transaction.atomic():
-        source = protected_source(source_id)
+        sources = _protected_sources(source_id, scope)
+        source = next(row for row in sources if row.pk == source_id)
         thesis = lock_owner_thesis(actor_id, thesis_id, "default")
         existing = _saved_response(actor_id, command_id, digest, thesis, clock)
         if existing is not None:
@@ -221,16 +289,22 @@ def analyse_next(actor_id, thesis_id, command_id, expected_approval_id, expected
         if revision is None:
             return _save_empty(actor_id, thesis, command_id, digest, provider_id, model_id,
                                _at(clock, thesis, resolved=inputs))
-        context = build_context(source, revision, inputs)
-        messages = build_news_prompt(context)
+        if scope is None:
+            context = build_context(source, revision, inputs)
+            messages = build_news_prompt(context)
         lock_model_budget()
         at = _at(clock, thesis, resolved=inputs)
         if at < revision.system_received_at:
             raise NewsConflict("Trusted clock precedes source receipt")
         if not capacity_available(actor_id, at, configuration):
             raise NewsBudgetExhausted("Combined private-model admission limit reached")
+        private = None
+        if scope is not None:
+            private, context = _cumulative_context(actor_id, thesis, approval, inputs, exposure,
+                sources, revision, context_limits, at, persist=True)
+            messages = build_news_prompt(context)
         attempt = NewsAnalysisAttempt.objects.create(owner_id=actor_id, thesis=thesis, approval=approval,
-            source_revision=revision, exposure_digest=exposure, request_digest=digest, command_id=command_id,
+            source_revision=revision, admission_context=private, exposure_digest=exposure, request_digest=digest, command_id=command_id,
             resolved_inputs={"user": inputs, "source_contract": source.contract, "input_observed_at": at.isoformat()},
             context=context, context_digest=text_digest(canonical_json(context)), messages=messages,
             prompt_digest=text_digest(canonical_json(messages)), provider=provider_id, model_id=model_id,
@@ -253,7 +327,8 @@ def analyse_next(actor_id, thesis_id, command_id, expected_approval_id, expected
         # cannot erase its returned outcome or authorize another paid request.
         # Protect the source to order against permission writers, then preserve
         # the outcome with stale reasons instead of requiring fresh-use rights.
-        source = SourceState.objects.select_for_update().get(pk=source_id)
+        sources = _protected_sources(source_id, scope, completing=True)
+        source = next(row for row in sources if row.pk == source_id)
         thesis = lock_owner_thesis(actor_id, thesis_id, "default")
         _, current_inputs, _ = resolve(thesis, str(thesis.current_approval_id))
         current_source = SourceRevision.objects.select_related("report__current_revision").get(
@@ -267,6 +342,9 @@ def analyse_next(actor_id, thesis_id, command_id, expected_approval_id, expected
             raise NewsConflict("Trusted clock precedes observed source state")
         if permission is not None and at < permission.version.observed_at:
             raise NewsConflict("Trusted clock precedes source permission observation")
+        if private is not None:
+            from .cumulative import check_cumulative_clock
+            check_cumulative_clock(attempt, at)
         stale = _stale_reasons(attempt, thesis)
         if at >= attempt.deadline_at:
             status, reason = "outcome_unknown", "completion_deadline_exceeded"

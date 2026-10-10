@@ -23,11 +23,16 @@ class Command(BaseCommand):
         group.add_argument("--config", type=Path)
         parser.add_argument("--command-id")
         parser.add_argument("--expected-revision", type=int)
+        parser.add_argument("--cumulative", action="store_true",
+            help="Preview complete retained-context analysis; valid only with --preview")
 
     def handle(self, *args, **options):
         try:
+            if options["cumulative"] and not options["preview"]:
+                raise ValueError("--cumulative is valid only with --preview; configure the exact reviewed JSON")
             if options["preview"]:
-                result = enrollment_preview(options["owner"], options["thesis_id"])
+                result = enrollment_preview(options["owner"], options["thesis_id"],
+                                            cumulative=options["cumulative"])
             else:
                 import json
                 path = options["config"]

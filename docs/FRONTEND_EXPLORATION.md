@@ -1,6 +1,6 @@
 # Frontend exploration
 
-Status: Proposal, 2026-10-10. Pending the user's answers about testing priorities and the decisions each visual should improve. This note does not select client tooling, visual design, data vendors or a delivery phase.
+Status: Planning, 2026-10-10. The user confirmed that charts, maps/globes, options-flow/GEX displays and richer investigation visualizations are deferred peripheral features. The agentic engine remains the priority: sourced research, thesis refinement, cumulative monitoring and daily briefs. Early testers can choose entries using their existing tools. A light workflow-testing frontend remains separate from these advanced views. Client tooling, visual design, data vendors and delivery timing remain open.
 
 ## First testing surface, proposed
 
@@ -69,6 +69,8 @@ An investigation view should connect claims, supporting and opposing evidence, c
 For valuation, deterministic code should calculate the reviewed business-appropriate method, assumptions, scenarios and sensitivities. LLM prose can explain or challenge inputs; it is not the arithmetic authority. Unsupported methods and absent inputs remain explicit, consistent with [ADR 009](ADR/009-fundamental-valuation.md).
 
 ## Chart candidates
+
+Later, an entitled user's linked brokerage may supply their private chart data. Compatibility depends on broker, account/platform, jurisdiction, instrument and allowed use. Broker feasibility and account-level testing are deferred. No broker connector or chart feed is implemented or required for the first engine test. Agent use of market data is a separate evidence/permission decision from rendering a chart.
 
 - [TradingView Lightweight Charts](https://github.com/tradingview/lightweight-charts#license): Apache 2.0; retain its NOTICE attribution and TradingView link. It renders data supplied by us, with no included market feed or built-in indicators. This is a candidate for the light testing surface, not a selected dependency.
 - [Advanced Charts](https://www.tradingview.com/free-charting-libraries/): proprietary; current access rules target companies/public projects and exclude personal hobbies, studies and testing. The library does not include market data.

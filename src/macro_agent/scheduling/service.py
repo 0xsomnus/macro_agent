@@ -329,9 +329,6 @@ def mark_analysis_started(actor_id, token, request, *, clock=timezone.now):
     """
     _own_transaction()
     request = json_object(request, "analysis dispatch request")
-    fields = {"source_id", "expected_approval_id", "expected_exposure_digest", "provider", "model_id", "model_configuration"}
-    if set(request) != fields:
-        raise ValueError("Dispatch requires exactly its documented pinned request fields")
     with transaction.atomic():
         lease, slot, thesis, watch, at = _protected_lease(actor_id, token, clock)
         _active(lease, slot, at)
@@ -340,6 +337,17 @@ def mark_analysis_started(actor_id, token, request, *, clock=timezone.now):
         if AnalysisDispatch.objects.filter(slot=slot).exists():
             raise InferenceAlreadyStarted("Dispatch already started; use read-only command recovery")
         config = lease.recovery.watch_version.configuration if lease.recovery_id else slot.watch_version.configuration
+        fields = {"source_id", "expected_approval_id", "expected_exposure_digest", "provider", "model_id", "model_configuration"}
+        cumulative = config["model_configuration"].get("context") == "complete_retained_context"
+        if cumulative:
+            fields.update(("context_source_ids", "context_bounds"))
+        if set(request) != fields:
+            raise ValueError("Dispatch requires exactly its documented pinned request fields")
+        if cumulative and (
+                type(request["context_source_ids"]) is not list
+                or request["context_source_ids"] != [item["source_id"] for item in config["sources"]]
+                or canonical_json(request["context_bounds"]) != canonical_json(config["context_bounds"])):
+            raise ScheduleConflict("Complete context scope and bounds must match the reviewed watch")
         if (request["source_id"] not in {item["source_id"] for item in config["sources"]}
                 or request["expected_approval_id"] != config["approval_id"]
                 or request["expected_exposure_digest"] != config["exposure_digest"]
