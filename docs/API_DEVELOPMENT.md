@@ -2,7 +2,7 @@
 
 For a guided terminal walkthrough, start with [Getting started](GETTING_STARTED.md). This guide is the HTTP reference for manual requests and client development. The CLI uses these same session and approval endpoints. All shell commands run from the repository root.
 
-Updated 2026-10-09. [ADR 017](ADR/017-drf-and-openapi-boundary.md) selects DRF and drf-spectacular through delegated implementation judgment. Start with [Django setup](DJANGO_DEVELOPMENT.md). This internal API persists exact drafts, model review cards, attributable refinement answers, explicit user approval, paper declarations and private history. [PAPER_POSITIONS.md](PAPER_POSITIONS.md) specifies attachment/revision/closure and synthetic publication context. It does not configure continuous monitoring.
+Updated 2026-10-10. [ADR 017](ADR/017-drf-and-openapi-boundary.md) selects DRF and drf-spectacular through delegated implementation judgment. Start with [Django setup](DJANGO_DEVELOPMENT.md). This internal API persists exact drafts, model review cards, attributable refinement answers, explicit user approval, paper declarations and private history. [PAPER_POSITIONS.md](PAPER_POSITIONS.md) specifies attachment/revision/closure and synthetic publication context. Configure continuous monitoring separately through the [internal runner](CONTINUOUS_RUNNER.md).
 
 ## Session and authority
 
@@ -178,3 +178,18 @@ The response separates retained `analysis.context`, attributed quotation claims,
 Where present, the exact reviewed card is included in approved news context with its proposal and evidence labels preserved. The entire news context is limited to 65,536 encoded bytes, while a compiler card permits up to 524,288 bytes. A valid card can therefore be too large for news analysis; preflight rejects it before paid admission rather than trimming inputs.
 
 Admission commits before one inference outside database locks; protected completion compares current source, approval and exposure. Exact command replay cannot spend or advance the queue again, including after an empty response. Invalid or uncertain attempts are never automatically tried again for the same pinned inputs. Recovery GETs require no provider credentials and have no write fallback. Missing and foreign receipts are opaque 404 responses. Changed reviewed input or command identity returns 409, admission exhaustion 429, unavailable provider/catalogue 503, and malformed requests 400. This API does not supply continuous monitoring, verified macro context, broad coverage or sourced publication authority.
+
+## Internal daily-review inspection
+
+The [runner](CONTINUOUS_RUNNER.md) prepares deterministic private evidence reviews. These read routes require exact local settings, a development/test database, `MACRO_ENABLE_MONITORING_PROOF=1` and `MACRO_ENABLE_CONTINUOUS_DESK=1`. They use the authenticated session's owner scope, including for staff, and require no model credentials.
+
+| Method | Route | Purpose |
+| --- | --- | --- |
+| GET | `/api/v1/theses/{id}/daily-reviews/` | List retained review summaries, newest cutoff first |
+| GET | `/api/v1/daily-reviews/{id}/` | Read one complete immutable review and its present disposition |
+
+The list accepts only `limit` (1 to 100, default 20) and `offset` (0 to 1,000,000, default 0). It returns `total`, `has_more`, source manifests and counts for new, background and deferred reports/analyses, issues, unresolved analyses and unknown reported costs. These are retained-record counts, not a coverage or materiality score. Summary reads omit large content and approved-input documents. The saved digest is an identity reference; detail verifies the content digest.
+
+Count, page and current dependency observations share one PostgreSQL read-only repeatable-read snapshot. A later request observes a new snapshot, so offset pagination is not a stable historical cursor. Every response separates immutable `original_outcome` from `current_disposition`, with its observation time and `publication_authority: false`. Detail preserves exact content and original inputs when permission, approval, exposure or an included report changes. Missing and foreign IDs return the same opaque 404.
+
+These operations cannot fetch sources, call a model, prepare a missing review, retry work or publish a brief. An empty list means no retained reviews for that owned thesis. Current morning-brief publication and cumulative model reasoning remain outstanding. [Frontend exploration](FRONTEND_EXPLORATION.md) proposes how a test client could present these existing contracts; client tooling is still open.

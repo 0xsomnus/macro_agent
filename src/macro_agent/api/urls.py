@@ -11,6 +11,7 @@ from .news_analysis_views import (
 )
 
 from .lab_views import RecordedNewsView
+from .desk_views import DailyReviewCollectionView, DailyReviewDetailView
 from .position_views import (
     PositionCloseView, PositionCollectionView, PositionDetailView,
     PositionHistoryView, PositionRevisionView,
@@ -23,6 +24,8 @@ from .views import (
 
 app_name = "macro_api"
 urlpatterns = [
+    path("theses/<uuid:thesis_id>/daily-reviews/", DailyReviewCollectionView.as_view(), name="daily-review-list"),
+    path("daily-reviews/<uuid:review_id>/", DailyReviewDetailView.as_view(), name="daily-review-detail"),
     path("news/sources/", NewsSourcesView.as_view(), name="news-sources"),
     path("theses/<uuid:thesis_id>/news-context/", NewsReviewContextView.as_view(), name="news-context"),
     path("theses/<uuid:thesis_id>/analyse-next/", AnalyseNextView.as_view(), name="news-analyse-next"),

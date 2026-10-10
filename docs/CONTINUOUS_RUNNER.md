@@ -77,6 +77,8 @@ For fictional capture, add `--fixture-map .local/fixture-map.json`. This bounded
 
 The first daily surface is a private deterministic context assembled from retained evidence and analyses, with source links, original labels, coverage failures, unresolved work and known/unknown costs. Assembly makes no new model call. There is no LLM macro synthesis, external briefing publication, notification or current-context pointer in this increment. Model hypotheses retain their original labels.
 
+Authenticated local clients can list saved reviews with `GET /api/v1/theses/{id}/daily-reviews/` and inspect full retained content with `GET /api/v1/daily-reviews/{id}/`. [The API guide](API_DEVELOPMENT.md#internal-daily-review-inspection) explains pagination, gates and snapshot semantics. These reads preserve the original review and separately observe current staleness; they cannot create, retry or publish work.
+
 Eligibility uses conservative postcommit availability witnesses over `(previous cutoff, current cutoff]`, separately for reports and analyses. Late analysis of an older report belongs to the interval when the analysis became available, provided its source is also eligible. Publication, receipt and analysis finish times cannot replace these witnesses. Missing witnesses remain visible and cannot be backdated.
 
 The reporting cutoff and actual preparation time stay separate. A retained result keeps its original outcome and context; its current disposition is observed at preparation. That observation is not reconstructed currentness at the earlier cutoff.

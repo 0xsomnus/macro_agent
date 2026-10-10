@@ -91,3 +91,16 @@ The first context has unavailable starting macro context and predecessor assessm
 Missing receipt witnesses are reconciled in explicit batches from retained revisions, even if the next feed omits them. Result witnesses are independently observed after commit. Recovery records actual observation time; missed evidence remains deferred from earlier cutoffs. Complete review selection rejects record/byte overflow atomically.
 
 No daily record is installed as a current published brief. Inspection computes current disposition from present approval, complete exposure, included report heads and source permissions without changing original content. Distinct later reports do not invalidate an earlier cutoff; included corrections do. Publication/correction fanout remains a separate required increment.
+
+## Next cumulative-context increment
+
+The implementation review identified these dependencies before one-report inference can become cumulative:
+
+1. Extract the existing complete evidence assembly from daily preparation for reuse at analysis admission. Persist a private context for that admission, including eligible reports and retained analyses received since the last daily review. Reusing only the latest daily context would omit intraday evidence.
+2. Pin that context identity and digest on the existing news-analysis attempt, reviewed preview, request digest and scheduler dispatch identity. Keep admission within the existing shared model allowance; a separate uncounted attempt table would bypass it.
+3. Include eligible prior source payloads, original labelled analyses, offsetting evidence, unresolved work and explicit gaps. Prior model output remains interpretation. Reject complete-context byte overflow before catalogue or inference; do not silently select the first few reports.
+4. Version the output contract to permit quotations from multiple included reports and explicit comparisons with prior analyses. Preserve the historical single-report validator so old results remain inspectable. Deferred evidence cannot support a factual quotation.
+5. Compare every consumed permission, contract and included report head under source protection, then owner/thesis protection. A changed dependency preserves the returned outcome as stale and grants no publication authority. New distinct reports after the cutoff do not themselves stale that context.
+6. Prove that earlier counterevidence can offset a supportive new headline, intraday analyses enter the next context, invalid citations fail, overflow makes zero calls, and saved-command recovery never resends inference. Force dependency changes during inference with independent PostgreSQL connections.
+
+This is an implementation sequence, not a claim of completed continuity or a new shared macro-context policy. Current daily-review HTTP reads expose existing retained history; they do not fill the model-context gap.

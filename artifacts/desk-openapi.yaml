@@ -3,6 +3,57 @@ info:
   title: Macro Agent desk API
   version: 1.0.0
 paths:
+  /api/v1/daily-reviews/{review_id}/:
+    get:
+      operationId: get_daily_review
+      description: Read an owner-scoped immutable daily evidence review, verifying
+        its saved content digest. Exact original outcome and inputs remain unchanged
+        when present dependencies are stale. Present disposition is observed separately
+        in one read-only snapshot. This is not a published current morning brief and
+        grants no notification or retry authority. No source fetch, model catalogue
+        call, inference or write fallback.
+      parameters:
+      - in: path
+        name: review_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - internal daily reviews
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DailyReviewDetail'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
   /api/v1/lab/theses/{thesis_id}/recorded-news/:
     post:
       operationId: recorded_news
@@ -792,6 +843,67 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
           description: ''
         '503':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/theses/{thesis_id}/daily-reviews/:
+    get:
+      operationId: list_daily_reviews
+      description: Read owner-scoped summaries in descending cutoff and ID order.
+        Count, page and present dependency disposition share one repeatable-read,
+        read-only snapshot. Subsequent requests get a new snapshot; offset pagination
+        is not a historical cursor. Original outcome stays separate from present disposition.
+        No full context, current publication claim, source fetch, model catalogue
+        call, inference or write fallback.
+      parameters:
+      - in: query
+        name: limit
+        schema:
+          type: integer
+        description: Page size from 1 to 100; default 20.
+      - in: query
+        name: offset
+        schema:
+          type: integer
+        description: Offset from 0 to 1000000; default 0.
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - internal daily reviews
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DailyReviewList'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
           content:
             application/json:
               schema:
@@ -2024,6 +2136,232 @@ components:
         * `stale` - stale
         * `unresolved` - unresolved
         * `queue_empty` - queue_empty
+    DailyReviewCounts:
+      type: object
+      properties:
+        reports:
+          $ref: '#/components/schemas/DailyReviewSectionCounts'
+        analyses:
+          $ref: '#/components/schemas/DailyReviewSectionCounts'
+        issues:
+          type: integer
+          minimum: 0
+        unresolved_analyses:
+          type: integer
+          minimum: 0
+        unknown_reported_cost_analyses:
+          type: integer
+          minimum: 0
+      required:
+      - analyses
+      - issues
+      - reports
+      - unknown_reported_cost_analyses
+      - unresolved_analyses
+    DailyReviewDetail:
+      type: object
+      properties:
+        review:
+          $ref: '#/components/schemas/RetainedDailyReview'
+        current_disposition:
+          $ref: '#/components/schemas/DailyReviewDisposition'
+        replayed:
+          type: boolean
+      required:
+      - current_disposition
+      - replayed
+      - review
+    DailyReviewDisposition:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/DailyReviewDispositionStatusEnum'
+        stale_reasons:
+          type: array
+          items:
+            type: string
+        observed_at:
+          type: string
+          format: date-time
+          description: Present dependency observation in the read snapshot, not exact
+            commit or delivery time.
+        publication_authority:
+          $ref: '#/components/schemas/PublicationAuthorityEnum'
+      required:
+      - observed_at
+      - publication_authority
+      - stale_reasons
+      - status
+    DailyReviewDispositionStatusEnum:
+      enum:
+      - prepared
+      - stale
+      type: string
+      description: |-
+        * `prepared` - prepared
+        * `stale` - stale
+    DailyReviewEvidence:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        policy_version:
+          type: string
+        limits:
+          description: Exact admitted positive record and encoded-byte bounds. Complete
+            assembly fails instead of truncating.
+        source_manifest:
+          type: array
+          items:
+            $ref: '#/components/schemas/DailyReviewSourceReference'
+      required:
+      - id
+      - limits
+      - policy_version
+      - source_manifest
+    DailyReviewList:
+      type: object
+      properties:
+        thesis_id:
+          type: string
+          format: uuid
+        reviews:
+          type: array
+          items:
+            $ref: '#/components/schemas/DailyReviewSummary'
+        limit:
+          type: integer
+          maximum: 100
+          minimum: 1
+        offset:
+          type: integer
+          maximum: 1000000
+          minimum: 0
+        total:
+          type: integer
+          minimum: 0
+        has_more:
+          type: boolean
+        observed_at:
+          type: string
+          format: date-time
+        publication_authority:
+          $ref: '#/components/schemas/PublicationAuthorityEnum'
+      required:
+      - has_more
+      - limit
+      - observed_at
+      - offset
+      - publication_authority
+      - reviews
+      - thesis_id
+      - total
+    DailyReviewSectionCounts:
+      type: object
+      properties:
+        new:
+          type: integer
+          minimum: 0
+        background:
+          type: integer
+          minimum: 0
+        deferred:
+          type: integer
+          minimum: 0
+      required:
+      - background
+      - deferred
+      - new
+    DailyReviewSourceReference:
+      type: object
+      properties:
+        source_id:
+          type: string
+          maxLength: 128
+        version_id:
+          type: string
+          format: uuid
+        digest:
+          type: string
+          maxLength: 64
+          minLength: 64
+        provenance:
+          type: string
+          maxLength: 64
+        observed_at:
+          type: string
+          format: date-time
+        permitted:
+          type: boolean
+      required:
+      - digest
+      - observed_at
+      - permitted
+      - provenance
+      - source_id
+      - version_id
+    DailyReviewSummary:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        command_id:
+          type: string
+          format: uuid
+        context_id:
+          type: string
+          format: uuid
+        evidence_set_id:
+          type: string
+          format: uuid
+        predecessor_id:
+          type: string
+          format: uuid
+          nullable: true
+        start:
+          type: string
+          format: date-time
+        cutoff:
+          type: string
+          format: date-time
+        prepared_at:
+          type: string
+          format: date-time
+        original_outcome:
+          $ref: '#/components/schemas/OriginalOutcomeEnum'
+        digest:
+          type: string
+          description: Saved content digest. Full retained content integrity is checked
+            by the detail operation.
+          maxLength: 64
+          minLength: 64
+        source_manifest:
+          type: array
+          items:
+            $ref: '#/components/schemas/DailyReviewSourceReference'
+        counts:
+          allOf:
+          - $ref: '#/components/schemas/DailyReviewCounts'
+          description: Counts of the exact retained sections, not coverage, factual
+            validation or materiality.
+        current_disposition:
+          $ref: '#/components/schemas/DailyReviewDisposition'
+      required:
+      - command_id
+      - context_id
+      - counts
+      - current_disposition
+      - cutoff
+      - digest
+      - evidence_set_id
+      - id
+      - original_outcome
+      - predecessor_id
+      - prepared_at
+      - source_manifest
+      - start
     DirectionEnum:
       enum:
       - long
@@ -2740,6 +3078,11 @@ components:
       description: |-
         * `user_supplied` - user_supplied
         * `model_compilation` - model_compilation
+    OriginalOutcomeEnum:
+      enum:
+      - prepared
+      type: string
+      description: '* `prepared` - prepared'
     PinnedReviewCard:
       type: object
       properties:
@@ -3084,6 +3427,11 @@ components:
       - interpretation
       - text
       additionalProperties: false
+    PublicationAuthorityEnum:
+      enum:
+      - false
+      type: boolean
+      description: '* `False` - False'
     RecordedBrief:
       type: object
       properties:
@@ -3431,6 +3779,65 @@ components:
       required:
       - refinement
       - thesis
+    RetainedDailyReview:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        command_id:
+          type: string
+          format: uuid
+        context_id:
+          type: string
+          format: uuid
+        evidence_set_id:
+          type: string
+          format: uuid
+        evidence_set:
+          $ref: '#/components/schemas/DailyReviewEvidence'
+        predecessor_id:
+          type: string
+          format: uuid
+          nullable: true
+        start:
+          type: string
+          format: date-time
+        cutoff:
+          type: string
+          format: date-time
+        prepared_at:
+          type: string
+          format: date-time
+        original_outcome:
+          $ref: '#/components/schemas/OriginalOutcomeEnum'
+        digest:
+          type: string
+          maxLength: 64
+          minLength: 64
+        content:
+          description: Exact immutable deterministic review, bounded at assembly by
+            evidence_set.limits. Includes retained source passages, original analyses,
+            period classifications, gaps and costs. Prior model documents are hypotheses,
+            not verified facts or a synthesized published brief.
+        original_inputs:
+          description: Exact frozen approved text/interpretation, complete paper exposure,
+            source contracts and predecessor context under the recorded admitted bounds.
+            Missing macro context stays explicit.
+      required:
+      - command_id
+      - content
+      - context_id
+      - cutoff
+      - digest
+      - evidence_set
+      - evidence_set_id
+      - id
+      - original_inputs
+      - original_outcome
+      - predecessor_id
+      - prepared_at
+      - start
     ReviewExtractedItem:
       type: object
       properties:

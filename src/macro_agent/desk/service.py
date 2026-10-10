@@ -89,9 +89,27 @@ def _status(attempt, result, thesis, exposure, sources, heads):
     return status, reasons
 
 
-def _present(row, thesis, at):
+def _present_observation(thesis, source_ids):
+    """Share governing reads only within the caller's coherent read snapshot.
+
+    Never cache this across transactions. Each review still compares its own
+    immutable source/revision membership through the single disposition rule.
+    """
+    return {
+        "book": exposure_book(str(thesis.pk)),
+        "heads": {head.source_id: head for head in SourceContractHead.objects.filter(
+            source_id__in=source_ids).select_related("version")},
+        "allowed": {source.pk: allowed_source(source) for source in
+            SourceState.objects.filter(pk__in=source_ids)},
+    }
+
+
+def _present(row, thesis, at, *, observation=None):
     context = row.context
-    book = exposure_book(str(thesis.pk))
+    if observation is None:
+        observation = _present_observation(thesis, [reference["source_id"] for reference in
+                                                   context.evidence.source_manifest])
+    book = observation["book"]
     bounds = [row.prepared_at, thesis.changed_at, *(datetime.fromisoformat(
         position["payload"]["accepted_at"]) for position in book["positions"])]
     stale = []
@@ -99,19 +117,22 @@ def _present(row, thesis, at):
         stale.append("approved_meaning_changed")
     if book_digest(book) != context.exposure_digest:
         stale.append("paper_exposure_changed")
-    for member in context.evidence.sources.select_related("source", "contract"):
-        head = SourceContractHead.objects.select_related("version").filter(source=member.source).first()
+    for source_id, contract_id, source_digest, contract_digest in context.evidence.sources.values_list(
+            "source_id", "contract_id", "source__contract_digest", "contract__digest"):
+        head = observation["heads"].get(source_id)
         if head is not None:
             bounds.append(head.version.observed_at)
-        if (head is None or head.version_id != member.contract_id
-                or member.source.contract_digest != member.contract.digest
-                or not allowed_source(member.source)):
-            stale.append("source_contract_or_permission_changed:" + member.source_id)
-    for member in context.evidence.revisions.select_related("revision__report__current_revision"):
-        if member.revision.report.current_revision is not None:
-            bounds.append(member.revision.report.current_revision.system_received_at)
-        if member.revision.report.current_revision_id != member.head_at_preparation_id:
-            stale.append("included_report_corrected:" + str(member.revision.report_id))
+        if (head is None or head.version_id != contract_id
+                or source_digest != contract_digest
+                or not observation["allowed"].get(source_id, False)):
+            stale.append("source_contract_or_permission_changed:" + source_id)
+    for report_id, original_head_id, current_head_id, received_at in context.evidence.revisions.values_list(
+            "revision__report_id", "head_at_preparation_id", "revision__report__current_revision_id",
+            "revision__report__current_revision__system_received_at"):
+        if received_at is not None:
+            bounds.append(received_at)
+        if current_head_id != original_head_id:
+            stale.append("included_report_corrected:" + str(report_id))
     if any(at < bound for bound in bounds):
         raise theses.ThesisConflict("Disposition observation cannot precede the retained or present state")
     return {"status": "stale" if stale else "prepared", "stale_reasons": sorted(set(stale)),
