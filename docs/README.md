@@ -13,6 +13,7 @@ Start with [Getting started](GETTING_STARTED.md) to run the current prototype. T
 | [News analysis](NEWS_ANALYSIS.md) | Analyse the next captured report against approved meaning and paper trades, then review separate thesis and trade effects |
 | [Cumulative model context](CUMULATIVE_CONTEXT.md) | Opt into retained intraday evidence, inspect prior comparisons and run the recorded recovery proof |
 | [Internal continuous runner](CONTINUOUS_RUNNER.md) | Configure separate capture/analysis processes, inspect daily evidence and recover saved work |
+| [Daily publication](DAILY_PUBLICATION.md) | Publish a protected current evidence digest, inspect restart receipts and prove correction/permission cancellation |
 | [Blocked-job recovery](JOB_RECOVERY.md) | Read saved failure explanations and explicitly retry deterministic/unstarted work or reconcile a saved model result |
 | [Weekly workflow test](WEEKLY_WORKFLOW_TEST.md) | Narrow headline-based durability target and remaining source, continuity, runner and daily-brief prerequisites |
 | [Frontend exploration](FRONTEND_EXPLORATION.md) | Proposed testing workflow and research on maps, positioning, valuation and charts; client tooling remains open |

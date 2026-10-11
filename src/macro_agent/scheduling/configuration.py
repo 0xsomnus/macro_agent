@@ -38,8 +38,14 @@ def json_object(value, field):
 
 def configuration(value):
     value = json_object(value, "watch configuration")
-    if set(value) != FIELDS or value["schema_version"] != SCHEMA_VERSION:
+    if set(value) not in (FIELDS, FIELDS | {"daily_publication"}) or value["schema_version"] != SCHEMA_VERSION:
         raise ValueError("watch configuration requires exactly its documented fields and schema version")
+    if "daily_publication" in value:
+        publication = value["daily_publication"]
+        if (type(publication) is not dict or set(publication) != {"fanout_limit"}
+                or type(publication["fanout_limit"]) is not int
+                or not 1 <= publication["fanout_limit"] <= 1000):
+            raise ValueError("daily_publication requires an explicit fanout_limit from 1 to 1000")
     _uuid(value["approval_id"], "approval_id")
     require_digest(value["exposure_digest"], "exposure_digest")
     sources = value["sources"]

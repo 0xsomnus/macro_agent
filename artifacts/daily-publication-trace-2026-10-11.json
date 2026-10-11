@@ -1,0 +1,1976 @@
+{
+  "scope": "Fictional isolated PostgreSQL daily publication trace",
+  "configuration_values": "demonstration inputs, not operating defaults",
+  "approved_thesis": {
+    "id": "23cfb819-e588-4ee9-a7e3-0a385bf72295",
+    "revision": 2,
+    "created_at": "2026-10-11T06:52:40.533203+00:00",
+    "changed_at": "2026-10-11T06:52:40.554187+00:00",
+    "draft": {
+      "text_version": {
+        "id": "97b22ad0-dea5-4514-8046-00b8008a7339",
+        "parent_version_id": null,
+        "exact_text": "  Easier policy could support equities.\r\nΔ\r\n",
+        "text_digest": "6ed7b89d565bb72a2056508893bf5eb9ff474ad9444f2dd6d8d92531e9193ee3",
+        "created_at": "2026-10-11T06:52:40.533203+00:00"
+      },
+      "interpretation": {
+        "id": "f9569293-59df-445a-85df-c5a6826d9ac9",
+        "text_version_id": "97b22ad0-dea5-4514-8046-00b8008a7339",
+        "drivers": [
+          "Easier policy"
+        ],
+        "horizon": "weeks to months",
+        "invalidation_signposts": [
+          "Policy transmission fails"
+        ],
+        "known_at": "2026-10-11T06:52:40.533203+00:00",
+        "digest": "11ec98dca343d5b4aa467fbbc03f90b6ad5878bea0a8c154167fab7cf972de7e",
+        "origin": "user_supplied",
+        "review_card": null
+      }
+    },
+    "approved": {
+      "approval": {
+        "id": "6ed8b19f-37de-4365-a3e2-7ed3f4882a04",
+        "text_version_id": "97b22ad0-dea5-4514-8046-00b8008a7339",
+        "interpretation_version_id": "f9569293-59df-445a-85df-c5a6826d9ac9",
+        "text_digest": "6ed7b89d565bb72a2056508893bf5eb9ff474ad9444f2dd6d8d92531e9193ee3",
+        "interpretation_digest": "11ec98dca343d5b4aa467fbbc03f90b6ad5878bea0a8c154167fab7cf972de7e",
+        "approved_at": "2026-10-11T06:52:40.554187+00:00",
+        "digest": "17c069b3afc65d752c08b8822be74bed7fe038a97067319eaa7da35418975dc3",
+        "revision": 2
+      },
+      "text_version": {
+        "id": "97b22ad0-dea5-4514-8046-00b8008a7339",
+        "parent_version_id": null,
+        "exact_text": "  Easier policy could support equities.\r\nΔ\r\n",
+        "text_digest": "6ed7b89d565bb72a2056508893bf5eb9ff474ad9444f2dd6d8d92531e9193ee3",
+        "created_at": "2026-10-11T06:52:40.533203+00:00"
+      },
+      "interpretation": {
+        "id": "f9569293-59df-445a-85df-c5a6826d9ac9",
+        "text_version_id": "97b22ad0-dea5-4514-8046-00b8008a7339",
+        "drivers": [
+          "Easier policy"
+        ],
+        "horizon": "weeks to months",
+        "invalidation_signposts": [
+          "Policy transmission fails"
+        ],
+        "known_at": "2026-10-11T06:52:40.533203+00:00",
+        "digest": "11ec98dca343d5b4aa467fbbc03f90b6ad5878bea0a8c154167fab7cf972de7e",
+        "origin": "user_supplied",
+        "review_card": null
+      }
+    },
+    "monitoring": "not_configured"
+  },
+  "first_review": {
+    "review": {
+      "id": "c25f0418-1f77-490e-a7f7-a75abbece031",
+      "command_id": "8113e6f8-6da2-4910-832b-4c874feaa3a2",
+      "context_id": "a0d82905-fab6-483c-bd2f-74b2449f6959",
+      "evidence_set_id": "234fb11a-8750-4d24-93ef-eb4cf2b93245",
+      "evidence_set": {
+        "id": "234fb11a-8750-4d24-93ef-eb4cf2b93245",
+        "policy_version": "complete-retained-sources-v1",
+        "limits": {
+          "reports": 100,
+          "analyses": 100,
+          "exposure_versions": 200,
+          "issues": 300,
+          "source_contracts": 16,
+          "encoded_bytes": 2000000
+        },
+        "source_manifest": [
+          {
+            "source_id": "fixture-daily-publication-trace",
+            "version_id": "987e6d8a-4bb9-47de-93ce-5f9042dc5e1d",
+            "digest": "0c3b712359cf4614c141cf0bb03b281047949238711c21f39279af245512eba5",
+            "provenance": "existing_allowlisted_adapter_manifest",
+            "observed_at": "2026-10-11T06:52:40.668480+00:00",
+            "permitted": true
+          }
+        ]
+      },
+      "predecessor_id": null,
+      "start": "2026-10-10T06:52:40.654700+00:00",
+      "cutoff": "2026-10-11T06:52:40.654700+00:00",
+      "prepared_at": "2026-10-11T06:52:40.668480+00:00",
+      "original_outcome": "prepared",
+      "digest": "2d8b6d5a1ad85227187ef67d1d0c63a5ebf5194154ad307dc4ade4ded64b914e",
+      "content": {
+        "analyses": {
+          "background": [],
+          "deferred": [],
+          "new": []
+        },
+        "assembly_inference_calls": 0,
+        "assembly_inference_cost_usd": "0",
+        "issues": [
+          {
+            "analysis_id": null,
+            "detail": {
+              "active_capture_id": null,
+              "complete_market_coverage": false,
+              "coverage": "bounded_snapshot",
+              "last_code": "snapshot_captured",
+              "last_outcome": "captured",
+              "last_successful_capture_at": "2026-10-11T06:52:40.625935+00:00"
+            },
+            "issue_id": "coverage:fixture-daily-publication-trace",
+            "kind": "coverage_gap",
+            "source_id": "fixture-daily-publication-trace"
+          },
+          {
+            "analysis_id": null,
+            "detail": {
+              "attempt_count": 0,
+              "decision": "relevance_unresolved",
+              "lease_until": null,
+              "state": "pending"
+            },
+            "issue_id": "screening:67ec0be8-8f64-4eb8-8419-3a454f55a260",
+            "kind": "unresolved_work",
+            "source_id": "fixture-daily-publication-trace"
+          }
+        ],
+        "limitations": [
+          "No new eligible reports does not establish that no market events occurred.",
+          "Exact retained quotations establish attribution, not factual truth or investment usefulness.",
+          "Current disposition is a caller observation at preparation, not reconstructed cutoff state.",
+          "Cross-source independence, current macro regime and market expectations remain unverified.",
+          "This deterministic review grants no approval, publication, notification or paid-retry authority."
+        ],
+        "new_eligible_report_count": 1,
+        "period": {
+          "cutoff_inclusive": "2026-10-11T06:52:40.654700+00:00",
+          "prepared_at": "2026-10-11T06:52:40.668480+00:00",
+          "start_exclusive": "2026-10-10T06:52:40.654700+00:00"
+        },
+        "reports": {
+          "background": [],
+          "deferred": [],
+          "new": [
+            {
+              "availability_witness_at": "2026-10-11T06:52:40.645963+00:00",
+              "deferred_reason": null,
+              "payload": {
+                "content": "Fictional source reports a policy easing measure.",
+                "id": "policy-report",
+                "published_at": "2026-10-10T06:52:40.612544+00:00",
+                "title": "Fictional policy report",
+                "url": "https://example.invalid/policy"
+              },
+              "payload_digest": "55d25397c5301a4b28f3466cd54d8a73cb38db9bef8bb6ce43142a01a108b196",
+              "received_at": "2026-10-11T06:52:40.622714+00:00",
+              "report_id": "1",
+              "revision_id": "67ec0be8-8f64-4eb8-8419-3a454f55a260",
+              "source_contract_digest": "0c3b712359cf4614c141cf0bb03b281047949238711c21f39279af245512eba5",
+              "source_contract_version_id": "987e6d8a-4bb9-47de-93ce-5f9042dc5e1d",
+              "source_id": "fixture-daily-publication-trace"
+            }
+          ]
+        },
+        "schema_version": "deterministic-daily-evidence-review-v1",
+        "scope": {
+          "approval_id": "6ed8b19f-37de-4365-a3e2-7ed3f4882a04",
+          "exposure_digest": "35c195d2a56f5f82761efd3e2d602da95d63782662f9dd15838155b334de39da",
+          "exposure_version_ids": [
+            "48b8760e-599a-4ec1-9323-8118b00cf62d"
+          ],
+          "interpretation_id": "f9569293-59df-445a-85df-c5a6826d9ac9",
+          "owner_id": "93abea14-bba2-4d2a-807c-f48c12272f56",
+          "predecessor_assessment_id": null,
+          "predecessor_context_id": null,
+          "source_contracts": [
+            {
+              "digest": "0c3b712359cf4614c141cf0bb03b281047949238711c21f39279af245512eba5",
+              "source_id": "fixture-daily-publication-trace",
+              "version_id": "987e6d8a-4bb9-47de-93ce-5f9042dc5e1d"
+            }
+          ],
+          "thesis_id": "23cfb819-e588-4ee9-a7e3-0a385bf72295"
+        },
+        "unknown_reported_cost_analysis_ids": [],
+        "unresolved_analysis_ids": []
+      },
+      "original_inputs": {
+        "approved_user": {
+          "thesis_id": "23cfb819-e588-4ee9-a7e3-0a385bf72295",
+          "owner_id": "93abea14-bba2-4d2a-807c-f48c12272f56",
+          "text": {
+            "version_id": "97b22ad0-dea5-4514-8046-00b8008a7339",
+            "exact_text": "  Easier policy could support equities.\r\nΔ\r\n",
+            "digest": "6ed7b89d565bb72a2056508893bf5eb9ff474ad9444f2dd6d8d92531e9193ee3",
+            "created_at": "2026-10-11T06:52:40.533203+00:00"
+          },
+          "interpretation": {
+            "version_id": "f9569293-59df-445a-85df-c5a6826d9ac9",
+            "text_version_id": "97b22ad0-dea5-4514-8046-00b8008a7339",
+            "drivers": [
+              "Easier policy"
+            ],
+            "horizon": "weeks to months",
+            "invalidation_signposts": [
+              "Policy transmission fails"
+            ],
+            "digest": "11ec98dca343d5b4aa467fbbc03f90b6ad5878bea0a8c154167fab7cf972de7e",
+            "prepared_at": "2026-10-11T06:52:40.533203+00:00",
+            "origin": "user_supplied"
+          },
+          "approval": {
+            "version_id": "6ed8b19f-37de-4365-a3e2-7ed3f4882a04",
+            "actor_id": "93abea14-bba2-4d2a-807c-f48c12272f56",
+            "digest": "17c069b3afc65d752c08b8822be74bed7fe038a97067319eaa7da35418975dc3",
+            "approved_at": "2026-10-11T06:52:40.554187+00:00",
+            "revision": 2
+          },
+          "exposure": {
+            "thesis_id": "23cfb819-e588-4ee9-a7e3-0a385bf72295",
+            "positions": [
+              {
+                "position_id": "891e2c78-e62b-402d-9840-e4d9603688a0",
+                "version_id": "48b8760e-599a-4ec1-9323-8118b00cf62d",
+                "version_digest": "e97af830e10c8af6b4d2ca03f36a4008dc4eedaa48bb9c0c29163103f2a2930d",
+                "payload": {
+                  "version_id": "48b8760e-599a-4ec1-9323-8118b00cf62d",
+                  "position_id": "891e2c78-e62b-402d-9840-e4d9603688a0",
+                  "owner_id": "93abea14-bba2-4d2a-807c-f48c12272f56",
+                  "thesis_id": "23cfb819-e588-4ee9-a7e3-0a385bf72295",
+                  "approval_id": "6ed8b19f-37de-4365-a3e2-7ed3f4882a04",
+                  "parent_version_id": null,
+                  "paper": true,
+                  "status": "open",
+                  "accepted_at": "2026-10-11T06:52:40.585393+00:00",
+                  "mapping_status": "user_declared_unverified",
+                  "underlying": "NQ",
+                  "direction": "long",
+                  "product_id": null,
+                  "venue": null,
+                  "expiry": null,
+                  "quote_currency": null,
+                  "horizon": null,
+                  "quantity": null,
+                  "quantity_unit": null
+                }
+              }
+            ]
+          }
+        },
+        "source_contracts": [
+          {
+            "source_id": "fixture-daily-publication-trace",
+            "version_id": "987e6d8a-4bb9-47de-93ce-5f9042dc5e1d",
+            "digest": "0c3b712359cf4614c141cf0bb03b281047949238711c21f39279af245512eba5",
+            "contract": {
+              "kind": "fictional_fixture",
+              "label": "Fictional daily publication trace",
+              "coverage": "bounded_snapshot"
+            },
+            "provenance": "existing_allowlisted_adapter_manifest",
+            "reviewer_id": "93abea14-bba2-4d2a-807c-f48c12272f56",
+            "reason": "Observed existing contract; this snapshot is not a new human rights review.",
+            "observed_at": "2026-10-11T06:52:40.668480+00:00",
+            "permitted": true,
+            "parent_id": null
+          }
+        ],
+        "starting_macro_context": {
+          "status": "unavailable"
+        },
+        "predecessor_assessment": {
+          "status": "unavailable",
+          "reason": "No cumulative model assessment is implemented."
+        },
+        "changes_since_predecessor": {
+          "approved_meaning_changed": false,
+          "exposure_changed": false
+        }
+      }
+    },
+    "current_disposition": {
+      "status": "prepared",
+      "stale_reasons": [],
+      "observed_at": "2026-10-11T06:52:40.668480+00:00",
+      "publication_authority": false
+    },
+    "replayed": false
+  },
+  "publication_preview": {
+    "review_id": "c25f0418-1f77-490e-a7f7-a75abbece031",
+    "review_digest": "2d8b6d5a1ad85227187ef67d1d0c63a5ebf5194154ad307dc4ade4ded64b914e",
+    "thesis_id": "23cfb819-e588-4ee9-a7e3-0a385bf72295",
+    "brief_id": "daily:23cfb819-e588-4ee9-a7e3-0a385bf72295",
+    "expected_generation": 0,
+    "fanout_limit": 10,
+    "current_disposition": {
+      "status": "prepared",
+      "stale_reasons": [],
+      "observed_at": "2026-10-11T06:52:40.726126+00:00",
+      "publication_authority": false
+    }
+  },
+  "first_publication": {
+    "publication": {
+      "id": "f32bcd2f-f011-4f94-b19c-ea6579254fa2",
+      "command_id": "54fa6a8f-5ff6-4902-81e0-d32392ed28db",
+      "review_id": "c25f0418-1f77-490e-a7f7-a75abbece031",
+      "brief_id": "daily:23cfb819-e588-4ee9-a7e3-0a385bf72295",
+      "assessment_id": "daily:c25f0418-1f77-490e-a7f7-a75abbece031",
+      "review_digest": "2d8b6d5a1ad85227187ef67d1d0c63a5ebf5194154ad307dc4ade4ded64b914e",
+      "expected_generation": 0,
+      "published_at": "2026-10-11T06:52:40.746053+00:00",
+      "original_decision": {
+        "status": "current",
+        "reasons": [
+          "all_dependencies_current"
+        ],
+        "reassessment_required": false
+      },
+      "generation_at_publication": 1
+    },
+    "current_disposition": {
+      "status": "current",
+      "reasons": [],
+      "observed_at": "2026-10-11T06:52:40.746053+00:00"
+    },
+    "notification_intent": {
+      "id": "notice:2ce5caa839cf52c51dfb6341c46c61c776c6a563d3a87b2b25cf66a3b0d90d88",
+      "state": "pending"
+    },
+    "replayed": false,
+    "review": {
+      "id": "c25f0418-1f77-490e-a7f7-a75abbece031",
+      "command_id": "8113e6f8-6da2-4910-832b-4c874feaa3a2",
+      "context_id": "a0d82905-fab6-483c-bd2f-74b2449f6959",
+      "evidence_set_id": "234fb11a-8750-4d24-93ef-eb4cf2b93245",
+      "evidence_set": {
+        "id": "234fb11a-8750-4d24-93ef-eb4cf2b93245",
+        "policy_version": "complete-retained-sources-v1",
+        "limits": {
+          "issues": 300,
+          "reports": 100,
+          "analyses": 100,
+          "encoded_bytes": 2000000,
+          "source_contracts": 16,
+          "exposure_versions": 200
+        },
+        "source_manifest": [
+          {
+            "digest": "0c3b712359cf4614c141cf0bb03b281047949238711c21f39279af245512eba5",
+            "permitted": true,
+            "source_id": "fixture-daily-publication-trace",
+            "provenance": "existing_allowlisted_adapter_manifest",
+            "version_id": "987e6d8a-4bb9-47de-93ce-5f9042dc5e1d",
+            "observed_at": "2026-10-11T06:52:40.668480+00:00"
+          }
+        ]
+      },
+      "predecessor_id": null,
+      "start": "2026-10-10T06:52:40.654700+00:00",
+      "cutoff": "2026-10-11T06:52:40.654700+00:00",
+      "prepared_at": "2026-10-11T06:52:40.668480+00:00",
+      "original_outcome": "prepared",
+      "digest": "2d8b6d5a1ad85227187ef67d1d0c63a5ebf5194154ad307dc4ade4ded64b914e",
+      "content": {
+        "scope": {
+          "owner_id": "93abea14-bba2-4d2a-807c-f48c12272f56",
+          "thesis_id": "23cfb819-e588-4ee9-a7e3-0a385bf72295",
+          "approval_id": "6ed8b19f-37de-4365-a3e2-7ed3f4882a04",
+          "exposure_digest": "35c195d2a56f5f82761efd3e2d602da95d63782662f9dd15838155b334de39da",
+          "source_contracts": [
+            {
+              "digest": "0c3b712359cf4614c141cf0bb03b281047949238711c21f39279af245512eba5",
+              "source_id": "fixture-daily-publication-trace",
+              "version_id": "987e6d8a-4bb9-47de-93ce-5f9042dc5e1d"
+            }
+          ],
+          "interpretation_id": "f9569293-59df-445a-85df-c5a6826d9ac9",
+          "exposure_version_ids": [
+            "48b8760e-599a-4ec1-9323-8118b00cf62d"
+          ],
+          "predecessor_context_id": null,
+          "predecessor_assessment_id": null
+        },
+        "issues": [
+          {
+            "kind": "coverage_gap",
+            "detail": {
+              "coverage": "bounded_snapshot",
+              "last_code": "snapshot_captured",
+              "last_outcome": "captured",
+              "active_capture_id": null,
+              "complete_market_coverage": false,
+              "last_successful_capture_at": "2026-10-11T06:52:40.625935+00:00"
+            },
+            "issue_id": "coverage:fixture-daily-publication-trace",
+            "source_id": "fixture-daily-publication-trace",
+            "analysis_id": null
+          },
+          {
+            "kind": "unresolved_work",
+            "detail": {
+              "state": "pending",
+              "decision": "relevance_unresolved",
+              "lease_until": null,
+              "attempt_count": 0
+            },
+            "issue_id": "screening:67ec0be8-8f64-4eb8-8419-3a454f55a260",
+            "source_id": "fixture-daily-publication-trace",
+            "analysis_id": null
+          }
+        ],
+        "period": {
+          "prepared_at": "2026-10-11T06:52:40.668480+00:00",
+          "start_exclusive": "2026-10-10T06:52:40.654700+00:00",
+          "cutoff_inclusive": "2026-10-11T06:52:40.654700+00:00"
+        },
+        "reports": {
+          "new": [
+            {
+              "payload": {
+                "id": "policy-report",
+                "url": "https://example.invalid/policy",
+                "title": "Fictional policy report",
+                "content": "Fictional source reports a policy easing measure.",
+                "published_at": "2026-10-10T06:52:40.612544+00:00"
+              },
+              "report_id": "1",
+              "source_id": "fixture-daily-publication-trace",
+              "received_at": "2026-10-11T06:52:40.622714+00:00",
+              "revision_id": "67ec0be8-8f64-4eb8-8419-3a454f55a260",
+              "payload_digest": "55d25397c5301a4b28f3466cd54d8a73cb38db9bef8bb6ce43142a01a108b196",
+              "deferred_reason": null,
+              "source_contract_digest": "0c3b712359cf4614c141cf0bb03b281047949238711c21f39279af245512eba5",
+              "availability_witness_at": "2026-10-11T06:52:40.645963+00:00",
+              "source_contract_version_id": "987e6d8a-4bb9-47de-93ce-5f9042dc5e1d"
+            }
+          ],
+          "deferred": [],
+          "background": []
+        },
+        "analyses": {
+          "new": [],
+          "deferred": [],
+          "background": []
+        },
+        "limitations": [
+          "No new eligible reports does not establish that no market events occurred.",
+          "Exact retained quotations establish attribution, not factual truth or investment usefulness.",
+          "Current disposition is a caller observation at preparation, not reconstructed cutoff state.",
+          "Cross-source independence, current macro regime and market expectations remain unverified.",
+          "This deterministic review grants no approval, publication, notification or paid-retry authority."
+        ],
+        "schema_version": "deterministic-daily-evidence-review-v1",
+        "unresolved_analysis_ids": [],
+        "assembly_inference_calls": 0,
+        "new_eligible_report_count": 1,
+        "assembly_inference_cost_usd": "0",
+        "unknown_reported_cost_analysis_ids": []
+      },
+      "original_inputs": {
+        "approved_user": {
+          "text": {
+            "digest": "6ed7b89d565bb72a2056508893bf5eb9ff474ad9444f2dd6d8d92531e9193ee3",
+            "created_at": "2026-10-11T06:52:40.533203+00:00",
+            "exact_text": "  Easier policy could support equities.\r\nΔ\r\n",
+            "version_id": "97b22ad0-dea5-4514-8046-00b8008a7339"
+          },
+          "approval": {
+            "digest": "17c069b3afc65d752c08b8822be74bed7fe038a97067319eaa7da35418975dc3",
+            "actor_id": "93abea14-bba2-4d2a-807c-f48c12272f56",
+            "revision": 2,
+            "version_id": "6ed8b19f-37de-4365-a3e2-7ed3f4882a04",
+            "approved_at": "2026-10-11T06:52:40.554187+00:00"
+          },
+          "exposure": {
+            "positions": [
+              {
+                "payload": {
+                  "paper": true,
+                  "venue": null,
+                  "expiry": null,
+                  "status": "open",
+                  "horizon": null,
+                  "owner_id": "93abea14-bba2-4d2a-807c-f48c12272f56",
+                  "quantity": null,
+                  "direction": "long",
+                  "thesis_id": "23cfb819-e588-4ee9-a7e3-0a385bf72295",
+                  "product_id": null,
+                  "underlying": "NQ",
+                  "version_id": "48b8760e-599a-4ec1-9323-8118b00cf62d",
+                  "accepted_at": "2026-10-11T06:52:40.585393+00:00",
+                  "approval_id": "6ed8b19f-37de-4365-a3e2-7ed3f4882a04",
+                  "position_id": "891e2c78-e62b-402d-9840-e4d9603688a0",
+                  "quantity_unit": null,
+                  "mapping_status": "user_declared_unverified",
+                  "quote_currency": null,
+                  "parent_version_id": null
+                },
+                "version_id": "48b8760e-599a-4ec1-9323-8118b00cf62d",
+                "position_id": "891e2c78-e62b-402d-9840-e4d9603688a0",
+                "version_digest": "e97af830e10c8af6b4d2ca03f36a4008dc4eedaa48bb9c0c29163103f2a2930d"
+              }
+            ],
+            "thesis_id": "23cfb819-e588-4ee9-a7e3-0a385bf72295"
+          },
+          "owner_id": "93abea14-bba2-4d2a-807c-f48c12272f56",
+          "thesis_id": "23cfb819-e588-4ee9-a7e3-0a385bf72295",
+          "interpretation": {
+            "digest": "11ec98dca343d5b4aa467fbbc03f90b6ad5878bea0a8c154167fab7cf972de7e",
+            "origin": "user_supplied",
+            "drivers": [
+              "Easier policy"
+            ],
+            "horizon": "weeks to months",
+            "version_id": "f9569293-59df-445a-85df-c5a6826d9ac9",
+            "prepared_at": "2026-10-11T06:52:40.533203+00:00",
+            "text_version_id": "97b22ad0-dea5-4514-8046-00b8008a7339",
+            "invalidation_signposts": [
+              "Policy transmission fails"
+            ]
+          }
+        },
+        "source_contracts": [
+          {
+            "digest": "0c3b712359cf4614c141cf0bb03b281047949238711c21f39279af245512eba5",
+            "reason": "Observed existing contract; this snapshot is not a new human rights review.",
+            "contract": {
+              "kind": "fictional_fixture",
+              "label": "Fictional daily publication trace",
+              "coverage": "bounded_snapshot"
+            },
+            "parent_id": null,
+            "permitted": true,
+            "source_id": "fixture-daily-publication-trace",
+            "provenance": "existing_allowlisted_adapter_manifest",
+            "version_id": "987e6d8a-4bb9-47de-93ce-5f9042dc5e1d",
+            "observed_at": "2026-10-11T06:52:40.668480+00:00",
+            "reviewer_id": "93abea14-bba2-4d2a-807c-f48c12272f56"
+          }
+        ],
+        "predecessor_assessment": {
+          "reason": "No cumulative model assessment is implemented.",
+          "status": "unavailable"
+        },
+        "starting_macro_context": {
+          "status": "unavailable"
+        },
+        "changes_since_predecessor": {
+          "exposure_changed": false,
+          "approved_meaning_changed": false
+        }
+      }
+    }
+  },
+  "restart_receipt": {
+    "publication": {
+      "id": "f32bcd2f-f011-4f94-b19c-ea6579254fa2",
+      "command_id": "54fa6a8f-5ff6-4902-81e0-d32392ed28db",
+      "review_id": "c25f0418-1f77-490e-a7f7-a75abbece031",
+      "brief_id": "daily:23cfb819-e588-4ee9-a7e3-0a385bf72295",
+      "assessment_id": "daily:c25f0418-1f77-490e-a7f7-a75abbece031",
+      "review_digest": "2d8b6d5a1ad85227187ef67d1d0c63a5ebf5194154ad307dc4ade4ded64b914e",
+      "expected_generation": 0,
+      "published_at": "2026-10-11T06:52:40.746053+00:00",
+      "original_decision": {
+        "status": "current",
+        "reasons": [
+          "all_dependencies_current"
+        ],
+        "reassessment_required": false
+      },
+      "generation_at_publication": 1
+    },
+    "current_disposition": {
+      "status": "current",
+      "reasons": [],
+      "observed_at": "2026-10-11T06:52:40.831451+00:00"
+    },
+    "notification_intent": {
+      "id": "notice:2ce5caa839cf52c51dfb6341c46c61c776c6a563d3a87b2b25cf66a3b0d90d88",
+      "state": "pending"
+    },
+    "replayed": true,
+    "review": {
+      "id": "c25f0418-1f77-490e-a7f7-a75abbece031",
+      "command_id": "8113e6f8-6da2-4910-832b-4c874feaa3a2",
+      "context_id": "a0d82905-fab6-483c-bd2f-74b2449f6959",
+      "evidence_set_id": "234fb11a-8750-4d24-93ef-eb4cf2b93245",
+      "evidence_set": {
+        "id": "234fb11a-8750-4d24-93ef-eb4cf2b93245",
+        "policy_version": "complete-retained-sources-v1",
+        "limits": {
+          "issues": 300,
+          "reports": 100,
+          "analyses": 100,
+          "encoded_bytes": 2000000,
+          "source_contracts": 16,
+          "exposure_versions": 200
+        },
+        "source_manifest": [
+          {
+            "digest": "0c3b712359cf4614c141cf0bb03b281047949238711c21f39279af245512eba5",
+            "permitted": true,
+            "source_id": "fixture-daily-publication-trace",
+            "provenance": "existing_allowlisted_adapter_manifest",
+            "version_id": "987e6d8a-4bb9-47de-93ce-5f9042dc5e1d",
+            "observed_at": "2026-10-11T06:52:40.668480+00:00"
+          }
+        ]
+      },
+      "predecessor_id": null,
+      "start": "2026-10-10T06:52:40.654700+00:00",
+      "cutoff": "2026-10-11T06:52:40.654700+00:00",
+      "prepared_at": "2026-10-11T06:52:40.668480+00:00",
+      "original_outcome": "prepared",
+      "digest": "2d8b6d5a1ad85227187ef67d1d0c63a5ebf5194154ad307dc4ade4ded64b914e",
+      "content": {
+        "scope": {
+          "owner_id": "93abea14-bba2-4d2a-807c-f48c12272f56",
+          "thesis_id": "23cfb819-e588-4ee9-a7e3-0a385bf72295",
+          "approval_id": "6ed8b19f-37de-4365-a3e2-7ed3f4882a04",
+          "exposure_digest": "35c195d2a56f5f82761efd3e2d602da95d63782662f9dd15838155b334de39da",
+          "source_contracts": [
+            {
+              "digest": "0c3b712359cf4614c141cf0bb03b281047949238711c21f39279af245512eba5",
+              "source_id": "fixture-daily-publication-trace",
+              "version_id": "987e6d8a-4bb9-47de-93ce-5f9042dc5e1d"
+            }
+          ],
+          "interpretation_id": "f9569293-59df-445a-85df-c5a6826d9ac9",
+          "exposure_version_ids": [
+            "48b8760e-599a-4ec1-9323-8118b00cf62d"
+          ],
+          "predecessor_context_id": null,
+          "predecessor_assessment_id": null
+        },
+        "issues": [
+          {
+            "kind": "coverage_gap",
+            "detail": {
+              "coverage": "bounded_snapshot",
+              "last_code": "snapshot_captured",
+              "last_outcome": "captured",
+              "active_capture_id": null,
+              "complete_market_coverage": false,
+              "last_successful_capture_at": "2026-10-11T06:52:40.625935+00:00"
+            },
+            "issue_id": "coverage:fixture-daily-publication-trace",
+            "source_id": "fixture-daily-publication-trace",
+            "analysis_id": null
+          },
+          {
+            "kind": "unresolved_work",
+            "detail": {
+              "state": "pending",
+              "decision": "relevance_unresolved",
+              "lease_until": null,
+              "attempt_count": 0
+            },
+            "issue_id": "screening:67ec0be8-8f64-4eb8-8419-3a454f55a260",
+            "source_id": "fixture-daily-publication-trace",
+            "analysis_id": null
+          }
+        ],
+        "period": {
+          "prepared_at": "2026-10-11T06:52:40.668480+00:00",
+          "start_exclusive": "2026-10-10T06:52:40.654700+00:00",
+          "cutoff_inclusive": "2026-10-11T06:52:40.654700+00:00"
+        },
+        "reports": {
+          "new": [
+            {
+              "payload": {
+                "id": "policy-report",
+                "url": "https://example.invalid/policy",
+                "title": "Fictional policy report",
+                "content": "Fictional source reports a policy easing measure.",
+                "published_at": "2026-10-10T06:52:40.612544+00:00"
+              },
+              "report_id": "1",
+              "source_id": "fixture-daily-publication-trace",
+              "received_at": "2026-10-11T06:52:40.622714+00:00",
+              "revision_id": "67ec0be8-8f64-4eb8-8419-3a454f55a260",
+              "payload_digest": "55d25397c5301a4b28f3466cd54d8a73cb38db9bef8bb6ce43142a01a108b196",
+              "deferred_reason": null,
+              "source_contract_digest": "0c3b712359cf4614c141cf0bb03b281047949238711c21f39279af245512eba5",
+              "availability_witness_at": "2026-10-11T06:52:40.645963+00:00",
+              "source_contract_version_id": "987e6d8a-4bb9-47de-93ce-5f9042dc5e1d"
+            }
+          ],
+          "deferred": [],
+          "background": []
+        },
+        "analyses": {
+          "new": [],
+          "deferred": [],
+          "background": []
+        },
+        "limitations": [
+          "No new eligible reports does not establish that no market events occurred.",
+          "Exact retained quotations establish attribution, not factual truth or investment usefulness.",
+          "Current disposition is a caller observation at preparation, not reconstructed cutoff state.",
+          "Cross-source independence, current macro regime and market expectations remain unverified.",
+          "This deterministic review grants no approval, publication, notification or paid-retry authority."
+        ],
+        "schema_version": "deterministic-daily-evidence-review-v1",
+        "unresolved_analysis_ids": [],
+        "assembly_inference_calls": 0,
+        "new_eligible_report_count": 1,
+        "assembly_inference_cost_usd": "0",
+        "unknown_reported_cost_analysis_ids": []
+      },
+      "original_inputs": {
+        "approved_user": {
+          "text": {
+            "digest": "6ed7b89d565bb72a2056508893bf5eb9ff474ad9444f2dd6d8d92531e9193ee3",
+            "created_at": "2026-10-11T06:52:40.533203+00:00",
+            "exact_text": "  Easier policy could support equities.\r\nΔ\r\n",
+            "version_id": "97b22ad0-dea5-4514-8046-00b8008a7339"
+          },
+          "approval": {
+            "digest": "17c069b3afc65d752c08b8822be74bed7fe038a97067319eaa7da35418975dc3",
+            "actor_id": "93abea14-bba2-4d2a-807c-f48c12272f56",
+            "revision": 2,
+            "version_id": "6ed8b19f-37de-4365-a3e2-7ed3f4882a04",
+            "approved_at": "2026-10-11T06:52:40.554187+00:00"
+          },
+          "exposure": {
+            "positions": [
+              {
+                "payload": {
+                  "paper": true,
+                  "venue": null,
+                  "expiry": null,
+                  "status": "open",
+                  "horizon": null,
+                  "owner_id": "93abea14-bba2-4d2a-807c-f48c12272f56",
+                  "quantity": null,
+                  "direction": "long",
+                  "thesis_id": "23cfb819-e588-4ee9-a7e3-0a385bf72295",
+                  "product_id": null,
+                  "underlying": "NQ",
+                  "version_id": "48b8760e-599a-4ec1-9323-8118b00cf62d",
+                  "accepted_at": "2026-10-11T06:52:40.585393+00:00",
+                  "approval_id": "6ed8b19f-37de-4365-a3e2-7ed3f4882a04",
+                  "position_id": "891e2c78-e62b-402d-9840-e4d9603688a0",
+                  "quantity_unit": null,
+                  "mapping_status": "user_declared_unverified",
+                  "quote_currency": null,
+                  "parent_version_id": null
+                },
+                "version_id": "48b8760e-599a-4ec1-9323-8118b00cf62d",
+                "position_id": "891e2c78-e62b-402d-9840-e4d9603688a0",
+                "version_digest": "e97af830e10c8af6b4d2ca03f36a4008dc4eedaa48bb9c0c29163103f2a2930d"
+              }
+            ],
+            "thesis_id": "23cfb819-e588-4ee9-a7e3-0a385bf72295"
+          },
+          "owner_id": "93abea14-bba2-4d2a-807c-f48c12272f56",
+          "thesis_id": "23cfb819-e588-4ee9-a7e3-0a385bf72295",
+          "interpretation": {
+            "digest": "11ec98dca343d5b4aa467fbbc03f90b6ad5878bea0a8c154167fab7cf972de7e",
+            "origin": "user_supplied",
+            "drivers": [
+              "Easier policy"
+            ],
+            "horizon": "weeks to months",
+            "version_id": "f9569293-59df-445a-85df-c5a6826d9ac9",
+            "prepared_at": "2026-10-11T06:52:40.533203+00:00",
+            "text_version_id": "97b22ad0-dea5-4514-8046-00b8008a7339",
+            "invalidation_signposts": [
+              "Policy transmission fails"
+            ]
+          }
+        },
+        "source_contracts": [
+          {
+            "digest": "0c3b712359cf4614c141cf0bb03b281047949238711c21f39279af245512eba5",
+            "reason": "Observed existing contract; this snapshot is not a new human rights review.",
+            "contract": {
+              "kind": "fictional_fixture",
+              "label": "Fictional daily publication trace",
+              "coverage": "bounded_snapshot"
+            },
+            "parent_id": null,
+            "permitted": true,
+            "source_id": "fixture-daily-publication-trace",
+            "provenance": "existing_allowlisted_adapter_manifest",
+            "version_id": "987e6d8a-4bb9-47de-93ce-5f9042dc5e1d",
+            "observed_at": "2026-10-11T06:52:40.668480+00:00",
+            "reviewer_id": "93abea14-bba2-4d2a-807c-f48c12272f56"
+          }
+        ],
+        "predecessor_assessment": {
+          "reason": "No cumulative model assessment is implemented.",
+          "status": "unavailable"
+        },
+        "starting_macro_context": {
+          "status": "unavailable"
+        },
+        "changes_since_predecessor": {
+          "exposure_changed": false,
+          "approved_meaning_changed": false
+        }
+      }
+    }
+  },
+  "after_correction": {
+    "publication": {
+      "id": "f32bcd2f-f011-4f94-b19c-ea6579254fa2",
+      "command_id": "54fa6a8f-5ff6-4902-81e0-d32392ed28db",
+      "review_id": "c25f0418-1f77-490e-a7f7-a75abbece031",
+      "brief_id": "daily:23cfb819-e588-4ee9-a7e3-0a385bf72295",
+      "assessment_id": "daily:c25f0418-1f77-490e-a7f7-a75abbece031",
+      "review_digest": "2d8b6d5a1ad85227187ef67d1d0c63a5ebf5194154ad307dc4ade4ded64b914e",
+      "expected_generation": 0,
+      "published_at": "2026-10-11T06:52:40.746053+00:00",
+      "original_decision": {
+        "status": "current",
+        "reasons": [
+          "all_dependencies_current"
+        ],
+        "reassessment_required": false
+      },
+      "generation_at_publication": 1
+    },
+    "current_disposition": {
+      "status": "superseded",
+      "reasons": [
+        "included_report_corrected:1",
+        "publication_not_current"
+      ],
+      "observed_at": "2026-10-11T06:52:40.870019+00:00"
+    },
+    "notification_intent": {
+      "id": "notice:2ce5caa839cf52c51dfb6341c46c61c776c6a563d3a87b2b25cf66a3b0d90d88",
+      "state": "canceled"
+    },
+    "replayed": false,
+    "review": {
+      "id": "c25f0418-1f77-490e-a7f7-a75abbece031",
+      "command_id": "8113e6f8-6da2-4910-832b-4c874feaa3a2",
+      "context_id": "a0d82905-fab6-483c-bd2f-74b2449f6959",
+      "evidence_set_id": "234fb11a-8750-4d24-93ef-eb4cf2b93245",
+      "evidence_set": {
+        "id": "234fb11a-8750-4d24-93ef-eb4cf2b93245",
+        "policy_version": "complete-retained-sources-v1",
+        "limits": {
+          "issues": 300,
+          "reports": 100,
+          "analyses": 100,
+          "encoded_bytes": 2000000,
+          "source_contracts": 16,
+          "exposure_versions": 200
+        },
+        "source_manifest": [
+          {
+            "digest": "0c3b712359cf4614c141cf0bb03b281047949238711c21f39279af245512eba5",
+            "permitted": true,
+            "source_id": "fixture-daily-publication-trace",
+            "provenance": "existing_allowlisted_adapter_manifest",
+            "version_id": "987e6d8a-4bb9-47de-93ce-5f9042dc5e1d",
+            "observed_at": "2026-10-11T06:52:40.668480+00:00"
+          }
+        ]
+      },
+      "predecessor_id": null,
+      "start": "2026-10-10T06:52:40.654700+00:00",
+      "cutoff": "2026-10-11T06:52:40.654700+00:00",
+      "prepared_at": "2026-10-11T06:52:40.668480+00:00",
+      "original_outcome": "prepared",
+      "digest": "2d8b6d5a1ad85227187ef67d1d0c63a5ebf5194154ad307dc4ade4ded64b914e",
+      "content": {
+        "scope": {
+          "owner_id": "93abea14-bba2-4d2a-807c-f48c12272f56",
+          "thesis_id": "23cfb819-e588-4ee9-a7e3-0a385bf72295",
+          "approval_id": "6ed8b19f-37de-4365-a3e2-7ed3f4882a04",
+          "exposure_digest": "35c195d2a56f5f82761efd3e2d602da95d63782662f9dd15838155b334de39da",
+          "source_contracts": [
+            {
+              "digest": "0c3b712359cf4614c141cf0bb03b281047949238711c21f39279af245512eba5",
+              "source_id": "fixture-daily-publication-trace",
+              "version_id": "987e6d8a-4bb9-47de-93ce-5f9042dc5e1d"
+            }
+          ],
+          "interpretation_id": "f9569293-59df-445a-85df-c5a6826d9ac9",
+          "exposure_version_ids": [
+            "48b8760e-599a-4ec1-9323-8118b00cf62d"
+          ],
+          "predecessor_context_id": null,
+          "predecessor_assessment_id": null
+        },
+        "issues": [
+          {
+            "kind": "coverage_gap",
+            "detail": {
+              "coverage": "bounded_snapshot",
+              "last_code": "snapshot_captured",
+              "last_outcome": "captured",
+              "active_capture_id": null,
+              "complete_market_coverage": false,
+              "last_successful_capture_at": "2026-10-11T06:52:40.625935+00:00"
+            },
+            "issue_id": "coverage:fixture-daily-publication-trace",
+            "source_id": "fixture-daily-publication-trace",
+            "analysis_id": null
+          },
+          {
+            "kind": "unresolved_work",
+            "detail": {
+              "state": "pending",
+              "decision": "relevance_unresolved",
+              "lease_until": null,
+              "attempt_count": 0
+            },
+            "issue_id": "screening:67ec0be8-8f64-4eb8-8419-3a454f55a260",
+            "source_id": "fixture-daily-publication-trace",
+            "analysis_id": null
+          }
+        ],
+        "period": {
+          "prepared_at": "2026-10-11T06:52:40.668480+00:00",
+          "start_exclusive": "2026-10-10T06:52:40.654700+00:00",
+          "cutoff_inclusive": "2026-10-11T06:52:40.654700+00:00"
+        },
+        "reports": {
+          "new": [
+            {
+              "payload": {
+                "id": "policy-report",
+                "url": "https://example.invalid/policy",
+                "title": "Fictional policy report",
+                "content": "Fictional source reports a policy easing measure.",
+                "published_at": "2026-10-10T06:52:40.612544+00:00"
+              },
+              "report_id": "1",
+              "source_id": "fixture-daily-publication-trace",
+              "received_at": "2026-10-11T06:52:40.622714+00:00",
+              "revision_id": "67ec0be8-8f64-4eb8-8419-3a454f55a260",
+              "payload_digest": "55d25397c5301a4b28f3466cd54d8a73cb38db9bef8bb6ce43142a01a108b196",
+              "deferred_reason": null,
+              "source_contract_digest": "0c3b712359cf4614c141cf0bb03b281047949238711c21f39279af245512eba5",
+              "availability_witness_at": "2026-10-11T06:52:40.645963+00:00",
+              "source_contract_version_id": "987e6d8a-4bb9-47de-93ce-5f9042dc5e1d"
+            }
+          ],
+          "deferred": [],
+          "background": []
+        },
+        "analyses": {
+          "new": [],
+          "deferred": [],
+          "background": []
+        },
+        "limitations": [
+          "No new eligible reports does not establish that no market events occurred.",
+          "Exact retained quotations establish attribution, not factual truth or investment usefulness.",
+          "Current disposition is a caller observation at preparation, not reconstructed cutoff state.",
+          "Cross-source independence, current macro regime and market expectations remain unverified.",
+          "This deterministic review grants no approval, publication, notification or paid-retry authority."
+        ],
+        "schema_version": "deterministic-daily-evidence-review-v1",
+        "unresolved_analysis_ids": [],
+        "assembly_inference_calls": 0,
+        "new_eligible_report_count": 1,
+        "assembly_inference_cost_usd": "0",
+        "unknown_reported_cost_analysis_ids": []
+      },
+      "original_inputs": {
+        "approved_user": {
+          "text": {
+            "digest": "6ed7b89d565bb72a2056508893bf5eb9ff474ad9444f2dd6d8d92531e9193ee3",
+            "created_at": "2026-10-11T06:52:40.533203+00:00",
+            "exact_text": "  Easier policy could support equities.\r\nΔ\r\n",
+            "version_id": "97b22ad0-dea5-4514-8046-00b8008a7339"
+          },
+          "approval": {
+            "digest": "17c069b3afc65d752c08b8822be74bed7fe038a97067319eaa7da35418975dc3",
+            "actor_id": "93abea14-bba2-4d2a-807c-f48c12272f56",
+            "revision": 2,
+            "version_id": "6ed8b19f-37de-4365-a3e2-7ed3f4882a04",
+            "approved_at": "2026-10-11T06:52:40.554187+00:00"
+          },
+          "exposure": {
+            "positions": [
+              {
+                "payload": {
+                  "paper": true,
+                  "venue": null,
+                  "expiry": null,
+                  "status": "open",
+                  "horizon": null,
+                  "owner_id": "93abea14-bba2-4d2a-807c-f48c12272f56",
+                  "quantity": null,
+                  "direction": "long",
+                  "thesis_id": "23cfb819-e588-4ee9-a7e3-0a385bf72295",
+                  "product_id": null,
+                  "underlying": "NQ",
+                  "version_id": "48b8760e-599a-4ec1-9323-8118b00cf62d",
+                  "accepted_at": "2026-10-11T06:52:40.585393+00:00",
+                  "approval_id": "6ed8b19f-37de-4365-a3e2-7ed3f4882a04",
+                  "position_id": "891e2c78-e62b-402d-9840-e4d9603688a0",
+                  "quantity_unit": null,
+                  "mapping_status": "user_declared_unverified",
+                  "quote_currency": null,
+                  "parent_version_id": null
+                },
+                "version_id": "48b8760e-599a-4ec1-9323-8118b00cf62d",
+                "position_id": "891e2c78-e62b-402d-9840-e4d9603688a0",
+                "version_digest": "e97af830e10c8af6b4d2ca03f36a4008dc4eedaa48bb9c0c29163103f2a2930d"
+              }
+            ],
+            "thesis_id": "23cfb819-e588-4ee9-a7e3-0a385bf72295"
+          },
+          "owner_id": "93abea14-bba2-4d2a-807c-f48c12272f56",
+          "thesis_id": "23cfb819-e588-4ee9-a7e3-0a385bf72295",
+          "interpretation": {
+            "digest": "11ec98dca343d5b4aa467fbbc03f90b6ad5878bea0a8c154167fab7cf972de7e",
+            "origin": "user_supplied",
+            "drivers": [
+              "Easier policy"
+            ],
+            "horizon": "weeks to months",
+            "version_id": "f9569293-59df-445a-85df-c5a6826d9ac9",
+            "prepared_at": "2026-10-11T06:52:40.533203+00:00",
+            "text_version_id": "97b22ad0-dea5-4514-8046-00b8008a7339",
+            "invalidation_signposts": [
+              "Policy transmission fails"
+            ]
+          }
+        },
+        "source_contracts": [
+          {
+            "digest": "0c3b712359cf4614c141cf0bb03b281047949238711c21f39279af245512eba5",
+            "reason": "Observed existing contract; this snapshot is not a new human rights review.",
+            "contract": {
+              "kind": "fictional_fixture",
+              "label": "Fictional daily publication trace",
+              "coverage": "bounded_snapshot"
+            },
+            "parent_id": null,
+            "permitted": true,
+            "source_id": "fixture-daily-publication-trace",
+            "provenance": "existing_allowlisted_adapter_manifest",
+            "version_id": "987e6d8a-4bb9-47de-93ce-5f9042dc5e1d",
+            "observed_at": "2026-10-11T06:52:40.668480+00:00",
+            "reviewer_id": "93abea14-bba2-4d2a-807c-f48c12272f56"
+          }
+        ],
+        "predecessor_assessment": {
+          "reason": "No cumulative model assessment is implemented.",
+          "status": "unavailable"
+        },
+        "starting_macro_context": {
+          "status": "unavailable"
+        },
+        "changes_since_predecessor": {
+          "exposure_changed": false,
+          "approved_meaning_changed": false
+        }
+      }
+    }
+  },
+  "historical_retry": {
+    "publication": {
+      "id": "f32bcd2f-f011-4f94-b19c-ea6579254fa2",
+      "command_id": "54fa6a8f-5ff6-4902-81e0-d32392ed28db",
+      "review_id": "c25f0418-1f77-490e-a7f7-a75abbece031",
+      "brief_id": "daily:23cfb819-e588-4ee9-a7e3-0a385bf72295",
+      "assessment_id": "daily:c25f0418-1f77-490e-a7f7-a75abbece031",
+      "review_digest": "2d8b6d5a1ad85227187ef67d1d0c63a5ebf5194154ad307dc4ade4ded64b914e",
+      "expected_generation": 0,
+      "published_at": "2026-10-11T06:52:40.746053+00:00",
+      "original_decision": {
+        "status": "current",
+        "reasons": [
+          "all_dependencies_current"
+        ],
+        "reassessment_required": false
+      },
+      "generation_at_publication": 1
+    },
+    "current_disposition": {
+      "status": "superseded",
+      "reasons": [
+        "included_report_corrected:1",
+        "publication_not_current"
+      ],
+      "observed_at": "2026-10-11T06:52:40.883700+00:00"
+    },
+    "notification_intent": {
+      "id": "notice:2ce5caa839cf52c51dfb6341c46c61c776c6a563d3a87b2b25cf66a3b0d90d88",
+      "state": "canceled"
+    },
+    "replayed": true,
+    "review": {
+      "id": "c25f0418-1f77-490e-a7f7-a75abbece031",
+      "command_id": "8113e6f8-6da2-4910-832b-4c874feaa3a2",
+      "context_id": "a0d82905-fab6-483c-bd2f-74b2449f6959",
+      "evidence_set_id": "234fb11a-8750-4d24-93ef-eb4cf2b93245",
+      "evidence_set": {
+        "id": "234fb11a-8750-4d24-93ef-eb4cf2b93245",
+        "policy_version": "complete-retained-sources-v1",
+        "limits": {
+          "issues": 300,
+          "reports": 100,
+          "analyses": 100,
+          "encoded_bytes": 2000000,
+          "source_contracts": 16,
+          "exposure_versions": 200
+        },
+        "source_manifest": [
+          {
+            "digest": "0c3b712359cf4614c141cf0bb03b281047949238711c21f39279af245512eba5",
+            "permitted": true,
+            "source_id": "fixture-daily-publication-trace",
+            "provenance": "existing_allowlisted_adapter_manifest",
+            "version_id": "987e6d8a-4bb9-47de-93ce-5f9042dc5e1d",
+            "observed_at": "2026-10-11T06:52:40.668480+00:00"
+          }
+        ]
+      },
+      "predecessor_id": null,
+      "start": "2026-10-10T06:52:40.654700+00:00",
+      "cutoff": "2026-10-11T06:52:40.654700+00:00",
+      "prepared_at": "2026-10-11T06:52:40.668480+00:00",
+      "original_outcome": "prepared",
+      "digest": "2d8b6d5a1ad85227187ef67d1d0c63a5ebf5194154ad307dc4ade4ded64b914e",
+      "content": {
+        "scope": {
+          "owner_id": "93abea14-bba2-4d2a-807c-f48c12272f56",
+          "thesis_id": "23cfb819-e588-4ee9-a7e3-0a385bf72295",
+          "approval_id": "6ed8b19f-37de-4365-a3e2-7ed3f4882a04",
+          "exposure_digest": "35c195d2a56f5f82761efd3e2d602da95d63782662f9dd15838155b334de39da",
+          "source_contracts": [
+            {
+              "digest": "0c3b712359cf4614c141cf0bb03b281047949238711c21f39279af245512eba5",
+              "source_id": "fixture-daily-publication-trace",
+              "version_id": "987e6d8a-4bb9-47de-93ce-5f9042dc5e1d"
+            }
+          ],
+          "interpretation_id": "f9569293-59df-445a-85df-c5a6826d9ac9",
+          "exposure_version_ids": [
+            "48b8760e-599a-4ec1-9323-8118b00cf62d"
+          ],
+          "predecessor_context_id": null,
+          "predecessor_assessment_id": null
+        },
+        "issues": [
+          {
+            "kind": "coverage_gap",
+            "detail": {
+              "coverage": "bounded_snapshot",
+              "last_code": "snapshot_captured",
+              "last_outcome": "captured",
+              "active_capture_id": null,
+              "complete_market_coverage": false,
+              "last_successful_capture_at": "2026-10-11T06:52:40.625935+00:00"
+            },
+            "issue_id": "coverage:fixture-daily-publication-trace",
+            "source_id": "fixture-daily-publication-trace",
+            "analysis_id": null
+          },
+          {
+            "kind": "unresolved_work",
+            "detail": {
+              "state": "pending",
+              "decision": "relevance_unresolved",
+              "lease_until": null,
+              "attempt_count": 0
+            },
+            "issue_id": "screening:67ec0be8-8f64-4eb8-8419-3a454f55a260",
+            "source_id": "fixture-daily-publication-trace",
+            "analysis_id": null
+          }
+        ],
+        "period": {
+          "prepared_at": "2026-10-11T06:52:40.668480+00:00",
+          "start_exclusive": "2026-10-10T06:52:40.654700+00:00",
+          "cutoff_inclusive": "2026-10-11T06:52:40.654700+00:00"
+        },
+        "reports": {
+          "new": [
+            {
+              "payload": {
+                "id": "policy-report",
+                "url": "https://example.invalid/policy",
+                "title": "Fictional policy report",
+                "content": "Fictional source reports a policy easing measure.",
+                "published_at": "2026-10-10T06:52:40.612544+00:00"
+              },
+              "report_id": "1",
+              "source_id": "fixture-daily-publication-trace",
+              "received_at": "2026-10-11T06:52:40.622714+00:00",
+              "revision_id": "67ec0be8-8f64-4eb8-8419-3a454f55a260",
+              "payload_digest": "55d25397c5301a4b28f3466cd54d8a73cb38db9bef8bb6ce43142a01a108b196",
+              "deferred_reason": null,
+              "source_contract_digest": "0c3b712359cf4614c141cf0bb03b281047949238711c21f39279af245512eba5",
+              "availability_witness_at": "2026-10-11T06:52:40.645963+00:00",
+              "source_contract_version_id": "987e6d8a-4bb9-47de-93ce-5f9042dc5e1d"
+            }
+          ],
+          "deferred": [],
+          "background": []
+        },
+        "analyses": {
+          "new": [],
+          "deferred": [],
+          "background": []
+        },
+        "limitations": [
+          "No new eligible reports does not establish that no market events occurred.",
+          "Exact retained quotations establish attribution, not factual truth or investment usefulness.",
+          "Current disposition is a caller observation at preparation, not reconstructed cutoff state.",
+          "Cross-source independence, current macro regime and market expectations remain unverified.",
+          "This deterministic review grants no approval, publication, notification or paid-retry authority."
+        ],
+        "schema_version": "deterministic-daily-evidence-review-v1",
+        "unresolved_analysis_ids": [],
+        "assembly_inference_calls": 0,
+        "new_eligible_report_count": 1,
+        "assembly_inference_cost_usd": "0",
+        "unknown_reported_cost_analysis_ids": []
+      },
+      "original_inputs": {
+        "approved_user": {
+          "text": {
+            "digest": "6ed7b89d565bb72a2056508893bf5eb9ff474ad9444f2dd6d8d92531e9193ee3",
+            "created_at": "2026-10-11T06:52:40.533203+00:00",
+            "exact_text": "  Easier policy could support equities.\r\nΔ\r\n",
+            "version_id": "97b22ad0-dea5-4514-8046-00b8008a7339"
+          },
+          "approval": {
+            "digest": "17c069b3afc65d752c08b8822be74bed7fe038a97067319eaa7da35418975dc3",
+            "actor_id": "93abea14-bba2-4d2a-807c-f48c12272f56",
+            "revision": 2,
+            "version_id": "6ed8b19f-37de-4365-a3e2-7ed3f4882a04",
+            "approved_at": "2026-10-11T06:52:40.554187+00:00"
+          },
+          "exposure": {
+            "positions": [
+              {
+                "payload": {
+                  "paper": true,
+                  "venue": null,
+                  "expiry": null,
+                  "status": "open",
+                  "horizon": null,
+                  "owner_id": "93abea14-bba2-4d2a-807c-f48c12272f56",
+                  "quantity": null,
+                  "direction": "long",
+                  "thesis_id": "23cfb819-e588-4ee9-a7e3-0a385bf72295",
+                  "product_id": null,
+                  "underlying": "NQ",
+                  "version_id": "48b8760e-599a-4ec1-9323-8118b00cf62d",
+                  "accepted_at": "2026-10-11T06:52:40.585393+00:00",
+                  "approval_id": "6ed8b19f-37de-4365-a3e2-7ed3f4882a04",
+                  "position_id": "891e2c78-e62b-402d-9840-e4d9603688a0",
+                  "quantity_unit": null,
+                  "mapping_status": "user_declared_unverified",
+                  "quote_currency": null,
+                  "parent_version_id": null
+                },
+                "version_id": "48b8760e-599a-4ec1-9323-8118b00cf62d",
+                "position_id": "891e2c78-e62b-402d-9840-e4d9603688a0",
+                "version_digest": "e97af830e10c8af6b4d2ca03f36a4008dc4eedaa48bb9c0c29163103f2a2930d"
+              }
+            ],
+            "thesis_id": "23cfb819-e588-4ee9-a7e3-0a385bf72295"
+          },
+          "owner_id": "93abea14-bba2-4d2a-807c-f48c12272f56",
+          "thesis_id": "23cfb819-e588-4ee9-a7e3-0a385bf72295",
+          "interpretation": {
+            "digest": "11ec98dca343d5b4aa467fbbc03f90b6ad5878bea0a8c154167fab7cf972de7e",
+            "origin": "user_supplied",
+            "drivers": [
+              "Easier policy"
+            ],
+            "horizon": "weeks to months",
+            "version_id": "f9569293-59df-445a-85df-c5a6826d9ac9",
+            "prepared_at": "2026-10-11T06:52:40.533203+00:00",
+            "text_version_id": "97b22ad0-dea5-4514-8046-00b8008a7339",
+            "invalidation_signposts": [
+              "Policy transmission fails"
+            ]
+          }
+        },
+        "source_contracts": [
+          {
+            "digest": "0c3b712359cf4614c141cf0bb03b281047949238711c21f39279af245512eba5",
+            "reason": "Observed existing contract; this snapshot is not a new human rights review.",
+            "contract": {
+              "kind": "fictional_fixture",
+              "label": "Fictional daily publication trace",
+              "coverage": "bounded_snapshot"
+            },
+            "parent_id": null,
+            "permitted": true,
+            "source_id": "fixture-daily-publication-trace",
+            "provenance": "existing_allowlisted_adapter_manifest",
+            "version_id": "987e6d8a-4bb9-47de-93ce-5f9042dc5e1d",
+            "observed_at": "2026-10-11T06:52:40.668480+00:00",
+            "reviewer_id": "93abea14-bba2-4d2a-807c-f48c12272f56"
+          }
+        ],
+        "predecessor_assessment": {
+          "reason": "No cumulative model assessment is implemented.",
+          "status": "unavailable"
+        },
+        "starting_macro_context": {
+          "status": "unavailable"
+        },
+        "changes_since_predecessor": {
+          "exposure_changed": false,
+          "approved_meaning_changed": false
+        }
+      }
+    }
+  },
+  "later_publication": {
+    "publication": {
+      "id": "9d29d7bb-d6e5-40c2-b83f-d93aee687cb5",
+      "command_id": "785a3989-8a1b-49c7-aac0-aa87fc0f32a4",
+      "review_id": "2a12ee99-0e6d-45cb-873c-b9ebb0415edc",
+      "brief_id": "daily:23cfb819-e588-4ee9-a7e3-0a385bf72295",
+      "assessment_id": "daily:2a12ee99-0e6d-45cb-873c-b9ebb0415edc",
+      "review_digest": "f77853ea69ec27b8fdf2aeb2e9b4b5b2eb1a883d17f6c47926bb7f419edb607b",
+      "expected_generation": 1,
+      "published_at": "2026-10-11T06:52:40.951009+00:00",
+      "original_decision": {
+        "status": "current",
+        "reasons": [
+          "all_dependencies_current"
+        ],
+        "reassessment_required": false
+      },
+      "generation_at_publication": 2
+    },
+    "current_disposition": {
+      "status": "current",
+      "reasons": [],
+      "observed_at": "2026-10-11T06:52:40.951009+00:00"
+    },
+    "notification_intent": {
+      "id": "notice:0b8dbfa4cf953175908d90891ec3ab1e15c3a602cac584c202ab04f8fa7bbe55",
+      "state": "pending"
+    },
+    "replayed": false,
+    "review": {
+      "id": "2a12ee99-0e6d-45cb-873c-b9ebb0415edc",
+      "command_id": "2b8a3e21-1cd6-4d4a-8090-8f6e0149361f",
+      "context_id": "553cabbc-0c78-4188-b205-b318a3bb335c",
+      "evidence_set_id": "100625e8-ddb6-45cd-91fd-cfb6865b0a1a",
+      "evidence_set": {
+        "id": "100625e8-ddb6-45cd-91fd-cfb6865b0a1a",
+        "policy_version": "complete-retained-sources-v1",
+        "limits": {
+          "issues": 300,
+          "reports": 100,
+          "analyses": 100,
+          "encoded_bytes": 2000000,
+          "source_contracts": 16,
+          "exposure_versions": 200
+        },
+        "source_manifest": [
+          {
+            "digest": "0c3b712359cf4614c141cf0bb03b281047949238711c21f39279af245512eba5",
+            "permitted": true,
+            "source_id": "fixture-daily-publication-trace",
+            "provenance": "existing_allowlisted_adapter_manifest",
+            "version_id": "987e6d8a-4bb9-47de-93ce-5f9042dc5e1d",
+            "observed_at": "2026-10-11T06:52:40.668480+00:00"
+          }
+        ]
+      },
+      "predecessor_id": "a0d82905-fab6-483c-bd2f-74b2449f6959",
+      "start": "2026-10-11T06:52:40.654700+00:00",
+      "cutoff": "2026-10-11T06:52:40.891842+00:00",
+      "prepared_at": "2026-10-11T06:52:40.904293+00:00",
+      "original_outcome": "prepared",
+      "digest": "f77853ea69ec27b8fdf2aeb2e9b4b5b2eb1a883d17f6c47926bb7f419edb607b",
+      "content": {
+        "scope": {
+          "owner_id": "93abea14-bba2-4d2a-807c-f48c12272f56",
+          "thesis_id": "23cfb819-e588-4ee9-a7e3-0a385bf72295",
+          "approval_id": "6ed8b19f-37de-4365-a3e2-7ed3f4882a04",
+          "exposure_digest": "35c195d2a56f5f82761efd3e2d602da95d63782662f9dd15838155b334de39da",
+          "source_contracts": [
+            {
+              "digest": "0c3b712359cf4614c141cf0bb03b281047949238711c21f39279af245512eba5",
+              "source_id": "fixture-daily-publication-trace",
+              "version_id": "987e6d8a-4bb9-47de-93ce-5f9042dc5e1d"
+            }
+          ],
+          "interpretation_id": "f9569293-59df-445a-85df-c5a6826d9ac9",
+          "exposure_version_ids": [
+            "48b8760e-599a-4ec1-9323-8118b00cf62d"
+          ],
+          "predecessor_context_id": "a0d82905-fab6-483c-bd2f-74b2449f6959",
+          "predecessor_assessment_id": null
+        },
+        "issues": [
+          {
+            "kind": "coverage_gap",
+            "detail": {
+              "coverage": "bounded_snapshot",
+              "last_code": "snapshot_captured",
+              "last_outcome": "captured",
+              "active_capture_id": null,
+              "complete_market_coverage": false,
+              "last_successful_capture_at": "2026-10-11T06:52:40.856058+00:00"
+            },
+            "issue_id": "coverage:fixture-daily-publication-trace",
+            "source_id": "fixture-daily-publication-trace",
+            "analysis_id": null
+          },
+          {
+            "kind": "unresolved_work",
+            "detail": {
+              "state": "pending",
+              "decision": "relevance_unresolved",
+              "lease_until": null,
+              "attempt_count": 0
+            },
+            "issue_id": "screening:ff57092c-398d-448d-b676-bbe5f9d8c742",
+            "source_id": "fixture-daily-publication-trace",
+            "analysis_id": null
+          },
+          {
+            "kind": "coverage_gap",
+            "detail": {
+              "code": "historical_source_revision",
+              "head_at_preparation": "ff57092c-398d-448d-b676-bbe5f9d8c742"
+            },
+            "issue_id": "superseded:67ec0be8-8f64-4eb8-8419-3a454f55a260",
+            "source_id": "fixture-daily-publication-trace",
+            "analysis_id": null
+          }
+        ],
+        "period": {
+          "prepared_at": "2026-10-11T06:52:40.904293+00:00",
+          "start_exclusive": "2026-10-11T06:52:40.654700+00:00",
+          "cutoff_inclusive": "2026-10-11T06:52:40.891842+00:00"
+        },
+        "reports": {
+          "new": [
+            {
+              "payload": {
+                "id": "policy-report",
+                "url": "https://example.invalid/policy",
+                "title": "Fictional policy report",
+                "content": "Fictional correction: the policy measure is conditional, not yet enacted.",
+                "published_at": "2026-10-10T06:52:40.845625+00:00"
+              },
+              "report_id": "1",
+              "source_id": "fixture-daily-publication-trace",
+              "received_at": "2026-10-11T06:52:40.849391+00:00",
+              "revision_id": "ff57092c-398d-448d-b676-bbe5f9d8c742",
+              "payload_digest": "12377a1fa3d9952e72a29e18d7d116fb3f044b48005282969c327b00513c84a4",
+              "deferred_reason": null,
+              "source_contract_digest": "0c3b712359cf4614c141cf0bb03b281047949238711c21f39279af245512eba5",
+              "availability_witness_at": "2026-10-11T06:52:40.864731+00:00",
+              "source_contract_version_id": "987e6d8a-4bb9-47de-93ce-5f9042dc5e1d"
+            }
+          ],
+          "deferred": [],
+          "background": [
+            {
+              "payload": {
+                "id": "policy-report",
+                "url": "https://example.invalid/policy",
+                "title": "Fictional policy report",
+                "content": "Fictional source reports a policy easing measure.",
+                "published_at": "2026-10-10T06:52:40.612544+00:00"
+              },
+              "report_id": "1",
+              "source_id": "fixture-daily-publication-trace",
+              "received_at": "2026-10-11T06:52:40.622714+00:00",
+              "revision_id": "67ec0be8-8f64-4eb8-8419-3a454f55a260",
+              "payload_digest": "55d25397c5301a4b28f3466cd54d8a73cb38db9bef8bb6ce43142a01a108b196",
+              "deferred_reason": null,
+              "source_contract_digest": "0c3b712359cf4614c141cf0bb03b281047949238711c21f39279af245512eba5",
+              "availability_witness_at": "2026-10-11T06:52:40.645963+00:00",
+              "source_contract_version_id": "987e6d8a-4bb9-47de-93ce-5f9042dc5e1d"
+            }
+          ]
+        },
+        "analyses": {
+          "new": [],
+          "deferred": [],
+          "background": []
+        },
+        "limitations": [
+          "No new eligible reports does not establish that no market events occurred.",
+          "Exact retained quotations establish attribution, not factual truth or investment usefulness.",
+          "Current disposition is a caller observation at preparation, not reconstructed cutoff state.",
+          "Cross-source independence, current macro regime and market expectations remain unverified.",
+          "This deterministic review grants no approval, publication, notification or paid-retry authority."
+        ],
+        "schema_version": "deterministic-daily-evidence-review-v1",
+        "unresolved_analysis_ids": [],
+        "assembly_inference_calls": 0,
+        "new_eligible_report_count": 1,
+        "assembly_inference_cost_usd": "0",
+        "unknown_reported_cost_analysis_ids": []
+      },
+      "original_inputs": {
+        "approved_user": {
+          "text": {
+            "digest": "6ed7b89d565bb72a2056508893bf5eb9ff474ad9444f2dd6d8d92531e9193ee3",
+            "created_at": "2026-10-11T06:52:40.533203+00:00",
+            "exact_text": "  Easier policy could support equities.\r\nΔ\r\n",
+            "version_id": "97b22ad0-dea5-4514-8046-00b8008a7339"
+          },
+          "approval": {
+            "digest": "17c069b3afc65d752c08b8822be74bed7fe038a97067319eaa7da35418975dc3",
+            "actor_id": "93abea14-bba2-4d2a-807c-f48c12272f56",
+            "revision": 2,
+            "version_id": "6ed8b19f-37de-4365-a3e2-7ed3f4882a04",
+            "approved_at": "2026-10-11T06:52:40.554187+00:00"
+          },
+          "exposure": {
+            "positions": [
+              {
+                "payload": {
+                  "paper": true,
+                  "venue": null,
+                  "expiry": null,
+                  "status": "open",
+                  "horizon": null,
+                  "owner_id": "93abea14-bba2-4d2a-807c-f48c12272f56",
+                  "quantity": null,
+                  "direction": "long",
+                  "thesis_id": "23cfb819-e588-4ee9-a7e3-0a385bf72295",
+                  "product_id": null,
+                  "underlying": "NQ",
+                  "version_id": "48b8760e-599a-4ec1-9323-8118b00cf62d",
+                  "accepted_at": "2026-10-11T06:52:40.585393+00:00",
+                  "approval_id": "6ed8b19f-37de-4365-a3e2-7ed3f4882a04",
+                  "position_id": "891e2c78-e62b-402d-9840-e4d9603688a0",
+                  "quantity_unit": null,
+                  "mapping_status": "user_declared_unverified",
+                  "quote_currency": null,
+                  "parent_version_id": null
+                },
+                "version_id": "48b8760e-599a-4ec1-9323-8118b00cf62d",
+                "position_id": "891e2c78-e62b-402d-9840-e4d9603688a0",
+                "version_digest": "e97af830e10c8af6b4d2ca03f36a4008dc4eedaa48bb9c0c29163103f2a2930d"
+              }
+            ],
+            "thesis_id": "23cfb819-e588-4ee9-a7e3-0a385bf72295"
+          },
+          "owner_id": "93abea14-bba2-4d2a-807c-f48c12272f56",
+          "thesis_id": "23cfb819-e588-4ee9-a7e3-0a385bf72295",
+          "interpretation": {
+            "digest": "11ec98dca343d5b4aa467fbbc03f90b6ad5878bea0a8c154167fab7cf972de7e",
+            "origin": "user_supplied",
+            "drivers": [
+              "Easier policy"
+            ],
+            "horizon": "weeks to months",
+            "version_id": "f9569293-59df-445a-85df-c5a6826d9ac9",
+            "prepared_at": "2026-10-11T06:52:40.533203+00:00",
+            "text_version_id": "97b22ad0-dea5-4514-8046-00b8008a7339",
+            "invalidation_signposts": [
+              "Policy transmission fails"
+            ]
+          }
+        },
+        "source_contracts": [
+          {
+            "digest": "0c3b712359cf4614c141cf0bb03b281047949238711c21f39279af245512eba5",
+            "reason": "Observed existing contract; this snapshot is not a new human rights review.",
+            "contract": {
+              "kind": "fictional_fixture",
+              "label": "Fictional daily publication trace",
+              "coverage": "bounded_snapshot"
+            },
+            "parent_id": null,
+            "permitted": true,
+            "source_id": "fixture-daily-publication-trace",
+            "provenance": "existing_allowlisted_adapter_manifest",
+            "version_id": "987e6d8a-4bb9-47de-93ce-5f9042dc5e1d",
+            "observed_at": "2026-10-11T06:52:40.668480+00:00",
+            "reviewer_id": "93abea14-bba2-4d2a-807c-f48c12272f56"
+          }
+        ],
+        "predecessor_assessment": {
+          "reason": "No cumulative model assessment is implemented.",
+          "status": "unavailable"
+        },
+        "starting_macro_context": {
+          "status": "unavailable"
+        },
+        "changes_since_predecessor": {
+          "exposure_changed": false,
+          "approved_meaning_changed": false
+        }
+      }
+    }
+  },
+  "after_permission_withdrawal": {
+    "publication": {
+      "id": "9d29d7bb-d6e5-40c2-b83f-d93aee687cb5",
+      "command_id": "785a3989-8a1b-49c7-aac0-aa87fc0f32a4",
+      "review_id": "2a12ee99-0e6d-45cb-873c-b9ebb0415edc",
+      "brief_id": "daily:23cfb819-e588-4ee9-a7e3-0a385bf72295",
+      "assessment_id": "daily:2a12ee99-0e6d-45cb-873c-b9ebb0415edc",
+      "review_digest": "f77853ea69ec27b8fdf2aeb2e9b4b5b2eb1a883d17f6c47926bb7f419edb607b",
+      "expected_generation": 1,
+      "published_at": "2026-10-11T06:52:40.951009+00:00",
+      "original_decision": {
+        "status": "current",
+        "reasons": [
+          "all_dependencies_current"
+        ],
+        "reassessment_required": false
+      },
+      "generation_at_publication": 2
+    },
+    "current_disposition": {
+      "status": "superseded",
+      "reasons": [
+        "publication_not_current",
+        "source_contract_or_permission_changed:fixture-daily-publication-trace"
+      ],
+      "observed_at": "2026-10-11T06:52:41.003016+00:00"
+    },
+    "notification_intent": {
+      "id": "notice:0b8dbfa4cf953175908d90891ec3ab1e15c3a602cac584c202ab04f8fa7bbe55",
+      "state": "canceled"
+    },
+    "replayed": false,
+    "review": {
+      "id": "2a12ee99-0e6d-45cb-873c-b9ebb0415edc",
+      "command_id": "2b8a3e21-1cd6-4d4a-8090-8f6e0149361f",
+      "context_id": "553cabbc-0c78-4188-b205-b318a3bb335c",
+      "evidence_set_id": "100625e8-ddb6-45cd-91fd-cfb6865b0a1a",
+      "evidence_set": {
+        "id": "100625e8-ddb6-45cd-91fd-cfb6865b0a1a",
+        "policy_version": "complete-retained-sources-v1",
+        "limits": {
+          "issues": 300,
+          "reports": 100,
+          "analyses": 100,
+          "encoded_bytes": 2000000,
+          "source_contracts": 16,
+          "exposure_versions": 200
+        },
+        "source_manifest": [
+          {
+            "digest": "0c3b712359cf4614c141cf0bb03b281047949238711c21f39279af245512eba5",
+            "permitted": true,
+            "source_id": "fixture-daily-publication-trace",
+            "provenance": "existing_allowlisted_adapter_manifest",
+            "version_id": "987e6d8a-4bb9-47de-93ce-5f9042dc5e1d",
+            "observed_at": "2026-10-11T06:52:40.668480+00:00"
+          }
+        ]
+      },
+      "predecessor_id": "a0d82905-fab6-483c-bd2f-74b2449f6959",
+      "start": "2026-10-11T06:52:40.654700+00:00",
+      "cutoff": "2026-10-11T06:52:40.891842+00:00",
+      "prepared_at": "2026-10-11T06:52:40.904293+00:00",
+      "original_outcome": "prepared",
+      "digest": "f77853ea69ec27b8fdf2aeb2e9b4b5b2eb1a883d17f6c47926bb7f419edb607b",
+      "content": {
+        "scope": {
+          "owner_id": "93abea14-bba2-4d2a-807c-f48c12272f56",
+          "thesis_id": "23cfb819-e588-4ee9-a7e3-0a385bf72295",
+          "approval_id": "6ed8b19f-37de-4365-a3e2-7ed3f4882a04",
+          "exposure_digest": "35c195d2a56f5f82761efd3e2d602da95d63782662f9dd15838155b334de39da",
+          "source_contracts": [
+            {
+              "digest": "0c3b712359cf4614c141cf0bb03b281047949238711c21f39279af245512eba5",
+              "source_id": "fixture-daily-publication-trace",
+              "version_id": "987e6d8a-4bb9-47de-93ce-5f9042dc5e1d"
+            }
+          ],
+          "interpretation_id": "f9569293-59df-445a-85df-c5a6826d9ac9",
+          "exposure_version_ids": [
+            "48b8760e-599a-4ec1-9323-8118b00cf62d"
+          ],
+          "predecessor_context_id": "a0d82905-fab6-483c-bd2f-74b2449f6959",
+          "predecessor_assessment_id": null
+        },
+        "issues": [
+          {
+            "kind": "coverage_gap",
+            "detail": {
+              "coverage": "bounded_snapshot",
+              "last_code": "snapshot_captured",
+              "last_outcome": "captured",
+              "active_capture_id": null,
+              "complete_market_coverage": false,
+              "last_successful_capture_at": "2026-10-11T06:52:40.856058+00:00"
+            },
+            "issue_id": "coverage:fixture-daily-publication-trace",
+            "source_id": "fixture-daily-publication-trace",
+            "analysis_id": null
+          },
+          {
+            "kind": "unresolved_work",
+            "detail": {
+              "state": "pending",
+              "decision": "relevance_unresolved",
+              "lease_until": null,
+              "attempt_count": 0
+            },
+            "issue_id": "screening:ff57092c-398d-448d-b676-bbe5f9d8c742",
+            "source_id": "fixture-daily-publication-trace",
+            "analysis_id": null
+          },
+          {
+            "kind": "coverage_gap",
+            "detail": {
+              "code": "historical_source_revision",
+              "head_at_preparation": "ff57092c-398d-448d-b676-bbe5f9d8c742"
+            },
+            "issue_id": "superseded:67ec0be8-8f64-4eb8-8419-3a454f55a260",
+            "source_id": "fixture-daily-publication-trace",
+            "analysis_id": null
+          }
+        ],
+        "period": {
+          "prepared_at": "2026-10-11T06:52:40.904293+00:00",
+          "start_exclusive": "2026-10-11T06:52:40.654700+00:00",
+          "cutoff_inclusive": "2026-10-11T06:52:40.891842+00:00"
+        },
+        "reports": {
+          "new": [
+            {
+              "payload": {
+                "id": "policy-report",
+                "url": "https://example.invalid/policy",
+                "title": "Fictional policy report",
+                "content": "Fictional correction: the policy measure is conditional, not yet enacted.",
+                "published_at": "2026-10-10T06:52:40.845625+00:00"
+              },
+              "report_id": "1",
+              "source_id": "fixture-daily-publication-trace",
+              "received_at": "2026-10-11T06:52:40.849391+00:00",
+              "revision_id": "ff57092c-398d-448d-b676-bbe5f9d8c742",
+              "payload_digest": "12377a1fa3d9952e72a29e18d7d116fb3f044b48005282969c327b00513c84a4",
+              "deferred_reason": null,
+              "source_contract_digest": "0c3b712359cf4614c141cf0bb03b281047949238711c21f39279af245512eba5",
+              "availability_witness_at": "2026-10-11T06:52:40.864731+00:00",
+              "source_contract_version_id": "987e6d8a-4bb9-47de-93ce-5f9042dc5e1d"
+            }
+          ],
+          "deferred": [],
+          "background": [
+            {
+              "payload": {
+                "id": "policy-report",
+                "url": "https://example.invalid/policy",
+                "title": "Fictional policy report",
+                "content": "Fictional source reports a policy easing measure.",
+                "published_at": "2026-10-10T06:52:40.612544+00:00"
+              },
+              "report_id": "1",
+              "source_id": "fixture-daily-publication-trace",
+              "received_at": "2026-10-11T06:52:40.622714+00:00",
+              "revision_id": "67ec0be8-8f64-4eb8-8419-3a454f55a260",
+              "payload_digest": "55d25397c5301a4b28f3466cd54d8a73cb38db9bef8bb6ce43142a01a108b196",
+              "deferred_reason": null,
+              "source_contract_digest": "0c3b712359cf4614c141cf0bb03b281047949238711c21f39279af245512eba5",
+              "availability_witness_at": "2026-10-11T06:52:40.645963+00:00",
+              "source_contract_version_id": "987e6d8a-4bb9-47de-93ce-5f9042dc5e1d"
+            }
+          ]
+        },
+        "analyses": {
+          "new": [],
+          "deferred": [],
+          "background": []
+        },
+        "limitations": [
+          "No new eligible reports does not establish that no market events occurred.",
+          "Exact retained quotations establish attribution, not factual truth or investment usefulness.",
+          "Current disposition is a caller observation at preparation, not reconstructed cutoff state.",
+          "Cross-source independence, current macro regime and market expectations remain unverified.",
+          "This deterministic review grants no approval, publication, notification or paid-retry authority."
+        ],
+        "schema_version": "deterministic-daily-evidence-review-v1",
+        "unresolved_analysis_ids": [],
+        "assembly_inference_calls": 0,
+        "new_eligible_report_count": 1,
+        "assembly_inference_cost_usd": "0",
+        "unknown_reported_cost_analysis_ids": []
+      },
+      "original_inputs": {
+        "approved_user": {
+          "text": {
+            "digest": "6ed7b89d565bb72a2056508893bf5eb9ff474ad9444f2dd6d8d92531e9193ee3",
+            "created_at": "2026-10-11T06:52:40.533203+00:00",
+            "exact_text": "  Easier policy could support equities.\r\nΔ\r\n",
+            "version_id": "97b22ad0-dea5-4514-8046-00b8008a7339"
+          },
+          "approval": {
+            "digest": "17c069b3afc65d752c08b8822be74bed7fe038a97067319eaa7da35418975dc3",
+            "actor_id": "93abea14-bba2-4d2a-807c-f48c12272f56",
+            "revision": 2,
+            "version_id": "6ed8b19f-37de-4365-a3e2-7ed3f4882a04",
+            "approved_at": "2026-10-11T06:52:40.554187+00:00"
+          },
+          "exposure": {
+            "positions": [
+              {
+                "payload": {
+                  "paper": true,
+                  "venue": null,
+                  "expiry": null,
+                  "status": "open",
+                  "horizon": null,
+                  "owner_id": "93abea14-bba2-4d2a-807c-f48c12272f56",
+                  "quantity": null,
+                  "direction": "long",
+                  "thesis_id": "23cfb819-e588-4ee9-a7e3-0a385bf72295",
+                  "product_id": null,
+                  "underlying": "NQ",
+                  "version_id": "48b8760e-599a-4ec1-9323-8118b00cf62d",
+                  "accepted_at": "2026-10-11T06:52:40.585393+00:00",
+                  "approval_id": "6ed8b19f-37de-4365-a3e2-7ed3f4882a04",
+                  "position_id": "891e2c78-e62b-402d-9840-e4d9603688a0",
+                  "quantity_unit": null,
+                  "mapping_status": "user_declared_unverified",
+                  "quote_currency": null,
+                  "parent_version_id": null
+                },
+                "version_id": "48b8760e-599a-4ec1-9323-8118b00cf62d",
+                "position_id": "891e2c78-e62b-402d-9840-e4d9603688a0",
+                "version_digest": "e97af830e10c8af6b4d2ca03f36a4008dc4eedaa48bb9c0c29163103f2a2930d"
+              }
+            ],
+            "thesis_id": "23cfb819-e588-4ee9-a7e3-0a385bf72295"
+          },
+          "owner_id": "93abea14-bba2-4d2a-807c-f48c12272f56",
+          "thesis_id": "23cfb819-e588-4ee9-a7e3-0a385bf72295",
+          "interpretation": {
+            "digest": "11ec98dca343d5b4aa467fbbc03f90b6ad5878bea0a8c154167fab7cf972de7e",
+            "origin": "user_supplied",
+            "drivers": [
+              "Easier policy"
+            ],
+            "horizon": "weeks to months",
+            "version_id": "f9569293-59df-445a-85df-c5a6826d9ac9",
+            "prepared_at": "2026-10-11T06:52:40.533203+00:00",
+            "text_version_id": "97b22ad0-dea5-4514-8046-00b8008a7339",
+            "invalidation_signposts": [
+              "Policy transmission fails"
+            ]
+          }
+        },
+        "source_contracts": [
+          {
+            "digest": "0c3b712359cf4614c141cf0bb03b281047949238711c21f39279af245512eba5",
+            "reason": "Observed existing contract; this snapshot is not a new human rights review.",
+            "contract": {
+              "kind": "fictional_fixture",
+              "label": "Fictional daily publication trace",
+              "coverage": "bounded_snapshot"
+            },
+            "parent_id": null,
+            "permitted": true,
+            "source_id": "fixture-daily-publication-trace",
+            "provenance": "existing_allowlisted_adapter_manifest",
+            "version_id": "987e6d8a-4bb9-47de-93ce-5f9042dc5e1d",
+            "observed_at": "2026-10-11T06:52:40.668480+00:00",
+            "reviewer_id": "93abea14-bba2-4d2a-807c-f48c12272f56"
+          }
+        ],
+        "predecessor_assessment": {
+          "reason": "No cumulative model assessment is implemented.",
+          "status": "unavailable"
+        },
+        "starting_macro_context": {
+          "status": "unavailable"
+        },
+        "changes_since_predecessor": {
+          "exposure_changed": false,
+          "approved_meaning_changed": false
+        }
+      }
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "brief_id": "daily:23cfb819-e588-4ee9-a7e3-0a385bf72295",
+      "kind": "daily_publication",
+      "detail": {
+        "status": "current",
+        "reasons": [
+          "all_dependencies_current"
+        ],
+        "review_id": "c25f0418-1f77-490e-a7f7-a75abbece031",
+        "command_id": "54fa6a8f-5ff6-4902-81e0-d32392ed28db",
+        "generation": 1,
+        "publication_id": "f32bcd2f-f011-4f94-b19c-ea6579254fa2",
+        "canceled_intents": []
+      }
+    },
+    {
+      "sequence": 2,
+      "brief_id": "daily:23cfb819-e588-4ee9-a7e3-0a385bf72295",
+      "kind": "daily_publication_invalidated",
+      "detail": {
+        "reason": "source_report_corrected:fixture-daily-publication-trace",
+        "actor_id": "93abea14-bba2-4d2a-807c-f48c12272f56",
+        "canceled_intents": [
+          "notice:2ce5caa839cf52c51dfb6341c46c61c776c6a563d3a87b2b25cf66a3b0d90d88"
+        ],
+        "original_decisions_preserved": true
+      }
+    },
+    {
+      "sequence": 3,
+      "brief_id": "daily:23cfb819-e588-4ee9-a7e3-0a385bf72295",
+      "kind": "daily_publication",
+      "detail": {
+        "status": "current",
+        "reasons": [
+          "all_dependencies_current"
+        ],
+        "review_id": "2a12ee99-0e6d-45cb-873c-b9ebb0415edc",
+        "command_id": "785a3989-8a1b-49c7-aac0-aa87fc0f32a4",
+        "generation": 2,
+        "publication_id": "9d29d7bb-d6e5-40c2-b83f-d93aee687cb5",
+        "canceled_intents": []
+      }
+    },
+    {
+      "sequence": 4,
+      "brief_id": "daily:23cfb819-e588-4ee9-a7e3-0a385bf72295",
+      "kind": "daily_publication_invalidated",
+      "detail": {
+        "reason": "source_permission_changed:fixture-daily-publication-trace",
+        "actor_id": "93abea14-bba2-4d2a-807c-f48c12272f56",
+        "canceled_intents": [
+          "notice:0b8dbfa4cf953175908d90891ec3ab1e15c3a602cac584c202ab04f8fa7bbe55"
+        ],
+        "original_decisions_preserved": true
+      }
+    }
+  ],
+  "real_model_calls": 0,
+  "real_network_calls": 0,
+  "real_model_spend_usd": "0",
+  "compute_storage_cost": "not measured",
+  "limits": [
+    "This deterministic digest contains no fresh model synthesis or verified macro regime.",
+    "Only a fictional bounded source is covered; live rights and source fit remain separate gates.",
+    "Saved notification intents are internal; external delivery is unavailable.",
+    "Separate connections prove receipt recovery, not operating-system crash or production readiness.",
+    "Independent PostgreSQL race tests supplement this sequential trace."
+  ],
+  "database_isolation": {
+    "temporary_database": "test_daily_publication_demo_ace23bc259e8462a",
+    "dropped_after_trace": true,
+    "existing_trader_records_used": false
+  }
+}

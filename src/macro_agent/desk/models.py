@@ -130,3 +130,43 @@ class DailyReview(models.Model):
             models.UniqueConstraint(fields=("thesis", "cutoff"), name="desk_review_cutoff_once"),
             models.CheckConstraint(condition=Q(original_outcome="prepared"), name="desk_review_original_outcome"),
         ]
+
+
+class DailyBrief(models.Model):
+    """Stable private daily stream, sharing protected publication state."""
+
+    brief = models.OneToOneField("macro_persistence.BriefStateRecord", primary_key=True,
+                                on_delete=models.PROTECT, related_name="daily_binding")
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    thesis = models.OneToOneField("macro_theses.ThesisRecord", on_delete=models.PROTECT)
+    fanout_limit = models.PositiveIntegerField()
+    created_at = models.DateTimeField()
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=("brief", "owner", "thesis"), name="desk_daily_binding_scope"),
+            models.CheckConstraint(condition=Q(fanout_limit__gte=1, fanout_limit__lte=1000),
+                                   name="desk_daily_fanout_explicit"),
+        ]
+
+
+class DailyPublication(models.Model):
+    """Immutable publication identity and original decision via assessment."""
+
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    command_id = models.UUIDField()
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    thesis = models.ForeignKey("macro_theses.ThesisRecord", on_delete=models.PROTECT)
+    brief = models.ForeignKey("macro_persistence.BriefStateRecord", on_delete=models.PROTECT)
+    review = models.OneToOneField(DailyReview, on_delete=models.PROTECT)
+    assessment = models.OneToOneField("macro_persistence.AssessmentRecord", on_delete=models.PROTECT)
+    request_digest = models.CharField(max_length=64)
+    expected_generation = models.PositiveBigIntegerField()
+    published_at = models.DateTimeField()
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=("owner", "command_id"), name="desk_daily_publication_command"),
+            models.CheckConstraint(condition=Q(request_digest__regex=r"^[0-9a-f]{64}$"),
+                                   name="desk_daily_request_digest"),
+        ]

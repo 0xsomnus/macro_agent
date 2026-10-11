@@ -1,6 +1,6 @@
 # Durable context and daily reviews
 
-Status, 2026-10-10: [ADR 018](ADR/018-internal-runtime-and-daily-review.md) now has an internal PostgreSQL implementation: immutable evidence/context/review records, versioned source permissions, durable schedule slots and separate capture/analysis runners. The [operator guide](CONTINUOUS_RUNNER.md) explains configuration and recovery. Daily reviews are deterministic retained evidence. [Cumulative model context](CUMULATIVE_CONTEXT.md) is implemented for explicitly reviewed internal news watches. Daily publication, current pointers and notifications remain unimplemented.
+Status, 2026-10-11: [ADR 018](ADR/018-internal-runtime-and-daily-review.md) now has an internal PostgreSQL implementation: immutable evidence/context/review records, versioned source permissions, durable schedule slots and separate capture/analysis runners. The [operator guide](CONTINUOUS_RUNNER.md) explains configuration and recovery. Daily reviews are deterministic retained evidence. [Cumulative model context](CUMULATIVE_CONTEXT.md) is implemented for explicitly reviewed internal news watches. [Protected daily publication](DAILY_PUBLICATION.md) now supplies current pointers and atomic internal notification intents for explicitly opted-in watches. Fresh synthesis and external delivery remain unimplemented.
 
 The next slice must retain what the desk has seen, explain changes against prior analysis and recover without losing evidence or repeating uncertain paid work. The first research question is which assets benefit or suffer from AI buildout, and whether positioning over a few weeks to months is already late. Candidate expressions are an Exness `XCUUSD` copper CFD and AMD/NVDA equity perpetuals. These are research candidates, not verified instrument mappings, approved positions or supported asset packs. No trading thesis or source manifest is approved; the original copper example and synthetic gold case are not selected theses.
 
@@ -43,7 +43,7 @@ Bounds and exclusions are inspectable configuration. Overflow must reject admiss
 
 Current capture only supersedes screening work. It does not atomically invalidate published briefs. The current factual-notice candidate also requires one event and qualifying screening; it cannot represent a cumulative or quiet daily review unchanged.
 
-Before daily publication acquires current pointers or notification authority:
+The daily publication checkpoint implements these admission requirements:
 
 1. Add daily publication admission for the pure assembly candidate, preserving the existing factual-notice rules.
 2. Track reverse dependencies from included revisions/contracts to private contexts and briefs.
@@ -73,7 +73,7 @@ The existing 22 pure-domain tests cover interval boundaries, late analysis, miss
 
 - Research the selected AI-buildout question into a tentative hypothesis, test alternatives and expectations, then review matching sources and permitted payload scope. A result of no defensible thesis remains valid.
 - Validate candidate instrument availability, actual exposures, basis and financing, and any required equity/valuation support before declaring a supported route. No execution is authorized.
-- Add cumulative sourced macro assessment and typed daily publication integration, including correction propagation and an internal fanout bound.
+- Add verified sourced macro assessment. Typed daily publication, correction propagation and explicit internal fanout bounds are now implemented.
 - Before unattended activation: polling/detection target, briefing time, bounds, allowances, operator resolution of ambiguous calls. Missed daily dates create once and label late; older blocked daily work bars later assembly. A dollar ceiling remains open; call/token limits do not prove one.
 
 ## Required evidence
@@ -103,4 +103,10 @@ The cumulative increment implements this sequence, with a recorded end-to-end tr
 5. Compare every consumed permission, contract and included report head under source protection, then owner/thesis protection. A changed dependency preserves the returned outcome as stale and grants no publication authority. New distinct reports after the cutoff do not themselves stale that context.
 6. Prove that earlier counterevidence can offset a supportive new headline, intraday analyses enter the next context, invalid citations fail, overflow makes zero calls, and saved-command recovery never resends inference. Force dependency changes during inference with independent PostgreSQL connections.
 
-Recorded tests establish retained-input continuity and recovery, not live analytical usefulness or a new shared macro-context policy. The compiler still lacks current sourced context. Daily briefing publication, source fit and supervised weekly evaluation remain required.
+Recorded tests establish retained-input continuity and recovery, not live analytical usefulness or a new shared macro-context policy. The compiler still lacks current sourced context. Protected daily digest publication is now implemented. Fresh briefing synthesis, source fit and supervised weekly evaluation remain required.
+
+## Protected daily publication checkpoint, 2026-10-11
+
+[Daily publication](DAILY_PUBLICATION.md) now binds the exact immutable daily review to a separate typed publication candidate. Shared assessment/version/current-pointer/notification records implement atomic authority without fake single-event dependency pins. Correction and permission fanout participates in source-first, sorted owner/thesis/brief protection. Approval and paper-book writers include daily bindings in the existing shared invalidation protocol. New activation preflights complete fanout and rejects overflow; correction-time bounds remain an independent defense.
+
+The retained digest itself has no publication authority. Explicit command or reviewed watch opt-in is required. Current reads never substitute history when a pointer is cleared. Original decisions, subsequent cancellation and exact retry outcomes remain distinct. No fresh synthesis, external delivery or verified starting macro regime is established by this increment.

@@ -62,12 +62,14 @@ def admit_capture(source_id, contract, *, clock=timezone.now):
     return attempt
 
 
-def _protected_attempt(attempt_id, clock):
+def _protected_attempt(attempt_id, clock, *, before_clock=None):
     attempt = CaptureAttempt.objects.get(pk=attempt_id)
     source = SourceState.objects.select_for_update().get(pk=attempt.source_id)
     from macro_agent.desk.permissions import permission_allows
     if permission_allows(source.pk) is False:
         raise PermissionError("Source processing permission was withdrawn")
+    if before_clock is not None:
+        before_clock(source)
     now = as_utc(clock())
     if source.active_capture != attempt.id or now >= attempt.deadline_at:
         raise CaptureFenced("Capture admission expired or was replaced")
@@ -96,10 +98,29 @@ def commit_batch(attempt_id, batch, *, clock=timezone.now):
     if connection.in_atomic_block or not connection.get_autocommit():
         raise ValueError("Receipt commit must own its transaction")
     with transaction.atomic():
-        attempt, source, now = _protected_attempt(attempt_id, clock)
+        from macro_agent.desk.invalidation import invalidate_daily_briefs, lock_source_dependents
+        affected = []
+
+        def protect_corrections(source):
+            by_native = {item.native_id: item for item in batch.items}
+            reports = list(SourceReport.objects.filter(source=source, native_id__in=by_native,
+                current_revision__isnull=False))
+            digests = {native: item.digest for native, item in by_native.items()}
+            retained = set(SourceRevision.objects.filter(report__in=reports, digest__in=digests.values())
+                .values_list("report_id", "digest"))
+            corrected_ids = [report.pk for report in reports
+                if (report.pk, digests[report.native_id]) not in retained]
+            # Distinct new reports and repeated old payloads leave the daily
+            # interval intact. Genuine corrections protect the complete union
+            # before sampling the receipt clock or revalidating the lease.
+            if corrected_ids:
+                affected.extend(lock_source_dependents(source_id=source.pk, report_ids=corrected_ids))
+
+        attempt, source, now = _protected_attempt(attempt_id, clock, before_clock=protect_corrections)
         require_local_proof(synthetic=source.contract["kind"] == "fictional_fixture")
         if batch.received_at < attempt.admitted_at or batch.received_at > now:
             raise ValueError("Actual receipt must fall inside the capture admission")
+        invalidate_daily_briefs(affected, now, "source_report_corrected:" + source.pk)
         new_count = 0
         for item in batch.items:
             report, _ = SourceReport.objects.get_or_create(source=source, native_id=item.native_id)

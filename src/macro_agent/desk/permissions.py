@@ -48,8 +48,15 @@ def set_source_permission(actor_id, source_id, expected_contract_digest, permitt
     theses._text(reason, "reason", 2000)
     with transaction.atomic():
         source = SourceState.objects.select_for_update().filter(pk=source_id).first()
-        actor = theses._owner(actor_id, lock=True)
+        from .invalidation import invalidate_daily_briefs, lock_source_dependents
+        actor = theses._owner(actor_id)
         if not actor.is_staff or source is None:
+            raise theses.ThesisUnavailable("Source permission unavailable")
+        affected = lock_source_dependents(source_id=source_id, actor_id=actor_id)
+        # Recheck authority after acquiring the union in owner order. Locking
+        # the staff actor first would reverse that order for lower target IDs.
+        actor = theses._owner(actor_id)
+        if not actor.is_staff:
             raise theses.ThesisUnavailable("Source permission unavailable")
         if expected_contract_digest != source.contract_digest:
             raise theses.ThesisConflict("Source contract changed")
@@ -67,6 +74,7 @@ def set_source_permission(actor_id, source_id, expected_contract_digest, permitt
             digest=source.contract_digest, permitted=permitted, reviewer=actor, observed_at=at,
             provenance="explicit_staff_permission_review", reason=reason,
             parent=existing.version if existing else None)
+        invalidate_daily_briefs(affected, at, "source_permission_changed:" + source.pk)
         SourceContractHead.objects.update_or_create(source=source, defaults={"version": version})
         return {"source_id": source.pk, "version_id": str(version.pk), "permitted": permitted,
                 "observed_at": at.isoformat(), "reviewer_id": str(actor.pk)}

@@ -116,5 +116,6 @@ SPECTACULAR_SETTINGS = {
         "NewsRouteStatusEnum": ["potential", "review_needed", "not_identified"],
         "ModelProviderEnum": ["nanogpt", "openrouter", "cheaperinference"],
         "PositionStatusEnum": ["open", "closed"],
+        "DailyPublicationStatusEnum": ["current", "superseded"],
     },
 }

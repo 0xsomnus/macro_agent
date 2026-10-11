@@ -193,3 +193,7 @@ The list accepts only `limit` (1 to 100, default 20) and `offset` (0 to 1,000,00
 Count, page and current dependency observations share one PostgreSQL read-only repeatable-read snapshot. A later request observes a new snapshot, so offset pagination is not a stable historical cursor. Every response separates immutable `original_outcome` from `current_disposition`, with its observation time and `publication_authority: false`. Detail preserves exact content and original inputs when permission, approval, exposure or an included report changes. Missing and foreign IDs return the same opaque 404.
 
 These operations cannot fetch sources, call a model, prepare a missing review, retry work or publish a brief. An empty list means no retained reviews for that owned thesis. Current morning-brief publication and cumulative model reasoning remain outstanding. [Frontend exploration](FRONTEND_EXPLORATION.md) proposes how a test client could present these existing contracts; client tooling is still open.
+
+## Internal daily publication
+
+[Daily publication](DAILY_PUBLICATION.md#read-through-the-session-api) documents the authenticated preview, strict CSRF-protected command, immutable receipt and protected current-brief endpoints. Actor identity comes from the session; staff has no private-row bypass. Exact retries preserve original decisions, and reads show present cancellation separately. A null current pointer never falls back to history. These endpoints create no external delivery or fresh model synthesis.

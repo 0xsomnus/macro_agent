@@ -2,7 +2,8 @@
 
 Capture and analytical roles run in different processes. Each tick performs
 bounded work, releases database transactions before transport/inference and
-retains a stable slot/command identity. This is not notification publication.
+retains a stable slot/command identity. Reviewed watches may publish daily
+reviews internally; no external notification delivery is performed here.
 """
 
 from dataclasses import asdict
@@ -13,7 +14,7 @@ from django.db import DatabaseError, close_old_connections, connection
 from django.utils import timezone
 
 from macro_agent.domain.daily_review import DailyReviewLimits
-from macro_agent.desk import service as desk
+from macro_agent.desk import publication, service as desk
 from macro_agent.scheduling import service as schedule
 from macro_agent.scheduling.recovery import begin_recovery
 from macro_agent.theses.service import ThesisUnavailable
@@ -177,8 +178,29 @@ def _daily_slot(lease, clock):
             tuple(row["source_id"] for row in config["sources"]), DailyReviewLimits(**config["context_bounds"]),
             clock=clock)
     late = lease["late"] or datetime.fromisoformat(response["review"]["prepared_at"]) > datetime.fromisoformat(lease["cutoff"])
-    return "completed", {"review": response, "late": late,
-                         "intended_at": lease["intended_at"], "model_calls": 0}
+    payload = {"review": response, "late": late,
+               "intended_at": lease["intended_at"], "model_calls": 0}
+    if "daily_publication" in config:
+        # Saved publication wins before previewing present state. A restart may
+        # observe invalidation, but must not create a replacement or another intent.
+        try:
+            saved = publication.get_publication_command(lease["owner_id"], lease["thesis_id"],
+                                                        lease["command_id"], clock=clock)
+        except ThesisUnavailable:
+            fanout_limit = config["daily_publication"]["fanout_limit"]
+            preview = publication.preview_publication(lease["owner_id"], response["review"]["id"],
+                                                       fanout_limit, clock=clock)
+            saved = publication.publish_review(lease["owner_id"], response["review"]["id"],
+                lease["command_id"], preview["review_digest"], preview["expected_generation"],
+                fanout_limit, clock=clock)
+        payload["publication"] = saved
+    return "completed", payload
+
+
+def _publication_state(processed):
+    return ("internal_daily" if any(item.get("publication") == "internal_daily"
+            or item["outcome"].get("payload", {}).get("publication")
+            for item in processed) else "none")
 
 
 def execute_lease(lease, *, loaders=None, provider=None, clock=timezone.now):
@@ -207,7 +229,11 @@ def execute_lease(lease, *, loaders=None, provider=None, clock=timezone.now):
     except schedule.ScheduleFenced:
         outcome = {"status": "lease_lost", "code": "slot_completion_fenced",
                    "recovery_needed": True, "paid_retry_authorized": False}
-    return {"kind": kind, "slot_id": lease["slot_id"], "outcome": outcome}
+    result = {"kind": kind, "slot_id": lease["slot_id"], "outcome": outcome}
+    if payload.get("publication"):
+        # Fencing the scheduler receipt cannot undo a retained publication.
+        result["publication"] = "internal_daily"
+    return result
 
 
 def recover_job(actor_id, slot_id, command_id, expected_last_token, expected_watch_revision,
@@ -220,7 +246,8 @@ def recover_job(actor_id, slot_id, command_id, expected_last_token, expected_wat
         return {**result, "processed": None, "publication": "none", "external_notifications": "none"}
     processed = execute_lease(result["lease"], loaders=loaders, provider=provider, clock=clock)
     return {**result, "current_slot_state": processed["outcome"].get("current_slot_state"),
-            "processed": processed, "publication": "none", "external_notifications": "none"}
+            "processed": processed, "publication": _publication_state([processed]),
+            "external_notifications": "none"}
 
 
 def run_tick(actor_id, watch_id, role, *, loaders=None, provider=None, clock=timezone.now):
@@ -257,4 +284,4 @@ def run_tick(actor_id, watch_id, role, *, loaders=None, provider=None, clock=tim
             continue
         processed.append(execute_lease(lease, loaders=loaders, provider=provider, clock=clock))
     return {"scheduled": scheduled, "receipt_observations": receipts, "processed": processed,
-            "publication": "none", "external_notifications": "none"}
+            "publication": _publication_state(processed), "external_notifications": "none"}

@@ -93,6 +93,9 @@ class DjangoPublicationStore:
         require_text(brief_id, "brief_id")
         require_postgresql(self.using)
         with transaction.atomic(using=self.using):
+            from macro_agent.desk.models import DailyBrief
+            if DailyBrief.objects.using(self.using).filter(brief_id=brief_id).exists():
+                raise PermissionError("daily publication requires its exact retained-context admission")
             # Bindings are immutable and can only be created with a new brief.
             # An existing unbound fixture therefore cannot change lock protocols.
             from .binding_models import ThesisBriefBinding
@@ -108,6 +111,8 @@ class DjangoPublicationStore:
             if brief is None:
                 # Missing and foreign rows deliberately have the same result.
                 raise PermissionError("brief is unavailable to this actor")
+            if DailyBrief.objects.using(self.using).filter(brief_id=brief_id).exists():
+                raise PermissionError("daily publication requires its exact retained-context admission")
             if binding is not None:
                 binding.refresh_from_db(using=self.using)
                 validate_binding(binding, thesis, self.using)

@@ -3,6 +3,55 @@ info:
   title: Macro Agent desk API
   version: 1.0.0
 paths:
+  /api/v1/daily-publications/{publication_id}/:
+    get:
+      operationId: get_daily_publication
+      description: Read an immutable publication decision and exact retained review,
+        with present disposition and notification-intent state observed separately
+        in a read-only snapshot. No source fetch, model call, publication write or
+        external delivery.
+      parameters:
+      - in: path
+        name: publication_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - internal daily publication
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DailyPublicationDetail'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
   /api/v1/daily-reviews/{review_id}/:
     get:
       operationId: get_daily_review
@@ -49,6 +98,123 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
           description: ''
         '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/daily-reviews/{review_id}/publication-preview/:
+    get:
+      operationId: preview_daily_publication
+      description: Read exact review digest and current generation for explicit publication
+        review. Preview makes no state changes, source requests, model calls or notification
+        intents.
+      parameters:
+      - in: query
+        name: fanout_limit
+        schema:
+          type: integer
+        description: Explicit publication fanout limit from 1 to 1000; no inferred
+          default.
+        required: true
+      - in: path
+        name: review_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - internal daily publication
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DailyPublicationPreview'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/daily-reviews/{review_id}/publish/:
+    post:
+      operationId: publish_daily_review
+      description: Explicit one-off session/CSRF publication of the exact review digest
+        at the expected generation under the requested fanout bound. Compare dependencies,
+        publication pointer and atomic internal notification intent in one protected
+        transaction. Saved-command replay retains the original decision. This does
+        not enroll automatic publication or enable external delivery.
+      parameters:
+      - in: path
+        name: review_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - internal daily publication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PublishDailyReviewRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DailyPublicationDetail'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '415':
           content:
             application/json:
               schema:
@@ -843,6 +1009,54 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
           description: ''
         '503':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/theses/{thesis_id}/daily-brief/:
+    get:
+      operationId: get_current_daily_brief
+      description: Read the protected owner-scoped current daily brief in a read-only
+        snapshot. An absent or invalidated pointer returns null without a historical
+        fallback. No source fetch, model call, publication write or external delivery.
+      parameters:
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - internal daily publication
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrentDailyBrief'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
           content:
             application/json:
               schema:
@@ -2124,6 +2338,33 @@ components:
       - interpretation
       - text
       additionalProperties: false
+    CurrentDailyBrief:
+      type: object
+      properties:
+        thesis_id:
+          type: string
+          format: uuid
+        brief_id:
+          type: string
+          nullable: true
+        generation:
+          type: integer
+          minimum: 0
+        current_publication:
+          allOf:
+          - $ref: '#/components/schemas/DailyPublicationDetail'
+          nullable: true
+          description: Only the protected current pointer. Null does not fall back
+            to the latest historical review.
+        observed_at:
+          type: string
+          format: date-time
+      required:
+      - brief_id
+      - current_publication
+      - generation
+      - observed_at
+      - thesis_id
     CurrentDispositionEnum:
       enum:
       - current
@@ -2136,6 +2377,110 @@ components:
         * `stale` - stale
         * `unresolved` - unresolved
         * `queue_empty` - queue_empty
+    DailyPublicationDecision:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/DailyPublicationStatusEnum'
+        reasons:
+          type: array
+          items:
+            type: string
+        reassessment_required:
+          type: boolean
+      required:
+      - reasons
+      - reassessment_required
+      - status
+    DailyPublicationDetail:
+      type: object
+      properties:
+        publication:
+          $ref: '#/components/schemas/RetainedDailyPublication'
+        current_disposition:
+          $ref: '#/components/schemas/DailyPublicationDisposition'
+        notification_intent:
+          allOf:
+          - $ref: '#/components/schemas/DailyPublicationIntent'
+          nullable: true
+          description: Internal atomic notification intent, including its present
+            cancellation state. No external delivery is enabled.
+        replayed:
+          type: boolean
+        review:
+          $ref: '#/components/schemas/RetainedDailyReview'
+      required:
+      - current_disposition
+      - notification_intent
+      - publication
+      - replayed
+      - review
+    DailyPublicationDisposition:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/DailyPublicationStatusEnum'
+        reasons:
+          type: array
+          items:
+            type: string
+        observed_at:
+          type: string
+          format: date-time
+      required:
+      - observed_at
+      - reasons
+      - status
+    DailyPublicationIntent:
+      type: object
+      properties:
+        id:
+          type: string
+        state:
+          $ref: '#/components/schemas/StateEnum'
+      required:
+      - id
+      - state
+    DailyPublicationPreview:
+      type: object
+      properties:
+        review_id:
+          type: string
+          format: uuid
+        review_digest:
+          type: string
+          maxLength: 64
+          minLength: 64
+        thesis_id:
+          type: string
+          format: uuid
+        brief_id:
+          type: string
+        expected_generation:
+          type: integer
+          minimum: 0
+        fanout_limit:
+          type: integer
+          maximum: 1000
+          minimum: 1
+        current_disposition:
+          $ref: '#/components/schemas/DailyReviewDisposition'
+      required:
+      - brief_id
+      - current_disposition
+      - expected_generation
+      - fanout_limit
+      - review_digest
+      - review_id
+      - thesis_id
+    DailyPublicationStatusEnum:
+      enum:
+      - current
+      - superseded
+      type: string
+      description: |-
+        * `current` - current
+        * `superseded` - superseded
     DailyReviewCounts:
       type: object
       properties:
@@ -3481,6 +3826,34 @@ components:
       - false
       type: boolean
       description: '* `False` - False'
+    PublishDailyReviewRequest:
+      type: object
+      properties:
+        command_id:
+          type: string
+          format: uuid
+          minLength: 1
+          maxLength: 36
+        expected_review_digest:
+          type: string
+          minLength: 64
+          pattern: ^[0-9a-f]{64}$
+          maxLength: 64
+        expected_generation:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        fanout_limit:
+          type: integer
+          maximum: 1000
+          minimum: 1
+      required:
+      - command_id
+      - expected_generation
+      - expected_review_digest
+      - fanout_limit
+      additionalProperties: false
     RecordedBrief:
       type: object
       properties:
@@ -3840,6 +4213,51 @@ components:
         * `weakens` - weakens
         * `offsets` - offsets
         * `unresolved` - unresolved
+    RetainedDailyPublication:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        command_id:
+          type: string
+          format: uuid
+        review_id:
+          type: string
+          format: uuid
+        brief_id:
+          type: string
+        assessment_id:
+          type: string
+        review_digest:
+          type: string
+          maxLength: 64
+          minLength: 64
+        expected_generation:
+          type: integer
+          minimum: 0
+        published_at:
+          type: string
+          format: date-time
+          description: Clock sampled after publication protection. This is not an
+            exact durable commit or delivery time.
+        original_decision:
+          $ref: '#/components/schemas/DailyPublicationDecision'
+        generation_at_publication:
+          type: integer
+          minimum: 1
+          nullable: true
+      required:
+      - assessment_id
+      - brief_id
+      - command_id
+      - expected_generation
+      - generation_at_publication
+      - id
+      - original_decision
+      - published_at
+      - review_digest
+      - review_id
     RetainedDailyReview:
       type: object
       properties:
@@ -4052,13 +4470,13 @@ components:
     StateEnum:
       enum:
       - pending
-      - canceled
       - delivered
+      - canceled
       type: string
       description: |-
         * `pending` - pending
-        * `canceled` - canceled
         * `delivered` - delivered
+        * `canceled` - canceled
     TextVersion:
       type: object
       properties:
