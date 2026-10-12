@@ -29,6 +29,27 @@ def watch(*slots):
 
 
 class JobDiagnosticsTests(unittest.TestCase):
+    def test_completed_daily_slot_still_surfaces_synthesis_fallback(self):
+        value = watch(slot("morning", "daily_review", "completed", status="completed",
+            payload={"synthesis": {"status": "unavailable", "code": "CompilationUnavailable",
+                                    "fallback": "retained_daily_digest"}}))
+        original = deepcopy(value)
+        summary = summarize_watch(value)
+        self.assertEqual(value, original)
+        self.assertIsNone(summary["oldest_blocking_daily_slot"])
+        self.assertEqual(summary["diagnostics"][0]["artifact_role"], "morning_synthesis")
+        self.assertIn("retained digest remains available", render_brief(summary))
+
+    def test_unknown_synthesis_never_implies_zero_charge_or_paid_retry(self):
+        value = watch(slot("morning", "daily_review", "completed", status="completed",
+            payload={"synthesis": {"synthesis": {"id": "attempt", "status": "outcome_unknown",
+                "stop_reason": "response_not_recorded"}, "current_disposition": {"status": "unresolved"}}}))
+        entry = summarize_watch(value)["diagnostics"][0]
+        self.assertEqual(entry["analysis_id"], "attempt")
+        self.assertIsNone(entry["billing"]["reported_cost_usd"])
+        self.assertIsNone(entry["billing"]["model_calls"])
+        self.assertFalse(entry["billing"]["paid_retry_authorized"])
+
     def test_counts_and_oldest_unfinished_daily_preserve_saved_state(self):
         pending = slot("pending", "daily_review", "pending", day="2026-10-07")
         pending["leases"] = []

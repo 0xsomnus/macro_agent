@@ -172,9 +172,23 @@ def get_current_brief(actor_id, thesis_id, *, clock=timezone.now):
         current = _wire(row, thesis, at) if row else None
         if current and current["current_disposition"]["status"] != "current":
             raise theses.ThesisConflict("Daily current pointer disagrees with governing state")
+        # Adjacent interpretation has no publication authority. Read within this
+        # same snapshot and exact published review, never fall back to history.
+        current_synthesis = None
+        if row:
+            from . import synthesis
+            from .synthesis_models import DailySynthesisAttempt
+            attempt = DailySynthesisAttempt.objects.select_related("review__context__evidence").filter(
+                owner_id=actor_id, review_id=row.review_id, result__status="synthesised"
+            ).order_by("-created_at", "id").first()
+            if attempt:
+                candidate = synthesis._response(attempt, thesis, at)
+                if candidate["current_disposition"]["status"] == "current":
+                    current_synthesis = candidate
         return {"thesis_id": str(thesis.pk), "brief_id": binding.pk if binding else None,
             "generation": binding.brief.generation if binding else 0,
-            "current_publication": current, "observed_at": at.isoformat()}
+            "current_publication": current, "current_synthesis": current_synthesis,
+            "observed_at": at.isoformat()}
 
 
 def _retry(row, digest, thesis, at):

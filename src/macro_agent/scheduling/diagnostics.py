@@ -55,6 +55,15 @@ DESCRIPTIONS = {
     "NewsBudgetExhausted": (
         "Combined private-model admission allowance was exhausted.",
         "Inspect aggregate admissions and unresolved work before reviewing allowances."),
+    "CompilationBudgetExhausted": (
+        "The shared private-model allowance blocked morning synthesis; the retained digest remains available.",
+        "Inspect saved admissions and limits before a new explicitly initiated synthesis request."),
+    "CompilationUnavailable": (
+        "Morning synthesis was unavailable; the retained digest remains available.",
+        "Inspect provider configuration and the saved daily outcome. No automatic paid retry is authorized."),
+    "CompilationDisabled": (
+        "The model-compilation gate disabled morning synthesis; the retained digest remains available.",
+        "Review local enablement before a new explicitly initiated request."),
     "analysis_allowance_exhausted": (
         "The saved analytical allowance was exhausted.",
         "Inspect admissions and unresolved work before reviewing allowances."),
@@ -170,6 +179,18 @@ def summarize_watch(value):
             payload = outcome.get("payload", {})
             if type(payload) is not dict:
                 raise ValueError("Saved outcomes require object payloads")
+            morning = payload.get("synthesis")
+            if type(morning) is dict:
+                record = morning.get("synthesis", {})
+                disposition = morning.get("current_disposition", {})
+                record = record if type(record) is dict else {}
+                disposition = disposition if type(disposition) is dict else {}
+                if (morning.get("status") == "unavailable" or record.get("status") != "synthesised"
+                        or disposition.get("status") != "current"):
+                    entry = _entry(slot, lease, outcome, {"analysis": record,
+                        "code": morning.get("code", record.get("stop_reason"))})
+                    entry["artifact_role"] = "morning_synthesis"
+                    diagnostics.append(entry)
             captured = payload.get("captures", [])
             failed_captures = [row for row in captured if type(row) is dict and row.get("status") != "captured"]
             if failed_captures:

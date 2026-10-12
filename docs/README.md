@@ -8,6 +8,8 @@ Start with [Getting started](GETTING_STARTED.md) to run the current prototype. T
 | --- | --- |
 | [Getting started](GETTING_STARTED.md) | Install dependencies, create a local database and test your own inputs with recorded news |
 | [Thesis compilation](THESIS_COMPILATION.md) | Configure a provider, review a structured thesis card, answer questions and explicitly recompile |
+| [Source-backed research](SOURCED_RESEARCH.md) | Freeze captured evidence, review sourced conflicts and compile without changing trader intent |
+| [Morning synthesis](MORNING_SYNTHESIS.md) | Interpret an exact retained review, retain the digest fallback and recover without resending |
 | [Compilation review](COMPILATION_REVIEW.md) | Compare one model response with a literal baseline and record private feedback |
 | [Monitoring pipeline proof](MONITORING_PIPELINE.md) | Capture updates, restart and recover durable work; inspect source revisions and failures |
 | [News analysis](NEWS_ANALYSIS.md) | Analyse the next captured report against approved meaning and paper trades, then review separate thesis and trade effects |

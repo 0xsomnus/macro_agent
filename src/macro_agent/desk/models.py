@@ -170,3 +170,7 @@ class DailyPublication(models.Model):
             models.CheckConstraint(condition=Q(request_digest__regex=r"^[0-9a-f]{64}$"),
                                    name="desk_daily_request_digest"),
         ]
+
+# Separate record modules keep the two analytical roles independently auditable.
+from .research_models import ResearchEvidenceContext, ResearchEvidenceMember  # noqa: E402,F401
+from .synthesis_models import DailySynthesisAttempt, DailySynthesisResult  # noqa: E402,F401

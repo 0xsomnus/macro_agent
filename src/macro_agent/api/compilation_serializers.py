@@ -4,6 +4,7 @@ from rest_framework import serializers
 
 from .compilation_content_serializers import (CompilationDocumentSerializer, RefinementInputSerializer,
     RefinementAnswerSerializer)
+from .research_serializers import SourceEvidenceEnvelopeSerializer, EvidenceDispositionSerializer
 from .serializers import (
     InterpretationInputSerializer, StrictIntegerField, StrictListField,
     StrictSerializer, StrictStringField, StrictUUIDField, ThesisDetailSerializer,
@@ -16,6 +17,7 @@ PROVIDERS = ("nanogpt", "openrouter", "cheaperinference")
 class CompileThesisRequestSerializer(StrictSerializer):
     command_id = StrictUUIDField()
     refinement_id = StrictUUIDField(required=False, allow_null=True)
+    evidence_context_id = StrictUUIDField(required=False, allow_null=True)
     expected_revision = StrictIntegerField(min_value=1, max_value=2**63 - 1)
     provider_id = serializers.ChoiceField(choices=PROVIDERS, help_text=(
         "Provider identity shown by the catalogue, pinned against backend configuration."
@@ -60,6 +62,12 @@ class CompilationTextInputSerializer(serializers.Serializer):
     created_at = serializers.DateTimeField()
 
 
+class CompilationEvidenceContextSerializer(serializers.Serializer):
+    id = serializers.UUIDField()
+    digest = serializers.CharField(min_length=64, max_length=64)
+    content = SourceEvidenceEnvelopeSerializer()
+
+
 class CompilationSerializer(serializers.Serializer):
     id = serializers.UUIDField()
     status = serializers.ChoiceField(choices=[
@@ -94,6 +102,8 @@ class CompilationSerializer(serializers.Serializer):
     latency_ms = serializers.IntegerField(min_value=0, allow_null=True)
     stop_reason = serializers.CharField(allow_null=True)
     limitations = serializers.ListField(child=serializers.CharField())
+    evidence_context = CompilationEvidenceContextSerializer(required=False)
+    evidence_disposition = EvidenceDispositionSerializer(required=False)
 
 
 class CompilationResponseSerializer(serializers.Serializer):

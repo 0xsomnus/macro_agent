@@ -2,9 +2,9 @@
 
 The internal compiler turns your exact input into a structured review card and separate challenge questions. It extracts drivers, horizon and signposts where supplied, and presents claim, affected assets, causal paths, assumptions, catalysts, scenarios and monitoring questions. Each section separates extracted intent, agent proposals and explicit gaps. It does not strengthen a claim simply by rewriting it fluently.
 
-This is the text-grounded part of the [thesis engine](THESIS_ENGINE.md). Fact verification, current macro context, source manifests and investment analysis remain outstanding. Monitoring is not configured.
+This implements part of the [thesis engine](THESIS_ENGINE.md). Optional [source-backed compilation](SOURCED_RESEARCH.md) adds selected captured reports, exact source quotations and model-identified factual conflicts. Fact verification, verified current macro context and broader investment analysis remain outstanding. Compilation does not enroll monitoring.
 
-The review card and guided answer/recompile loop are implemented. The fuller sourced thesis engine remains incomplete: this compiler receives only exact trader text and saved answers, with external evidence forced unavailable. An initial input can be a research question, but the application does not yet conduct the sourced investigation needed to develop it. The [weekly workflow test](WEEKLY_WORKFLOW_TEST.md) separates that remaining work from the runnable text-only review.
+The review card and guided answer/recompile loop are implemented. Without an explicit evidence packet, compilation receives only exact trader text and saved answers, with external evidence unavailable. With a packet, its source claims and currentness remain separately labelled; automated investigation is not implemented. An initial input can be a research question, but the application does not yet conduct the sourced investigation needed to develop it. The [weekly workflow test](WEEKLY_WORKFLOW_TEST.md) separates that remaining work from the runnable text-only review.
 
 ## Set up and run
 
@@ -85,7 +85,7 @@ The selection flow uses one normalized catalogue interface. Each adapter handles
 - Exact text remains unchanged, including file whitespace, Unicode and line endings.
 - Each extracted driver, horizon, signpost or review-card item identifies an exact quotation from the original input or a named saved answer. A model question is not quoteable trader intent. This proves attribution, not semantic fidelity.
 - Missing intent remains empty or null. Agent additions, introduced assumptions, questions and counter-cases appear separately.
-- Checkable premises are verification questions. Model knowledge alone cannot create a sourced factual conflict.
+- Checkable premises are verification questions. Model knowledge alone cannot create a sourced factual conflict. A selected-source pass can identify one, with exact trader and source quotations, labelled as a model conclusion for review.
 - The proposal is labelled `model_compilation`. The interpretation hash includes the complete review card and exact inputs. Legacy interpretations retain their old hashes. Current approval stays active until you explicitly approve a new version. Reviewing labelled agent proposals does not adopt them as intent or verify them; explicit trader answers can inform a subsequent proposal.
 
 Try an incomplete gold thesis, a conditional currency thesis, and a claim such as "Rate cuts always lift stocks." Judge whether the interpretation preserves your meaning, the questions expose consequential gaps, and the counter-case helps you reason. Successful parsing and contract tests do not establish analytical usefulness.
@@ -94,7 +94,7 @@ For a focused one-thesis exercise with a literal baseline and private feedback j
 
 ## Limits and failures
 
-One explicitly initiated attempt makes at most one model POST, with no automatic retries or model fallback. Configurable research defaults are 3,000 output tokens, a 45-second transport timeout, 20 admissions per account per rolling day and 100 across the local application. Compilation and [news analysis](NEWS_ANALYSIS.md) share that allowance. These are operating limits, not market-materiality thresholds or guaranteed dollar caps. Failed calls and uncertain admissions count toward the limits. Only one unfinished, unexpired attempt per account is admitted across both roles at a time. Deadline expiry does not prove remote cancellation.
+One explicitly initiated attempt makes at most one model POST, with no automatic retries or model fallback. Configurable research defaults are 3,000 output tokens, a 45-second transport timeout, 20 admissions per account per rolling day and 100 across the local application. Compilation, [news analysis](NEWS_ANALYSIS.md) and [morning synthesis](MORNING_SYNTHESIS.md) share that allowance. These are operating limits, not market-materiality thresholds or guaranteed dollar caps. Failed calls and uncertain admissions count toward the limits. Only one unfinished, unexpired attempt per account is admitted across these roles at a time. Deadline expiry does not prove remote cancellation.
 
 Server settings are `MACRO_COMPILATION_MAX_OUTPUT_TOKENS`, `MACRO_COMPILATION_TIMEOUT_SECONDS`, `MACRO_COMPILATION_OWNER_ATTEMPTS_PER_DAY` and `MACRO_COMPILATION_ATTEMPTS_PER_DAY`. Each attempt records the settings used. The request deadline additionally prevents late installation; a transport timeout cannot prove the upstream request was cancelled or unbilled.
 
@@ -105,7 +105,7 @@ The transport timeout covers the complete HTTP exchange, including connection an
 | State | Meaning |
 | --- | --- |
 | `compiled` | Validated model document saved, with a suggested draft interpretation. Check its current disposition before approval. |
-| `stale` | Thesis state changed during inference. Retain the result as history without replacing the draft. |
+| `stale` | Thesis state or selected research evidence changed during inference. Retain the result as history without replacing the draft. |
 | `failed` | Provider failure, unsupported response or invalid model document. Existing text and approval remain intact. |
 | `running` | Admission exists without a recorded result, before its deadline. Reading it makes no call. |
 | `outcome_unknown` | Timeout, expired admission or missing response. Provider processing and cost may have occurred. Repeating the same command makes no further call. |

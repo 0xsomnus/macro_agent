@@ -185,6 +185,8 @@ class CompilationAttempt(models.Model):
     text_version = models.ForeignKey(TextVersionRecord, on_delete=models.PROTECT)
     refinement = models.ForeignKey("RefinementSubmission", null=True,
                                    on_delete=models.PROTECT, related_name="compilations")
+    evidence_context = models.ForeignKey("macro_desk.ResearchEvidenceContext", null=True,
+                                        on_delete=models.PROTECT, related_name="compilations")
     expected_revision = models.PositiveBigIntegerField()
     request_digest = models.CharField(max_length=64)
     provider = models.CharField(max_length=32, default="nanogpt")

@@ -2,7 +2,7 @@
 
 Scope clarified 2026-10-09: prove the durable internal paper workflow using a narrow live feed and headline-level analysis. Deep investment analysis, comprehensive coverage and a production trading desk are not acceptance criteria for this test. Source fit, context continuity and the confirmed runtime defects remain prerequisites.
 
-Accepted next direction, 2026-10-09: begin with a deterministic daily evidence review and separate Django capture/analytical processes using durable PostgreSQL scheduling and leases, per [ADR 018](ADR/018-internal-runtime-and-daily-review.md). The [internal runner](CONTINUOUS_RUNNER.md) now provides PostgreSQL scheduling, immutable context lineage, retained daily evidence and separate capture/analysis processes. [Cumulative retained-input context](CUMULATIVE_CONTEXT.md) is now implemented for reviewed news watches. [Protected daily publication](DAILY_PUBLICATION.md) now retains the current digest and cancels it on governing changes. Verified starting macro context, matching permitted live sources and a live weekly soak remain outstanding.
+Accepted next direction, 2026-10-09: begin with a deterministic daily evidence review and separate Django capture/analytical processes using durable PostgreSQL scheduling and leases, per [ADR 018](ADR/018-internal-runtime-and-daily-review.md). The [internal runner](CONTINUOUS_RUNNER.md) now provides PostgreSQL scheduling, immutable context lineage, retained daily evidence and separate capture/analysis processes. [Cumulative retained-input context](CUMULATIVE_CONTEXT.md) is now implemented for reviewed news watches. [Protected daily publication](DAILY_PUBLICATION.md) now retains the current digest and cancels it on governing changes. [Source-backed compilation](SOURCED_RESEARCH.md) and optional [fresh morning synthesis](MORNING_SYNTHESIS.md) now exist with recorded-provider verification. Verified starting macro context, matching permitted live sources and a live weekly soak remain outstanding.
 
 ## Current compilation versus the intended thesis pack
 
@@ -13,13 +13,13 @@ Accepted next direction, 2026-10-09: begin with a deterministic daily evidence r
 | Challenge | Refinement issues/questions, separate introduced assumptions and agent hypotheses, and an optional unverified counter-case are displayed. |
 | Affected assets, catalysts, causal paths and scenarios | Structured text-grounded sections distinguish extracted items, unverified proposals and gaps. This is no verified instrument mapping or canonical causal graph. |
 | Collaborative refinement | The terminal saves exact answers without model work, then supports explicit recompilation, model switching, exact approval and read-only command recovery. |
-| External evidence and monitoring manifest | Not supplied to the compiler. No factual verification or current macro regime is established. |
+| External evidence and monitoring manifest | Optional explicit packet of current captured revisions, source contracts and witnesses. Model-identified conflicts remain hypotheses; no factual verification or current macro regime is established. Monitoring enrollment remains separate. |
 
 The full design remains in [THESIS_ENGINE.md](THESIS_ENGINE.md); it is not a description of completed implementation. See [current compilation](THESIS_COMPILATION.md).
 
 ## Implemented text-grounded compilation checkpoint
 
-The [required review surface and guided refinement](THESIS_ENGINE.md#required-thesis-review-card) now combine claim, affected assets, proposed causal paths, assumptions, catalysts, horizon, invalidation, counter-case/scenarios and unresolved questions. External evidence remains unavailable. Exact trader answers and proposal lineage are retained separately from unchanged original prose; each new model request is explicit.
+The [required review surface and guided refinement](THESIS_ENGINE.md#required-thesis-review-card) now combine claim, affected assets, proposed causal paths, assumptions, catalysts, horizon, invalidation, counter-case/scenarios and unresolved questions. External evidence is unavailable by default; selected-source compilation supplies an exact separately labelled packet. Exact trader answers and proposal lineage are retained separately from unchanged original prose; each new model request is explicit.
 
 A missing invalidation criterion is a gap. Suggested additions remain agent proposals; explicit answers can express acceptance before a new compiled interpretation is reviewed. No template may invent thresholds, deadlines, confidence or targets. Approval binds the full card with its authority labels, original input and exact answers. It does not adopt every proposal as trader belief or verified evidence. The card is carried into protected news context, subject to its separate size bound; sourced monitoring inputs and verified relationships remain outstanding.
 
@@ -63,7 +63,7 @@ The [source comparison](SOURCE_OPTIONS.md) contains candidates. The [free-source
 
 - Research the AI-buildout question into a tentative thesis and counter-case, validate any candidate exposure, and review its source manifest.
 - Review whether the implemented proposals and clarification questions help strengthen a real rough thesis without manufacturing conviction.
-- Validate cumulative analysis with real permitted sources and a reviewed thesis, then add correction-aware daily publication under the accepted internal direction. Starting macro context remains explicitly unavailable until sourced.
+- Validate cumulative analysis with real permitted sources and a reviewed thesis, exercise protected daily publication and optional fresh morning synthesis under the accepted internal direction. Starting macro context remains explicitly unavailable until sourced.
 - Exercise [implemented audited job recovery](JOB_RECOVERY.md) against real failure causes during the supervised run. Its recorded tests do not resolve missing/uncertain remote model outcomes.
 - Review cadence, daily time/timezone, bounds, allowances, operator handling of ambiguous calls before unattended activation. Missed daily reviews create once and label late, as agreed.
 

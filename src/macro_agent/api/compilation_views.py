@@ -78,11 +78,12 @@ class CompilationView(InternalCompilationAPIView):
         request=CompileThesisRequestSerializer,
         responses={200: CompilationResponseSerializer, **ERROR_RESPONSES,
                    429: ErrorResponseSerializer, 503: ErrorResponseSerializer},
-        description=("Development-only one-call text-grounded compilation using an explicit catalogue model. "
+        description=("Development-only one-call compilation using an explicit catalogue model. "
                      "The authenticated owner supplies no credentials or provider configuration in this request. "
                      "The result is a suggested draft interpretation with separate unverified questions and hypotheses. "
                      "Exact thesis text and current approval remain unchanged. Explicit user approval is still required. "
-                     "There are no fact sources, current macro context, model tools or monitoring daemon. "
+                     "An optional evidence_context_id supplies an exact retained source packet, separate from trader intent. "
+                     "Quoted source claims are not independently verified facts or a complete macro regime. "
                      "Inspect status even on HTTP 200; saved command retries do not initiate another model call."),
     )
     def post(self, request, thesis_id):

@@ -114,7 +114,7 @@ def _response(attempt, thesis, at):
     metadata = result.provider_metadata if result else {}
     status = result.status if result else ("outcome_unknown" if at >= attempt.deadline_at else "running")
     interpretation_id = str(result.interpretation_id) if result and result.interpretation_id else None
-    return {
+    response = {
         "compilation": {
             "id": str(attempt.pk), "status": status, "provider": attempt.provider,
             "input_text_version": service._text_wire(attempt.text_version),
@@ -141,6 +141,20 @@ def _response(attempt, thesis, at):
         },
         "thesis": service._detail(thesis),
     }
+    if attempt.evidence_context_id is not None:
+        from macro_agent.desk import evidence
+        context = attempt.evidence_context
+        content = evidence._validated(context)
+        reasons = evidence.context_stale_reasons(context, at)
+        response["compilation"]["evidence_context"] = {"id": str(context.pk), "digest": context.digest,
+                                                        "content": content}
+        response["compilation"]["evidence_disposition"] = {
+            "status": "stale" if reasons else "current", "stale_reasons": reasons,
+            "observed_at": at.isoformat()}
+        response["compilation"]["limitations"] = [*evidence.GAPS,
+            "Model-identified conflicts and causal interpretations remain hypotheses for human review.",
+            "No automatic thesis amendment, external notice, execution or paid retry is authorized."]
+    return response
 
 
 def _existing(actor_id, thesis, command_id, digest):
@@ -154,8 +168,10 @@ def get_compilation(actor_id, thesis_id, attempt_id, *, clock=timezone.now):
     _gate()
     attempt_id = service._uuid(attempt_id, "attempt_id")
     with transaction.atomic():
-        service._owner(actor_id, lock=True)
-        thesis = service._record(actor_id, thesis_id, lock=True)
+        from macro_agent.desk.evidence import _snapshot
+        _snapshot()
+        service._owner(actor_id)
+        thesis = service._record(actor_id, thesis_id)
         attempt = CompilationAttempt.objects.filter(pk=attempt_id, thesis=thesis, owner_id=actor_id).first()
         if attempt is None:
             raise service.ThesisUnavailable("compilation unavailable")
@@ -167,8 +183,10 @@ def get_compilation_command(actor_id, thesis_id, command_id, *, clock=timezone.n
     _gate()
     command_id = service._uuid(command_id, "command_id")
     with transaction.atomic():
-        service._owner(actor_id, lock=True)
-        thesis = service._record(actor_id, thesis_id, lock=True)
+        from macro_agent.desk.evidence import _snapshot
+        _snapshot()
+        service._owner(actor_id)
+        thesis = service._record(actor_id, thesis_id)
         attempt = CompilationAttempt.objects.filter(owner_id=actor_id, thesis=thesis,
                                                      command_id=command_id).first()
         if attempt is None:
@@ -316,7 +334,7 @@ def get_refinement_command(actor_id, thesis_id, command_id):
 
 
 def compile_thesis(actor_id, thesis_id, command_id, expected_revision, model_id, provider_id,
-                   *, refinement_id=None, provider=None, clock=timezone.now):
+                   *, refinement_id=None, evidence_context_id=None, provider=None, clock=timezone.now):
     _gate()
     if connection.in_atomic_block or not connection.get_autocommit():
         raise RuntimeError("compilation requires durable admission outside a caller transaction")
@@ -325,6 +343,8 @@ def compile_thesis(actor_id, thesis_id, command_id, expected_revision, model_id,
     revision = service._revision(expected_revision)
     if refinement_id is not None:
         refinement_id = service._uuid(refinement_id, "refinement_id")
+    if evidence_context_id is not None:
+        evidence_context_id = service._uuid(evidence_context_id, "evidence_context_id")
     if type(provider_id) is not str or provider_id not in PROVIDER_IDS:
         raise ValueError("choose a configured provider")
     if not is_explicit_model_id(model_id):
@@ -334,20 +354,32 @@ def compile_thesis(actor_id, thesis_id, command_id, expected_revision, model_id,
     # Keep old command identities valid when no explicit saved answers were selected.
     if refinement_id is not None:
         request["refinement_id"] = refinement_id
+    if evidence_context_id is not None:
+        request["evidence_context_id"] = evidence_context_id
     digest = text_digest(canonical_json(request))
     # Ownership and saved-command comparison precede all network work.
     with transaction.atomic():
-        service._owner(actor_id, lock=True)
-        thesis = service._record(actor_id, thesis_id, lock=True)
+        from macro_agent.desk import evidence
+        evidence._snapshot()
+        service._owner(actor_id)
+        thesis = service._record(actor_id, thesis_id)
         existing = _existing(actor_id, thesis, command_id, digest)
         if existing:
             return _response(existing, thesis, service._instant(clock, thesis))
         if thesis.revision != revision:
             raise service.ThesisConflict("thesis changed; review the current draft")
         submission, inputs = _refinement_context(thesis, refinement_id)
+        context = evidence.get_context(actor_id, thesis_id, evidence_context_id) if evidence_context_id else None
+        if context is not None and evidence.context_stale_reasons(context, service._instant(clock, thesis)):
+            raise service.ThesisConflict("Research evidence changed; prepare and review a fresh context")
     if settings.MACRO_MODEL_PROVIDER != provider_id:
         raise service.ThesisConflict("provider changed; refresh the model catalogue")
     configuration = _configuration(provider_id)
+    if context is not None:
+        from macro_agent.domain import sourced_compilation
+        configuration = {**configuration, "context": "retained_source_evidence",
+            "schema_version": sourced_compilation.SOURCED_SCHEMA_VERSION,
+            "prompt_version": sourced_compilation.PROMPT_VERSION}
     if not settings.MACRO_MODEL_API_KEY:
         raise CompilationUnavailable("configure provider credentials in the backend environment")
     try:
@@ -361,6 +393,8 @@ def compile_thesis(actor_id, thesis_id, command_id, expected_revision, model_id,
     if model is None or model["capabilities"].get("chat_completions") is False:
         raise ValueError("selected model is no longer in the catalogue")
     with transaction.atomic():
+        if context is not None:
+            evidence.lock_context_sources(context)
         service._owner(actor_id, lock=True)
         thesis = service._record(actor_id, thesis_id, lock=True)
         existing = _existing(actor_id, thesis, command_id, digest)
@@ -372,12 +406,17 @@ def compile_thesis(actor_id, thesis_id, command_id, expected_revision, model_id,
         # All aggregate admissions use this lock after owner and thesis locks.
         lock_model_budget()
         at = service._instant(clock, thesis)
+        if context is not None and evidence.context_stale_reasons(context, at):
+            raise service.ThesisConflict("Research evidence changed; prepare and review a fresh context")
         if not capacity_available(actor_id, at, configuration):
             raise CompilationBudgetExhausted("compilation admission limit reached")
-        messages = build_messages(thesis.latest_text.exact_text, refinement_inputs=inputs)
+        messages = (sourced_compilation.build_messages(thesis.latest_text.exact_text, context.content,
+            refinement_inputs=inputs) if context is not None else
+            build_messages(thesis.latest_text.exact_text, refinement_inputs=inputs))
         attempt = CompilationAttempt.objects.create(owner_id=actor_id, thesis=thesis,
             command_id=command_id, text_version=thesis.latest_text,
             refinement=submission,
+            evidence_context=context,
             provider=provider_id,
             expected_revision=revision, request_digest=digest, model_id=model_id,
             model_metadata={**model, "catalog_fetched_at": catalog["fetched_at"]},
@@ -393,8 +432,9 @@ def compile_thesis(actor_id, thesis_id, command_id, expected_revision, model_id,
     metadata, document, status, reason = {}, None, "failed", "invalid_model_output"
     try:
         metadata = adapter.complete(model_id, messages)
-        document = parse_compilation(metadata.pop("content"), attempt.text_version.exact_text,
-                                     refinement_inputs=inputs)
+        document = (sourced_compilation.parse_compilation(metadata.pop("content"),
+            attempt.text_version.exact_text, context.content, refinement_inputs=inputs) if context is not None else
+            parse_compilation(metadata.pop("content"), attempt.text_version.exact_text, refinement_inputs=inputs))
         status, reason = "compiled", "completed"
     except ProviderError as error:
         metadata = error.metadata
@@ -404,20 +444,27 @@ def compile_thesis(actor_id, thesis_id, command_id, expected_revision, model_id,
         # Preserve normalized usage when a paid response fails validation.
         metadata.pop("content", None)
     with transaction.atomic():
+        if context is not None:
+            evidence.lock_context_sources(context)
         service._owner(actor_id, lock=True)
         thesis = service._record(actor_id, thesis_id, lock=True)
         at = service._instant(clock, thesis)
         if at < attempt.created_at:
             raise service.ThesisConflict("trusted clock precedes compilation admission")
         interpretation = None
+        evidence_reasons = evidence.context_stale_reasons(context, at) if context is not None else []
         if at >= attempt.deadline_at:
             status, reason = "outcome_unknown", "completion_deadline_exceeded"
         elif status == "compiled" and (thesis.revision != revision
                 or thesis.latest_text_id != attempt.text_version_id):
             status, reason = "stale", "thesis_revision_changed"
+        elif status == "compiled" and evidence_reasons:
+            status, reason = "stale", "research_evidence_changed"
         elif status == "compiled":
             meaning = document["interpretation"]
-            card = build_review_card(document, attempt.text_version.exact_text, refinement_inputs=inputs)
+            card = (sourced_compilation.build_review_card(document, attempt.text_version.exact_text,
+                context.content, refinement_inputs=inputs) if context is not None else
+                build_review_card(document, attempt.text_version.exact_text, refinement_inputs=inputs))
             value = CompiledThesisVersion(str(uuid4()), str(attempt.text_version_id),
                 tuple(meaning["drivers"]), meaning["horizon"],
                 tuple(meaning["invalidation_signposts"]), at,

@@ -323,6 +323,9 @@ def validate_review_card_json(content: str) -> str:
     except (ValueError, TypeError, RecursionError, OverflowError):
         raise ValueError("review card requires unambiguous finite JSON") from None
     _object(card, frozenset(("schema_version", "inputs", "document", "evidence")), "review card")
+    if card["schema_version"] == "thesis-review-card-v2":
+        from .sourced_compilation import validate_review_card_json as validate_sourced_card
+        return validate_sourced_card(content)
     if card["schema_version"] != REVIEW_CARD_SCHEMA_VERSION:
         raise ValueError("unsupported review card schema version")
     inputs = _array(card["inputs"], "review inputs", MAX_REFINEMENT_INPUTS + 1)

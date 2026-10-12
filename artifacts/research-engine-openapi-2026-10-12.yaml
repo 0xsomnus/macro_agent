@@ -1,0 +1,5697 @@
+openapi: 3.0.3
+info:
+  title: Macro Agent desk API
+  version: 1.0.0
+paths:
+  /api/v1/daily-publications/{publication_id}/:
+    get:
+      operationId: get_daily_publication
+      description: Read an immutable publication decision and exact retained review,
+        with present disposition and notification-intent state observed separately
+        in a read-only snapshot. No source fetch, model call, publication write or
+        external delivery.
+      parameters:
+      - in: path
+        name: publication_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - internal daily publication
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DailyPublicationDetail'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/daily-reviews/{review_id}/:
+    get:
+      operationId: get_daily_review
+      description: Read an owner-scoped immutable daily evidence review, verifying
+        its saved content digest. Exact original outcome and inputs remain unchanged
+        when present dependencies are stale. Present disposition is observed separately
+        in one read-only snapshot. This is not a published current morning brief and
+        grants no notification or retry authority. No source fetch, model catalogue
+        call, inference or write fallback.
+      parameters:
+      - in: path
+        name: review_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - internal daily reviews
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DailyReviewDetail'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/daily-reviews/{review_id}/publication-preview/:
+    get:
+      operationId: preview_daily_publication
+      description: Read exact review digest and current generation for explicit publication
+        review. Preview makes no state changes, source requests, model calls or notification
+        intents.
+      parameters:
+      - in: query
+        name: fanout_limit
+        schema:
+          type: integer
+        description: Explicit publication fanout limit from 1 to 1000; no inferred
+          default.
+        required: true
+      - in: path
+        name: review_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - internal daily publication
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DailyPublicationPreview'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/daily-reviews/{review_id}/publish/:
+    post:
+      operationId: publish_daily_review
+      description: Explicit one-off session/CSRF publication of the exact review digest
+        at the expected generation under the requested fanout bound. Compare dependencies,
+        publication pointer and atomic internal notification intent in one protected
+        transaction. Saved-command replay retains the original decision. This does
+        not enroll automatic publication or enable external delivery.
+      parameters:
+      - in: path
+        name: review_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - internal daily publication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PublishDailyReviewRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DailyPublicationDetail'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/daily-reviews/{review_id}/synthesis-commands/{command_id}/:
+    get:
+      operationId: get_daily_synthesis_command
+      description: Saved-command inspection without keys, catalogue requests or POST
+        fallback.
+      parameters:
+      - in: path
+        name: command_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: review_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - daily synthesis
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SynthesisResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/daily-reviews/{review_id}/synthesise/:
+    post:
+      operationId: synthesise_daily_review
+      description: One explicitly selected model call over an exact retained digest.
+        It preserves digest publication and creates no new publication or external
+        notification authority. Exact retries inspect durable admission without another
+        provider request.
+      parameters:
+      - in: path
+        name: review_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - daily synthesis
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SynthesizeReviewRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SynthesisResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '503':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/daily-syntheses/{synthesis_id}/:
+    get:
+      operationId: get_daily_synthesis
+      parameters:
+      - in: path
+        name: synthesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - daily synthesis
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SynthesisResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/lab/theses/{thesis_id}/recorded-news/:
+    post:
+      operationId: recorded_news
+      description: Development-only fictional event against your committed approval
+        and paper declarations. Requires explicit local settings, synthetic setup
+        permission and a development/test database. No model, live source, inferred
+        portfolio impact, external delivery or continuous monitoring is provided.
+        Repeating the same current context returns its existing notice without another
+        interruption.
+      parameters:
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - development examples
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecordedNewsRequestRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecordedNewsResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/models/:
+    get:
+      operationId: compilation_model_catalog
+      description: Development-only explicit model catalogue from the configured provider.
+        Requires local settings, the model-compilation gate and a development/test
+        database. Prices are advertised metadata, not final charges. The API key is
+        never returned. No model is selected automatically.
+      tags:
+      - internal compilation
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelCatalogResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '503':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/news/sources/:
+    get:
+      operationId: news_source_catalog
+      description: Inspect available retained sources and bounded report counts. Counts
+        do not establish complete coverage, materiality or automatic monitoring.
+      tags:
+      - internal news analysis
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewsCatalogResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/positions/{position_id}/:
+    get:
+      operationId: get_position
+      parameters:
+      - in: path
+        name: position_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - paper positions
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PositionDetail'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/positions/{position_id}/close/:
+    post:
+      operationId: close_position
+      description: Explicitly close the paper position after comparing its current
+        revision and thesis approval. This saves history only and does not send a
+        broker order.
+      parameters:
+      - in: path
+        name: position_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - paper positions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClosePositionRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PositionCommandResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/positions/{position_id}/history/:
+    get:
+      operationId: position_history
+      description: Read one consistent effective-time history snapshot. Each category
+        is capped at 100 records with explicit truncation. This is not durable known-at
+        replay or a complete export when truncated.
+      parameters:
+      - in: path
+        name: position_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - paper positions
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PositionHistory'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/positions/{position_id}/revisions/:
+    post:
+      operationId: revise_position
+      description: Save a complete new immutable paper declaration after comparing
+        the current position revision and reviewed thesis approval. A closed position
+        cannot be reopened.
+      parameters:
+      - in: path
+        name: position_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - paper positions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RevisePositionRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PositionCommandResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/theses/:
+    get:
+      operationId: list_theses
+      parameters:
+      - in: query
+        name: limit
+        schema:
+          type: integer
+        description: Page size from 1 to 100; default 20.
+      - in: query
+        name: offset
+        schema:
+          type: integer
+        description: Offset from 0 to 1000000; default 0.
+      tags:
+      - theses
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThesisList'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+    post:
+      operationId: create_thesis
+      description: Save exact thesis text and a user-supplied interpretation preview.
+        This creates a draft only.
+      tags:
+      - theses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateThesisRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThesisCommandResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/theses/{thesis_id}/:
+    get:
+      operationId: get_thesis
+      parameters:
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - theses
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThesisDetail'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/theses/{thesis_id}/analyse-next/:
+    post:
+      operationId: analyse_next_report
+      description: Automatically select the next retained report from the chosen source
+        and perform at most one explicitly initiated model call. Inspect status even
+        on HTTP 200. Admission is saved before inference; command retries return history
+        without another call. Approved meaning, paper declarations, screening work
+        and notification intents remain unchanged. Attributed quotations are report
+        claims; portfolio effects are unverified hypotheses. This one-pass review
+        is not a daemon, verified macro context or full coverage.
+      parameters:
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - internal news analysis
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnalyseNextRequestRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewsAnalysisResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '503':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/theses/{thesis_id}/approvals/:
+    post:
+      operationId: approve_thesis
+      description: Explicitly approve the exact displayed draft and interpretation
+        by version and digest.
+      parameters:
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - theses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApproveThesisRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThesisCommandResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/theses/{thesis_id}/compilation-commands/{command_id}/:
+    get:
+      operationId: get_compilation_command
+      description: Read-only recovery by the command UUID saved before transmission.
+        No provider credentials, catalogue lookup, inference or POST fallback. Historical
+        results are shown alongside current draft disposition.
+      parameters:
+      - in: path
+        name: command_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - internal compilation
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompilationResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/theses/{thesis_id}/compilations/{attempt_id}/:
+    get:
+      operationId: get_compilation
+      description: Read an owner-scoped saved compilation attempt and its current
+        draft disposition. A running or unknown attempt is visible without initiating
+        inference or retries. The response does not assert factual verification, approval
+        or continuous monitoring.
+      parameters:
+      - in: path
+        name: attempt_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - internal compilation
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompilationResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/theses/{thesis_id}/compile/:
+    post:
+      operationId: compile_thesis
+      description: Development-only one-call compilation using an explicit catalogue
+        model. The authenticated owner supplies no credentials or provider configuration
+        in this request. The result is a suggested draft interpretation with separate
+        unverified questions and hypotheses. Exact thesis text and current approval
+        remain unchanged. Explicit user approval is still required. An optional evidence_context_id
+        supplies an exact retained source packet, separate from trader intent. Quoted
+        source claims are not independently verified facts or a complete macro regime.
+        Inspect status even on HTTP 200; saved command retries do not initiate another
+        model call.
+      parameters:
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - internal compilation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompileThesisRequestRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompilationResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '503':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/theses/{thesis_id}/daily-brief/:
+    get:
+      operationId: get_current_daily_brief
+      description: Read the protected owner-scoped current daily brief in a read-only
+        snapshot. An absent or invalidated pointer returns null without a historical
+        fallback. No source fetch, model call, publication write or external delivery.
+      parameters:
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - internal daily publication
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrentDailyBrief'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/theses/{thesis_id}/daily-reviews/:
+    get:
+      operationId: list_daily_reviews
+      description: Read owner-scoped summaries in descending cutoff and ID order.
+        Count, page and present dependency disposition share one repeatable-read,
+        read-only snapshot. Subsequent requests get a new snapshot; offset pagination
+        is not a historical cursor. Original outcome stays separate from present disposition.
+        No full context, current publication claim, source fetch, model catalogue
+        call, inference or write fallback.
+      parameters:
+      - in: query
+        name: limit
+        schema:
+          type: integer
+        description: Page size from 1 to 100; default 20.
+      - in: query
+        name: offset
+        schema:
+          type: integer
+        description: Offset from 0 to 1000000; default 0.
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - internal daily reviews
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DailyReviewList'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/theses/{thesis_id}/evidence/:
+    post:
+      operationId: prepare_research_evidence
+      description: Freeze explicitly selected current captured revisions and permission
+        versions. No model call or approval. Selection is not complete macro coverage.
+      parameters:
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - research evidence
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PrepareEvidenceRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EvidenceResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/theses/{thesis_id}/evidence-commands/{command_id}/:
+    get:
+      operationId: get_research_evidence_command
+      description: Read the saved evidence command without network requests, inference
+        or POST fallback.
+      parameters:
+      - in: path
+        name: command_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - research evidence
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EvidenceResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/theses/{thesis_id}/evidence/{context_id}/:
+    get:
+      operationId: get_research_evidence
+      parameters:
+      - in: path
+        name: context_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - research evidence
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EvidenceResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/theses/{thesis_id}/history/:
+    get:
+      operationId: thesis_history
+      description: Read approval-effective-time history for the internal prototype.
+        Each history category is bounded to 100 records; truncated is explicit. This
+        is not full operational known-at replay.
+      parameters:
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - theses
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThesisHistory'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/theses/{thesis_id}/news-analyses/{attempt_id}/:
+    get:
+      operationId: get_news_analysis
+      description: Read owner-scoped immutable analysis history and its current dependency
+        disposition. Reading a running or unknown attempt never initiates inference
+        or a retry.
+      parameters:
+      - in: path
+        name: attempt_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - internal news analysis
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewsAnalysisResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/theses/{thesis_id}/news-commands/{command_id}/:
+    get:
+      operationId: get_news_command_receipt
+      description: Recover an owner-scoped saved news command by its client-generated
+        UUID. This GET performs no model catalogue call, inference, approval or write
+        fallback. Inspect status and current disposition even on HTTP 200. An absent
+        or inaccessible receipt is opaque and does not authorize another paid attempt.
+      parameters:
+      - in: path
+        name: command_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - internal news analysis
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewsAnalysisResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/theses/{thesis_id}/news-context/:
+    get:
+      operationId: news_review_context
+      description: Inspect exact approved thesis meaning and the complete attached
+        paper book. The approval and exposure digest pin the subsequent command. This
+        is not a complete user portfolio or validated exposure mapping.
+      parameters:
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - internal news analysis
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewsReviewContext'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/theses/{thesis_id}/positions/:
+    get:
+      operationId: list_positions
+      parameters:
+      - in: query
+        name: limit
+        schema:
+          type: integer
+        description: Page size from 1 to 100; default 20.
+      - in: query
+        name: offset
+        schema:
+          type: integer
+        description: Offset from 0 to 1000000; default 0.
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - paper positions
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PositionList'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+    post:
+      operationId: create_position
+      description: Attach a user-declared paper position to the exact current thesis
+        approval. Missing mapping or sizing information remains explicit; no broker
+        execution or coverage is implied.
+      parameters:
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - paper positions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePositionRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PositionCommandResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/theses/{thesis_id}/proposals/:
+    post:
+      operationId: propose_thesis
+      description: Save a new immutable draft. Approved text and interpretation remain
+        active until explicit approval.
+      parameters:
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - theses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProposeThesisRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThesisCommandResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/theses/{thesis_id}/refinement-commands/{command_id}/:
+    get:
+      operationId: get_thesis_refinement_command
+      description: Read-only answer-submission recovery by saved command UUID. No
+        catalogue, credentials, model request or POST fallback.
+      parameters:
+      - in: path
+        name: command_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - internal compilation
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefinementResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/theses/{thesis_id}/refinements/:
+    post:
+      operationId: save_thesis_refinement
+      description: Save exact answers against questions from a current retained proposal,
+        without a provider request, paid-call admission or thesis approval. The service
+        derives question wording and bounded cumulative history. A new explicit compilation
+        may reference this submission later.
+      parameters:
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - internal compilation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SaveRefinementRequestRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefinementResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+  /api/v1/theses/{thesis_id}/refinements/{refinement_id}/:
+    get:
+      operationId: get_thesis_refinement
+      description: Read an owner-scoped saved answer submission without provider work
+        or activation.
+      parameters:
+      - in: path
+        name: refinement_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: thesis_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - internal compilation
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefinementResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
+components:
+  schemas:
+    AnalyseNextRequestRequest:
+      type: object
+      properties:
+        command_id:
+          type: string
+          format: uuid
+          minLength: 1
+          maxLength: 36
+        expected_approval_id:
+          type: string
+          format: uuid
+          minLength: 1
+          maxLength: 36
+        expected_exposure_digest:
+          type: string
+          minLength: 64
+          pattern: ^[0-9a-f]{64}$
+          maxLength: 64
+        source_id:
+          type: string
+          minLength: 1
+          maxLength: 128
+        provider_id:
+          $ref: '#/components/schemas/ModelProviderEnum'
+        model_id:
+          type: string
+          minLength: 1
+          maxLength: 255
+      required:
+      - command_id
+      - expected_approval_id
+      - expected_exposure_digest
+      - model_id
+      - provider_id
+      - source_id
+      additionalProperties: false
+    Approval:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        text_version_id:
+          type: string
+          format: uuid
+        interpretation_version_id:
+          type: string
+          format: uuid
+        text_digest:
+          type: string
+        interpretation_digest:
+          type: string
+        approved_at:
+          type: string
+          format: date-time
+        digest:
+          type: string
+        revision:
+          type: integer
+      required:
+      - approved_at
+      - digest
+      - id
+      - interpretation_digest
+      - interpretation_version_id
+      - revision
+      - text_digest
+      - text_version_id
+    ApproveThesisRequest:
+      type: object
+      properties:
+        command_id:
+          type: string
+          format: uuid
+          minLength: 1
+          maxLength: 36
+        thesis_version_id:
+          type: string
+          format: uuid
+          minLength: 1
+          maxLength: 36
+        text_digest:
+          type: string
+          minLength: 64
+          maxLength: 64
+          pattern: ^[0-9a-f]{64}$
+        interpretation_version_id:
+          type: string
+          format: uuid
+          minLength: 1
+          maxLength: 36
+        interpretation_digest:
+          type: string
+          minLength: 64
+          maxLength: 64
+          pattern: ^[0-9a-f]{64}$
+        expected_revision:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 1
+          format: int64
+      required:
+      - command_id
+      - expected_revision
+      - interpretation_digest
+      - interpretation_version_id
+      - text_digest
+      - thesis_version_id
+      additionalProperties: false
+    Approved:
+      type: object
+      properties:
+        text_version:
+          $ref: '#/components/schemas/TextVersion'
+        interpretation:
+          $ref: '#/components/schemas/Interpretation'
+        approval:
+          $ref: '#/components/schemas/Approval'
+      required:
+      - approval
+      - interpretation
+      - text_version
+    ApprovedNewsInterpretation:
+      type: object
+      properties:
+        drivers:
+          type: array
+          items:
+            type: string
+            maxLength: 1000
+          maxItems: 32
+        horizon:
+          type: string
+          nullable: true
+          maxLength: 1000
+        invalidation_signposts:
+          type: array
+          items:
+            type: string
+            maxLength: 1000
+          maxItems: 32
+        review_card:
+          allOf:
+          - $ref: '#/components/schemas/PinnedReviewCard'
+          nullable: true
+      required:
+      - drivers
+      - horizon
+      - invalidation_signposts
+      additionalProperties: false
+    AttributedSourceClaim:
+      type: object
+      properties:
+        claim_id:
+          type: string
+          maxLength: 128
+        revision_id:
+          type: string
+          format: uuid
+          maxLength: 36
+        field:
+          $ref: '#/components/schemas/AttributedSourceFieldEnum'
+        exact_quote:
+          type: string
+          maxLength: 2000
+      required:
+      - claim_id
+      - exact_quote
+      - field
+      - revision_id
+      additionalProperties: false
+    AttributedSourceFieldEnum:
+      enum:
+      - title
+      - content
+      type: string
+      description: |-
+        * `title` - title
+        * `content` - content
+    AuditEvent:
+      type: object
+      properties:
+        sequence:
+          type: integer
+        kind:
+          type: string
+        at:
+          type: string
+          format: date-time
+        detail: {}
+      required:
+      - at
+      - detail
+      - kind
+      - sequence
+    BasisEnum:
+      enum:
+      - recorded_fixture
+      type: string
+      description: '* `recorded_fixture` - recorded_fixture'
+    CatalogModel:
+      type: object
+      properties:
+        id:
+          type: string
+          maxLength: 255
+        name:
+          type: string
+          maxLength: 512
+        context_length:
+          type: integer
+          minimum: 1
+          nullable: true
+        input_price_usd_per_million:
+          type: string
+          nullable: true
+          description: Advertised USD per million input tokens, or unknown. Not a
+            final charge.
+        output_price_usd_per_million:
+          type: string
+          nullable: true
+          description: Advertised USD per million output tokens, or unknown. Not a
+            final charge.
+        capabilities:
+          type: object
+          additionalProperties:
+            type: boolean
+      required:
+      - capabilities
+      - context_length
+      - id
+      - input_price_usd_per_million
+      - name
+      - output_price_usd_per_million
+    ClosePositionRequest:
+      type: object
+      properties:
+        command_id:
+          type: string
+          format: uuid
+          minLength: 1
+          maxLength: 36
+        expected_revision:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 1
+          format: int64
+        expected_approval_id:
+          type: string
+          format: uuid
+          minLength: 1
+          maxLength: 36
+      required:
+      - command_id
+      - expected_approval_id
+      - expected_revision
+      additionalProperties: false
+    Command:
+      type: object
+      properties:
+        command_id:
+          type: string
+          format: uuid
+        kind:
+          $ref: '#/components/schemas/CommandKindEnum'
+        replayed:
+          type: boolean
+        result:
+          $ref: '#/components/schemas/CommandResult'
+        is_current_approval:
+          type: boolean
+      required:
+      - command_id
+      - is_current_approval
+      - kind
+      - replayed
+      - result
+    CommandKindEnum:
+      enum:
+      - create
+      - propose
+      - approve
+      type: string
+      description: |-
+        * `create` - create
+        * `propose` - propose
+        * `approve` - approve
+    CommandResult:
+      type: object
+      properties:
+        thesis_id:
+          type: string
+          format: uuid
+        thesis_version_id:
+          type: string
+          format: uuid
+        interpretation_version_id:
+          type: string
+          format: uuid
+        approval_id:
+          type: string
+          format: uuid
+          nullable: true
+        revision:
+          type: integer
+        accepted_at:
+          type: string
+          format: date-time
+      required:
+      - accepted_at
+      - approval_id
+      - interpretation_version_id
+      - revision
+      - thesis_id
+      - thesis_version_id
+    Compilation:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        status:
+          allOf:
+          - $ref: '#/components/schemas/CompilationStatusEnum'
+          description: |-
+            Explicit attempt disposition. HTTP 200 does not mean compilation succeeded. An unknown outcome may have incurred provider cost and must not be retried implicitly.
+
+            * `running` - running
+            * `outcome_unknown` - outcome_unknown
+            * `compiled` - compiled
+            * `stale` - stale
+            * `failed` - failed
+        provider:
+          $ref: '#/components/schemas/ModelProviderEnum'
+        model_id:
+          type: string
+          maxLength: 255
+        input_text_version:
+          $ref: '#/components/schemas/CompilationTextInput'
+        schema_version:
+          type: string
+        prompt_version:
+          type: string
+        refinement_id:
+          type: string
+          format: uuid
+          nullable: true
+        parent_attempt_id:
+          type: string
+          format: uuid
+          nullable: true
+        refinement_inputs:
+          type: array
+          items:
+            $ref: '#/components/schemas/RefinementInput'
+        created_at:
+          type: string
+          format: date-time
+        finished_at:
+          type: string
+          format: date-time
+          nullable: true
+        document:
+          allOf:
+          - $ref: '#/components/schemas/CompilationDocument'
+          nullable: true
+        interpretation_version_id:
+          type: string
+          format: uuid
+          nullable: true
+        is_current_draft:
+          type: boolean
+          description: Protected response snapshot of whether this interpretation
+            remains the latest draft. A draft is not user approval or active monitoring.
+        usage:
+          $ref: '#/components/schemas/CompilationUsage'
+        reported_cost_usd:
+          type: string
+          nullable: true
+        estimated_cost_usd:
+          type: string
+          nullable: true
+          description: Estimate from recorded catalogue pricing and reported token
+            usage; unknown is null.
+        reported_model:
+          type: string
+          nullable: true
+        provider_request_id:
+          type: string
+          nullable: true
+        latency_ms:
+          type: integer
+          minimum: 0
+          nullable: true
+        stop_reason:
+          type: string
+          nullable: true
+        limitations:
+          type: array
+          items:
+            type: string
+        evidence_context:
+          $ref: '#/components/schemas/CompilationEvidenceContext'
+        evidence_disposition:
+          $ref: '#/components/schemas/EvidenceDisposition'
+      required:
+      - created_at
+      - document
+      - estimated_cost_usd
+      - finished_at
+      - id
+      - input_text_version
+      - interpretation_version_id
+      - is_current_draft
+      - latency_ms
+      - limitations
+      - model_id
+      - parent_attempt_id
+      - prompt_version
+      - provider
+      - provider_request_id
+      - refinement_id
+      - refinement_inputs
+      - reported_cost_usd
+      - reported_model
+      - schema_version
+      - status
+      - stop_reason
+      - usage
+    CompilationDocument:
+      type: object
+      properties:
+        interpretation:
+          $ref: '#/components/schemas/InterpretationInput'
+        grounding:
+          type: array
+          items:
+            $ref: '#/components/schemas/CompilationGrounding'
+        refinement_issues:
+          type: array
+          items:
+            $ref: '#/components/schemas/CompilationRefinementIssue'
+        agent_hypotheses:
+          type: array
+          items:
+            $ref: '#/components/schemas/CompilationHypothesis'
+        counter_case:
+          type: string
+          nullable: true
+          maxLength: 2000
+        review_card:
+          allOf:
+          - $ref: '#/components/schemas/ReviewSections'
+          description: Required for current v2 model output; absent in retained historical
+            v1 documents. The complete card combines these sections with interpretation,
+            counter-case and questions.
+        attributed_claims:
+          type: array
+          items:
+            $ref: '#/components/schemas/AttributedSourceClaim'
+        factual_conflicts:
+          type: array
+          items:
+            $ref: '#/components/schemas/FactualConflict'
+          description: Model-identified conflicts between quoted user premises and
+            quoted source claims. Not adjudicated fact errors.
+        evidence_assessment:
+          $ref: '#/components/schemas/EvidenceAssessment'
+      required:
+      - agent_hypotheses
+      - counter_case
+      - grounding
+      - interpretation
+      - refinement_issues
+      additionalProperties: false
+    CompilationEvidenceContext:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        digest:
+          type: string
+          maxLength: 64
+          minLength: 64
+        content:
+          $ref: '#/components/schemas/SourceEvidenceEnvelope'
+      required:
+      - content
+      - digest
+      - id
+    CompilationGrounding:
+      type: object
+      properties:
+        field:
+          $ref: '#/components/schemas/CompilationGroundingFieldEnum'
+        index:
+          type: integer
+          maximum: 31
+          minimum: 0
+          nullable: true
+        input_id:
+          type: string
+          description: Named original thesis or exact trader-answer input. Absent
+            only in historical v1 documents.
+          maxLength: 100
+        exact_quote:
+          type: string
+          maxLength: 1000
+      required:
+      - exact_quote
+      - field
+      - index
+      additionalProperties: false
+    CompilationGroundingFieldEnum:
+      enum:
+      - drivers
+      - horizon
+      - invalidation_signposts
+      type: string
+      description: |-
+        * `drivers` - drivers
+        * `horizon` - horizon
+        * `invalidation_signposts` - invalidation_signposts
+    CompilationHypothesis:
+      type: object
+      properties:
+        explanation:
+          type: string
+          maxLength: 2000
+        introduced_assumptions:
+          type: array
+          items:
+            type: string
+            maxLength: 1000
+          maxItems: 32
+      required:
+      - explanation
+      - introduced_assumptions
+      additionalProperties: false
+    CompilationRefinementIssue:
+      type: object
+      properties:
+        kind:
+          $ref: '#/components/schemas/CompilationRefinementIssueKindEnum'
+        input_id:
+          type: string
+          nullable: true
+          maxLength: 100
+        exact_quote:
+          type: string
+          nullable: true
+          maxLength: 1000
+        explanation:
+          type: string
+          maxLength: 2000
+        question:
+          type: string
+          maxLength: 1000
+      required:
+      - exact_quote
+      - explanation
+      - kind
+      - question
+      additionalProperties: false
+    CompilationRefinementIssueKindEnum:
+      enum:
+      - missing_detail
+      - unsupported_mechanism
+      - verification_needed
+      - ambiguity
+      - defensible_disagreement
+      type: string
+      description: |-
+        * `missing_detail` - missing_detail
+        * `unsupported_mechanism` - unsupported_mechanism
+        * `verification_needed` - verification_needed
+        * `ambiguity` - ambiguity
+        * `defensible_disagreement` - defensible_disagreement
+    CompilationResponse:
+      type: object
+      properties:
+        compilation:
+          $ref: '#/components/schemas/Compilation'
+        thesis:
+          $ref: '#/components/schemas/ThesisDetail'
+      required:
+      - compilation
+      - thesis
+    CompilationStatusEnum:
+      enum:
+      - running
+      - outcome_unknown
+      - compiled
+      - stale
+      - failed
+      type: string
+      description: |-
+        * `running` - running
+        * `outcome_unknown` - outcome_unknown
+        * `compiled` - compiled
+        * `stale` - stale
+        * `failed` - failed
+    CompilationTextInput:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        parent_version_id:
+          type: string
+          format: uuid
+          nullable: true
+        exact_text:
+          type: string
+        text_digest:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+      required:
+      - created_at
+      - exact_text
+      - id
+      - parent_version_id
+      - text_digest
+    CompilationUsage:
+      type: object
+      properties:
+        prompt_tokens:
+          type: integer
+          minimum: 0
+          nullable: true
+        completion_tokens:
+          type: integer
+          minimum: 0
+          nullable: true
+        total_tokens:
+          type: integer
+          minimum: 0
+          nullable: true
+      required:
+      - completion_tokens
+      - prompt_tokens
+      - total_tokens
+    CompileThesisRequestRequest:
+      type: object
+      properties:
+        command_id:
+          type: string
+          format: uuid
+          minLength: 1
+          maxLength: 36
+        refinement_id:
+          type: string
+          format: uuid
+          nullable: true
+          minLength: 1
+          maxLength: 36
+        evidence_context_id:
+          type: string
+          format: uuid
+          nullable: true
+          minLength: 1
+          maxLength: 36
+        expected_revision:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 1
+          format: int64
+        provider_id:
+          allOf:
+          - $ref: '#/components/schemas/ModelProviderEnum'
+          description: |-
+            Provider identity shown by the catalogue, pinned against backend configuration.
+
+            * `nanogpt` - nanogpt
+            * `openrouter` - openrouter
+            * `cheaperinference` - cheaperinference
+        model_id:
+          type: string
+          minLength: 1
+          description: Explicit model ID selected from the configured provider catalogue.
+            No automatic routing.
+          maxLength: 255
+      required:
+      - command_id
+      - expected_revision
+      - model_id
+      - provider_id
+      additionalProperties: false
+    ContextStatusEnum:
+      enum:
+      - ready
+      type: string
+      description: '* `ready` - ready'
+    CreatePositionRequest:
+      type: object
+      properties:
+        command_id:
+          type: string
+          format: uuid
+          minLength: 1
+          maxLength: 36
+        expected_approval_id:
+          type: string
+          format: uuid
+          minLength: 1
+          maxLength: 36
+        position:
+          $ref: '#/components/schemas/PositionDeclarationRequest'
+      required:
+      - command_id
+      - expected_approval_id
+      - position
+      additionalProperties: false
+    CreateThesisRequest:
+      type: object
+      properties:
+        command_id:
+          type: string
+          format: uuid
+          minLength: 1
+          maxLength: 36
+        text:
+          type: string
+          minLength: 1
+          maxLength: 20000
+        interpretation:
+          $ref: '#/components/schemas/InterpretationInputRequest'
+      required:
+      - command_id
+      - interpretation
+      - text
+      additionalProperties: false
+    CurrentDailyBrief:
+      type: object
+      properties:
+        thesis_id:
+          type: string
+          format: uuid
+        brief_id:
+          type: string
+          nullable: true
+        generation:
+          type: integer
+          minimum: 0
+        current_publication:
+          allOf:
+          - $ref: '#/components/schemas/DailyPublicationDetail'
+          nullable: true
+          description: Only the protected current pointer. Null does not fall back
+            to the latest historical review.
+        observed_at:
+          type: string
+          format: date-time
+        current_synthesis:
+          allOf:
+          - $ref: '#/components/schemas/SynthesisResponse'
+          nullable: true
+          description: Successful current interpretation of this exact published review.
+            No historical fallback or publication authority.
+      required:
+      - brief_id
+      - current_publication
+      - current_synthesis
+      - generation
+      - observed_at
+      - thesis_id
+    CurrentDispositionEnum:
+      enum:
+      - current
+      - stale
+      - unresolved
+      - queue_empty
+      type: string
+      description: |-
+        * `current` - current
+        * `stale` - stale
+        * `unresolved` - unresolved
+        * `queue_empty` - queue_empty
+    DailyPublicationDecision:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/DailyPublicationStatusEnum'
+        reasons:
+          type: array
+          items:
+            type: string
+        reassessment_required:
+          type: boolean
+      required:
+      - reasons
+      - reassessment_required
+      - status
+    DailyPublicationDetail:
+      type: object
+      properties:
+        publication:
+          $ref: '#/components/schemas/RetainedDailyPublication'
+        current_disposition:
+          $ref: '#/components/schemas/DailyPublicationDisposition'
+        notification_intent:
+          allOf:
+          - $ref: '#/components/schemas/DailyPublicationIntent'
+          nullable: true
+          description: Internal atomic notification intent, including its present
+            cancellation state. No external delivery is enabled.
+        replayed:
+          type: boolean
+        review:
+          $ref: '#/components/schemas/RetainedDailyReview'
+      required:
+      - current_disposition
+      - notification_intent
+      - publication
+      - replayed
+      - review
+    DailyPublicationDisposition:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/DailyPublicationStatusEnum'
+        reasons:
+          type: array
+          items:
+            type: string
+        observed_at:
+          type: string
+          format: date-time
+      required:
+      - observed_at
+      - reasons
+      - status
+    DailyPublicationIntent:
+      type: object
+      properties:
+        id:
+          type: string
+        state:
+          $ref: '#/components/schemas/StateEnum'
+      required:
+      - id
+      - state
+    DailyPublicationPreview:
+      type: object
+      properties:
+        review_id:
+          type: string
+          format: uuid
+        review_digest:
+          type: string
+          maxLength: 64
+          minLength: 64
+        thesis_id:
+          type: string
+          format: uuid
+        brief_id:
+          type: string
+        expected_generation:
+          type: integer
+          minimum: 0
+        fanout_limit:
+          type: integer
+          maximum: 1000
+          minimum: 1
+        current_disposition:
+          $ref: '#/components/schemas/DailyReviewDisposition'
+      required:
+      - brief_id
+      - current_disposition
+      - expected_generation
+      - fanout_limit
+      - review_digest
+      - review_id
+      - thesis_id
+    DailyPublicationStatusEnum:
+      enum:
+      - current
+      - superseded
+      type: string
+      description: |-
+        * `current` - current
+        * `superseded` - superseded
+    DailyReviewCounts:
+      type: object
+      properties:
+        reports:
+          $ref: '#/components/schemas/DailyReviewSectionCounts'
+        analyses:
+          $ref: '#/components/schemas/DailyReviewSectionCounts'
+        issues:
+          type: integer
+          minimum: 0
+        unresolved_analyses:
+          type: integer
+          minimum: 0
+        unknown_reported_cost_analyses:
+          type: integer
+          minimum: 0
+      required:
+      - analyses
+      - issues
+      - reports
+      - unknown_reported_cost_analyses
+      - unresolved_analyses
+    DailyReviewDetail:
+      type: object
+      properties:
+        review:
+          $ref: '#/components/schemas/RetainedDailyReview'
+        current_disposition:
+          $ref: '#/components/schemas/DailyReviewDisposition'
+        replayed:
+          type: boolean
+      required:
+      - current_disposition
+      - replayed
+      - review
+    DailyReviewDisposition:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/DailyReviewDispositionStatusEnum'
+        stale_reasons:
+          type: array
+          items:
+            type: string
+        observed_at:
+          type: string
+          format: date-time
+          description: Present dependency observation in the read snapshot, not exact
+            commit or delivery time.
+        publication_authority:
+          $ref: '#/components/schemas/PublicationAuthorityEnum'
+      required:
+      - observed_at
+      - publication_authority
+      - stale_reasons
+      - status
+    DailyReviewDispositionStatusEnum:
+      enum:
+      - prepared
+      - stale
+      type: string
+      description: |-
+        * `prepared` - prepared
+        * `stale` - stale
+    DailyReviewEvidence:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        policy_version:
+          type: string
+        limits:
+          description: Exact admitted positive record and encoded-byte bounds. Complete
+            assembly fails instead of truncating.
+        source_manifest:
+          type: array
+          items:
+            $ref: '#/components/schemas/DailyReviewSourceReference'
+      required:
+      - id
+      - limits
+      - policy_version
+      - source_manifest
+    DailyReviewList:
+      type: object
+      properties:
+        thesis_id:
+          type: string
+          format: uuid
+        reviews:
+          type: array
+          items:
+            $ref: '#/components/schemas/DailyReviewSummary'
+        limit:
+          type: integer
+          maximum: 100
+          minimum: 1
+        offset:
+          type: integer
+          maximum: 1000000
+          minimum: 0
+        total:
+          type: integer
+          minimum: 0
+        has_more:
+          type: boolean
+        observed_at:
+          type: string
+          format: date-time
+        publication_authority:
+          $ref: '#/components/schemas/PublicationAuthorityEnum'
+      required:
+      - has_more
+      - limit
+      - observed_at
+      - offset
+      - publication_authority
+      - reviews
+      - thesis_id
+      - total
+    DailyReviewSectionCounts:
+      type: object
+      properties:
+        new:
+          type: integer
+          minimum: 0
+        background:
+          type: integer
+          minimum: 0
+        deferred:
+          type: integer
+          minimum: 0
+      required:
+      - background
+      - deferred
+      - new
+    DailyReviewSourceReference:
+      type: object
+      properties:
+        source_id:
+          type: string
+          maxLength: 128
+        version_id:
+          type: string
+          format: uuid
+        digest:
+          type: string
+          maxLength: 64
+          minLength: 64
+        provenance:
+          type: string
+          maxLength: 64
+        observed_at:
+          type: string
+          format: date-time
+        permitted:
+          type: boolean
+      required:
+      - digest
+      - observed_at
+      - permitted
+      - provenance
+      - source_id
+      - version_id
+    DailyReviewSummary:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        command_id:
+          type: string
+          format: uuid
+        context_id:
+          type: string
+          format: uuid
+        evidence_set_id:
+          type: string
+          format: uuid
+        predecessor_id:
+          type: string
+          format: uuid
+          nullable: true
+        start:
+          type: string
+          format: date-time
+        cutoff:
+          type: string
+          format: date-time
+        prepared_at:
+          type: string
+          format: date-time
+        original_outcome:
+          $ref: '#/components/schemas/OriginalOutcomeEnum'
+        digest:
+          type: string
+          description: Saved content digest. Full retained content integrity is checked
+            by the detail operation.
+          maxLength: 64
+          minLength: 64
+        source_manifest:
+          type: array
+          items:
+            $ref: '#/components/schemas/DailyReviewSourceReference'
+        counts:
+          allOf:
+          - $ref: '#/components/schemas/DailyReviewCounts'
+          description: Counts of the exact retained sections, not coverage, factual
+            validation or materiality.
+        current_disposition:
+          $ref: '#/components/schemas/DailyReviewDisposition'
+      required:
+      - command_id
+      - context_id
+      - counts
+      - current_disposition
+      - cutoff
+      - digest
+      - evidence_set_id
+      - id
+      - original_outcome
+      - predecessor_id
+      - prepared_at
+      - source_manifest
+      - start
+    DirectionEnum:
+      enum:
+      - long
+      - short
+      type: string
+      description: |-
+        * `long` - long
+        * `short` - short
+    Draft:
+      type: object
+      properties:
+        text_version:
+          $ref: '#/components/schemas/TextVersion'
+        interpretation:
+          $ref: '#/components/schemas/Interpretation'
+      required:
+      - interpretation
+      - text_version
+    ErrorResponse:
+      type: object
+      properties:
+        detail:
+          type: string
+        errors: {}
+      required:
+      - detail
+    EvidenceAssessment:
+      type: object
+      properties:
+        summary:
+          type: string
+          maxLength: 2000
+        supporting_claim_ids:
+          type: array
+          items:
+            type: string
+            maxLength: 128
+          maxItems: 32
+        counter_claim_ids:
+          type: array
+          items:
+            type: string
+            maxLength: 128
+          maxItems: 32
+        gaps:
+          type: array
+          items:
+            type: string
+            maxLength: 1000
+          maxItems: 32
+      required:
+      - counter_claim_ids
+      - gaps
+      - summary
+      - supporting_claim_ids
+      additionalProperties: false
+    EvidenceContext:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        command_id:
+          type: string
+          format: uuid
+        thesis_id:
+          type: string
+          format: uuid
+        digest:
+          type: string
+          maxLength: 64
+          minLength: 64
+        content:
+          $ref: '#/components/schemas/SourceEvidenceEnvelope'
+        created_at:
+          type: string
+          format: date-time
+      required:
+      - command_id
+      - content
+      - created_at
+      - digest
+      - id
+      - thesis_id
+    EvidenceDisposition:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/EvidenceDispositionStatusEnum'
+        stale_reasons:
+          type: array
+          items:
+            type: string
+        observed_at:
+          type: string
+          format: date-time
+      required:
+      - observed_at
+      - stale_reasons
+      - status
+    EvidenceDispositionStatusEnum:
+      enum:
+      - current
+      - stale
+      type: string
+      description: |-
+        * `current` - current
+        * `stale` - stale
+    EvidenceResponse:
+      type: object
+      properties:
+        evidence:
+          $ref: '#/components/schemas/EvidenceContext'
+        current_disposition:
+          $ref: '#/components/schemas/EvidenceDisposition'
+        replayed:
+          type: boolean
+      required:
+      - current_disposition
+      - evidence
+      - replayed
+    FactualConflict:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/FactualConflictStatusEnum'
+        input_id:
+          type: string
+          maxLength: 100
+        exact_quote:
+          type: string
+          maxLength: 1000
+        claim_ids:
+          type: array
+          items:
+            type: string
+            maxLength: 128
+          maxItems: 32
+        explanation:
+          type: string
+          maxLength: 2000
+        question:
+          type: string
+          maxLength: 1000
+      required:
+      - claim_ids
+      - exact_quote
+      - explanation
+      - input_id
+      - question
+      - status
+      additionalProperties: false
+    FactualConflictStatusEnum:
+      enum:
+      - model_identified
+      type: string
+      description: '* `model_identified` - model_identified'
+    Interpretation:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        text_version_id:
+          type: string
+          format: uuid
+        drivers:
+          type: array
+          items:
+            type: string
+        horizon:
+          type: string
+          nullable: true
+        invalidation_signposts:
+          type: array
+          items:
+            type: string
+        known_at:
+          type: string
+          format: date-time
+          description: Provisional interpretation preparation time. This is not a
+            proved durable commit timestamp and does not establish full operational
+            known-at replay.
+        digest:
+          type: string
+        origin:
+          $ref: '#/components/schemas/OriginEnum'
+        review_card:
+          allOf:
+          - $ref: '#/components/schemas/PinnedReviewCard'
+          nullable: true
+          description: Versioned exact review surface included in the interpretation
+            hash. Labelled agent proposals remain hypotheses after review approval.
+      required:
+      - digest
+      - drivers
+      - horizon
+      - id
+      - invalidation_signposts
+      - known_at
+      - origin
+      - text_version_id
+    InterpretationInput:
+      type: object
+      properties:
+        drivers:
+          type: array
+          items:
+            type: string
+            maxLength: 1000
+          maxItems: 32
+        horizon:
+          type: string
+          nullable: true
+          maxLength: 1000
+        invalidation_signposts:
+          type: array
+          items:
+            type: string
+            maxLength: 1000
+          maxItems: 32
+      required:
+      - drivers
+      - horizon
+      - invalidation_signposts
+      additionalProperties: false
+    InterpretationInputRequest:
+      type: object
+      properties:
+        drivers:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 1000
+          maxItems: 32
+        horizon:
+          type: string
+          nullable: true
+          minLength: 1
+          maxLength: 1000
+        invalidation_signposts:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 1000
+          maxItems: 32
+      required:
+      - drivers
+      - horizon
+      - invalidation_signposts
+      additionalProperties: false
+    MappingStatusEnum:
+      enum:
+      - user_declared_unverified
+      type: string
+      description: '* `user_declared_unverified` - user_declared_unverified'
+    ModeEnum:
+      enum:
+      - recorded_example
+      type: string
+      description: '* `recorded_example` - recorded_example'
+    ModelCatalogResponse:
+      type: object
+      properties:
+        provider:
+          $ref: '#/components/schemas/ModelProviderEnum'
+        compilation_enabled:
+          type: boolean
+        credentials_configured:
+          type: boolean
+        fetched_at:
+          type: string
+          format: date-time
+        models:
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogModel'
+      required:
+      - compilation_enabled
+      - credentials_configured
+      - fetched_at
+      - models
+      - provider
+    ModelEnum:
+      enum:
+      - not_used
+      type: string
+      description: '* `not_used` - not_used'
+    ModelProviderEnum:
+      enum:
+      - nanogpt
+      - openrouter
+      - cheaperinference
+      type: string
+      description: |-
+        * `nanogpt` - nanogpt
+        * `openrouter` - openrouter
+        * `cheaperinference` - cheaperinference
+    MonitoringEnum:
+      enum:
+      - not_configured
+      type: string
+      description: '* `not_configured` - not_configured'
+    NewsAnalysis:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        status:
+          $ref: '#/components/schemas/NewsAnalysisStatusEnum'
+        current_disposition:
+          $ref: '#/components/schemas/CurrentDispositionEnum'
+        replayed:
+          type: boolean
+        source_revision_id:
+          type: string
+          format: uuid
+          nullable: true
+        provider:
+          $ref: '#/components/schemas/ModelProviderEnum'
+        model_id:
+          type: string
+          maxLength: 255
+        created_at:
+          type: string
+          format: date-time
+          nullable: true
+        finished_at:
+          type: string
+          format: date-time
+          nullable: true
+        context:
+          allOf:
+          - $ref: '#/components/schemas/NewsAnalysisContext'
+          nullable: true
+        document:
+          allOf:
+          - $ref: '#/components/schemas/NewsDocument'
+          nullable: true
+        usage:
+          $ref: '#/components/schemas/CompilationUsage'
+        reported_cost_usd:
+          type: string
+          nullable: true
+        estimated_cost_usd:
+          type: string
+          nullable: true
+        reported_model:
+          type: string
+          nullable: true
+        provider_request_id:
+          type: string
+          nullable: true
+        latency_ms:
+          type: integer
+          minimum: 0
+          nullable: true
+        stop_reason:
+          type: string
+          nullable: true
+        stale_reasons:
+          type: array
+          items:
+            type: string
+        limitations:
+          type: array
+          items:
+            type: string
+        unresolved_attempt_count:
+          type: integer
+          minimum: 0
+          description: Prior unresolved attempts remain visible; no unattempted report
+            does not mean all work resolved.
+      required:
+      - context
+      - created_at
+      - current_disposition
+      - document
+      - estimated_cost_usd
+      - finished_at
+      - id
+      - latency_ms
+      - limitations
+      - model_id
+      - provider
+      - provider_request_id
+      - replayed
+      - reported_cost_usd
+      - reported_model
+      - source_revision_id
+      - stale_reasons
+      - status
+      - stop_reason
+      - unresolved_attempt_count
+      - usage
+    NewsAnalysisContext:
+      type: object
+      properties:
+        source:
+          $ref: '#/components/schemas/NewsSourceSnapshot'
+        approved_thesis:
+          $ref: '#/components/schemas/NewsApprovedThesis'
+        positions:
+          type: array
+          items:
+            $ref: '#/components/schemas/NewsContextPosition'
+        cumulative:
+          description: 'Immutable admission-time cumulative envelope: pinned report
+            and prior-analysis membership, original dispositions, deferred work, gaps,
+            cutoff, lineage and exact projection digest. Retained model interpretations
+            are not factual sources or publication authority. This field does not
+            enable cumulative analysis through the manual POST endpoint.'
+      required:
+      - approved_thesis
+      - positions
+      - source
+    NewsAnalysisResponse:
+      type: object
+      properties:
+        analysis:
+          $ref: '#/components/schemas/NewsAnalysis'
+      required:
+      - analysis
+    NewsAnalysisStatusEnum:
+      enum:
+      - analysed
+      - stale
+      - failed
+      - outcome_unknown
+      - running
+      - queue_empty
+      type: string
+      description: |-
+        * `analysed` - analysed
+        * `stale` - stale
+        * `failed` - failed
+        * `outcome_unknown` - outcome_unknown
+        * `running` - running
+        * `queue_empty` - queue_empty
+    NewsApprovedThesis:
+      type: object
+      properties:
+        thesis_id:
+          type: string
+          format: uuid
+        thesis_version_id:
+          type: string
+          format: uuid
+        approval_id:
+          type: string
+          format: uuid
+        interpretation_id:
+          type: string
+          format: uuid
+        exact_text:
+          type: string
+        drivers:
+          type: array
+          items:
+            type: string
+        horizon:
+          type: string
+          nullable: true
+        invalidation_signposts:
+          type: array
+          items:
+            type: string
+        review_card:
+          allOf:
+          - $ref: '#/components/schemas/PinnedReviewCard'
+          nullable: true
+      required:
+      - approval_id
+      - drivers
+      - exact_text
+      - horizon
+      - interpretation_id
+      - invalidation_signposts
+      - thesis_id
+      - thesis_version_id
+    NewsAttributedFact:
+      type: object
+      properties:
+        fact_id:
+          type: string
+          maxLength: 2000
+        source_revision_id:
+          type: string
+          format: uuid
+          maxLength: 36
+        field:
+          $ref: '#/components/schemas/AttributedSourceFieldEnum'
+        exact_quote:
+          type: string
+          maxLength: 2000
+      required:
+      - exact_quote
+      - fact_id
+      - field
+      - source_revision_id
+      additionalProperties: false
+    NewsCatalogResponse:
+      type: object
+      properties:
+        sources:
+          type: array
+          items:
+            $ref: '#/components/schemas/NewsCatalogSource'
+        limitations:
+          type: array
+          items:
+            type: string
+      required:
+      - limitations
+      - sources
+    NewsCatalogSource:
+      type: object
+      properties:
+        id:
+          type: string
+          maxLength: 128
+        label:
+          type: string
+        kind:
+          $ref: '#/components/schemas/NewsCatalogSourceKindEnum'
+        current_reports:
+          type: integer
+          minimum: 0
+          description: Current observed heads, not unanalysed reports for a particular
+            thesis or complete coverage.
+      required:
+      - current_reports
+      - id
+      - kind
+      - label
+    NewsCatalogSourceKindEnum:
+      enum:
+      - rss
+      - fictional_fixture
+      type: string
+      description: |-
+        * `rss` - rss
+        * `fictional_fixture` - fictional_fixture
+    NewsContextPosition:
+      type: object
+      properties:
+        position_id:
+          type: string
+          format: uuid
+        version_id:
+          type: string
+          format: uuid
+        status:
+          $ref: '#/components/schemas/PositionStatusEnum'
+        underlying:
+          type: string
+        direction:
+          $ref: '#/components/schemas/DirectionEnum'
+        quantity:
+          type: string
+          nullable: true
+        quantity_unit:
+          type: string
+          nullable: true
+        horizon:
+          type: string
+          nullable: true
+        product_id:
+          type: string
+          nullable: true
+        venue:
+          type: string
+          nullable: true
+        expiry:
+          type: string
+          nullable: true
+        quote_currency:
+          type: string
+          nullable: true
+        missing_fields:
+          type: array
+          items:
+            type: string
+        mapping_status:
+          $ref: '#/components/schemas/MappingStatusEnum'
+      required:
+      - direction
+      - expiry
+      - horizon
+      - mapping_status
+      - missing_fields
+      - position_id
+      - product_id
+      - quantity
+      - quantity_unit
+      - quote_currency
+      - status
+      - underlying
+      - venue
+      - version_id
+    NewsDocument:
+      type: object
+      properties:
+        schema_version:
+          $ref: '#/components/schemas/NewsDocumentSchemaVersionEnum'
+        attributed_facts:
+          type: array
+          items:
+            $ref: '#/components/schemas/NewsAttributedFact'
+        thesis_route:
+          $ref: '#/components/schemas/NewsThesisRoute'
+        trade_route:
+          $ref: '#/components/schemas/NewsTradeRoute'
+        hypotheses:
+          type: array
+          items:
+            $ref: '#/components/schemas/NewsHypothesis'
+        trader_questions:
+          type: array
+          items:
+            type: string
+            maxLength: 2000
+          maxItems: 16
+        evidence_comparisons:
+          type: array
+          items:
+            $ref: '#/components/schemas/NewsEvidenceComparison'
+          description: Present only in v2 retained analyses. References eligible prior
+            model interpretations and this document's source-grounded facts; comparisons
+            confer no canonical-update authority.
+      required:
+      - attributed_facts
+      - hypotheses
+      - schema_version
+      - thesis_route
+      - trade_route
+      - trader_questions
+      additionalProperties: false
+    NewsDocumentSchemaVersionEnum:
+      enum:
+      - retained-news-analysis-v1
+      - retained-news-analysis-v2
+      type: string
+      description: |-
+        * `retained-news-analysis-v1` - retained-news-analysis-v1
+        * `retained-news-analysis-v2` - retained-news-analysis-v2
+    NewsEvidenceComparison:
+      type: object
+      properties:
+        prior_analysis_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+            maxLength: 36
+          maxItems: 16
+          minItems: 1
+        fact_ids:
+          type: array
+          items:
+            type: string
+            maxLength: 2000
+          maxItems: 16
+          minItems: 1
+        relationship:
+          $ref: '#/components/schemas/RelationshipEnum'
+        explanation:
+          type: string
+          maxLength: 2000
+        uncertainty:
+          type: string
+          maxLength: 2000
+      required:
+      - explanation
+      - fact_ids
+      - prior_analysis_ids
+      - relationship
+      - uncertainty
+      additionalProperties: false
+    NewsHypothesis:
+      type: object
+      properties:
+        hypothesis_id:
+          type: string
+          maxLength: 2000
+        fact_ids:
+          type: array
+          items:
+            type: string
+            maxLength: 2000
+          maxItems: 16
+        position_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+            maxLength: 36
+          maxItems: 200
+        explanation:
+          type: string
+          maxLength: 2000
+        transmission:
+          type: string
+          maxLength: 2000
+        horizon:
+          type: string
+          nullable: true
+          maxLength: 2000
+        assumptions:
+          type: array
+          items:
+            type: string
+            maxLength: 2000
+          maxItems: 16
+        uncertainty:
+          type: string
+          maxLength: 2000
+        counter_case:
+          type: string
+          maxLength: 2000
+        signposts:
+          type: array
+          items:
+            type: string
+            maxLength: 2000
+          maxItems: 16
+      required:
+      - assumptions
+      - counter_case
+      - explanation
+      - fact_ids
+      - horizon
+      - hypothesis_id
+      - position_ids
+      - signposts
+      - transmission
+      - uncertainty
+      additionalProperties: false
+    NewsReviewContext:
+      type: object
+      properties:
+        thesis_id:
+          type: string
+          format: uuid
+        approval_id:
+          type: string
+          format: uuid
+        exposure_digest:
+          type: string
+        approved_exact_text:
+          type: string
+        approved_interpretation:
+          $ref: '#/components/schemas/ApprovedNewsInterpretation'
+        positions:
+          type: array
+          items:
+            $ref: '#/components/schemas/NewsContextPosition'
+        limitations:
+          type: array
+          items:
+            type: string
+      required:
+      - approval_id
+      - approved_exact_text
+      - approved_interpretation
+      - exposure_digest
+      - limitations
+      - positions
+      - thesis_id
+    NewsRouteStatusEnum:
+      enum:
+      - potential
+      - review_needed
+      - not_identified
+      type: string
+      description: |-
+        * `potential` - potential
+        * `review_needed` - review_needed
+        * `not_identified` - not_identified
+    NewsSourceSnapshot:
+      type: object
+      properties:
+        source_key:
+          type: string
+        report_id:
+          type: integer
+          minimum: 1
+        native_id:
+          type: string
+        revision_id:
+          type: string
+          format: uuid
+        digest:
+          type: string
+        title:
+          type: string
+        content:
+          type: string
+        url:
+          type: string
+          description: Retained attribution URL; no fetch or article-body access is
+            implied.
+        published_at:
+          type: string
+          format: date-time
+          nullable: true
+        received_at:
+          type: string
+          format: date-time
+        availability_witness_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: Conservative postcommit observation, not exact durable known-at
+            or public availability.
+        is_fixture:
+          type: boolean
+      required:
+      - availability_witness_at
+      - content
+      - digest
+      - is_fixture
+      - native_id
+      - published_at
+      - received_at
+      - report_id
+      - revision_id
+      - source_key
+      - title
+      - url
+    NewsThesisRoute:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/NewsRouteStatusEnum'
+        fact_ids:
+          type: array
+          items:
+            type: string
+            maxLength: 2000
+          maxItems: 16
+        explanation:
+          type: string
+          maxLength: 2000
+      required:
+      - explanation
+      - fact_ids
+      - status
+      additionalProperties: false
+    NewsTradeRoute:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/NewsRouteStatusEnum'
+        fact_ids:
+          type: array
+          items:
+            type: string
+            maxLength: 2000
+          maxItems: 16
+        explanation:
+          type: string
+          maxLength: 2000
+        position_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+            maxLength: 36
+          maxItems: 200
+      required:
+      - explanation
+      - fact_ids
+      - position_ids
+      - status
+      additionalProperties: false
+    OriginEnum:
+      enum:
+      - user_supplied
+      - model_compilation
+      type: string
+      description: |-
+        * `user_supplied` - user_supplied
+        * `model_compilation` - model_compilation
+    OriginalOutcomeEnum:
+      enum:
+      - prepared
+      type: string
+      description: '* `prepared` - prepared'
+    PinnedReviewCard:
+      type: object
+      properties:
+        schema_version:
+          $ref: '#/components/schemas/PinnedReviewCardSchemaVersionEnum'
+        inputs:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReviewInput'
+        document:
+          $ref: '#/components/schemas/CompilationDocument'
+        evidence:
+          $ref: '#/components/schemas/ReviewEvidence'
+      required:
+      - document
+      - evidence
+      - inputs
+      - schema_version
+      additionalProperties: false
+    PinnedReviewCardSchemaVersionEnum:
+      enum:
+      - thesis-review-card-v1
+      - thesis-review-card-v2
+      type: string
+      description: |-
+        * `thesis-review-card-v1` - thesis-review-card-v1
+        * `thesis-review-card-v2` - thesis-review-card-v2
+    PortfolioImpactEnum:
+      enum:
+      - unresolved
+      type: string
+      description: '* `unresolved` - unresolved'
+    PositionCommand:
+      type: object
+      properties:
+        command_id:
+          type: string
+          format: uuid
+        kind:
+          $ref: '#/components/schemas/PositionCommandKindEnum'
+        replayed:
+          type: boolean
+        result:
+          $ref: '#/components/schemas/PositionCommandResult'
+        is_current_version:
+          type: boolean
+      required:
+      - command_id
+      - is_current_version
+      - kind
+      - replayed
+      - result
+    PositionCommandKindEnum:
+      enum:
+      - create
+      - revise
+      - close
+      type: string
+      description: |-
+        * `create` - create
+        * `revise` - revise
+        * `close` - close
+    PositionCommandResponse:
+      type: object
+      properties:
+        command:
+          $ref: '#/components/schemas/PositionCommand'
+        position:
+          $ref: '#/components/schemas/PositionDetail'
+      required:
+      - command
+      - position
+    PositionCommandResult:
+      type: object
+      properties:
+        position_id:
+          type: string
+          format: uuid
+        version_id:
+          type: string
+          format: uuid
+        revision:
+          type: integer
+        accepted_at:
+          type: string
+          format: date-time
+      required:
+      - accepted_at
+      - position_id
+      - revision
+      - version_id
+    PositionDeclarationRequest:
+      type: object
+      properties:
+        underlying:
+          type: string
+          minLength: 1
+          maxLength: 128
+        direction:
+          $ref: '#/components/schemas/DirectionEnum'
+        product_id:
+          type: string
+          nullable: true
+          minLength: 1
+          maxLength: 256
+        venue:
+          type: string
+          nullable: true
+          minLength: 1
+          maxLength: 128
+        expiry:
+          type: string
+          nullable: true
+          minLength: 10
+          pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}$
+          maxLength: 10
+        quote_currency:
+          type: string
+          nullable: true
+          minLength: 1
+          maxLength: 16
+        horizon:
+          type: string
+          nullable: true
+          minLength: 1
+          maxLength: 1000
+        quantity:
+          type: string
+          nullable: true
+          minLength: 1
+          description: Positive fixed decimal string, at most 28 digits total and
+            12 fractional places. Trailing zeroes are preserved; this is a declaration,
+            not sizing arithmetic.
+          pattern: ^(?:0|[1-9][0-9]{0,27})(?:\.[0-9]{1,12})?$
+          maxLength: 29
+        quantity_unit:
+          type: string
+          nullable: true
+          minLength: 1
+          maxLength: 64
+      required:
+      - direction
+      - expiry
+      - horizon
+      - product_id
+      - quantity
+      - quantity_unit
+      - quote_currency
+      - underlying
+      - venue
+      additionalProperties: false
+    PositionDetail:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        thesis_id:
+          type: string
+          format: uuid
+        revision:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        changed_at:
+          type: string
+          format: date-time
+        original_approval_id:
+          type: string
+          format: uuid
+        current_version:
+          $ref: '#/components/schemas/PositionVersion'
+        mapping_status:
+          $ref: '#/components/schemas/MappingStatusEnum'
+        monitoring:
+          $ref: '#/components/schemas/MonitoringEnum'
+      required:
+      - changed_at
+      - created_at
+      - current_version
+      - id
+      - mapping_status
+      - monitoring
+      - original_approval_id
+      - revision
+      - thesis_id
+    PositionHistory:
+      type: object
+      properties:
+        position:
+          $ref: '#/components/schemas/PositionDetail'
+        versions:
+          type: array
+          items:
+            $ref: '#/components/schemas/PositionVersion'
+        audit:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuditEvent'
+        history_limit:
+          type: integer
+        truncated:
+          type: boolean
+        replay_scope:
+          $ref: '#/components/schemas/PositionHistoryReplayScopeEnum'
+      required:
+      - audit
+      - history_limit
+      - position
+      - replay_scope
+      - truncated
+      - versions
+    PositionHistoryReplayScopeEnum:
+      enum:
+      - position_effective_time_history
+      type: string
+      description: '* `position_effective_time_history` - position_effective_time_history'
+    PositionList:
+      type: object
+      properties:
+        positions:
+          type: array
+          items:
+            $ref: '#/components/schemas/PositionDetail'
+        limit:
+          type: integer
+        offset:
+          type: integer
+        has_more:
+          type: boolean
+      required:
+      - has_more
+      - limit
+      - offset
+      - positions
+    PositionStatusEnum:
+      enum:
+      - open
+      - closed
+      type: string
+      description: |-
+        * `open` - open
+        * `closed` - closed
+    PositionVersion:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        position_id:
+          type: string
+          format: uuid
+        parent_version_id:
+          type: string
+          format: uuid
+          nullable: true
+        reviewed_approval_id:
+          type: string
+          format: uuid
+        paper:
+          type: boolean
+        status:
+          $ref: '#/components/schemas/PositionStatusEnum'
+        underlying:
+          type: string
+        direction:
+          $ref: '#/components/schemas/DirectionEnum'
+        product_id:
+          type: string
+          nullable: true
+        venue:
+          type: string
+          nullable: true
+        expiry:
+          type: string
+          nullable: true
+        quote_currency:
+          type: string
+          nullable: true
+        horizon:
+          type: string
+          nullable: true
+        quantity:
+          type: string
+          nullable: true
+        quantity_unit:
+          type: string
+          nullable: true
+        accepted_at:
+          type: string
+          format: date-time
+          description: Protected effective command time, not a measured durable commit
+            timestamp.
+        digest:
+          type: string
+        mapping_status:
+          $ref: '#/components/schemas/MappingStatusEnum'
+        missing_fields:
+          type: array
+          items:
+            type: string
+      required:
+      - accepted_at
+      - digest
+      - direction
+      - expiry
+      - horizon
+      - id
+      - mapping_status
+      - missing_fields
+      - paper
+      - parent_version_id
+      - position_id
+      - product_id
+      - quantity
+      - quantity_unit
+      - quote_currency
+      - reviewed_approval_id
+      - status
+      - underlying
+      - venue
+    PrepareEvidenceRequest:
+      type: object
+      properties:
+        command_id:
+          type: string
+          format: uuid
+          minLength: 1
+          maxLength: 36
+        revision_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+            minLength: 1
+            maxLength: 36
+          maxItems: 16
+          minItems: 1
+      required:
+      - command_id
+      - revision_ids
+      additionalProperties: false
+    ProposeThesisRequest:
+      type: object
+      properties:
+        command_id:
+          type: string
+          format: uuid
+          minLength: 1
+          maxLength: 36
+        text:
+          type: string
+          minLength: 1
+          maxLength: 20000
+        interpretation:
+          $ref: '#/components/schemas/InterpretationInputRequest'
+        expected_revision:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 1
+          format: int64
+      required:
+      - command_id
+      - expected_revision
+      - interpretation
+      - text
+      additionalProperties: false
+    PublicationAuthorityEnum:
+      enum:
+      - false
+      type: boolean
+      description: '* `False` - False'
+    PublishDailyReviewRequest:
+      type: object
+      properties:
+        command_id:
+          type: string
+          format: uuid
+          minLength: 1
+          maxLength: 36
+        expected_review_digest:
+          type: string
+          minLength: 64
+          pattern: ^[0-9a-f]{64}$
+          maxLength: 64
+        expected_generation:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        fanout_limit:
+          type: integer
+          maximum: 1000
+          minimum: 1
+      required:
+      - command_id
+      - expected_generation
+      - expected_review_digest
+      - fanout_limit
+      additionalProperties: false
+    RecordedBrief:
+      type: object
+      properties:
+        id:
+          type: string
+        generation:
+          type: integer
+        context_status:
+          $ref: '#/components/schemas/ContextStatusEnum'
+        current_assessment_id:
+          type: string
+        input_observed_at:
+          type: string
+          format: date-time
+        commit_time_measured:
+          type: boolean
+      required:
+      - commit_time_measured
+      - context_status
+      - current_assessment_id
+      - generation
+      - id
+      - input_observed_at
+    RecordedFact:
+      type: object
+      properties:
+        field:
+          type: string
+        value: {}
+      required:
+      - field
+      - value
+    RecordedNewsRequestRequest:
+      type: object
+      properties:
+        expected_approval_id:
+          type: string
+          format: uuid
+          minLength: 1
+          maxLength: 36
+      required:
+      - expected_approval_id
+      additionalProperties: false
+    RecordedNewsResponse:
+      type: object
+      properties:
+        mode:
+          $ref: '#/components/schemas/ModeEnum'
+        synthetic:
+          type: boolean
+        monitoring:
+          $ref: '#/components/schemas/MonitoringEnum'
+        model:
+          $ref: '#/components/schemas/ModelEnum'
+        provider_calls:
+          type: integer
+        provider_spend:
+          type: integer
+        thesis_id:
+          type: string
+          format: uuid
+        snapshot_at:
+          type: string
+          format: date-time
+          description: Protected currentness snapshot, not an admission commit timestamp.
+        brief:
+          $ref: '#/components/schemas/RecordedBrief'
+        notice:
+          $ref: '#/components/schemas/RecordedNotice'
+        source:
+          $ref: '#/components/schemas/RecordedSource'
+        screening:
+          $ref: '#/components/schemas/RecordedScreening'
+        positions:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecordedPosition'
+        limitations:
+          type: array
+          items:
+            type: string
+      required:
+      - brief
+      - limitations
+      - mode
+      - model
+      - monitoring
+      - notice
+      - positions
+      - provider_calls
+      - provider_spend
+      - screening
+      - snapshot_at
+      - source
+      - synthetic
+      - thesis_id
+    RecordedNotice:
+      type: object
+      properties:
+        assessment_id:
+          type: string
+        kind:
+          $ref: '#/components/schemas/RecordedNoticeKindEnum'
+        is_current:
+          type: boolean
+        replayed:
+          type: boolean
+        portfolio_impact:
+          $ref: '#/components/schemas/PortfolioImpactEnum'
+        expectations:
+          $ref: '#/components/schemas/UnavailableEvidenceEnum'
+        facts:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecordedFact'
+        notification:
+          $ref: '#/components/schemas/RecordedNotification'
+      required:
+      - assessment_id
+      - expectations
+      - facts
+      - is_current
+      - kind
+      - notification
+      - portfolio_impact
+      - replayed
+    RecordedNoticeKindEnum:
+      enum:
+      - supported_factual_notice
+      type: string
+      description: '* `supported_factual_notice` - supported_factual_notice'
+    RecordedNotification:
+      type: object
+      properties:
+        intent_id:
+          type: string
+        state:
+          $ref: '#/components/schemas/StateEnum'
+        external_delivery:
+          type: string
+          description: Always "not_configured" for recorded examples.
+      required:
+      - external_delivery
+      - intent_id
+      - state
+    RecordedPosition:
+      type: object
+      properties:
+        position_id:
+          type: string
+          format: uuid
+        version_id:
+          type: string
+          format: uuid
+        status:
+          $ref: '#/components/schemas/PositionStatusEnum'
+        underlying:
+          type: string
+        direction:
+          $ref: '#/components/schemas/DirectionEnum'
+        quantity:
+          type: string
+          nullable: true
+        quantity_unit:
+          type: string
+          nullable: true
+        horizon:
+          type: string
+          nullable: true
+        mapping_status:
+          $ref: '#/components/schemas/MappingStatusEnum'
+        missing_fields:
+          type: array
+          items:
+            type: string
+      required:
+      - direction
+      - horizon
+      - mapping_status
+      - missing_fields
+      - position_id
+      - quantity
+      - quantity_unit
+      - status
+      - underlying
+      - version_id
+    RecordedScreening:
+      type: object
+      properties:
+        basis:
+          $ref: '#/components/schemas/BasisEnum'
+        route:
+          $ref: '#/components/schemas/RouteEnum'
+        reasons:
+          type: array
+          items:
+            type: string
+        personalized_relevance:
+          type: string
+          description: Always "unresolved"; no personalized analysis was performed.
+      required:
+      - basis
+      - personalized_relevance
+      - reasons
+      - route
+    RecordedSource:
+      type: object
+      properties:
+        event_id:
+          type: string
+        revision:
+          type: integer
+        source_id:
+          type: string
+        synthetic:
+          type: boolean
+        public_available_at:
+          type: string
+          format: date-time
+        recorded_system_received_at:
+          type: string
+          format: date-time
+        recorded_known_at:
+          type: string
+          format: date-time
+      required:
+      - event_id
+      - public_available_at
+      - recorded_known_at
+      - recorded_system_received_at
+      - revision
+      - source_id
+      - synthetic
+    Refinement:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        command_id:
+          type: string
+          format: uuid
+        parent_attempt_id:
+          type: string
+          format: uuid
+        text_version_id:
+          type: string
+          format: uuid
+        input_text_version:
+          $ref: '#/components/schemas/CompilationTextInput'
+        expected_revision:
+          type: integer
+        answers:
+          type: array
+          items:
+            $ref: '#/components/schemas/RefinementAnswer'
+        cumulative_inputs:
+          type: array
+          items:
+            $ref: '#/components/schemas/RefinementInput'
+        created_at:
+          type: string
+          format: date-time
+        replayed:
+          type: boolean
+        is_current_context:
+          type: boolean
+          description: Protected snapshot of whether this saved input can be used
+            for the current draft. Saving answers does not approve or amend the thesis.
+      required:
+      - answers
+      - command_id
+      - created_at
+      - cumulative_inputs
+      - expected_revision
+      - id
+      - input_text_version
+      - is_current_context
+      - parent_attempt_id
+      - replayed
+      - text_version_id
+    RefinementAnswer:
+      type: object
+      properties:
+        question_index:
+          type: integer
+          maximum: 31
+          minimum: 0
+        exact_answer:
+          type: string
+          maxLength: 2000
+      required:
+      - exact_answer
+      - question_index
+      additionalProperties: false
+    RefinementAnswerRequest:
+      type: object
+      properties:
+        question_index:
+          type: integer
+          maximum: 31
+          minimum: 0
+        exact_answer:
+          type: string
+          minLength: 1
+          maxLength: 2000
+      required:
+      - exact_answer
+      - question_index
+      additionalProperties: false
+    RefinementInput:
+      type: object
+      properties:
+        question_index:
+          type: integer
+          maximum: 31
+          minimum: 0
+        exact_answer:
+          type: string
+          maxLength: 2000
+        input_id:
+          type: string
+          maxLength: 100
+        parent_attempt_id:
+          type: string
+          format: uuid
+          maxLength: 36
+        question:
+          type: string
+          maxLength: 1000
+      required:
+      - exact_answer
+      - input_id
+      - parent_attempt_id
+      - question
+      - question_index
+      additionalProperties: false
+    RefinementResponse:
+      type: object
+      properties:
+        refinement:
+          $ref: '#/components/schemas/Refinement'
+        thesis:
+          $ref: '#/components/schemas/ThesisDetail'
+      required:
+      - refinement
+      - thesis
+    RelationshipEnum:
+      enum:
+      - strengthens
+      - weakens
+      - offsets
+      - unresolved
+      type: string
+      description: |-
+        * `strengthens` - strengthens
+        * `weakens` - weakens
+        * `offsets` - offsets
+        * `unresolved` - unresolved
+    RetainedDailyPublication:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        command_id:
+          type: string
+          format: uuid
+        review_id:
+          type: string
+          format: uuid
+        brief_id:
+          type: string
+        assessment_id:
+          type: string
+        review_digest:
+          type: string
+          maxLength: 64
+          minLength: 64
+        expected_generation:
+          type: integer
+          minimum: 0
+        published_at:
+          type: string
+          format: date-time
+          description: Clock sampled after publication protection. This is not an
+            exact durable commit or delivery time.
+        original_decision:
+          $ref: '#/components/schemas/DailyPublicationDecision'
+        generation_at_publication:
+          type: integer
+          minimum: 1
+          nullable: true
+      required:
+      - assessment_id
+      - brief_id
+      - command_id
+      - expected_generation
+      - generation_at_publication
+      - id
+      - original_decision
+      - published_at
+      - review_digest
+      - review_id
+    RetainedDailyReview:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        command_id:
+          type: string
+          format: uuid
+        context_id:
+          type: string
+          format: uuid
+        evidence_set_id:
+          type: string
+          format: uuid
+        evidence_set:
+          $ref: '#/components/schemas/DailyReviewEvidence'
+        predecessor_id:
+          type: string
+          format: uuid
+          nullable: true
+        start:
+          type: string
+          format: date-time
+        cutoff:
+          type: string
+          format: date-time
+        prepared_at:
+          type: string
+          format: date-time
+        original_outcome:
+          $ref: '#/components/schemas/OriginalOutcomeEnum'
+        digest:
+          type: string
+          maxLength: 64
+          minLength: 64
+        content:
+          description: Exact immutable deterministic review, bounded at assembly by
+            evidence_set.limits. Includes retained source passages, original analyses,
+            period classifications, gaps and costs. Prior model documents are hypotheses,
+            not verified facts or a synthesized published brief.
+        original_inputs:
+          description: Exact frozen approved text/interpretation, complete paper exposure,
+            source contracts and predecessor context under the recorded admitted bounds.
+            Missing macro context stays explicit.
+      required:
+      - command_id
+      - content
+      - context_id
+      - cutoff
+      - digest
+      - evidence_set
+      - evidence_set_id
+      - id
+      - original_inputs
+      - original_outcome
+      - predecessor_id
+      - prepared_at
+      - start
+    ReviewEvidence:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/ReviewEvidenceStatusEnum'
+        references:
+          type: array
+          items:
+            type: string
+          maxItems: 0
+        context:
+          $ref: '#/components/schemas/SourceEvidenceEnvelope'
+      required:
+      - status
+      additionalProperties: false
+    ReviewEvidenceStatusEnum:
+      enum:
+      - unavailable
+      - retained_sources
+      type: string
+      description: |-
+        * `unavailable` - unavailable
+        * `retained_sources` - retained_sources
+    ReviewExtractedItem:
+      type: object
+      properties:
+        text:
+          type: string
+          maxLength: 1000
+        input_id:
+          type: string
+          maxLength: 100
+        exact_quote:
+          type: string
+          maxLength: 1000
+      required:
+      - exact_quote
+      - input_id
+      - text
+      additionalProperties: false
+    ReviewInput:
+      type: object
+      properties:
+        input_id:
+          type: string
+          maxLength: 100
+        exact_text:
+          type: string
+          maxLength: 20000
+        parent_attempt_id:
+          type: string
+          format: uuid
+          maxLength: 36
+        question_index:
+          type: integer
+          maximum: 31
+          minimum: 0
+        question:
+          type: string
+          maxLength: 1000
+        exact_answer:
+          type: string
+          maxLength: 2000
+      required:
+      - input_id
+      additionalProperties: false
+    ReviewSection:
+      type: object
+      properties:
+        extracted:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReviewExtractedItem'
+        proposed:
+          type: array
+          items:
+            type: string
+            maxLength: 1000
+          maxItems: 32
+        gap:
+          type: string
+          nullable: true
+          maxLength: 2000
+      required:
+      - extracted
+      - gap
+      - proposed
+      additionalProperties: false
+    ReviewSections:
+      type: object
+      properties:
+        claim:
+          $ref: '#/components/schemas/ReviewSection'
+        affected_assets:
+          $ref: '#/components/schemas/ReviewSection'
+        causal_path:
+          $ref: '#/components/schemas/ReviewSection'
+        assumptions:
+          $ref: '#/components/schemas/ReviewSection'
+        catalysts:
+          $ref: '#/components/schemas/ReviewSection'
+        scenarios:
+          $ref: '#/components/schemas/ReviewSection'
+        monitoring_scope:
+          $ref: '#/components/schemas/ReviewSection'
+      required:
+      - affected_assets
+      - assumptions
+      - catalysts
+      - causal_path
+      - claim
+      - monitoring_scope
+      - scenarios
+      additionalProperties: false
+    RevisePositionRequest:
+      type: object
+      properties:
+        command_id:
+          type: string
+          format: uuid
+          minLength: 1
+          maxLength: 36
+        expected_approval_id:
+          type: string
+          format: uuid
+          minLength: 1
+          maxLength: 36
+        position:
+          $ref: '#/components/schemas/PositionDeclarationRequest'
+        expected_revision:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 1
+          format: int64
+      required:
+      - command_id
+      - expected_approval_id
+      - expected_revision
+      - position
+      additionalProperties: false
+    RouteEnum:
+      enum:
+      - investigate
+      type: string
+      description: '* `investigate` - investigate'
+    SaveRefinementRequestRequest:
+      type: object
+      properties:
+        command_id:
+          type: string
+          format: uuid
+          minLength: 1
+          maxLength: 36
+        expected_revision:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 1
+          format: int64
+        parent_attempt_id:
+          type: string
+          format: uuid
+          minLength: 1
+          maxLength: 36
+        answers:
+          type: array
+          items:
+            $ref: '#/components/schemas/RefinementAnswerRequest'
+      required:
+      - answers
+      - command_id
+      - expected_revision
+      - parent_attempt_id
+      additionalProperties: false
+    SourceEvidenceEnvelope:
+      type: object
+      properties:
+        schema_version:
+          $ref: '#/components/schemas/SourceEvidenceEnvelopeSchemaVersionEnum'
+        cutoff:
+          type: string
+          format: date-time
+        reports:
+          type: array
+          items:
+            $ref: '#/components/schemas/SourceEvidenceReport'
+        gaps:
+          type: array
+          items:
+            type: string
+            maxLength: 2000
+          maxItems: 32
+      required:
+      - cutoff
+      - gaps
+      - reports
+      - schema_version
+      additionalProperties: false
+    SourceEvidenceEnvelopeSchemaVersionEnum:
+      enum:
+      - retained-source-evidence-v1
+      type: string
+      description: '* `retained-source-evidence-v1` - retained-source-evidence-v1'
+    SourceEvidenceReport:
+      type: object
+      properties:
+        revision_id:
+          type: string
+          format: uuid
+          maxLength: 36
+        source_id:
+          type: string
+          maxLength: 128
+        title:
+          type: string
+          maxLength: 4096
+        content:
+          type: string
+          maxLength: 16384
+        source_url:
+          type: string
+          maxLength: 4096
+        source_claimed_published_at:
+          type: string
+          format: date-time
+          nullable: true
+        system_received_at:
+          type: string
+          format: date-time
+        availability_witness_at:
+          type: string
+          format: date-time
+        contract_version_id:
+          type: string
+          format: uuid
+          maxLength: 36
+        contract_digest:
+          type: string
+          maxLength: 64
+          minLength: 64
+        head_at_admission_id:
+          type: string
+          format: uuid
+          maxLength: 36
+      required:
+      - availability_witness_at
+      - content
+      - contract_digest
+      - contract_version_id
+      - head_at_admission_id
+      - revision_id
+      - source_claimed_published_at
+      - source_id
+      - source_url
+      - system_received_at
+      - title
+      additionalProperties: false
+    StateEnum:
+      enum:
+      - pending
+      - delivered
+      - canceled
+      type: string
+      description: |-
+        * `pending` - pending
+        * `delivered` - delivered
+        * `canceled` - canceled
+    Synthesis:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        command_id:
+          type: string
+          format: uuid
+        review_id:
+          type: string
+          format: uuid
+        review_digest:
+          type: string
+          maxLength: 64
+          minLength: 64
+        provider:
+          $ref: '#/components/schemas/ModelProviderEnum'
+        model_id:
+          type: string
+        schema_version:
+          type: string
+        prompt_version:
+          type: string
+        status:
+          $ref: '#/components/schemas/SynthesisStatusEnum'
+        created_at:
+          type: string
+          format: date-time
+        finished_at:
+          type: string
+          format: date-time
+          nullable: true
+        document:
+          allOf:
+          - $ref: '#/components/schemas/SynthesisDocument'
+          nullable: true
+        context:
+          $ref: '#/components/schemas/SynthesisContext'
+        context_digest:
+          type: string
+          maxLength: 64
+          minLength: 64
+        usage:
+          $ref: '#/components/schemas/CompilationUsage'
+        reported_cost_usd:
+          type: string
+          nullable: true
+        estimated_cost_usd:
+          type: string
+          nullable: true
+        reported_model:
+          type: string
+          nullable: true
+        provider_request_id:
+          type: string
+          nullable: true
+        latency_ms:
+          type: integer
+          minimum: 0
+          nullable: true
+        stop_reason:
+          type: string
+          nullable: true
+        original_stale_reasons:
+          type: array
+          items:
+            type: string
+        limitations:
+          type: array
+          items:
+            type: string
+      required:
+      - command_id
+      - context
+      - context_digest
+      - created_at
+      - document
+      - estimated_cost_usd
+      - finished_at
+      - id
+      - latency_ms
+      - limitations
+      - model_id
+      - original_stale_reasons
+      - prompt_version
+      - provider
+      - provider_request_id
+      - reported_cost_usd
+      - reported_model
+      - review_digest
+      - review_id
+      - schema_version
+      - status
+      - stop_reason
+      - usage
+    SynthesisClaim:
+      type: object
+      properties:
+        claim_id:
+          type: string
+          maxLength: 128
+        source_revision_id:
+          type: string
+          format: uuid
+          maxLength: 36
+        source_field:
+          $ref: '#/components/schemas/AttributedSourceFieldEnum'
+        quote:
+          type: string
+          maxLength: 2000
+      required:
+      - claim_id
+      - quote
+      - source_field
+      - source_revision_id
+      additionalProperties: false
+    SynthesisContext:
+      type: object
+      properties:
+        review_id:
+          type: string
+          format: uuid
+        review_digest:
+          type: string
+          maxLength: 64
+          minLength: 64
+        review:
+          description: Exact immutable daily digest, validated by the retained daily-review
+            domain contract.
+        original_inputs:
+          description: Exact approved inputs and full attached paper book, not current
+            substitutes.
+        report_heads:
+          type: object
+          additionalProperties:
+            type: string
+            format: uuid
+            nullable: true
+          description: Original report head labels distinguish historical revisions.
+      required:
+      - original_inputs
+      - report_heads
+      - review
+      - review_digest
+      - review_id
+    SynthesisDisposition:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/SynthesisDispositionStatusEnum'
+        stale_reasons:
+          type: array
+          items:
+            type: string
+        observed_at:
+          type: string
+          format: date-time
+        publication_authority:
+          $ref: '#/components/schemas/PublicationAuthorityEnum'
+      required:
+      - observed_at
+      - publication_authority
+      - stale_reasons
+      - status
+    SynthesisDispositionStatusEnum:
+      enum:
+      - current
+      - stale
+      - unresolved
+      type: string
+      description: |-
+        * `current` - current
+        * `stale` - stale
+        * `unresolved` - unresolved
+    SynthesisDocument:
+      type: object
+      properties:
+        schema_version:
+          $ref: '#/components/schemas/SynthesisDocumentSchemaVersionEnum'
+        attributed_claims:
+          type: array
+          items:
+            $ref: '#/components/schemas/SynthesisClaim'
+        overview:
+          $ref: '#/components/schemas/SynthesisSection'
+        thesis_effect:
+          $ref: '#/components/schemas/SynthesisThesisEffect'
+        trade_effects:
+          type: array
+          items:
+            $ref: '#/components/schemas/SynthesisTradeEffect'
+        counter_case:
+          $ref: '#/components/schemas/SynthesisSection'
+        watch_questions:
+          type: array
+          items:
+            type: string
+            maxLength: 2000
+          maxItems: 32
+        gaps:
+          type: array
+          items:
+            type: string
+            maxLength: 2000
+          maxItems: 32
+      required:
+      - attributed_claims
+      - counter_case
+      - gaps
+      - overview
+      - schema_version
+      - thesis_effect
+      - trade_effects
+      - watch_questions
+      additionalProperties: false
+    SynthesisDocumentSchemaVersionEnum:
+      enum:
+      - retained-daily-synthesis-v1
+      type: string
+      description: '* `retained-daily-synthesis-v1` - retained-daily-synthesis-v1'
+    SynthesisResponse:
+      type: object
+      properties:
+        synthesis:
+          $ref: '#/components/schemas/Synthesis'
+        current_disposition:
+          $ref: '#/components/schemas/SynthesisDisposition'
+        replayed:
+          type: boolean
+        review_id:
+          type: string
+          format: uuid
+        review_digest:
+          type: string
+          maxLength: 64
+          minLength: 64
+      required:
+      - current_disposition
+      - replayed
+      - review_digest
+      - review_id
+      - synthesis
+    SynthesisSection:
+      type: object
+      properties:
+        text:
+          type: string
+          maxLength: 2000
+        claim_ids:
+          type: array
+          items:
+            type: string
+            maxLength: 128
+          maxItems: 32
+        prior_analysis_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+            maxLength: 36
+          maxItems: 32
+        uncertainty:
+          type: string
+          maxLength: 2000
+      required:
+      - claim_ids
+      - prior_analysis_ids
+      - text
+      - uncertainty
+      additionalProperties: false
+    SynthesisStatusEnum:
+      enum:
+      - synthesised
+      - stale
+      - failed
+      - outcome_unknown
+      - running
+      type: string
+      description: |-
+        * `synthesised` - synthesised
+        * `stale` - stale
+        * `failed` - failed
+        * `outcome_unknown` - outcome_unknown
+        * `running` - running
+    SynthesisThesisEffect:
+      type: object
+      properties:
+        effect:
+          $ref: '#/components/schemas/SynthesisThesisEffectEffectEnum'
+        reasoning:
+          type: string
+          maxLength: 2000
+        claim_ids:
+          type: array
+          items:
+            type: string
+            maxLength: 128
+          maxItems: 32
+        prior_analysis_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+            maxLength: 36
+          maxItems: 32
+        uncertainty:
+          type: string
+          maxLength: 2000
+      required:
+      - claim_ids
+      - effect
+      - prior_analysis_ids
+      - reasoning
+      - uncertainty
+      additionalProperties: false
+    SynthesisThesisEffectEffectEnum:
+      enum:
+      - supports
+      - challenges
+      - mixed
+      - unresolved
+      type: string
+      description: |-
+        * `supports` - supports
+        * `challenges` - challenges
+        * `mixed` - mixed
+        * `unresolved` - unresolved
+    SynthesisTradeEffect:
+      type: object
+      properties:
+        effect:
+          $ref: '#/components/schemas/SynthesisTradeEffectEffectEnum'
+        reasoning:
+          type: string
+          maxLength: 2000
+        claim_ids:
+          type: array
+          items:
+            type: string
+            maxLength: 128
+          maxItems: 32
+        prior_analysis_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+            maxLength: 36
+          maxItems: 32
+        uncertainty:
+          type: string
+          maxLength: 2000
+        position_id:
+          type: string
+          format: uuid
+          maxLength: 36
+      required:
+      - claim_ids
+      - effect
+      - position_id
+      - prior_analysis_ids
+      - reasoning
+      - uncertainty
+      additionalProperties: false
+    SynthesisTradeEffectEffectEnum:
+      enum:
+      - potential_risk
+      - potential_opportunity
+      - mixed
+      - unresolved
+      type: string
+      description: |-
+        * `potential_risk` - potential_risk
+        * `potential_opportunity` - potential_opportunity
+        * `mixed` - mixed
+        * `unresolved` - unresolved
+    SynthesizeReviewRequest:
+      type: object
+      properties:
+        command_id:
+          type: string
+          format: uuid
+          minLength: 1
+          maxLength: 36
+        expected_review_digest:
+          type: string
+          minLength: 64
+          maxLength: 64
+        provider_id:
+          $ref: '#/components/schemas/ModelProviderEnum'
+        model_id:
+          type: string
+          minLength: 1
+          maxLength: 255
+      required:
+      - command_id
+      - expected_review_digest
+      - model_id
+      - provider_id
+      additionalProperties: false
+    TextVersion:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        parent_version_id:
+          type: string
+          format: uuid
+          nullable: true
+        exact_text:
+          type: string
+        text_digest:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+      required:
+      - created_at
+      - exact_text
+      - id
+      - parent_version_id
+      - text_digest
+    ThesisCommandResponse:
+      type: object
+      properties:
+        command:
+          $ref: '#/components/schemas/Command'
+        thesis:
+          $ref: '#/components/schemas/ThesisDetail'
+      required:
+      - command
+      - thesis
+    ThesisDetail:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        revision:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        changed_at:
+          type: string
+          format: date-time
+        draft:
+          $ref: '#/components/schemas/Draft'
+        approved:
+          allOf:
+          - $ref: '#/components/schemas/Approved'
+          nullable: true
+        monitoring:
+          $ref: '#/components/schemas/MonitoringEnum'
+      required:
+      - approved
+      - changed_at
+      - created_at
+      - draft
+      - id
+      - monitoring
+      - revision
+    ThesisHistory:
+      type: object
+      properties:
+        thesis:
+          $ref: '#/components/schemas/ThesisDetail'
+        text_versions:
+          type: array
+          items:
+            $ref: '#/components/schemas/TextVersion'
+        interpretations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Interpretation'
+        approvals:
+          type: array
+          items:
+            $ref: '#/components/schemas/Approval'
+        audit:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuditEvent'
+        replay_scope:
+          $ref: '#/components/schemas/ThesisHistoryReplayScopeEnum'
+        history_limit:
+          type: integer
+        truncated:
+          type: boolean
+      required:
+      - approvals
+      - audit
+      - history_limit
+      - interpretations
+      - replay_scope
+      - text_versions
+      - thesis
+      - truncated
+    ThesisHistoryReplayScopeEnum:
+      enum:
+      - approval_effective_time_history
+      type: string
+      description: '* `approval_effective_time_history` - approval_effective_time_history'
+    ThesisList:
+      type: object
+      properties:
+        theses:
+          type: array
+          items:
+            $ref: '#/components/schemas/ThesisDetail'
+        limit:
+          type: integer
+        offset:
+          type: integer
+        has_more:
+          type: boolean
+      required:
+      - has_more
+      - limit
+      - offset
+      - theses
+    UnavailableEvidenceEnum:
+      enum:
+      - unavailable
+      type: string
+      description: '* `unavailable` - unavailable'
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid

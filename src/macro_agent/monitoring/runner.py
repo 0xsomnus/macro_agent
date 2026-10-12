@@ -14,7 +14,7 @@ from django.db import DatabaseError, close_old_connections, connection
 from django.utils import timezone
 
 from macro_agent.domain.daily_review import DailyReviewLimits
-from macro_agent.desk import publication, service as desk
+from macro_agent.desk import publication, service as desk, synthesis
 from macro_agent.scheduling import service as schedule
 from macro_agent.scheduling.recovery import begin_recovery
 from macro_agent.theses.service import ThesisUnavailable
@@ -165,7 +165,31 @@ def _analysis_slot(lease, provider, clock):
     return _terminal_news(response)
 
 
-def _daily_slot(lease, clock):
+def _daily_synthesis(lease, review, provider, clock):
+    # One fixed review/command identity means recovery cannot select new inputs.
+    try:
+        return synthesis.get_synthesis_command(lease["owner_id"], review["id"], lease["command_id"], clock=clock)
+    except ThesisUnavailable:
+        pass
+    except (ValueError, PermissionError, PermissionDenied, RuntimeError) as error:
+        return {"status": "unavailable", **_safe_failure(error), "paid_retry_authorized": False,
+                "fallback": "retained_daily_digest"}
+    try:
+        return synthesis.synthesize_review(lease["owner_id"], review["id"], lease["command_id"],
+            review["digest"], lease["configuration"]["model_id"], lease["configuration"]["provider"],
+            provider=provider, clock=clock, slot_token=lease["token"])
+    except DatabaseError:
+        raise
+    except (ValueError, PermissionError, PermissionDenied, RuntimeError) as error:
+        # Admission might have committed. Inspect before labelling the fallback.
+        try:
+            return synthesis.get_synthesis_command(lease["owner_id"], review["id"], lease["command_id"], clock=clock)
+        except ThesisUnavailable:
+            return {"status": "unavailable", **_safe_failure(error), "paid_retry_authorized": False,
+                    "fallback": "retained_daily_digest"}
+
+
+def _daily_slot(lease, provider, clock):
     from datetime import datetime
     config = lease["configuration"]
     # A result retained before a crash wins over newly reviewed bounds. Preserve
@@ -194,6 +218,9 @@ def _daily_slot(lease, clock):
                 lease["command_id"], preview["review_digest"], preview["expected_generation"],
                 fanout_limit, clock=clock)
         payload["publication"] = saved
+    if "daily_synthesis" in config:
+        payload["synthesis"] = _daily_synthesis(lease, response["review"], provider, clock)
+        payload["model_calls"] = "inspect_saved_synthesis_admission"
     return "completed", payload
 
 
@@ -219,7 +246,7 @@ def execute_lease(lease, *, loaders=None, provider=None, clock=timezone.now):
                     tuple(row["source_id"] for row in lease["configuration"]["sources"]),
                     lease["configuration"]["context_bounds"]["analyses"], clock=clock)
         else:
-            status, payload = _daily_slot(lease, clock)
+            status, payload = _daily_slot(lease, provider, clock)
     except DatabaseError:
         raise  # Retained work survives; never invent remote failure/cancellation.
     except (ValueError, PermissionError, PermissionDenied, RuntimeError) as error:

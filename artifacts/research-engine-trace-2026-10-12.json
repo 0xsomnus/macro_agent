@@ -1,0 +1,4000 @@
+{
+  "scope": "Fictional isolated recorded-provider research engine trace",
+  "evidence": {
+    "evidence": {
+      "id": "a0f1e3e6-df28-457b-ba33-29c724a39424",
+      "command_id": "ca44547e-dbee-4dc8-9f12-ca7962df9035",
+      "thesis_id": "50c2960d-813e-4b9b-a538-de0dd39b08b8",
+      "digest": "98e2c6aab78057761e042275c05ae591a289f4bda595d4da58b1150c2b7f4da5",
+      "content": {
+        "cutoff": "2026-10-12T16:58:55.298971+00:00",
+        "gaps": [
+          "Explicitly selected retained reports do not establish broad market coverage or the current macro regime.",
+          "Source statements and exact quotations establish attribution, not factual truth or semantic support.",
+          "Consensus, current prices, valuation and instrument mapping are unavailable unless explicitly supported."
+        ],
+        "reports": [
+          {
+            "availability_witness_at": "2026-10-12T16:58:55.283505+00:00",
+            "content": "The committee left the rate at 4%.",
+            "contract_digest": "1eba7a4ff35ff17993fc7c5cfe0d7f435724003735de7297a0f94d761f72396b",
+            "contract_version_id": "8c8329fd-e51a-4647-ab98-fa83be818b96",
+            "head_at_admission_id": "569e409f-caf6-48c6-8e85-cea14a749c31",
+            "revision_id": "569e409f-caf6-48c6-8e85-cea14a749c31",
+            "source_claimed_published_at": "2026-10-11T16:58:55.251033+00:00",
+            "source_id": "fixture-research-engine-trace",
+            "source_url": "https://example.invalid/rate",
+            "system_received_at": "2026-10-12T16:58:55.261188+00:00",
+            "title": "Fictional policy report"
+          }
+        ],
+        "schema_version": "retained-source-evidence-v1"
+      },
+      "created_at": "2026-10-12T16:58:55.298971+00:00"
+    },
+    "current_disposition": {
+      "status": "current",
+      "stale_reasons": [],
+      "observed_at": "2026-10-12T16:58:55.298971+00:00"
+    },
+    "replayed": false
+  },
+  "source_compilation": {
+    "compilation": {
+      "id": "9ba58b03-94fe-4955-b89d-513e7e7645d8",
+      "status": "compiled",
+      "provider": "nanogpt",
+      "input_text_version": {
+        "id": "d9e47216-13eb-4cc2-ba9e-3b01cf1fe00d",
+        "parent_version_id": null,
+        "exact_text": "  The policy rate is now 3%.\r\nGold may benefit if real yields fall. Δ\r\n",
+        "text_digest": "93edf5b9675e78e4f0844f0e85e53a5b7679399e140e69e61097fb61f6758fa8",
+        "created_at": "2026-10-12T16:58:55.235684+00:00"
+      },
+      "schema_version": "source-backed-thesis-compilation-v1",
+      "prompt_version": "source-backed-thesis-prompt-v1",
+      "model_id": "fictional/recorded-response",
+      "created_at": "2026-10-12T16:58:55.356162+00:00",
+      "finished_at": "2026-10-12T16:58:55.386339+00:00",
+      "document": {
+        "grounding": [
+          {
+            "field": "drivers",
+            "index": 0,
+            "input_id": "thesis",
+            "exact_quote": "Gold may benefit if real yields fall."
+          }
+        ],
+        "review_card": {
+          "claim": {
+            "gap": "Unresolved.",
+            "proposed": [],
+            "extracted": []
+          },
+          "catalysts": {
+            "gap": "Unresolved.",
+            "proposed": [],
+            "extracted": []
+          },
+          "scenarios": {
+            "gap": "Unresolved.",
+            "proposed": [],
+            "extracted": []
+          },
+          "assumptions": {
+            "gap": "Unresolved.",
+            "proposed": [],
+            "extracted": []
+          },
+          "causal_path": {
+            "gap": "Unresolved.",
+            "proposed": [],
+            "extracted": []
+          },
+          "affected_assets": {
+            "gap": "Unresolved.",
+            "proposed": [],
+            "extracted": []
+          },
+          "monitoring_scope": {
+            "gap": "Unresolved.",
+            "proposed": [],
+            "extracted": []
+          }
+        },
+        "counter_case": "Currency strength might offset the yield effect.",
+        "interpretation": {
+          "drivers": [
+            "Falling real yields may support gold."
+          ],
+          "horizon": null,
+          "invalidation_signposts": []
+        },
+        "agent_hypotheses": [],
+        "attributed_claims": [
+          {
+            "field": "content",
+            "claim_id": "rate",
+            "exact_quote": "The committee left the rate at 4%.",
+            "revision_id": "569e409f-caf6-48c6-8e85-cea14a749c31"
+          }
+        ],
+        "factual_conflicts": [
+          {
+            "status": "model_identified",
+            "input_id": "thesis",
+            "question": "Which rate series and date does your premise refer to?",
+            "claim_ids": [
+              "rate"
+            ],
+            "exact_quote": "The policy rate is now 3%.",
+            "explanation": "The retained source names 4%; date or series may differ."
+          }
+        ],
+        "refinement_issues": [
+          {
+            "kind": "missing_detail",
+            "input_id": null,
+            "question": "Over what period and under what failure condition?",
+            "exact_quote": null,
+            "explanation": "Horizon and invalidation are unspecified."
+          },
+          {
+            "kind": "verification_needed",
+            "input_id": "thesis",
+            "question": "Which rate series and date does your premise refer to?",
+            "exact_quote": "The policy rate is now 3%.",
+            "explanation": "The fictional source names a different rate."
+          }
+        ],
+        "evidence_assessment": {
+          "gaps": [
+            "Market expectations and current macro regime unavailable."
+          ],
+          "summary": "The fictional source challenges the numeric premise.",
+          "counter_claim_ids": [
+            "rate"
+          ],
+          "supporting_claim_ids": []
+        }
+      },
+      "refinement_id": null,
+      "refinement_inputs": [],
+      "parent_attempt_id": null,
+      "interpretation_version_id": "4125f72a-1bfd-488e-89e0-7080d5984981",
+      "is_current_draft": true,
+      "usage": {
+        "total_tokens": 150,
+        "prompt_tokens": 100,
+        "completion_tokens": 50
+      },
+      "reported_cost_usd": null,
+      "estimated_cost_usd": null,
+      "reported_model": "fictional/recorded-response",
+      "provider_request_id": null,
+      "latency_ms": 1,
+      "stop_reason": "completed",
+      "limitations": [
+        "Explicitly selected retained reports do not establish broad market coverage or the current macro regime.",
+        "Source statements and exact quotations establish attribution, not factual truth or semantic support.",
+        "Consensus, current prices, valuation and instrument mapping are unavailable unless explicitly supported.",
+        "Model-identified conflicts and causal interpretations remain hypotheses for human review.",
+        "No automatic thesis amendment, external notice, execution or paid retry is authorized."
+      ],
+      "evidence_context": {
+        "id": "a0f1e3e6-df28-457b-ba33-29c724a39424",
+        "digest": "98e2c6aab78057761e042275c05ae591a289f4bda595d4da58b1150c2b7f4da5",
+        "content": {
+          "cutoff": "2026-10-12T16:58:55.298971+00:00",
+          "gaps": [
+            "Explicitly selected retained reports do not establish broad market coverage or the current macro regime.",
+            "Source statements and exact quotations establish attribution, not factual truth or semantic support.",
+            "Consensus, current prices, valuation and instrument mapping are unavailable unless explicitly supported."
+          ],
+          "reports": [
+            {
+              "availability_witness_at": "2026-10-12T16:58:55.283505+00:00",
+              "content": "The committee left the rate at 4%.",
+              "contract_digest": "1eba7a4ff35ff17993fc7c5cfe0d7f435724003735de7297a0f94d761f72396b",
+              "contract_version_id": "8c8329fd-e51a-4647-ab98-fa83be818b96",
+              "head_at_admission_id": "569e409f-caf6-48c6-8e85-cea14a749c31",
+              "revision_id": "569e409f-caf6-48c6-8e85-cea14a749c31",
+              "source_claimed_published_at": "2026-10-11T16:58:55.251033+00:00",
+              "source_id": "fixture-research-engine-trace",
+              "source_url": "https://example.invalid/rate",
+              "system_received_at": "2026-10-12T16:58:55.261188+00:00",
+              "title": "Fictional policy report"
+            }
+          ],
+          "schema_version": "retained-source-evidence-v1"
+        }
+      },
+      "evidence_disposition": {
+        "status": "current",
+        "stale_reasons": [],
+        "observed_at": "2026-10-12T16:58:55.386339+00:00"
+      }
+    },
+    "thesis": {
+      "id": "50c2960d-813e-4b9b-a538-de0dd39b08b8",
+      "revision": 2,
+      "created_at": "2026-10-12T16:58:55.235684+00:00",
+      "changed_at": "2026-10-12T16:58:55.386339+00:00",
+      "draft": {
+        "text_version": {
+          "id": "d9e47216-13eb-4cc2-ba9e-3b01cf1fe00d",
+          "parent_version_id": null,
+          "exact_text": "  The policy rate is now 3%.\r\nGold may benefit if real yields fall. Δ\r\n",
+          "text_digest": "93edf5b9675e78e4f0844f0e85e53a5b7679399e140e69e61097fb61f6758fa8",
+          "created_at": "2026-10-12T16:58:55.235684+00:00"
+        },
+        "interpretation": {
+          "id": "4125f72a-1bfd-488e-89e0-7080d5984981",
+          "text_version_id": "d9e47216-13eb-4cc2-ba9e-3b01cf1fe00d",
+          "drivers": [
+            "Falling real yields may support gold."
+          ],
+          "horizon": null,
+          "invalidation_signposts": [],
+          "known_at": "2026-10-12T16:58:55.386339+00:00",
+          "digest": "df70d5380f22a61a7451f0d28d1b3e2f16bfb90b04cd71e7f0b8111a5eb29bdb",
+          "origin": "model_compilation",
+          "review_card": {
+            "schema_version": "thesis-review-card-v2",
+            "inputs": [
+              {
+                "input_id": "thesis",
+                "exact_text": "  The policy rate is now 3%.\r\nGold may benefit if real yields fall. Δ\r\n"
+              }
+            ],
+            "document": {
+              "agent_hypotheses": [],
+              "attributed_claims": [
+                {
+                  "claim_id": "rate",
+                  "exact_quote": "The committee left the rate at 4%.",
+                  "field": "content",
+                  "revision_id": "569e409f-caf6-48c6-8e85-cea14a749c31"
+                }
+              ],
+              "counter_case": "Currency strength might offset the yield effect.",
+              "evidence_assessment": {
+                "counter_claim_ids": [
+                  "rate"
+                ],
+                "gaps": [
+                  "Market expectations and current macro regime unavailable."
+                ],
+                "summary": "The fictional source challenges the numeric premise.",
+                "supporting_claim_ids": []
+              },
+              "factual_conflicts": [
+                {
+                  "claim_ids": [
+                    "rate"
+                  ],
+                  "exact_quote": "The policy rate is now 3%.",
+                  "explanation": "The retained source names 4%; date or series may differ.",
+                  "input_id": "thesis",
+                  "question": "Which rate series and date does your premise refer to?",
+                  "status": "model_identified"
+                }
+              ],
+              "grounding": [
+                {
+                  "exact_quote": "Gold may benefit if real yields fall.",
+                  "field": "drivers",
+                  "index": 0,
+                  "input_id": "thesis"
+                }
+              ],
+              "interpretation": {
+                "drivers": [
+                  "Falling real yields may support gold."
+                ],
+                "horizon": null,
+                "invalidation_signposts": []
+              },
+              "refinement_issues": [
+                {
+                  "exact_quote": null,
+                  "explanation": "Horizon and invalidation are unspecified.",
+                  "input_id": null,
+                  "kind": "missing_detail",
+                  "question": "Over what period and under what failure condition?"
+                },
+                {
+                  "exact_quote": "The policy rate is now 3%.",
+                  "explanation": "The fictional source names a different rate.",
+                  "input_id": "thesis",
+                  "kind": "verification_needed",
+                  "question": "Which rate series and date does your premise refer to?"
+                }
+              ],
+              "review_card": {
+                "affected_assets": {
+                  "extracted": [],
+                  "gap": "Unresolved.",
+                  "proposed": []
+                },
+                "assumptions": {
+                  "extracted": [],
+                  "gap": "Unresolved.",
+                  "proposed": []
+                },
+                "catalysts": {
+                  "extracted": [],
+                  "gap": "Unresolved.",
+                  "proposed": []
+                },
+                "causal_path": {
+                  "extracted": [],
+                  "gap": "Unresolved.",
+                  "proposed": []
+                },
+                "claim": {
+                  "extracted": [],
+                  "gap": "Unresolved.",
+                  "proposed": []
+                },
+                "monitoring_scope": {
+                  "extracted": [],
+                  "gap": "Unresolved.",
+                  "proposed": []
+                },
+                "scenarios": {
+                  "extracted": [],
+                  "gap": "Unresolved.",
+                  "proposed": []
+                }
+              }
+            },
+            "evidence": {
+              "status": "retained_sources",
+              "context": {
+                "cutoff": "2026-10-12T16:58:55.298971+00:00",
+                "gaps": [
+                  "Explicitly selected retained reports do not establish broad market coverage or the current macro regime.",
+                  "Source statements and exact quotations establish attribution, not factual truth or semantic support.",
+                  "Consensus, current prices, valuation and instrument mapping are unavailable unless explicitly supported."
+                ],
+                "reports": [
+                  {
+                    "availability_witness_at": "2026-10-12T16:58:55.283505+00:00",
+                    "content": "The committee left the rate at 4%.",
+                    "contract_digest": "1eba7a4ff35ff17993fc7c5cfe0d7f435724003735de7297a0f94d761f72396b",
+                    "contract_version_id": "8c8329fd-e51a-4647-ab98-fa83be818b96",
+                    "head_at_admission_id": "569e409f-caf6-48c6-8e85-cea14a749c31",
+                    "revision_id": "569e409f-caf6-48c6-8e85-cea14a749c31",
+                    "source_claimed_published_at": "2026-10-11T16:58:55.251033+00:00",
+                    "source_id": "fixture-research-engine-trace",
+                    "source_url": "https://example.invalid/rate",
+                    "system_received_at": "2026-10-12T16:58:55.261188+00:00",
+                    "title": "Fictional policy report"
+                  }
+                ],
+                "schema_version": "retained-source-evidence-v1"
+              }
+            }
+          }
+        }
+      },
+      "approved": null,
+      "monitoring": "not_configured"
+    }
+  },
+  "approved_thesis": {
+    "id": "50c2960d-813e-4b9b-a538-de0dd39b08b8",
+    "revision": 3,
+    "created_at": "2026-10-12T16:58:55.235684+00:00",
+    "changed_at": "2026-10-12T16:58:55.455243+00:00",
+    "draft": {
+      "text_version": {
+        "id": "d9e47216-13eb-4cc2-ba9e-3b01cf1fe00d",
+        "parent_version_id": null,
+        "exact_text": "  The policy rate is now 3%.\r\nGold may benefit if real yields fall. Δ\r\n",
+        "text_digest": "93edf5b9675e78e4f0844f0e85e53a5b7679399e140e69e61097fb61f6758fa8",
+        "created_at": "2026-10-12T16:58:55.235684+00:00"
+      },
+      "interpretation": {
+        "id": "4125f72a-1bfd-488e-89e0-7080d5984981",
+        "text_version_id": "d9e47216-13eb-4cc2-ba9e-3b01cf1fe00d",
+        "drivers": [
+          "Falling real yields may support gold."
+        ],
+        "horizon": null,
+        "invalidation_signposts": [],
+        "known_at": "2026-10-12T16:58:55.386339+00:00",
+        "digest": "df70d5380f22a61a7451f0d28d1b3e2f16bfb90b04cd71e7f0b8111a5eb29bdb",
+        "origin": "model_compilation",
+        "review_card": {
+          "inputs": [
+            {
+              "input_id": "thesis",
+              "exact_text": "  The policy rate is now 3%.\r\nGold may benefit if real yields fall. Δ\r\n"
+            }
+          ],
+          "document": {
+            "grounding": [
+              {
+                "field": "drivers",
+                "index": 0,
+                "input_id": "thesis",
+                "exact_quote": "Gold may benefit if real yields fall."
+              }
+            ],
+            "review_card": {
+              "claim": {
+                "gap": "Unresolved.",
+                "proposed": [],
+                "extracted": []
+              },
+              "catalysts": {
+                "gap": "Unresolved.",
+                "proposed": [],
+                "extracted": []
+              },
+              "scenarios": {
+                "gap": "Unresolved.",
+                "proposed": [],
+                "extracted": []
+              },
+              "assumptions": {
+                "gap": "Unresolved.",
+                "proposed": [],
+                "extracted": []
+              },
+              "causal_path": {
+                "gap": "Unresolved.",
+                "proposed": [],
+                "extracted": []
+              },
+              "affected_assets": {
+                "gap": "Unresolved.",
+                "proposed": [],
+                "extracted": []
+              },
+              "monitoring_scope": {
+                "gap": "Unresolved.",
+                "proposed": [],
+                "extracted": []
+              }
+            },
+            "counter_case": "Currency strength might offset the yield effect.",
+            "interpretation": {
+              "drivers": [
+                "Falling real yields may support gold."
+              ],
+              "horizon": null,
+              "invalidation_signposts": []
+            },
+            "agent_hypotheses": [],
+            "attributed_claims": [
+              {
+                "field": "content",
+                "claim_id": "rate",
+                "exact_quote": "The committee left the rate at 4%.",
+                "revision_id": "569e409f-caf6-48c6-8e85-cea14a749c31"
+              }
+            ],
+            "factual_conflicts": [
+              {
+                "status": "model_identified",
+                "input_id": "thesis",
+                "question": "Which rate series and date does your premise refer to?",
+                "claim_ids": [
+                  "rate"
+                ],
+                "exact_quote": "The policy rate is now 3%.",
+                "explanation": "The retained source names 4%; date or series may differ."
+              }
+            ],
+            "refinement_issues": [
+              {
+                "kind": "missing_detail",
+                "input_id": null,
+                "question": "Over what period and under what failure condition?",
+                "exact_quote": null,
+                "explanation": "Horizon and invalidation are unspecified."
+              },
+              {
+                "kind": "verification_needed",
+                "input_id": "thesis",
+                "question": "Which rate series and date does your premise refer to?",
+                "exact_quote": "The policy rate is now 3%.",
+                "explanation": "The fictional source names a different rate."
+              }
+            ],
+            "evidence_assessment": {
+              "gaps": [
+                "Market expectations and current macro regime unavailable."
+              ],
+              "summary": "The fictional source challenges the numeric premise.",
+              "counter_claim_ids": [
+                "rate"
+              ],
+              "supporting_claim_ids": []
+            }
+          },
+          "evidence": {
+            "status": "retained_sources",
+            "context": {
+              "gaps": [
+                "Explicitly selected retained reports do not establish broad market coverage or the current macro regime.",
+                "Source statements and exact quotations establish attribution, not factual truth or semantic support.",
+                "Consensus, current prices, valuation and instrument mapping are unavailable unless explicitly supported."
+              ],
+              "cutoff": "2026-10-12T16:58:55.298971+00:00",
+              "reports": [
+                {
+                  "title": "Fictional policy report",
+                  "content": "The committee left the rate at 4%.",
+                  "source_id": "fixture-research-engine-trace",
+                  "source_url": "https://example.invalid/rate",
+                  "revision_id": "569e409f-caf6-48c6-8e85-cea14a749c31",
+                  "contract_digest": "1eba7a4ff35ff17993fc7c5cfe0d7f435724003735de7297a0f94d761f72396b",
+                  "system_received_at": "2026-10-12T16:58:55.261188+00:00",
+                  "contract_version_id": "8c8329fd-e51a-4647-ab98-fa83be818b96",
+                  "head_at_admission_id": "569e409f-caf6-48c6-8e85-cea14a749c31",
+                  "availability_witness_at": "2026-10-12T16:58:55.283505+00:00",
+                  "source_claimed_published_at": "2026-10-11T16:58:55.251033+00:00"
+                }
+              ],
+              "schema_version": "retained-source-evidence-v1"
+            }
+          },
+          "schema_version": "thesis-review-card-v2"
+        }
+      }
+    },
+    "approved": {
+      "approval": {
+        "id": "3bc67186-7f2b-4ffb-b1a7-20a10aea07b6",
+        "text_version_id": "d9e47216-13eb-4cc2-ba9e-3b01cf1fe00d",
+        "interpretation_version_id": "4125f72a-1bfd-488e-89e0-7080d5984981",
+        "text_digest": "93edf5b9675e78e4f0844f0e85e53a5b7679399e140e69e61097fb61f6758fa8",
+        "interpretation_digest": "df70d5380f22a61a7451f0d28d1b3e2f16bfb90b04cd71e7f0b8111a5eb29bdb",
+        "approved_at": "2026-10-12T16:58:55.455243+00:00",
+        "digest": "33117b7d5da73eb0520f05469c937c5e649e862cae321138afd1b4f3c230d817",
+        "revision": 3
+      },
+      "text_version": {
+        "id": "d9e47216-13eb-4cc2-ba9e-3b01cf1fe00d",
+        "parent_version_id": null,
+        "exact_text": "  The policy rate is now 3%.\r\nGold may benefit if real yields fall. Δ\r\n",
+        "text_digest": "93edf5b9675e78e4f0844f0e85e53a5b7679399e140e69e61097fb61f6758fa8",
+        "created_at": "2026-10-12T16:58:55.235684+00:00"
+      },
+      "interpretation": {
+        "id": "4125f72a-1bfd-488e-89e0-7080d5984981",
+        "text_version_id": "d9e47216-13eb-4cc2-ba9e-3b01cf1fe00d",
+        "drivers": [
+          "Falling real yields may support gold."
+        ],
+        "horizon": null,
+        "invalidation_signposts": [],
+        "known_at": "2026-10-12T16:58:55.386339+00:00",
+        "digest": "df70d5380f22a61a7451f0d28d1b3e2f16bfb90b04cd71e7f0b8111a5eb29bdb",
+        "origin": "model_compilation",
+        "review_card": {
+          "inputs": [
+            {
+              "input_id": "thesis",
+              "exact_text": "  The policy rate is now 3%.\r\nGold may benefit if real yields fall. Δ\r\n"
+            }
+          ],
+          "document": {
+            "grounding": [
+              {
+                "field": "drivers",
+                "index": 0,
+                "input_id": "thesis",
+                "exact_quote": "Gold may benefit if real yields fall."
+              }
+            ],
+            "review_card": {
+              "claim": {
+                "gap": "Unresolved.",
+                "proposed": [],
+                "extracted": []
+              },
+              "catalysts": {
+                "gap": "Unresolved.",
+                "proposed": [],
+                "extracted": []
+              },
+              "scenarios": {
+                "gap": "Unresolved.",
+                "proposed": [],
+                "extracted": []
+              },
+              "assumptions": {
+                "gap": "Unresolved.",
+                "proposed": [],
+                "extracted": []
+              },
+              "causal_path": {
+                "gap": "Unresolved.",
+                "proposed": [],
+                "extracted": []
+              },
+              "affected_assets": {
+                "gap": "Unresolved.",
+                "proposed": [],
+                "extracted": []
+              },
+              "monitoring_scope": {
+                "gap": "Unresolved.",
+                "proposed": [],
+                "extracted": []
+              }
+            },
+            "counter_case": "Currency strength might offset the yield effect.",
+            "interpretation": {
+              "drivers": [
+                "Falling real yields may support gold."
+              ],
+              "horizon": null,
+              "invalidation_signposts": []
+            },
+            "agent_hypotheses": [],
+            "attributed_claims": [
+              {
+                "field": "content",
+                "claim_id": "rate",
+                "exact_quote": "The committee left the rate at 4%.",
+                "revision_id": "569e409f-caf6-48c6-8e85-cea14a749c31"
+              }
+            ],
+            "factual_conflicts": [
+              {
+                "status": "model_identified",
+                "input_id": "thesis",
+                "question": "Which rate series and date does your premise refer to?",
+                "claim_ids": [
+                  "rate"
+                ],
+                "exact_quote": "The policy rate is now 3%.",
+                "explanation": "The retained source names 4%; date or series may differ."
+              }
+            ],
+            "refinement_issues": [
+              {
+                "kind": "missing_detail",
+                "input_id": null,
+                "question": "Over what period and under what failure condition?",
+                "exact_quote": null,
+                "explanation": "Horizon and invalidation are unspecified."
+              },
+              {
+                "kind": "verification_needed",
+                "input_id": "thesis",
+                "question": "Which rate series and date does your premise refer to?",
+                "exact_quote": "The policy rate is now 3%.",
+                "explanation": "The fictional source names a different rate."
+              }
+            ],
+            "evidence_assessment": {
+              "gaps": [
+                "Market expectations and current macro regime unavailable."
+              ],
+              "summary": "The fictional source challenges the numeric premise.",
+              "counter_claim_ids": [
+                "rate"
+              ],
+              "supporting_claim_ids": []
+            }
+          },
+          "evidence": {
+            "status": "retained_sources",
+            "context": {
+              "gaps": [
+                "Explicitly selected retained reports do not establish broad market coverage or the current macro regime.",
+                "Source statements and exact quotations establish attribution, not factual truth or semantic support.",
+                "Consensus, current prices, valuation and instrument mapping are unavailable unless explicitly supported."
+              ],
+              "cutoff": "2026-10-12T16:58:55.298971+00:00",
+              "reports": [
+                {
+                  "title": "Fictional policy report",
+                  "content": "The committee left the rate at 4%.",
+                  "source_id": "fixture-research-engine-trace",
+                  "source_url": "https://example.invalid/rate",
+                  "revision_id": "569e409f-caf6-48c6-8e85-cea14a749c31",
+                  "contract_digest": "1eba7a4ff35ff17993fc7c5cfe0d7f435724003735de7297a0f94d761f72396b",
+                  "system_received_at": "2026-10-12T16:58:55.261188+00:00",
+                  "contract_version_id": "8c8329fd-e51a-4647-ab98-fa83be818b96",
+                  "head_at_admission_id": "569e409f-caf6-48c6-8e85-cea14a749c31",
+                  "availability_witness_at": "2026-10-12T16:58:55.283505+00:00",
+                  "source_claimed_published_at": "2026-10-11T16:58:55.251033+00:00"
+                }
+              ],
+              "schema_version": "retained-source-evidence-v1"
+            }
+          },
+          "schema_version": "thesis-review-card-v2"
+        }
+      }
+    },
+    "monitoring": "not_configured"
+  },
+  "daily_review": {
+    "review": {
+      "id": "da1c6bef-c9d9-4c6f-8db2-7321af65a077",
+      "command_id": "9e0840d8-4a7a-4ce8-bf66-6a3a24187de5",
+      "context_id": "7b0594d2-d592-42da-bca9-e47750288385",
+      "evidence_set_id": "281682bf-8552-4132-8242-a6bd216bfa4e",
+      "evidence_set": {
+        "id": "281682bf-8552-4132-8242-a6bd216bfa4e",
+        "policy_version": "complete-retained-sources-v1",
+        "limits": {
+          "reports": 100,
+          "analyses": 100,
+          "exposure_versions": 200,
+          "issues": 300,
+          "source_contracts": 16,
+          "encoded_bytes": 2000000
+        },
+        "source_manifest": [
+          {
+            "source_id": "fixture-research-engine-trace",
+            "version_id": "8c8329fd-e51a-4647-ab98-fa83be818b96",
+            "digest": "1eba7a4ff35ff17993fc7c5cfe0d7f435724003735de7297a0f94d761f72396b",
+            "provenance": "existing_allowlisted_adapter_manifest",
+            "observed_at": "2026-10-12T16:58:55.298971+00:00",
+            "permitted": true
+          }
+        ]
+      },
+      "predecessor_id": null,
+      "start": "2026-10-11T16:58:55.519821+00:00",
+      "cutoff": "2026-10-12T16:58:55.519821+00:00",
+      "prepared_at": "2026-10-12T16:58:55.556138+00:00",
+      "original_outcome": "prepared",
+      "digest": "3fb9d972d7ea47cbf44087e42daa4d26acf887daa54028a478114bf2055e58ab",
+      "content": {
+        "analyses": {
+          "background": [],
+          "deferred": [],
+          "new": []
+        },
+        "assembly_inference_calls": 0,
+        "assembly_inference_cost_usd": "0",
+        "issues": [
+          {
+            "analysis_id": null,
+            "detail": {
+              "active_capture_id": null,
+              "complete_market_coverage": false,
+              "coverage": "bounded_snapshot",
+              "last_code": "snapshot_captured",
+              "last_outcome": "captured",
+              "last_successful_capture_at": "2026-10-12T16:58:55.263663+00:00"
+            },
+            "issue_id": "coverage:fixture-research-engine-trace",
+            "kind": "coverage_gap",
+            "source_id": "fixture-research-engine-trace"
+          },
+          {
+            "analysis_id": null,
+            "detail": {
+              "attempt_count": 0,
+              "decision": "relevance_unresolved",
+              "lease_until": null,
+              "state": "pending"
+            },
+            "issue_id": "screening:569e409f-caf6-48c6-8e85-cea14a749c31",
+            "kind": "unresolved_work",
+            "source_id": "fixture-research-engine-trace"
+          }
+        ],
+        "limitations": [
+          "No new eligible reports does not establish that no market events occurred.",
+          "Exact retained quotations establish attribution, not factual truth or investment usefulness.",
+          "Current disposition is a caller observation at preparation, not reconstructed cutoff state.",
+          "Cross-source independence, current macro regime and market expectations remain unverified.",
+          "This deterministic review grants no approval, publication, notification or paid-retry authority."
+        ],
+        "new_eligible_report_count": 1,
+        "period": {
+          "cutoff_inclusive": "2026-10-12T16:58:55.519821+00:00",
+          "prepared_at": "2026-10-12T16:58:55.556138+00:00",
+          "start_exclusive": "2026-10-11T16:58:55.519821+00:00"
+        },
+        "reports": {
+          "background": [],
+          "deferred": [],
+          "new": [
+            {
+              "availability_witness_at": "2026-10-12T16:58:55.283505+00:00",
+              "deferred_reason": null,
+              "payload": {
+                "content": "The committee left the rate at 4%.",
+                "id": "rate-report",
+                "published_at": "2026-10-11T16:58:55.251033+00:00",
+                "title": "Fictional policy report",
+                "url": "https://example.invalid/rate"
+              },
+              "payload_digest": "cdfcd1b2fb724c98ce1849e5f1d690ef70e16693da11d0d3037ad5b332cb5943",
+              "received_at": "2026-10-12T16:58:55.261188+00:00",
+              "report_id": "1",
+              "revision_id": "569e409f-caf6-48c6-8e85-cea14a749c31",
+              "source_contract_digest": "1eba7a4ff35ff17993fc7c5cfe0d7f435724003735de7297a0f94d761f72396b",
+              "source_contract_version_id": "8c8329fd-e51a-4647-ab98-fa83be818b96",
+              "source_id": "fixture-research-engine-trace"
+            }
+          ]
+        },
+        "schema_version": "deterministic-daily-evidence-review-v1",
+        "scope": {
+          "approval_id": "3bc67186-7f2b-4ffb-b1a7-20a10aea07b6",
+          "exposure_digest": "1b90c3d88c0d292d2eac5dbfc9a8b865af016a0822a96c3954a403a63eff4336",
+          "exposure_version_ids": [
+            "61b1b3b4-7b9b-4402-9de2-beef36f6f7c4"
+          ],
+          "interpretation_id": "4125f72a-1bfd-488e-89e0-7080d5984981",
+          "owner_id": "ceffe897-5e3a-456c-9fc9-4284127d3024",
+          "predecessor_assessment_id": null,
+          "predecessor_context_id": null,
+          "source_contracts": [
+            {
+              "digest": "1eba7a4ff35ff17993fc7c5cfe0d7f435724003735de7297a0f94d761f72396b",
+              "source_id": "fixture-research-engine-trace",
+              "version_id": "8c8329fd-e51a-4647-ab98-fa83be818b96"
+            }
+          ],
+          "thesis_id": "50c2960d-813e-4b9b-a538-de0dd39b08b8"
+        },
+        "unknown_reported_cost_analysis_ids": [],
+        "unresolved_analysis_ids": []
+      },
+      "original_inputs": {
+        "approved_user": {
+          "thesis_id": "50c2960d-813e-4b9b-a538-de0dd39b08b8",
+          "owner_id": "ceffe897-5e3a-456c-9fc9-4284127d3024",
+          "text": {
+            "version_id": "d9e47216-13eb-4cc2-ba9e-3b01cf1fe00d",
+            "exact_text": "  The policy rate is now 3%.\r\nGold may benefit if real yields fall. Δ\r\n",
+            "digest": "93edf5b9675e78e4f0844f0e85e53a5b7679399e140e69e61097fb61f6758fa8",
+            "created_at": "2026-10-12T16:58:55.235684+00:00"
+          },
+          "interpretation": {
+            "version_id": "4125f72a-1bfd-488e-89e0-7080d5984981",
+            "text_version_id": "d9e47216-13eb-4cc2-ba9e-3b01cf1fe00d",
+            "drivers": [
+              "Falling real yields may support gold."
+            ],
+            "horizon": null,
+            "invalidation_signposts": [],
+            "digest": "df70d5380f22a61a7451f0d28d1b3e2f16bfb90b04cd71e7f0b8111a5eb29bdb",
+            "prepared_at": "2026-10-12T16:58:55.386339+00:00",
+            "origin": "model_compilation",
+            "review_card": {
+              "inputs": [
+                {
+                  "input_id": "thesis",
+                  "exact_text": "  The policy rate is now 3%.\r\nGold may benefit if real yields fall. Δ\r\n"
+                }
+              ],
+              "document": {
+                "grounding": [
+                  {
+                    "field": "drivers",
+                    "index": 0,
+                    "input_id": "thesis",
+                    "exact_quote": "Gold may benefit if real yields fall."
+                  }
+                ],
+                "review_card": {
+                  "claim": {
+                    "gap": "Unresolved.",
+                    "proposed": [],
+                    "extracted": []
+                  },
+                  "catalysts": {
+                    "gap": "Unresolved.",
+                    "proposed": [],
+                    "extracted": []
+                  },
+                  "scenarios": {
+                    "gap": "Unresolved.",
+                    "proposed": [],
+                    "extracted": []
+                  },
+                  "assumptions": {
+                    "gap": "Unresolved.",
+                    "proposed": [],
+                    "extracted": []
+                  },
+                  "causal_path": {
+                    "gap": "Unresolved.",
+                    "proposed": [],
+                    "extracted": []
+                  },
+                  "affected_assets": {
+                    "gap": "Unresolved.",
+                    "proposed": [],
+                    "extracted": []
+                  },
+                  "monitoring_scope": {
+                    "gap": "Unresolved.",
+                    "proposed": [],
+                    "extracted": []
+                  }
+                },
+                "counter_case": "Currency strength might offset the yield effect.",
+                "interpretation": {
+                  "drivers": [
+                    "Falling real yields may support gold."
+                  ],
+                  "horizon": null,
+                  "invalidation_signposts": []
+                },
+                "agent_hypotheses": [],
+                "attributed_claims": [
+                  {
+                    "field": "content",
+                    "claim_id": "rate",
+                    "exact_quote": "The committee left the rate at 4%.",
+                    "revision_id": "569e409f-caf6-48c6-8e85-cea14a749c31"
+                  }
+                ],
+                "factual_conflicts": [
+                  {
+                    "status": "model_identified",
+                    "input_id": "thesis",
+                    "question": "Which rate series and date does your premise refer to?",
+                    "claim_ids": [
+                      "rate"
+                    ],
+                    "exact_quote": "The policy rate is now 3%.",
+                    "explanation": "The retained source names 4%; date or series may differ."
+                  }
+                ],
+                "refinement_issues": [
+                  {
+                    "kind": "missing_detail",
+                    "input_id": null,
+                    "question": "Over what period and under what failure condition?",
+                    "exact_quote": null,
+                    "explanation": "Horizon and invalidation are unspecified."
+                  },
+                  {
+                    "kind": "verification_needed",
+                    "input_id": "thesis",
+                    "question": "Which rate series and date does your premise refer to?",
+                    "exact_quote": "The policy rate is now 3%.",
+                    "explanation": "The fictional source names a different rate."
+                  }
+                ],
+                "evidence_assessment": {
+                  "gaps": [
+                    "Market expectations and current macro regime unavailable."
+                  ],
+                  "summary": "The fictional source challenges the numeric premise.",
+                  "counter_claim_ids": [
+                    "rate"
+                  ],
+                  "supporting_claim_ids": []
+                }
+              },
+              "evidence": {
+                "status": "retained_sources",
+                "context": {
+                  "gaps": [
+                    "Explicitly selected retained reports do not establish broad market coverage or the current macro regime.",
+                    "Source statements and exact quotations establish attribution, not factual truth or semantic support.",
+                    "Consensus, current prices, valuation and instrument mapping are unavailable unless explicitly supported."
+                  ],
+                  "cutoff": "2026-10-12T16:58:55.298971+00:00",
+                  "reports": [
+                    {
+                      "title": "Fictional policy report",
+                      "content": "The committee left the rate at 4%.",
+                      "source_id": "fixture-research-engine-trace",
+                      "source_url": "https://example.invalid/rate",
+                      "revision_id": "569e409f-caf6-48c6-8e85-cea14a749c31",
+                      "contract_digest": "1eba7a4ff35ff17993fc7c5cfe0d7f435724003735de7297a0f94d761f72396b",
+                      "system_received_at": "2026-10-12T16:58:55.261188+00:00",
+                      "contract_version_id": "8c8329fd-e51a-4647-ab98-fa83be818b96",
+                      "head_at_admission_id": "569e409f-caf6-48c6-8e85-cea14a749c31",
+                      "availability_witness_at": "2026-10-12T16:58:55.283505+00:00",
+                      "source_claimed_published_at": "2026-10-11T16:58:55.251033+00:00"
+                    }
+                  ],
+                  "schema_version": "retained-source-evidence-v1"
+                }
+              },
+              "schema_version": "thesis-review-card-v2"
+            }
+          },
+          "approval": {
+            "version_id": "3bc67186-7f2b-4ffb-b1a7-20a10aea07b6",
+            "actor_id": "ceffe897-5e3a-456c-9fc9-4284127d3024",
+            "digest": "33117b7d5da73eb0520f05469c937c5e649e862cae321138afd1b4f3c230d817",
+            "approved_at": "2026-10-12T16:58:55.455243+00:00",
+            "revision": 3
+          },
+          "exposure": {
+            "thesis_id": "50c2960d-813e-4b9b-a538-de0dd39b08b8",
+            "positions": [
+              {
+                "position_id": "140ef502-eb44-458d-b191-e2297dcb775a",
+                "version_id": "61b1b3b4-7b9b-4402-9de2-beef36f6f7c4",
+                "version_digest": "a47d7e181f65695ad93a5a52c8b0b099cca3d1f77b5d082b7ea47f15a1fa20e0",
+                "payload": {
+                  "version_id": "61b1b3b4-7b9b-4402-9de2-beef36f6f7c4",
+                  "position_id": "140ef502-eb44-458d-b191-e2297dcb775a",
+                  "owner_id": "ceffe897-5e3a-456c-9fc9-4284127d3024",
+                  "thesis_id": "50c2960d-813e-4b9b-a538-de0dd39b08b8",
+                  "approval_id": "3bc67186-7f2b-4ffb-b1a7-20a10aea07b6",
+                  "parent_version_id": null,
+                  "paper": true,
+                  "status": "open",
+                  "accepted_at": "2026-10-12T16:58:55.482409+00:00",
+                  "mapping_status": "user_declared_unverified",
+                  "underlying": "XAU",
+                  "direction": "long",
+                  "product_id": null,
+                  "venue": null,
+                  "expiry": null,
+                  "quote_currency": null,
+                  "horizon": null,
+                  "quantity": null,
+                  "quantity_unit": null
+                }
+              }
+            ]
+          }
+        },
+        "source_contracts": [
+          {
+            "source_id": "fixture-research-engine-trace",
+            "version_id": "8c8329fd-e51a-4647-ab98-fa83be818b96",
+            "digest": "1eba7a4ff35ff17993fc7c5cfe0d7f435724003735de7297a0f94d761f72396b",
+            "contract": {
+              "kind": "fictional_fixture",
+              "label": "Fictional policy report",
+              "coverage": "bounded_snapshot"
+            },
+            "provenance": "existing_allowlisted_adapter_manifest",
+            "reviewer_id": "ceffe897-5e3a-456c-9fc9-4284127d3024",
+            "reason": "Observed existing contract; this snapshot is not a new human rights review.",
+            "observed_at": "2026-10-12T16:58:55.298971+00:00",
+            "permitted": true,
+            "parent_id": null
+          }
+        ],
+        "starting_macro_context": {
+          "status": "unavailable"
+        },
+        "predecessor_assessment": {
+          "status": "unavailable",
+          "reason": "No cumulative model assessment is implemented."
+        },
+        "changes_since_predecessor": {
+          "approved_meaning_changed": false,
+          "exposure_changed": false
+        }
+      }
+    },
+    "current_disposition": {
+      "status": "prepared",
+      "stale_reasons": [],
+      "observed_at": "2026-10-12T16:58:55.556138+00:00",
+      "publication_authority": false
+    },
+    "replayed": false
+  },
+  "digest_publication": {
+    "publication": {
+      "id": "62e32cd0-16bb-43b2-a0e4-3526ae045f34",
+      "command_id": "236c1ec3-aaaf-4e8f-af5f-6c0894caf0a5",
+      "review_id": "da1c6bef-c9d9-4c6f-8db2-7321af65a077",
+      "brief_id": "daily:50c2960d-813e-4b9b-a538-de0dd39b08b8",
+      "assessment_id": "daily:da1c6bef-c9d9-4c6f-8db2-7321af65a077",
+      "review_digest": "3fb9d972d7ea47cbf44087e42daa4d26acf887daa54028a478114bf2055e58ab",
+      "expected_generation": 0,
+      "published_at": "2026-10-12T16:58:55.661685+00:00",
+      "original_decision": {
+        "status": "current",
+        "reasons": [
+          "all_dependencies_current"
+        ],
+        "reassessment_required": false
+      },
+      "generation_at_publication": 1
+    },
+    "current_disposition": {
+      "status": "current",
+      "reasons": [],
+      "observed_at": "2026-10-12T16:58:55.661685+00:00"
+    },
+    "notification_intent": {
+      "id": "notice:6f72b0b68376af82b24c52e8d8e6c53ec1939caf7aed8b0132f402f735b5d811",
+      "state": "pending"
+    },
+    "replayed": false,
+    "review": {
+      "id": "da1c6bef-c9d9-4c6f-8db2-7321af65a077",
+      "command_id": "9e0840d8-4a7a-4ce8-bf66-6a3a24187de5",
+      "context_id": "7b0594d2-d592-42da-bca9-e47750288385",
+      "evidence_set_id": "281682bf-8552-4132-8242-a6bd216bfa4e",
+      "evidence_set": {
+        "id": "281682bf-8552-4132-8242-a6bd216bfa4e",
+        "policy_version": "complete-retained-sources-v1",
+        "limits": {
+          "issues": 300,
+          "reports": 100,
+          "analyses": 100,
+          "encoded_bytes": 2000000,
+          "source_contracts": 16,
+          "exposure_versions": 200
+        },
+        "source_manifest": [
+          {
+            "digest": "1eba7a4ff35ff17993fc7c5cfe0d7f435724003735de7297a0f94d761f72396b",
+            "permitted": true,
+            "source_id": "fixture-research-engine-trace",
+            "provenance": "existing_allowlisted_adapter_manifest",
+            "version_id": "8c8329fd-e51a-4647-ab98-fa83be818b96",
+            "observed_at": "2026-10-12T16:58:55.298971+00:00"
+          }
+        ]
+      },
+      "predecessor_id": null,
+      "start": "2026-10-11T16:58:55.519821+00:00",
+      "cutoff": "2026-10-12T16:58:55.519821+00:00",
+      "prepared_at": "2026-10-12T16:58:55.556138+00:00",
+      "original_outcome": "prepared",
+      "digest": "3fb9d972d7ea47cbf44087e42daa4d26acf887daa54028a478114bf2055e58ab",
+      "content": {
+        "scope": {
+          "owner_id": "ceffe897-5e3a-456c-9fc9-4284127d3024",
+          "thesis_id": "50c2960d-813e-4b9b-a538-de0dd39b08b8",
+          "approval_id": "3bc67186-7f2b-4ffb-b1a7-20a10aea07b6",
+          "exposure_digest": "1b90c3d88c0d292d2eac5dbfc9a8b865af016a0822a96c3954a403a63eff4336",
+          "source_contracts": [
+            {
+              "digest": "1eba7a4ff35ff17993fc7c5cfe0d7f435724003735de7297a0f94d761f72396b",
+              "source_id": "fixture-research-engine-trace",
+              "version_id": "8c8329fd-e51a-4647-ab98-fa83be818b96"
+            }
+          ],
+          "interpretation_id": "4125f72a-1bfd-488e-89e0-7080d5984981",
+          "exposure_version_ids": [
+            "61b1b3b4-7b9b-4402-9de2-beef36f6f7c4"
+          ],
+          "predecessor_context_id": null,
+          "predecessor_assessment_id": null
+        },
+        "issues": [
+          {
+            "kind": "coverage_gap",
+            "detail": {
+              "coverage": "bounded_snapshot",
+              "last_code": "snapshot_captured",
+              "last_outcome": "captured",
+              "active_capture_id": null,
+              "complete_market_coverage": false,
+              "last_successful_capture_at": "2026-10-12T16:58:55.263663+00:00"
+            },
+            "issue_id": "coverage:fixture-research-engine-trace",
+            "source_id": "fixture-research-engine-trace",
+            "analysis_id": null
+          },
+          {
+            "kind": "unresolved_work",
+            "detail": {
+              "state": "pending",
+              "decision": "relevance_unresolved",
+              "lease_until": null,
+              "attempt_count": 0
+            },
+            "issue_id": "screening:569e409f-caf6-48c6-8e85-cea14a749c31",
+            "source_id": "fixture-research-engine-trace",
+            "analysis_id": null
+          }
+        ],
+        "period": {
+          "prepared_at": "2026-10-12T16:58:55.556138+00:00",
+          "start_exclusive": "2026-10-11T16:58:55.519821+00:00",
+          "cutoff_inclusive": "2026-10-12T16:58:55.519821+00:00"
+        },
+        "reports": {
+          "new": [
+            {
+              "payload": {
+                "id": "rate-report",
+                "url": "https://example.invalid/rate",
+                "title": "Fictional policy report",
+                "content": "The committee left the rate at 4%.",
+                "published_at": "2026-10-11T16:58:55.251033+00:00"
+              },
+              "report_id": "1",
+              "source_id": "fixture-research-engine-trace",
+              "received_at": "2026-10-12T16:58:55.261188+00:00",
+              "revision_id": "569e409f-caf6-48c6-8e85-cea14a749c31",
+              "payload_digest": "cdfcd1b2fb724c98ce1849e5f1d690ef70e16693da11d0d3037ad5b332cb5943",
+              "deferred_reason": null,
+              "source_contract_digest": "1eba7a4ff35ff17993fc7c5cfe0d7f435724003735de7297a0f94d761f72396b",
+              "availability_witness_at": "2026-10-12T16:58:55.283505+00:00",
+              "source_contract_version_id": "8c8329fd-e51a-4647-ab98-fa83be818b96"
+            }
+          ],
+          "deferred": [],
+          "background": []
+        },
+        "analyses": {
+          "new": [],
+          "deferred": [],
+          "background": []
+        },
+        "limitations": [
+          "No new eligible reports does not establish that no market events occurred.",
+          "Exact retained quotations establish attribution, not factual truth or investment usefulness.",
+          "Current disposition is a caller observation at preparation, not reconstructed cutoff state.",
+          "Cross-source independence, current macro regime and market expectations remain unverified.",
+          "This deterministic review grants no approval, publication, notification or paid-retry authority."
+        ],
+        "schema_version": "deterministic-daily-evidence-review-v1",
+        "unresolved_analysis_ids": [],
+        "assembly_inference_calls": 0,
+        "new_eligible_report_count": 1,
+        "assembly_inference_cost_usd": "0",
+        "unknown_reported_cost_analysis_ids": []
+      },
+      "original_inputs": {
+        "approved_user": {
+          "text": {
+            "digest": "93edf5b9675e78e4f0844f0e85e53a5b7679399e140e69e61097fb61f6758fa8",
+            "created_at": "2026-10-12T16:58:55.235684+00:00",
+            "exact_text": "  The policy rate is now 3%.\r\nGold may benefit if real yields fall. Δ\r\n",
+            "version_id": "d9e47216-13eb-4cc2-ba9e-3b01cf1fe00d"
+          },
+          "approval": {
+            "digest": "33117b7d5da73eb0520f05469c937c5e649e862cae321138afd1b4f3c230d817",
+            "actor_id": "ceffe897-5e3a-456c-9fc9-4284127d3024",
+            "revision": 3,
+            "version_id": "3bc67186-7f2b-4ffb-b1a7-20a10aea07b6",
+            "approved_at": "2026-10-12T16:58:55.455243+00:00"
+          },
+          "exposure": {
+            "positions": [
+              {
+                "payload": {
+                  "paper": true,
+                  "venue": null,
+                  "expiry": null,
+                  "status": "open",
+                  "horizon": null,
+                  "owner_id": "ceffe897-5e3a-456c-9fc9-4284127d3024",
+                  "quantity": null,
+                  "direction": "long",
+                  "thesis_id": "50c2960d-813e-4b9b-a538-de0dd39b08b8",
+                  "product_id": null,
+                  "underlying": "XAU",
+                  "version_id": "61b1b3b4-7b9b-4402-9de2-beef36f6f7c4",
+                  "accepted_at": "2026-10-12T16:58:55.482409+00:00",
+                  "approval_id": "3bc67186-7f2b-4ffb-b1a7-20a10aea07b6",
+                  "position_id": "140ef502-eb44-458d-b191-e2297dcb775a",
+                  "quantity_unit": null,
+                  "mapping_status": "user_declared_unverified",
+                  "quote_currency": null,
+                  "parent_version_id": null
+                },
+                "version_id": "61b1b3b4-7b9b-4402-9de2-beef36f6f7c4",
+                "position_id": "140ef502-eb44-458d-b191-e2297dcb775a",
+                "version_digest": "a47d7e181f65695ad93a5a52c8b0b099cca3d1f77b5d082b7ea47f15a1fa20e0"
+              }
+            ],
+            "thesis_id": "50c2960d-813e-4b9b-a538-de0dd39b08b8"
+          },
+          "owner_id": "ceffe897-5e3a-456c-9fc9-4284127d3024",
+          "thesis_id": "50c2960d-813e-4b9b-a538-de0dd39b08b8",
+          "interpretation": {
+            "digest": "df70d5380f22a61a7451f0d28d1b3e2f16bfb90b04cd71e7f0b8111a5eb29bdb",
+            "origin": "model_compilation",
+            "drivers": [
+              "Falling real yields may support gold."
+            ],
+            "horizon": null,
+            "version_id": "4125f72a-1bfd-488e-89e0-7080d5984981",
+            "prepared_at": "2026-10-12T16:58:55.386339+00:00",
+            "review_card": {
+              "inputs": [
+                {
+                  "input_id": "thesis",
+                  "exact_text": "  The policy rate is now 3%.\r\nGold may benefit if real yields fall. Δ\r\n"
+                }
+              ],
+              "document": {
+                "grounding": [
+                  {
+                    "field": "drivers",
+                    "index": 0,
+                    "input_id": "thesis",
+                    "exact_quote": "Gold may benefit if real yields fall."
+                  }
+                ],
+                "review_card": {
+                  "claim": {
+                    "gap": "Unresolved.",
+                    "proposed": [],
+                    "extracted": []
+                  },
+                  "catalysts": {
+                    "gap": "Unresolved.",
+                    "proposed": [],
+                    "extracted": []
+                  },
+                  "scenarios": {
+                    "gap": "Unresolved.",
+                    "proposed": [],
+                    "extracted": []
+                  },
+                  "assumptions": {
+                    "gap": "Unresolved.",
+                    "proposed": [],
+                    "extracted": []
+                  },
+                  "causal_path": {
+                    "gap": "Unresolved.",
+                    "proposed": [],
+                    "extracted": []
+                  },
+                  "affected_assets": {
+                    "gap": "Unresolved.",
+                    "proposed": [],
+                    "extracted": []
+                  },
+                  "monitoring_scope": {
+                    "gap": "Unresolved.",
+                    "proposed": [],
+                    "extracted": []
+                  }
+                },
+                "counter_case": "Currency strength might offset the yield effect.",
+                "interpretation": {
+                  "drivers": [
+                    "Falling real yields may support gold."
+                  ],
+                  "horizon": null,
+                  "invalidation_signposts": []
+                },
+                "agent_hypotheses": [],
+                "attributed_claims": [
+                  {
+                    "field": "content",
+                    "claim_id": "rate",
+                    "exact_quote": "The committee left the rate at 4%.",
+                    "revision_id": "569e409f-caf6-48c6-8e85-cea14a749c31"
+                  }
+                ],
+                "factual_conflicts": [
+                  {
+                    "status": "model_identified",
+                    "input_id": "thesis",
+                    "question": "Which rate series and date does your premise refer to?",
+                    "claim_ids": [
+                      "rate"
+                    ],
+                    "exact_quote": "The policy rate is now 3%.",
+                    "explanation": "The retained source names 4%; date or series may differ."
+                  }
+                ],
+                "refinement_issues": [
+                  {
+                    "kind": "missing_detail",
+                    "input_id": null,
+                    "question": "Over what period and under what failure condition?",
+                    "exact_quote": null,
+                    "explanation": "Horizon and invalidation are unspecified."
+                  },
+                  {
+                    "kind": "verification_needed",
+                    "input_id": "thesis",
+                    "question": "Which rate series and date does your premise refer to?",
+                    "exact_quote": "The policy rate is now 3%.",
+                    "explanation": "The fictional source names a different rate."
+                  }
+                ],
+                "evidence_assessment": {
+                  "gaps": [
+                    "Market expectations and current macro regime unavailable."
+                  ],
+                  "summary": "The fictional source challenges the numeric premise.",
+                  "counter_claim_ids": [
+                    "rate"
+                  ],
+                  "supporting_claim_ids": []
+                }
+              },
+              "evidence": {
+                "status": "retained_sources",
+                "context": {
+                  "gaps": [
+                    "Explicitly selected retained reports do not establish broad market coverage or the current macro regime.",
+                    "Source statements and exact quotations establish attribution, not factual truth or semantic support.",
+                    "Consensus, current prices, valuation and instrument mapping are unavailable unless explicitly supported."
+                  ],
+                  "cutoff": "2026-10-12T16:58:55.298971+00:00",
+                  "reports": [
+                    {
+                      "title": "Fictional policy report",
+                      "content": "The committee left the rate at 4%.",
+                      "source_id": "fixture-research-engine-trace",
+                      "source_url": "https://example.invalid/rate",
+                      "revision_id": "569e409f-caf6-48c6-8e85-cea14a749c31",
+                      "contract_digest": "1eba7a4ff35ff17993fc7c5cfe0d7f435724003735de7297a0f94d761f72396b",
+                      "system_received_at": "2026-10-12T16:58:55.261188+00:00",
+                      "contract_version_id": "8c8329fd-e51a-4647-ab98-fa83be818b96",
+                      "head_at_admission_id": "569e409f-caf6-48c6-8e85-cea14a749c31",
+                      "availability_witness_at": "2026-10-12T16:58:55.283505+00:00",
+                      "source_claimed_published_at": "2026-10-11T16:58:55.251033+00:00"
+                    }
+                  ],
+                  "schema_version": "retained-source-evidence-v1"
+                }
+              },
+              "schema_version": "thesis-review-card-v2"
+            },
+            "text_version_id": "d9e47216-13eb-4cc2-ba9e-3b01cf1fe00d",
+            "invalidation_signposts": []
+          }
+        },
+        "source_contracts": [
+          {
+            "digest": "1eba7a4ff35ff17993fc7c5cfe0d7f435724003735de7297a0f94d761f72396b",
+            "reason": "Observed existing contract; this snapshot is not a new human rights review.",
+            "contract": {
+              "kind": "fictional_fixture",
+              "label": "Fictional policy report",
+              "coverage": "bounded_snapshot"
+            },
+            "parent_id": null,
+            "permitted": true,
+            "source_id": "fixture-research-engine-trace",
+            "provenance": "existing_allowlisted_adapter_manifest",
+            "version_id": "8c8329fd-e51a-4647-ab98-fa83be818b96",
+            "observed_at": "2026-10-12T16:58:55.298971+00:00",
+            "reviewer_id": "ceffe897-5e3a-456c-9fc9-4284127d3024"
+          }
+        ],
+        "predecessor_assessment": {
+          "reason": "No cumulative model assessment is implemented.",
+          "status": "unavailable"
+        },
+        "starting_macro_context": {
+          "status": "unavailable"
+        },
+        "changes_since_predecessor": {
+          "exposure_changed": false,
+          "approved_meaning_changed": false
+        }
+      }
+    }
+  },
+  "fresh_synthesis": {
+    "synthesis": {
+      "id": "4661ffe6-2a8d-4213-9394-edf1814ee8e4",
+      "command_id": "c1d6fecb-cc9c-4fc2-833b-cb0f45fac9ae",
+      "review_id": "da1c6bef-c9d9-4c6f-8db2-7321af65a077",
+      "review_digest": "3fb9d972d7ea47cbf44087e42daa4d26acf887daa54028a478114bf2055e58ab",
+      "provider": "nanogpt",
+      "model_id": "fictional/recorded-response",
+      "schema_version": "retained-daily-synthesis-v1",
+      "prompt_version": "retained-daily-synthesis-prompt-v1",
+      "status": "synthesised",
+      "created_at": "2026-10-12T16:58:55.746607+00:00",
+      "finished_at": "2026-10-12T16:58:55.772069+00:00",
+      "document": {
+        "gaps": [
+          "Current prices, funding and verified macro regime unavailable."
+        ],
+        "overview": {
+          "text": "The policy-to-yields pathway remains conditional.",
+          "claim_ids": [
+            "rate"
+          ],
+          "uncertainty": "Transmission and positioning are unknown.",
+          "prior_analysis_ids": []
+        },
+        "counter_case": {
+          "text": "The policy-to-yields pathway remains conditional.",
+          "claim_ids": [
+            "rate"
+          ],
+          "uncertainty": "Transmission and positioning are unknown.",
+          "prior_analysis_ids": []
+        },
+        "thesis_effect": {
+          "effect": "supports",
+          "claim_ids": [
+            "rate"
+          ],
+          "reasoning": "The policy-to-yields pathway remains conditional.",
+          "uncertainty": "Transmission and positioning are unknown.",
+          "prior_analysis_ids": []
+        },
+        "trade_effects": [
+          {
+            "effect": "potential_risk",
+            "claim_ids": [
+              "rate"
+            ],
+            "reasoning": "Funding or currency stress could hurt the trade before the thesis resolves.",
+            "position_id": "140ef502-eb44-458d-b191-e2297dcb775a",
+            "uncertainty": "Transmission and positioning are unknown.",
+            "prior_analysis_ids": []
+          }
+        ],
+        "schema_version": "retained-daily-synthesis-v1",
+        "watch_questions": [
+          "Does policy transmit to real yields?"
+        ],
+        "attributed_claims": [
+          {
+            "quote": "The committee left the rate at 4%.",
+            "claim_id": "rate",
+            "source_field": "content",
+            "source_revision_id": "569e409f-caf6-48c6-8e85-cea14a749c31"
+          }
+        ]
+      },
+      "context": {
+        "review_id": "da1c6bef-c9d9-4c6f-8db2-7321af65a077",
+        "review_digest": "3fb9d972d7ea47cbf44087e42daa4d26acf887daa54028a478114bf2055e58ab",
+        "review": {
+          "scope": {
+            "owner_id": "ceffe897-5e3a-456c-9fc9-4284127d3024",
+            "thesis_id": "50c2960d-813e-4b9b-a538-de0dd39b08b8",
+            "approval_id": "3bc67186-7f2b-4ffb-b1a7-20a10aea07b6",
+            "exposure_digest": "1b90c3d88c0d292d2eac5dbfc9a8b865af016a0822a96c3954a403a63eff4336",
+            "source_contracts": [
+              {
+                "digest": "1eba7a4ff35ff17993fc7c5cfe0d7f435724003735de7297a0f94d761f72396b",
+                "source_id": "fixture-research-engine-trace",
+                "version_id": "8c8329fd-e51a-4647-ab98-fa83be818b96"
+              }
+            ],
+            "interpretation_id": "4125f72a-1bfd-488e-89e0-7080d5984981",
+            "exposure_version_ids": [
+              "61b1b3b4-7b9b-4402-9de2-beef36f6f7c4"
+            ],
+            "predecessor_context_id": null,
+            "predecessor_assessment_id": null
+          },
+          "issues": [
+            {
+              "kind": "coverage_gap",
+              "detail": {
+                "coverage": "bounded_snapshot",
+                "last_code": "snapshot_captured",
+                "last_outcome": "captured",
+                "active_capture_id": null,
+                "complete_market_coverage": false,
+                "last_successful_capture_at": "2026-10-12T16:58:55.263663+00:00"
+              },
+              "issue_id": "coverage:fixture-research-engine-trace",
+              "source_id": "fixture-research-engine-trace",
+              "analysis_id": null
+            },
+            {
+              "kind": "unresolved_work",
+              "detail": {
+                "state": "pending",
+                "decision": "relevance_unresolved",
+                "lease_until": null,
+                "attempt_count": 0
+              },
+              "issue_id": "screening:569e409f-caf6-48c6-8e85-cea14a749c31",
+              "source_id": "fixture-research-engine-trace",
+              "analysis_id": null
+            }
+          ],
+          "period": {
+            "prepared_at": "2026-10-12T16:58:55.556138+00:00",
+            "start_exclusive": "2026-10-11T16:58:55.519821+00:00",
+            "cutoff_inclusive": "2026-10-12T16:58:55.519821+00:00"
+          },
+          "reports": {
+            "new": [
+              {
+                "payload": {
+                  "id": "rate-report",
+                  "url": "https://example.invalid/rate",
+                  "title": "Fictional policy report",
+                  "content": "The committee left the rate at 4%.",
+                  "published_at": "2026-10-11T16:58:55.251033+00:00"
+                },
+                "report_id": "1",
+                "source_id": "fixture-research-engine-trace",
+                "received_at": "2026-10-12T16:58:55.261188+00:00",
+                "revision_id": "569e409f-caf6-48c6-8e85-cea14a749c31",
+                "payload_digest": "cdfcd1b2fb724c98ce1849e5f1d690ef70e16693da11d0d3037ad5b332cb5943",
+                "deferred_reason": null,
+                "source_contract_digest": "1eba7a4ff35ff17993fc7c5cfe0d7f435724003735de7297a0f94d761f72396b",
+                "availability_witness_at": "2026-10-12T16:58:55.283505+00:00",
+                "source_contract_version_id": "8c8329fd-e51a-4647-ab98-fa83be818b96"
+              }
+            ],
+            "deferred": [],
+            "background": []
+          },
+          "analyses": {
+            "new": [],
+            "deferred": [],
+            "background": []
+          },
+          "limitations": [
+            "No new eligible reports does not establish that no market events occurred.",
+            "Exact retained quotations establish attribution, not factual truth or investment usefulness.",
+            "Current disposition is a caller observation at preparation, not reconstructed cutoff state.",
+            "Cross-source independence, current macro regime and market expectations remain unverified.",
+            "This deterministic review grants no approval, publication, notification or paid-retry authority."
+          ],
+          "schema_version": "deterministic-daily-evidence-review-v1",
+          "unresolved_analysis_ids": [],
+          "assembly_inference_calls": 0,
+          "new_eligible_report_count": 1,
+          "assembly_inference_cost_usd": "0",
+          "unknown_reported_cost_analysis_ids": []
+        },
+        "original_inputs": {
+          "approved_user": {
+            "text": {
+              "digest": "93edf5b9675e78e4f0844f0e85e53a5b7679399e140e69e61097fb61f6758fa8",
+              "created_at": "2026-10-12T16:58:55.235684+00:00",
+              "exact_text": "  The policy rate is now 3%.\r\nGold may benefit if real yields fall. Δ\r\n",
+              "version_id": "d9e47216-13eb-4cc2-ba9e-3b01cf1fe00d"
+            },
+            "approval": {
+              "digest": "33117b7d5da73eb0520f05469c937c5e649e862cae321138afd1b4f3c230d817",
+              "actor_id": "ceffe897-5e3a-456c-9fc9-4284127d3024",
+              "revision": 3,
+              "version_id": "3bc67186-7f2b-4ffb-b1a7-20a10aea07b6",
+              "approved_at": "2026-10-12T16:58:55.455243+00:00"
+            },
+            "exposure": {
+              "positions": [
+                {
+                  "payload": {
+                    "paper": true,
+                    "venue": null,
+                    "expiry": null,
+                    "status": "open",
+                    "horizon": null,
+                    "owner_id": "ceffe897-5e3a-456c-9fc9-4284127d3024",
+                    "quantity": null,
+                    "direction": "long",
+                    "thesis_id": "50c2960d-813e-4b9b-a538-de0dd39b08b8",
+                    "product_id": null,
+                    "underlying": "XAU",
+                    "version_id": "61b1b3b4-7b9b-4402-9de2-beef36f6f7c4",
+                    "accepted_at": "2026-10-12T16:58:55.482409+00:00",
+                    "approval_id": "3bc67186-7f2b-4ffb-b1a7-20a10aea07b6",
+                    "position_id": "140ef502-eb44-458d-b191-e2297dcb775a",
+                    "quantity_unit": null,
+                    "mapping_status": "user_declared_unverified",
+                    "quote_currency": null,
+                    "parent_version_id": null
+                  },
+                  "version_id": "61b1b3b4-7b9b-4402-9de2-beef36f6f7c4",
+                  "position_id": "140ef502-eb44-458d-b191-e2297dcb775a",
+                  "version_digest": "a47d7e181f65695ad93a5a52c8b0b099cca3d1f77b5d082b7ea47f15a1fa20e0"
+                }
+              ],
+              "thesis_id": "50c2960d-813e-4b9b-a538-de0dd39b08b8"
+            },
+            "owner_id": "ceffe897-5e3a-456c-9fc9-4284127d3024",
+            "thesis_id": "50c2960d-813e-4b9b-a538-de0dd39b08b8",
+            "interpretation": {
+              "digest": "df70d5380f22a61a7451f0d28d1b3e2f16bfb90b04cd71e7f0b8111a5eb29bdb",
+              "origin": "model_compilation",
+              "drivers": [
+                "Falling real yields may support gold."
+              ],
+              "horizon": null,
+              "version_id": "4125f72a-1bfd-488e-89e0-7080d5984981",
+              "prepared_at": "2026-10-12T16:58:55.386339+00:00",
+              "review_card": {
+                "inputs": [
+                  {
+                    "input_id": "thesis",
+                    "exact_text": "  The policy rate is now 3%.\r\nGold may benefit if real yields fall. Δ\r\n"
+                  }
+                ],
+                "document": {
+                  "grounding": [
+                    {
+                      "field": "drivers",
+                      "index": 0,
+                      "input_id": "thesis",
+                      "exact_quote": "Gold may benefit if real yields fall."
+                    }
+                  ],
+                  "review_card": {
+                    "claim": {
+                      "gap": "Unresolved.",
+                      "proposed": [],
+                      "extracted": []
+                    },
+                    "catalysts": {
+                      "gap": "Unresolved.",
+                      "proposed": [],
+                      "extracted": []
+                    },
+                    "scenarios": {
+                      "gap": "Unresolved.",
+                      "proposed": [],
+                      "extracted": []
+                    },
+                    "assumptions": {
+                      "gap": "Unresolved.",
+                      "proposed": [],
+                      "extracted": []
+                    },
+                    "causal_path": {
+                      "gap": "Unresolved.",
+                      "proposed": [],
+                      "extracted": []
+                    },
+                    "affected_assets": {
+                      "gap": "Unresolved.",
+                      "proposed": [],
+                      "extracted": []
+                    },
+                    "monitoring_scope": {
+                      "gap": "Unresolved.",
+                      "proposed": [],
+                      "extracted": []
+                    }
+                  },
+                  "counter_case": "Currency strength might offset the yield effect.",
+                  "interpretation": {
+                    "drivers": [
+                      "Falling real yields may support gold."
+                    ],
+                    "horizon": null,
+                    "invalidation_signposts": []
+                  },
+                  "agent_hypotheses": [],
+                  "attributed_claims": [
+                    {
+                      "field": "content",
+                      "claim_id": "rate",
+                      "exact_quote": "The committee left the rate at 4%.",
+                      "revision_id": "569e409f-caf6-48c6-8e85-cea14a749c31"
+                    }
+                  ],
+                  "factual_conflicts": [
+                    {
+                      "status": "model_identified",
+                      "input_id": "thesis",
+                      "question": "Which rate series and date does your premise refer to?",
+                      "claim_ids": [
+                        "rate"
+                      ],
+                      "exact_quote": "The policy rate is now 3%.",
+                      "explanation": "The retained source names 4%; date or series may differ."
+                    }
+                  ],
+                  "refinement_issues": [
+                    {
+                      "kind": "missing_detail",
+                      "input_id": null,
+                      "question": "Over what period and under what failure condition?",
+                      "exact_quote": null,
+                      "explanation": "Horizon and invalidation are unspecified."
+                    },
+                    {
+                      "kind": "verification_needed",
+                      "input_id": "thesis",
+                      "question": "Which rate series and date does your premise refer to?",
+                      "exact_quote": "The policy rate is now 3%.",
+                      "explanation": "The fictional source names a different rate."
+                    }
+                  ],
+                  "evidence_assessment": {
+                    "gaps": [
+                      "Market expectations and current macro regime unavailable."
+                    ],
+                    "summary": "The fictional source challenges the numeric premise.",
+                    "counter_claim_ids": [
+                      "rate"
+                    ],
+                    "supporting_claim_ids": []
+                  }
+                },
+                "evidence": {
+                  "status": "retained_sources",
+                  "context": {
+                    "gaps": [
+                      "Explicitly selected retained reports do not establish broad market coverage or the current macro regime.",
+                      "Source statements and exact quotations establish attribution, not factual truth or semantic support.",
+                      "Consensus, current prices, valuation and instrument mapping are unavailable unless explicitly supported."
+                    ],
+                    "cutoff": "2026-10-12T16:58:55.298971+00:00",
+                    "reports": [
+                      {
+                        "title": "Fictional policy report",
+                        "content": "The committee left the rate at 4%.",
+                        "source_id": "fixture-research-engine-trace",
+                        "source_url": "https://example.invalid/rate",
+                        "revision_id": "569e409f-caf6-48c6-8e85-cea14a749c31",
+                        "contract_digest": "1eba7a4ff35ff17993fc7c5cfe0d7f435724003735de7297a0f94d761f72396b",
+                        "system_received_at": "2026-10-12T16:58:55.261188+00:00",
+                        "contract_version_id": "8c8329fd-e51a-4647-ab98-fa83be818b96",
+                        "head_at_admission_id": "569e409f-caf6-48c6-8e85-cea14a749c31",
+                        "availability_witness_at": "2026-10-12T16:58:55.283505+00:00",
+                        "source_claimed_published_at": "2026-10-11T16:58:55.251033+00:00"
+                      }
+                    ],
+                    "schema_version": "retained-source-evidence-v1"
+                  }
+                },
+                "schema_version": "thesis-review-card-v2"
+              },
+              "text_version_id": "d9e47216-13eb-4cc2-ba9e-3b01cf1fe00d",
+              "invalidation_signposts": []
+            }
+          },
+          "source_contracts": [
+            {
+              "digest": "1eba7a4ff35ff17993fc7c5cfe0d7f435724003735de7297a0f94d761f72396b",
+              "reason": "Observed existing contract; this snapshot is not a new human rights review.",
+              "contract": {
+                "kind": "fictional_fixture",
+                "label": "Fictional policy report",
+                "coverage": "bounded_snapshot"
+              },
+              "parent_id": null,
+              "permitted": true,
+              "source_id": "fixture-research-engine-trace",
+              "provenance": "existing_allowlisted_adapter_manifest",
+              "version_id": "8c8329fd-e51a-4647-ab98-fa83be818b96",
+              "observed_at": "2026-10-12T16:58:55.298971+00:00",
+              "reviewer_id": "ceffe897-5e3a-456c-9fc9-4284127d3024"
+            }
+          ],
+          "predecessor_assessment": {
+            "reason": "No cumulative model assessment is implemented.",
+            "status": "unavailable"
+          },
+          "starting_macro_context": {
+            "status": "unavailable"
+          },
+          "changes_since_predecessor": {
+            "exposure_changed": false,
+            "approved_meaning_changed": false
+          }
+        },
+        "report_heads": {
+          "1": "569e409f-caf6-48c6-8e85-cea14a749c31"
+        }
+      },
+      "context_digest": "324546bcaa6b0b645aacfaab14f466a350d7f8d65463cae031fabc30a7117950",
+      "usage": {
+        "total_tokens": 150,
+        "prompt_tokens": 100,
+        "completion_tokens": 50
+      },
+      "reported_cost_usd": null,
+      "estimated_cost_usd": null,
+      "reported_model": "fictional/recorded-response",
+      "provider_request_id": null,
+      "latency_ms": 1,
+      "stop_reason": "completed",
+      "original_stale_reasons": [],
+      "limitations": [
+        "Fresh model interpretation of one retained digest, not verified facts or a current macro regime.",
+        "Exact source quotes establish attribution, not truth or semantic support.",
+        "Earlier analyses remain labelled model interpretations under their original inputs.",
+        "The attached-thesis paper book is not the whole portfolio; instrument mapping and prices remain unverified.",
+        "No thesis edit, publication, external notification, execution or automatic paid retry is authorized."
+      ]
+    },
+    "current_disposition": {
+      "status": "current",
+      "stale_reasons": [],
+      "observed_at": "2026-10-12T16:58:55.772069+00:00",
+      "publication_authority": false
+    },
+    "replayed": false,
+    "review_id": "da1c6bef-c9d9-4c6f-8db2-7321af65a077",
+    "review_digest": "3fb9d972d7ea47cbf44087e42daa4d26acf887daa54028a478114bf2055e58ab"
+  },
+  "current_before_correction": {
+    "thesis_id": "50c2960d-813e-4b9b-a538-de0dd39b08b8",
+    "brief_id": "daily:50c2960d-813e-4b9b-a538-de0dd39b08b8",
+    "generation": 1,
+    "current_publication": {
+      "publication": {
+        "id": "62e32cd0-16bb-43b2-a0e4-3526ae045f34",
+        "command_id": "236c1ec3-aaaf-4e8f-af5f-6c0894caf0a5",
+        "review_id": "da1c6bef-c9d9-4c6f-8db2-7321af65a077",
+        "brief_id": "daily:50c2960d-813e-4b9b-a538-de0dd39b08b8",
+        "assessment_id": "daily:da1c6bef-c9d9-4c6f-8db2-7321af65a077",
+        "review_digest": "3fb9d972d7ea47cbf44087e42daa4d26acf887daa54028a478114bf2055e58ab",
+        "expected_generation": 0,
+        "published_at": "2026-10-12T16:58:55.661685+00:00",
+        "original_decision": {
+          "status": "current",
+          "reasons": [
+            "all_dependencies_current"
+          ],
+          "reassessment_required": false
+        },
+        "generation_at_publication": 1
+      },
+      "current_disposition": {
+        "status": "current",
+        "reasons": [],
+        "observed_at": "2026-10-12T16:58:55.802053+00:00"
+      },
+      "notification_intent": {
+        "id": "notice:6f72b0b68376af82b24c52e8d8e6c53ec1939caf7aed8b0132f402f735b5d811",
+        "state": "pending"
+      },
+      "replayed": false,
+      "review": {
+        "id": "da1c6bef-c9d9-4c6f-8db2-7321af65a077",
+        "command_id": "9e0840d8-4a7a-4ce8-bf66-6a3a24187de5",
+        "context_id": "7b0594d2-d592-42da-bca9-e47750288385",
+        "evidence_set_id": "281682bf-8552-4132-8242-a6bd216bfa4e",
+        "evidence_set": {
+          "id": "281682bf-8552-4132-8242-a6bd216bfa4e",
+          "policy_version": "complete-retained-sources-v1",
+          "limits": {
+            "issues": 300,
+            "reports": 100,
+            "analyses": 100,
+            "encoded_bytes": 2000000,
+            "source_contracts": 16,
+            "exposure_versions": 200
+          },
+          "source_manifest": [
+            {
+              "digest": "1eba7a4ff35ff17993fc7c5cfe0d7f435724003735de7297a0f94d761f72396b",
+              "permitted": true,
+              "source_id": "fixture-research-engine-trace",
+              "provenance": "existing_allowlisted_adapter_manifest",
+              "version_id": "8c8329fd-e51a-4647-ab98-fa83be818b96",
+              "observed_at": "2026-10-12T16:58:55.298971+00:00"
+            }
+          ]
+        },
+        "predecessor_id": null,
+        "start": "2026-10-11T16:58:55.519821+00:00",
+        "cutoff": "2026-10-12T16:58:55.519821+00:00",
+        "prepared_at": "2026-10-12T16:58:55.556138+00:00",
+        "original_outcome": "prepared",
+        "digest": "3fb9d972d7ea47cbf44087e42daa4d26acf887daa54028a478114bf2055e58ab",
+        "content": {
+          "scope": {
+            "owner_id": "ceffe897-5e3a-456c-9fc9-4284127d3024",
+            "thesis_id": "50c2960d-813e-4b9b-a538-de0dd39b08b8",
+            "approval_id": "3bc67186-7f2b-4ffb-b1a7-20a10aea07b6",
+            "exposure_digest": "1b90c3d88c0d292d2eac5dbfc9a8b865af016a0822a96c3954a403a63eff4336",
+            "source_contracts": [
+              {
+                "digest": "1eba7a4ff35ff17993fc7c5cfe0d7f435724003735de7297a0f94d761f72396b",
+                "source_id": "fixture-research-engine-trace",
+                "version_id": "8c8329fd-e51a-4647-ab98-fa83be818b96"
+              }
+            ],
+            "interpretation_id": "4125f72a-1bfd-488e-89e0-7080d5984981",
+            "exposure_version_ids": [
+              "61b1b3b4-7b9b-4402-9de2-beef36f6f7c4"
+            ],
+            "predecessor_context_id": null,
+            "predecessor_assessment_id": null
+          },
+          "issues": [
+            {
+              "kind": "coverage_gap",
+              "detail": {
+                "coverage": "bounded_snapshot",
+                "last_code": "snapshot_captured",
+                "last_outcome": "captured",
+                "active_capture_id": null,
+                "complete_market_coverage": false,
+                "last_successful_capture_at": "2026-10-12T16:58:55.263663+00:00"
+              },
+              "issue_id": "coverage:fixture-research-engine-trace",
+              "source_id": "fixture-research-engine-trace",
+              "analysis_id": null
+            },
+            {
+              "kind": "unresolved_work",
+              "detail": {
+                "state": "pending",
+                "decision": "relevance_unresolved",
+                "lease_until": null,
+                "attempt_count": 0
+              },
+              "issue_id": "screening:569e409f-caf6-48c6-8e85-cea14a749c31",
+              "source_id": "fixture-research-engine-trace",
+              "analysis_id": null
+            }
+          ],
+          "period": {
+            "prepared_at": "2026-10-12T16:58:55.556138+00:00",
+            "start_exclusive": "2026-10-11T16:58:55.519821+00:00",
+            "cutoff_inclusive": "2026-10-12T16:58:55.519821+00:00"
+          },
+          "reports": {
+            "new": [
+              {
+                "payload": {
+                  "id": "rate-report",
+                  "url": "https://example.invalid/rate",
+                  "title": "Fictional policy report",
+                  "content": "The committee left the rate at 4%.",
+                  "published_at": "2026-10-11T16:58:55.251033+00:00"
+                },
+                "report_id": "1",
+                "source_id": "fixture-research-engine-trace",
+                "received_at": "2026-10-12T16:58:55.261188+00:00",
+                "revision_id": "569e409f-caf6-48c6-8e85-cea14a749c31",
+                "payload_digest": "cdfcd1b2fb724c98ce1849e5f1d690ef70e16693da11d0d3037ad5b332cb5943",
+                "deferred_reason": null,
+                "source_contract_digest": "1eba7a4ff35ff17993fc7c5cfe0d7f435724003735de7297a0f94d761f72396b",
+                "availability_witness_at": "2026-10-12T16:58:55.283505+00:00",
+                "source_contract_version_id": "8c8329fd-e51a-4647-ab98-fa83be818b96"
+              }
+            ],
+            "deferred": [],
+            "background": []
+          },
+          "analyses": {
+            "new": [],
+            "deferred": [],
+            "background": []
+          },
+          "limitations": [
+            "No new eligible reports does not establish that no market events occurred.",
+            "Exact retained quotations establish attribution, not factual truth or investment usefulness.",
+            "Current disposition is a caller observation at preparation, not reconstructed cutoff state.",
+            "Cross-source independence, current macro regime and market expectations remain unverified.",
+            "This deterministic review grants no approval, publication, notification or paid-retry authority."
+          ],
+          "schema_version": "deterministic-daily-evidence-review-v1",
+          "unresolved_analysis_ids": [],
+          "assembly_inference_calls": 0,
+          "new_eligible_report_count": 1,
+          "assembly_inference_cost_usd": "0",
+          "unknown_reported_cost_analysis_ids": []
+        },
+        "original_inputs": {
+          "approved_user": {
+            "text": {
+              "digest": "93edf5b9675e78e4f0844f0e85e53a5b7679399e140e69e61097fb61f6758fa8",
+              "created_at": "2026-10-12T16:58:55.235684+00:00",
+              "exact_text": "  The policy rate is now 3%.\r\nGold may benefit if real yields fall. Δ\r\n",
+              "version_id": "d9e47216-13eb-4cc2-ba9e-3b01cf1fe00d"
+            },
+            "approval": {
+              "digest": "33117b7d5da73eb0520f05469c937c5e649e862cae321138afd1b4f3c230d817",
+              "actor_id": "ceffe897-5e3a-456c-9fc9-4284127d3024",
+              "revision": 3,
+              "version_id": "3bc67186-7f2b-4ffb-b1a7-20a10aea07b6",
+              "approved_at": "2026-10-12T16:58:55.455243+00:00"
+            },
+            "exposure": {
+              "positions": [
+                {
+                  "payload": {
+                    "paper": true,
+                    "venue": null,
+                    "expiry": null,
+                    "status": "open",
+                    "horizon": null,
+                    "owner_id": "ceffe897-5e3a-456c-9fc9-4284127d3024",
+                    "quantity": null,
+                    "direction": "long",
+                    "thesis_id": "50c2960d-813e-4b9b-a538-de0dd39b08b8",
+                    "product_id": null,
+                    "underlying": "XAU",
+                    "version_id": "61b1b3b4-7b9b-4402-9de2-beef36f6f7c4",
+                    "accepted_at": "2026-10-12T16:58:55.482409+00:00",
+                    "approval_id": "3bc67186-7f2b-4ffb-b1a7-20a10aea07b6",
+                    "position_id": "140ef502-eb44-458d-b191-e2297dcb775a",
+                    "quantity_unit": null,
+                    "mapping_status": "user_declared_unverified",
+                    "quote_currency": null,
+                    "parent_version_id": null
+                  },
+                  "version_id": "61b1b3b4-7b9b-4402-9de2-beef36f6f7c4",
+                  "position_id": "140ef502-eb44-458d-b191-e2297dcb775a",
+                  "version_digest": "a47d7e181f65695ad93a5a52c8b0b099cca3d1f77b5d082b7ea47f15a1fa20e0"
+                }
+              ],
+              "thesis_id": "50c2960d-813e-4b9b-a538-de0dd39b08b8"
+            },
+            "owner_id": "ceffe897-5e3a-456c-9fc9-4284127d3024",
+            "thesis_id": "50c2960d-813e-4b9b-a538-de0dd39b08b8",
+            "interpretation": {
+              "digest": "df70d5380f22a61a7451f0d28d1b3e2f16bfb90b04cd71e7f0b8111a5eb29bdb",
+              "origin": "model_compilation",
+              "drivers": [
+                "Falling real yields may support gold."
+              ],
+              "horizon": null,
+              "version_id": "4125f72a-1bfd-488e-89e0-7080d5984981",
+              "prepared_at": "2026-10-12T16:58:55.386339+00:00",
+              "review_card": {
+                "inputs": [
+                  {
+                    "input_id": "thesis",
+                    "exact_text": "  The policy rate is now 3%.\r\nGold may benefit if real yields fall. Δ\r\n"
+                  }
+                ],
+                "document": {
+                  "grounding": [
+                    {
+                      "field": "drivers",
+                      "index": 0,
+                      "input_id": "thesis",
+                      "exact_quote": "Gold may benefit if real yields fall."
+                    }
+                  ],
+                  "review_card": {
+                    "claim": {
+                      "gap": "Unresolved.",
+                      "proposed": [],
+                      "extracted": []
+                    },
+                    "catalysts": {
+                      "gap": "Unresolved.",
+                      "proposed": [],
+                      "extracted": []
+                    },
+                    "scenarios": {
+                      "gap": "Unresolved.",
+                      "proposed": [],
+                      "extracted": []
+                    },
+                    "assumptions": {
+                      "gap": "Unresolved.",
+                      "proposed": [],
+                      "extracted": []
+                    },
+                    "causal_path": {
+                      "gap": "Unresolved.",
+                      "proposed": [],
+                      "extracted": []
+                    },
+                    "affected_assets": {
+                      "gap": "Unresolved.",
+                      "proposed": [],
+                      "extracted": []
+                    },
+                    "monitoring_scope": {
+                      "gap": "Unresolved.",
+                      "proposed": [],
+                      "extracted": []
+                    }
+                  },
+                  "counter_case": "Currency strength might offset the yield effect.",
+                  "interpretation": {
+                    "drivers": [
+                      "Falling real yields may support gold."
+                    ],
+                    "horizon": null,
+                    "invalidation_signposts": []
+                  },
+                  "agent_hypotheses": [],
+                  "attributed_claims": [
+                    {
+                      "field": "content",
+                      "claim_id": "rate",
+                      "exact_quote": "The committee left the rate at 4%.",
+                      "revision_id": "569e409f-caf6-48c6-8e85-cea14a749c31"
+                    }
+                  ],
+                  "factual_conflicts": [
+                    {
+                      "status": "model_identified",
+                      "input_id": "thesis",
+                      "question": "Which rate series and date does your premise refer to?",
+                      "claim_ids": [
+                        "rate"
+                      ],
+                      "exact_quote": "The policy rate is now 3%.",
+                      "explanation": "The retained source names 4%; date or series may differ."
+                    }
+                  ],
+                  "refinement_issues": [
+                    {
+                      "kind": "missing_detail",
+                      "input_id": null,
+                      "question": "Over what period and under what failure condition?",
+                      "exact_quote": null,
+                      "explanation": "Horizon and invalidation are unspecified."
+                    },
+                    {
+                      "kind": "verification_needed",
+                      "input_id": "thesis",
+                      "question": "Which rate series and date does your premise refer to?",
+                      "exact_quote": "The policy rate is now 3%.",
+                      "explanation": "The fictional source names a different rate."
+                    }
+                  ],
+                  "evidence_assessment": {
+                    "gaps": [
+                      "Market expectations and current macro regime unavailable."
+                    ],
+                    "summary": "The fictional source challenges the numeric premise.",
+                    "counter_claim_ids": [
+                      "rate"
+                    ],
+                    "supporting_claim_ids": []
+                  }
+                },
+                "evidence": {
+                  "status": "retained_sources",
+                  "context": {
+                    "gaps": [
+                      "Explicitly selected retained reports do not establish broad market coverage or the current macro regime.",
+                      "Source statements and exact quotations establish attribution, not factual truth or semantic support.",
+                      "Consensus, current prices, valuation and instrument mapping are unavailable unless explicitly supported."
+                    ],
+                    "cutoff": "2026-10-12T16:58:55.298971+00:00",
+                    "reports": [
+                      {
+                        "title": "Fictional policy report",
+                        "content": "The committee left the rate at 4%.",
+                        "source_id": "fixture-research-engine-trace",
+                        "source_url": "https://example.invalid/rate",
+                        "revision_id": "569e409f-caf6-48c6-8e85-cea14a749c31",
+                        "contract_digest": "1eba7a4ff35ff17993fc7c5cfe0d7f435724003735de7297a0f94d761f72396b",
+                        "system_received_at": "2026-10-12T16:58:55.261188+00:00",
+                        "contract_version_id": "8c8329fd-e51a-4647-ab98-fa83be818b96",
+                        "head_at_admission_id": "569e409f-caf6-48c6-8e85-cea14a749c31",
+                        "availability_witness_at": "2026-10-12T16:58:55.283505+00:00",
+                        "source_claimed_published_at": "2026-10-11T16:58:55.251033+00:00"
+                      }
+                    ],
+                    "schema_version": "retained-source-evidence-v1"
+                  }
+                },
+                "schema_version": "thesis-review-card-v2"
+              },
+              "text_version_id": "d9e47216-13eb-4cc2-ba9e-3b01cf1fe00d",
+              "invalidation_signposts": []
+            }
+          },
+          "source_contracts": [
+            {
+              "digest": "1eba7a4ff35ff17993fc7c5cfe0d7f435724003735de7297a0f94d761f72396b",
+              "reason": "Observed existing contract; this snapshot is not a new human rights review.",
+              "contract": {
+                "kind": "fictional_fixture",
+                "label": "Fictional policy report",
+                "coverage": "bounded_snapshot"
+              },
+              "parent_id": null,
+              "permitted": true,
+              "source_id": "fixture-research-engine-trace",
+              "provenance": "existing_allowlisted_adapter_manifest",
+              "version_id": "8c8329fd-e51a-4647-ab98-fa83be818b96",
+              "observed_at": "2026-10-12T16:58:55.298971+00:00",
+              "reviewer_id": "ceffe897-5e3a-456c-9fc9-4284127d3024"
+            }
+          ],
+          "predecessor_assessment": {
+            "reason": "No cumulative model assessment is implemented.",
+            "status": "unavailable"
+          },
+          "starting_macro_context": {
+            "status": "unavailable"
+          },
+          "changes_since_predecessor": {
+            "exposure_changed": false,
+            "approved_meaning_changed": false
+          }
+        }
+      }
+    },
+    "current_synthesis": {
+      "synthesis": {
+        "id": "4661ffe6-2a8d-4213-9394-edf1814ee8e4",
+        "command_id": "c1d6fecb-cc9c-4fc2-833b-cb0f45fac9ae",
+        "review_id": "da1c6bef-c9d9-4c6f-8db2-7321af65a077",
+        "review_digest": "3fb9d972d7ea47cbf44087e42daa4d26acf887daa54028a478114bf2055e58ab",
+        "provider": "nanogpt",
+        "model_id": "fictional/recorded-response",
+        "schema_version": "retained-daily-synthesis-v1",
+        "prompt_version": "retained-daily-synthesis-prompt-v1",
+        "status": "synthesised",
+        "created_at": "2026-10-12T16:58:55.746607+00:00",
+        "finished_at": "2026-10-12T16:58:55.772069+00:00",
+        "document": {
+          "gaps": [
+            "Current prices, funding and verified macro regime unavailable."
+          ],
+          "overview": {
+            "text": "The policy-to-yields pathway remains conditional.",
+            "claim_ids": [
+              "rate"
+            ],
+            "uncertainty": "Transmission and positioning are unknown.",
+            "prior_analysis_ids": []
+          },
+          "counter_case": {
+            "text": "The policy-to-yields pathway remains conditional.",
+            "claim_ids": [
+              "rate"
+            ],
+            "uncertainty": "Transmission and positioning are unknown.",
+            "prior_analysis_ids": []
+          },
+          "thesis_effect": {
+            "effect": "supports",
+            "claim_ids": [
+              "rate"
+            ],
+            "reasoning": "The policy-to-yields pathway remains conditional.",
+            "uncertainty": "Transmission and positioning are unknown.",
+            "prior_analysis_ids": []
+          },
+          "trade_effects": [
+            {
+              "effect": "potential_risk",
+              "claim_ids": [
+                "rate"
+              ],
+              "reasoning": "Funding or currency stress could hurt the trade before the thesis resolves.",
+              "position_id": "140ef502-eb44-458d-b191-e2297dcb775a",
+              "uncertainty": "Transmission and positioning are unknown.",
+              "prior_analysis_ids": []
+            }
+          ],
+          "schema_version": "retained-daily-synthesis-v1",
+          "watch_questions": [
+            "Does policy transmit to real yields?"
+          ],
+          "attributed_claims": [
+            {
+              "quote": "The committee left the rate at 4%.",
+              "claim_id": "rate",
+              "source_field": "content",
+              "source_revision_id": "569e409f-caf6-48c6-8e85-cea14a749c31"
+            }
+          ]
+        },
+        "context": {
+          "review": {
+            "scope": {
+              "owner_id": "ceffe897-5e3a-456c-9fc9-4284127d3024",
+              "thesis_id": "50c2960d-813e-4b9b-a538-de0dd39b08b8",
+              "approval_id": "3bc67186-7f2b-4ffb-b1a7-20a10aea07b6",
+              "exposure_digest": "1b90c3d88c0d292d2eac5dbfc9a8b865af016a0822a96c3954a403a63eff4336",
+              "source_contracts": [
+                {
+                  "digest": "1eba7a4ff35ff17993fc7c5cfe0d7f435724003735de7297a0f94d761f72396b",
+                  "source_id": "fixture-research-engine-trace",
+                  "version_id": "8c8329fd-e51a-4647-ab98-fa83be818b96"
+                }
+              ],
+              "interpretation_id": "4125f72a-1bfd-488e-89e0-7080d5984981",
+              "exposure_version_ids": [
+                "61b1b3b4-7b9b-4402-9de2-beef36f6f7c4"
+              ],
+              "predecessor_context_id": null,
+              "predecessor_assessment_id": null
+            },
+            "issues": [
+              {
+                "kind": "coverage_gap",
+                "detail": {
+                  "coverage": "bounded_snapshot",
+                  "last_code": "snapshot_captured",
+                  "last_outcome": "captured",
+                  "active_capture_id": null,
+                  "complete_market_coverage": false,
+                  "last_successful_capture_at": "2026-10-12T16:58:55.263663+00:00"
+                },
+                "issue_id": "coverage:fixture-research-engine-trace",
+                "source_id": "fixture-research-engine-trace",
+                "analysis_id": null
+              },
+              {
+                "kind": "unresolved_work",
+                "detail": {
+                  "state": "pending",
+                  "decision": "relevance_unresolved",
+                  "lease_until": null,
+                  "attempt_count": 0
+                },
+                "issue_id": "screening:569e409f-caf6-48c6-8e85-cea14a749c31",
+                "source_id": "fixture-research-engine-trace",
+                "analysis_id": null
+              }
+            ],
+            "period": {
+              "prepared_at": "2026-10-12T16:58:55.556138+00:00",
+              "start_exclusive": "2026-10-11T16:58:55.519821+00:00",
+              "cutoff_inclusive": "2026-10-12T16:58:55.519821+00:00"
+            },
+            "reports": {
+              "new": [
+                {
+                  "payload": {
+                    "id": "rate-report",
+                    "url": "https://example.invalid/rate",
+                    "title": "Fictional policy report",
+                    "content": "The committee left the rate at 4%.",
+                    "published_at": "2026-10-11T16:58:55.251033+00:00"
+                  },
+                  "report_id": "1",
+                  "source_id": "fixture-research-engine-trace",
+                  "received_at": "2026-10-12T16:58:55.261188+00:00",
+                  "revision_id": "569e409f-caf6-48c6-8e85-cea14a749c31",
+                  "payload_digest": "cdfcd1b2fb724c98ce1849e5f1d690ef70e16693da11d0d3037ad5b332cb5943",
+                  "deferred_reason": null,
+                  "source_contract_digest": "1eba7a4ff35ff17993fc7c5cfe0d7f435724003735de7297a0f94d761f72396b",
+                  "availability_witness_at": "2026-10-12T16:58:55.283505+00:00",
+                  "source_contract_version_id": "8c8329fd-e51a-4647-ab98-fa83be818b96"
+                }
+              ],
+              "deferred": [],
+              "background": []
+            },
+            "analyses": {
+              "new": [],
+              "deferred": [],
+              "background": []
+            },
+            "limitations": [
+              "No new eligible reports does not establish that no market events occurred.",
+              "Exact retained quotations establish attribution, not factual truth or investment usefulness.",
+              "Current disposition is a caller observation at preparation, not reconstructed cutoff state.",
+              "Cross-source independence, current macro regime and market expectations remain unverified.",
+              "This deterministic review grants no approval, publication, notification or paid-retry authority."
+            ],
+            "schema_version": "deterministic-daily-evidence-review-v1",
+            "unresolved_analysis_ids": [],
+            "assembly_inference_calls": 0,
+            "new_eligible_report_count": 1,
+            "assembly_inference_cost_usd": "0",
+            "unknown_reported_cost_analysis_ids": []
+          },
+          "review_id": "da1c6bef-c9d9-4c6f-8db2-7321af65a077",
+          "report_heads": {
+            "1": "569e409f-caf6-48c6-8e85-cea14a749c31"
+          },
+          "review_digest": "3fb9d972d7ea47cbf44087e42daa4d26acf887daa54028a478114bf2055e58ab",
+          "original_inputs": {
+            "approved_user": {
+              "text": {
+                "digest": "93edf5b9675e78e4f0844f0e85e53a5b7679399e140e69e61097fb61f6758fa8",
+                "created_at": "2026-10-12T16:58:55.235684+00:00",
+                "exact_text": "  The policy rate is now 3%.\r\nGold may benefit if real yields fall. Δ\r\n",
+                "version_id": "d9e47216-13eb-4cc2-ba9e-3b01cf1fe00d"
+              },
+              "approval": {
+                "digest": "33117b7d5da73eb0520f05469c937c5e649e862cae321138afd1b4f3c230d817",
+                "actor_id": "ceffe897-5e3a-456c-9fc9-4284127d3024",
+                "revision": 3,
+                "version_id": "3bc67186-7f2b-4ffb-b1a7-20a10aea07b6",
+                "approved_at": "2026-10-12T16:58:55.455243+00:00"
+              },
+              "exposure": {
+                "positions": [
+                  {
+                    "payload": {
+                      "paper": true,
+                      "venue": null,
+                      "expiry": null,
+                      "status": "open",
+                      "horizon": null,
+                      "owner_id": "ceffe897-5e3a-456c-9fc9-4284127d3024",
+                      "quantity": null,
+                      "direction": "long",
+                      "thesis_id": "50c2960d-813e-4b9b-a538-de0dd39b08b8",
+                      "product_id": null,
+                      "underlying": "XAU",
+                      "version_id": "61b1b3b4-7b9b-4402-9de2-beef36f6f7c4",
+                      "accepted_at": "2026-10-12T16:58:55.482409+00:00",
+                      "approval_id": "3bc67186-7f2b-4ffb-b1a7-20a10aea07b6",
+                      "position_id": "140ef502-eb44-458d-b191-e2297dcb775a",
+                      "quantity_unit": null,
+                      "mapping_status": "user_declared_unverified",
+                      "quote_currency": null,
+                      "parent_version_id": null
+                    },
+                    "version_id": "61b1b3b4-7b9b-4402-9de2-beef36f6f7c4",
+                    "position_id": "140ef502-eb44-458d-b191-e2297dcb775a",
+                    "version_digest": "a47d7e181f65695ad93a5a52c8b0b099cca3d1f77b5d082b7ea47f15a1fa20e0"
+                  }
+                ],
+                "thesis_id": "50c2960d-813e-4b9b-a538-de0dd39b08b8"
+              },
+              "owner_id": "ceffe897-5e3a-456c-9fc9-4284127d3024",
+              "thesis_id": "50c2960d-813e-4b9b-a538-de0dd39b08b8",
+              "interpretation": {
+                "digest": "df70d5380f22a61a7451f0d28d1b3e2f16bfb90b04cd71e7f0b8111a5eb29bdb",
+                "origin": "model_compilation",
+                "drivers": [
+                  "Falling real yields may support gold."
+                ],
+                "horizon": null,
+                "version_id": "4125f72a-1bfd-488e-89e0-7080d5984981",
+                "prepared_at": "2026-10-12T16:58:55.386339+00:00",
+                "review_card": {
+                  "inputs": [
+                    {
+                      "input_id": "thesis",
+                      "exact_text": "  The policy rate is now 3%.\r\nGold may benefit if real yields fall. Δ\r\n"
+                    }
+                  ],
+                  "document": {
+                    "grounding": [
+                      {
+                        "field": "drivers",
+                        "index": 0,
+                        "input_id": "thesis",
+                        "exact_quote": "Gold may benefit if real yields fall."
+                      }
+                    ],
+                    "review_card": {
+                      "claim": {
+                        "gap": "Unresolved.",
+                        "proposed": [],
+                        "extracted": []
+                      },
+                      "catalysts": {
+                        "gap": "Unresolved.",
+                        "proposed": [],
+                        "extracted": []
+                      },
+                      "scenarios": {
+                        "gap": "Unresolved.",
+                        "proposed": [],
+                        "extracted": []
+                      },
+                      "assumptions": {
+                        "gap": "Unresolved.",
+                        "proposed": [],
+                        "extracted": []
+                      },
+                      "causal_path": {
+                        "gap": "Unresolved.",
+                        "proposed": [],
+                        "extracted": []
+                      },
+                      "affected_assets": {
+                        "gap": "Unresolved.",
+                        "proposed": [],
+                        "extracted": []
+                      },
+                      "monitoring_scope": {
+                        "gap": "Unresolved.",
+                        "proposed": [],
+                        "extracted": []
+                      }
+                    },
+                    "counter_case": "Currency strength might offset the yield effect.",
+                    "interpretation": {
+                      "drivers": [
+                        "Falling real yields may support gold."
+                      ],
+                      "horizon": null,
+                      "invalidation_signposts": []
+                    },
+                    "agent_hypotheses": [],
+                    "attributed_claims": [
+                      {
+                        "field": "content",
+                        "claim_id": "rate",
+                        "exact_quote": "The committee left the rate at 4%.",
+                        "revision_id": "569e409f-caf6-48c6-8e85-cea14a749c31"
+                      }
+                    ],
+                    "factual_conflicts": [
+                      {
+                        "status": "model_identified",
+                        "input_id": "thesis",
+                        "question": "Which rate series and date does your premise refer to?",
+                        "claim_ids": [
+                          "rate"
+                        ],
+                        "exact_quote": "The policy rate is now 3%.",
+                        "explanation": "The retained source names 4%; date or series may differ."
+                      }
+                    ],
+                    "refinement_issues": [
+                      {
+                        "kind": "missing_detail",
+                        "input_id": null,
+                        "question": "Over what period and under what failure condition?",
+                        "exact_quote": null,
+                        "explanation": "Horizon and invalidation are unspecified."
+                      },
+                      {
+                        "kind": "verification_needed",
+                        "input_id": "thesis",
+                        "question": "Which rate series and date does your premise refer to?",
+                        "exact_quote": "The policy rate is now 3%.",
+                        "explanation": "The fictional source names a different rate."
+                      }
+                    ],
+                    "evidence_assessment": {
+                      "gaps": [
+                        "Market expectations and current macro regime unavailable."
+                      ],
+                      "summary": "The fictional source challenges the numeric premise.",
+                      "counter_claim_ids": [
+                        "rate"
+                      ],
+                      "supporting_claim_ids": []
+                    }
+                  },
+                  "evidence": {
+                    "status": "retained_sources",
+                    "context": {
+                      "gaps": [
+                        "Explicitly selected retained reports do not establish broad market coverage or the current macro regime.",
+                        "Source statements and exact quotations establish attribution, not factual truth or semantic support.",
+                        "Consensus, current prices, valuation and instrument mapping are unavailable unless explicitly supported."
+                      ],
+                      "cutoff": "2026-10-12T16:58:55.298971+00:00",
+                      "reports": [
+                        {
+                          "title": "Fictional policy report",
+                          "content": "The committee left the rate at 4%.",
+                          "source_id": "fixture-research-engine-trace",
+                          "source_url": "https://example.invalid/rate",
+                          "revision_id": "569e409f-caf6-48c6-8e85-cea14a749c31",
+                          "contract_digest": "1eba7a4ff35ff17993fc7c5cfe0d7f435724003735de7297a0f94d761f72396b",
+                          "system_received_at": "2026-10-12T16:58:55.261188+00:00",
+                          "contract_version_id": "8c8329fd-e51a-4647-ab98-fa83be818b96",
+                          "head_at_admission_id": "569e409f-caf6-48c6-8e85-cea14a749c31",
+                          "availability_witness_at": "2026-10-12T16:58:55.283505+00:00",
+                          "source_claimed_published_at": "2026-10-11T16:58:55.251033+00:00"
+                        }
+                      ],
+                      "schema_version": "retained-source-evidence-v1"
+                    }
+                  },
+                  "schema_version": "thesis-review-card-v2"
+                },
+                "text_version_id": "d9e47216-13eb-4cc2-ba9e-3b01cf1fe00d",
+                "invalidation_signposts": []
+              }
+            },
+            "source_contracts": [
+              {
+                "digest": "1eba7a4ff35ff17993fc7c5cfe0d7f435724003735de7297a0f94d761f72396b",
+                "reason": "Observed existing contract; this snapshot is not a new human rights review.",
+                "contract": {
+                  "kind": "fictional_fixture",
+                  "label": "Fictional policy report",
+                  "coverage": "bounded_snapshot"
+                },
+                "parent_id": null,
+                "permitted": true,
+                "source_id": "fixture-research-engine-trace",
+                "provenance": "existing_allowlisted_adapter_manifest",
+                "version_id": "8c8329fd-e51a-4647-ab98-fa83be818b96",
+                "observed_at": "2026-10-12T16:58:55.298971+00:00",
+                "reviewer_id": "ceffe897-5e3a-456c-9fc9-4284127d3024"
+              }
+            ],
+            "predecessor_assessment": {
+              "reason": "No cumulative model assessment is implemented.",
+              "status": "unavailable"
+            },
+            "starting_macro_context": {
+              "status": "unavailable"
+            },
+            "changes_since_predecessor": {
+              "exposure_changed": false,
+              "approved_meaning_changed": false
+            }
+          }
+        },
+        "context_digest": "324546bcaa6b0b645aacfaab14f466a350d7f8d65463cae031fabc30a7117950",
+        "usage": {
+          "total_tokens": 150,
+          "prompt_tokens": 100,
+          "completion_tokens": 50
+        },
+        "reported_cost_usd": null,
+        "estimated_cost_usd": null,
+        "reported_model": "fictional/recorded-response",
+        "provider_request_id": null,
+        "latency_ms": 1,
+        "stop_reason": "completed",
+        "original_stale_reasons": [],
+        "limitations": [
+          "Fresh model interpretation of one retained digest, not verified facts or a current macro regime.",
+          "Exact source quotes establish attribution, not truth or semantic support.",
+          "Earlier analyses remain labelled model interpretations under their original inputs.",
+          "The attached-thesis paper book is not the whole portfolio; instrument mapping and prices remain unverified.",
+          "No thesis edit, publication, external notification, execution or automatic paid retry is authorized."
+        ]
+      },
+      "current_disposition": {
+        "status": "current",
+        "stale_reasons": [],
+        "observed_at": "2026-10-12T16:58:55.802053+00:00",
+        "publication_authority": false
+      },
+      "replayed": false,
+      "review_id": "da1c6bef-c9d9-4c6f-8db2-7321af65a077",
+      "review_digest": "3fb9d972d7ea47cbf44087e42daa4d26acf887daa54028a478114bf2055e58ab"
+    },
+    "observed_at": "2026-10-12T16:58:55.802053+00:00"
+  },
+  "restart_receipt": {
+    "synthesis": {
+      "id": "4661ffe6-2a8d-4213-9394-edf1814ee8e4",
+      "command_id": "c1d6fecb-cc9c-4fc2-833b-cb0f45fac9ae",
+      "review_id": "da1c6bef-c9d9-4c6f-8db2-7321af65a077",
+      "review_digest": "3fb9d972d7ea47cbf44087e42daa4d26acf887daa54028a478114bf2055e58ab",
+      "provider": "nanogpt",
+      "model_id": "fictional/recorded-response",
+      "schema_version": "retained-daily-synthesis-v1",
+      "prompt_version": "retained-daily-synthesis-prompt-v1",
+      "status": "synthesised",
+      "created_at": "2026-10-12T16:58:55.746607+00:00",
+      "finished_at": "2026-10-12T16:58:55.772069+00:00",
+      "document": {
+        "gaps": [
+          "Current prices, funding and verified macro regime unavailable."
+        ],
+        "overview": {
+          "text": "The policy-to-yields pathway remains conditional.",
+          "claim_ids": [
+            "rate"
+          ],
+          "uncertainty": "Transmission and positioning are unknown.",
+          "prior_analysis_ids": []
+        },
+        "counter_case": {
+          "text": "The policy-to-yields pathway remains conditional.",
+          "claim_ids": [
+            "rate"
+          ],
+          "uncertainty": "Transmission and positioning are unknown.",
+          "prior_analysis_ids": []
+        },
+        "thesis_effect": {
+          "effect": "supports",
+          "claim_ids": [
+            "rate"
+          ],
+          "reasoning": "The policy-to-yields pathway remains conditional.",
+          "uncertainty": "Transmission and positioning are unknown.",
+          "prior_analysis_ids": []
+        },
+        "trade_effects": [
+          {
+            "effect": "potential_risk",
+            "claim_ids": [
+              "rate"
+            ],
+            "reasoning": "Funding or currency stress could hurt the trade before the thesis resolves.",
+            "position_id": "140ef502-eb44-458d-b191-e2297dcb775a",
+            "uncertainty": "Transmission and positioning are unknown.",
+            "prior_analysis_ids": []
+          }
+        ],
+        "schema_version": "retained-daily-synthesis-v1",
+        "watch_questions": [
+          "Does policy transmit to real yields?"
+        ],
+        "attributed_claims": [
+          {
+            "quote": "The committee left the rate at 4%.",
+            "claim_id": "rate",
+            "source_field": "content",
+            "source_revision_id": "569e409f-caf6-48c6-8e85-cea14a749c31"
+          }
+        ]
+      },
+      "context": {
+        "review": {
+          "scope": {
+            "owner_id": "ceffe897-5e3a-456c-9fc9-4284127d3024",
+            "thesis_id": "50c2960d-813e-4b9b-a538-de0dd39b08b8",
+            "approval_id": "3bc67186-7f2b-4ffb-b1a7-20a10aea07b6",
+            "exposure_digest": "1b90c3d88c0d292d2eac5dbfc9a8b865af016a0822a96c3954a403a63eff4336",
+            "source_contracts": [
+              {
+                "digest": "1eba7a4ff35ff17993fc7c5cfe0d7f435724003735de7297a0f94d761f72396b",
+                "source_id": "fixture-research-engine-trace",
+                "version_id": "8c8329fd-e51a-4647-ab98-fa83be818b96"
+              }
+            ],
+            "interpretation_id": "4125f72a-1bfd-488e-89e0-7080d5984981",
+            "exposure_version_ids": [
+              "61b1b3b4-7b9b-4402-9de2-beef36f6f7c4"
+            ],
+            "predecessor_context_id": null,
+            "predecessor_assessment_id": null
+          },
+          "issues": [
+            {
+              "kind": "coverage_gap",
+              "detail": {
+                "coverage": "bounded_snapshot",
+                "last_code": "snapshot_captured",
+                "last_outcome": "captured",
+                "active_capture_id": null,
+                "complete_market_coverage": false,
+                "last_successful_capture_at": "2026-10-12T16:58:55.263663+00:00"
+              },
+              "issue_id": "coverage:fixture-research-engine-trace",
+              "source_id": "fixture-research-engine-trace",
+              "analysis_id": null
+            },
+            {
+              "kind": "unresolved_work",
+              "detail": {
+                "state": "pending",
+                "decision": "relevance_unresolved",
+                "lease_until": null,
+                "attempt_count": 0
+              },
+              "issue_id": "screening:569e409f-caf6-48c6-8e85-cea14a749c31",
+              "source_id": "fixture-research-engine-trace",
+              "analysis_id": null
+            }
+          ],
+          "period": {
+            "prepared_at": "2026-10-12T16:58:55.556138+00:00",
+            "start_exclusive": "2026-10-11T16:58:55.519821+00:00",
+            "cutoff_inclusive": "2026-10-12T16:58:55.519821+00:00"
+          },
+          "reports": {
+            "new": [
+              {
+                "payload": {
+                  "id": "rate-report",
+                  "url": "https://example.invalid/rate",
+                  "title": "Fictional policy report",
+                  "content": "The committee left the rate at 4%.",
+                  "published_at": "2026-10-11T16:58:55.251033+00:00"
+                },
+                "report_id": "1",
+                "source_id": "fixture-research-engine-trace",
+                "received_at": "2026-10-12T16:58:55.261188+00:00",
+                "revision_id": "569e409f-caf6-48c6-8e85-cea14a749c31",
+                "payload_digest": "cdfcd1b2fb724c98ce1849e5f1d690ef70e16693da11d0d3037ad5b332cb5943",
+                "deferred_reason": null,
+                "source_contract_digest": "1eba7a4ff35ff17993fc7c5cfe0d7f435724003735de7297a0f94d761f72396b",
+                "availability_witness_at": "2026-10-12T16:58:55.283505+00:00",
+                "source_contract_version_id": "8c8329fd-e51a-4647-ab98-fa83be818b96"
+              }
+            ],
+            "deferred": [],
+            "background": []
+          },
+          "analyses": {
+            "new": [],
+            "deferred": [],
+            "background": []
+          },
+          "limitations": [
+            "No new eligible reports does not establish that no market events occurred.",
+            "Exact retained quotations establish attribution, not factual truth or investment usefulness.",
+            "Current disposition is a caller observation at preparation, not reconstructed cutoff state.",
+            "Cross-source independence, current macro regime and market expectations remain unverified.",
+            "This deterministic review grants no approval, publication, notification or paid-retry authority."
+          ],
+          "schema_version": "deterministic-daily-evidence-review-v1",
+          "unresolved_analysis_ids": [],
+          "assembly_inference_calls": 0,
+          "new_eligible_report_count": 1,
+          "assembly_inference_cost_usd": "0",
+          "unknown_reported_cost_analysis_ids": []
+        },
+        "review_id": "da1c6bef-c9d9-4c6f-8db2-7321af65a077",
+        "report_heads": {
+          "1": "569e409f-caf6-48c6-8e85-cea14a749c31"
+        },
+        "review_digest": "3fb9d972d7ea47cbf44087e42daa4d26acf887daa54028a478114bf2055e58ab",
+        "original_inputs": {
+          "approved_user": {
+            "text": {
+              "digest": "93edf5b9675e78e4f0844f0e85e53a5b7679399e140e69e61097fb61f6758fa8",
+              "created_at": "2026-10-12T16:58:55.235684+00:00",
+              "exact_text": "  The policy rate is now 3%.\r\nGold may benefit if real yields fall. Δ\r\n",
+              "version_id": "d9e47216-13eb-4cc2-ba9e-3b01cf1fe00d"
+            },
+            "approval": {
+              "digest": "33117b7d5da73eb0520f05469c937c5e649e862cae321138afd1b4f3c230d817",
+              "actor_id": "ceffe897-5e3a-456c-9fc9-4284127d3024",
+              "revision": 3,
+              "version_id": "3bc67186-7f2b-4ffb-b1a7-20a10aea07b6",
+              "approved_at": "2026-10-12T16:58:55.455243+00:00"
+            },
+            "exposure": {
+              "positions": [
+                {
+                  "payload": {
+                    "paper": true,
+                    "venue": null,
+                    "expiry": null,
+                    "status": "open",
+                    "horizon": null,
+                    "owner_id": "ceffe897-5e3a-456c-9fc9-4284127d3024",
+                    "quantity": null,
+                    "direction": "long",
+                    "thesis_id": "50c2960d-813e-4b9b-a538-de0dd39b08b8",
+                    "product_id": null,
+                    "underlying": "XAU",
+                    "version_id": "61b1b3b4-7b9b-4402-9de2-beef36f6f7c4",
+                    "accepted_at": "2026-10-12T16:58:55.482409+00:00",
+                    "approval_id": "3bc67186-7f2b-4ffb-b1a7-20a10aea07b6",
+                    "position_id": "140ef502-eb44-458d-b191-e2297dcb775a",
+                    "quantity_unit": null,
+                    "mapping_status": "user_declared_unverified",
+                    "quote_currency": null,
+                    "parent_version_id": null
+                  },
+                  "version_id": "61b1b3b4-7b9b-4402-9de2-beef36f6f7c4",
+                  "position_id": "140ef502-eb44-458d-b191-e2297dcb775a",
+                  "version_digest": "a47d7e181f65695ad93a5a52c8b0b099cca3d1f77b5d082b7ea47f15a1fa20e0"
+                }
+              ],
+              "thesis_id": "50c2960d-813e-4b9b-a538-de0dd39b08b8"
+            },
+            "owner_id": "ceffe897-5e3a-456c-9fc9-4284127d3024",
+            "thesis_id": "50c2960d-813e-4b9b-a538-de0dd39b08b8",
+            "interpretation": {
+              "digest": "df70d5380f22a61a7451f0d28d1b3e2f16bfb90b04cd71e7f0b8111a5eb29bdb",
+              "origin": "model_compilation",
+              "drivers": [
+                "Falling real yields may support gold."
+              ],
+              "horizon": null,
+              "version_id": "4125f72a-1bfd-488e-89e0-7080d5984981",
+              "prepared_at": "2026-10-12T16:58:55.386339+00:00",
+              "review_card": {
+                "inputs": [
+                  {
+                    "input_id": "thesis",
+                    "exact_text": "  The policy rate is now 3%.\r\nGold may benefit if real yields fall. Δ\r\n"
+                  }
+                ],
+                "document": {
+                  "grounding": [
+                    {
+                      "field": "drivers",
+                      "index": 0,
+                      "input_id": "thesis",
+                      "exact_quote": "Gold may benefit if real yields fall."
+                    }
+                  ],
+                  "review_card": {
+                    "claim": {
+                      "gap": "Unresolved.",
+                      "proposed": [],
+                      "extracted": []
+                    },
+                    "catalysts": {
+                      "gap": "Unresolved.",
+                      "proposed": [],
+                      "extracted": []
+                    },
+                    "scenarios": {
+                      "gap": "Unresolved.",
+                      "proposed": [],
+                      "extracted": []
+                    },
+                    "assumptions": {
+                      "gap": "Unresolved.",
+                      "proposed": [],
+                      "extracted": []
+                    },
+                    "causal_path": {
+                      "gap": "Unresolved.",
+                      "proposed": [],
+                      "extracted": []
+                    },
+                    "affected_assets": {
+                      "gap": "Unresolved.",
+                      "proposed": [],
+                      "extracted": []
+                    },
+                    "monitoring_scope": {
+                      "gap": "Unresolved.",
+                      "proposed": [],
+                      "extracted": []
+                    }
+                  },
+                  "counter_case": "Currency strength might offset the yield effect.",
+                  "interpretation": {
+                    "drivers": [
+                      "Falling real yields may support gold."
+                    ],
+                    "horizon": null,
+                    "invalidation_signposts": []
+                  },
+                  "agent_hypotheses": [],
+                  "attributed_claims": [
+                    {
+                      "field": "content",
+                      "claim_id": "rate",
+                      "exact_quote": "The committee left the rate at 4%.",
+                      "revision_id": "569e409f-caf6-48c6-8e85-cea14a749c31"
+                    }
+                  ],
+                  "factual_conflicts": [
+                    {
+                      "status": "model_identified",
+                      "input_id": "thesis",
+                      "question": "Which rate series and date does your premise refer to?",
+                      "claim_ids": [
+                        "rate"
+                      ],
+                      "exact_quote": "The policy rate is now 3%.",
+                      "explanation": "The retained source names 4%; date or series may differ."
+                    }
+                  ],
+                  "refinement_issues": [
+                    {
+                      "kind": "missing_detail",
+                      "input_id": null,
+                      "question": "Over what period and under what failure condition?",
+                      "exact_quote": null,
+                      "explanation": "Horizon and invalidation are unspecified."
+                    },
+                    {
+                      "kind": "verification_needed",
+                      "input_id": "thesis",
+                      "question": "Which rate series and date does your premise refer to?",
+                      "exact_quote": "The policy rate is now 3%.",
+                      "explanation": "The fictional source names a different rate."
+                    }
+                  ],
+                  "evidence_assessment": {
+                    "gaps": [
+                      "Market expectations and current macro regime unavailable."
+                    ],
+                    "summary": "The fictional source challenges the numeric premise.",
+                    "counter_claim_ids": [
+                      "rate"
+                    ],
+                    "supporting_claim_ids": []
+                  }
+                },
+                "evidence": {
+                  "status": "retained_sources",
+                  "context": {
+                    "gaps": [
+                      "Explicitly selected retained reports do not establish broad market coverage or the current macro regime.",
+                      "Source statements and exact quotations establish attribution, not factual truth or semantic support.",
+                      "Consensus, current prices, valuation and instrument mapping are unavailable unless explicitly supported."
+                    ],
+                    "cutoff": "2026-10-12T16:58:55.298971+00:00",
+                    "reports": [
+                      {
+                        "title": "Fictional policy report",
+                        "content": "The committee left the rate at 4%.",
+                        "source_id": "fixture-research-engine-trace",
+                        "source_url": "https://example.invalid/rate",
+                        "revision_id": "569e409f-caf6-48c6-8e85-cea14a749c31",
+                        "contract_digest": "1eba7a4ff35ff17993fc7c5cfe0d7f435724003735de7297a0f94d761f72396b",
+                        "system_received_at": "2026-10-12T16:58:55.261188+00:00",
+                        "contract_version_id": "8c8329fd-e51a-4647-ab98-fa83be818b96",
+                        "head_at_admission_id": "569e409f-caf6-48c6-8e85-cea14a749c31",
+                        "availability_witness_at": "2026-10-12T16:58:55.283505+00:00",
+                        "source_claimed_published_at": "2026-10-11T16:58:55.251033+00:00"
+                      }
+                    ],
+                    "schema_version": "retained-source-evidence-v1"
+                  }
+                },
+                "schema_version": "thesis-review-card-v2"
+              },
+              "text_version_id": "d9e47216-13eb-4cc2-ba9e-3b01cf1fe00d",
+              "invalidation_signposts": []
+            }
+          },
+          "source_contracts": [
+            {
+              "digest": "1eba7a4ff35ff17993fc7c5cfe0d7f435724003735de7297a0f94d761f72396b",
+              "reason": "Observed existing contract; this snapshot is not a new human rights review.",
+              "contract": {
+                "kind": "fictional_fixture",
+                "label": "Fictional policy report",
+                "coverage": "bounded_snapshot"
+              },
+              "parent_id": null,
+              "permitted": true,
+              "source_id": "fixture-research-engine-trace",
+              "provenance": "existing_allowlisted_adapter_manifest",
+              "version_id": "8c8329fd-e51a-4647-ab98-fa83be818b96",
+              "observed_at": "2026-10-12T16:58:55.298971+00:00",
+              "reviewer_id": "ceffe897-5e3a-456c-9fc9-4284127d3024"
+            }
+          ],
+          "predecessor_assessment": {
+            "reason": "No cumulative model assessment is implemented.",
+            "status": "unavailable"
+          },
+          "starting_macro_context": {
+            "status": "unavailable"
+          },
+          "changes_since_predecessor": {
+            "exposure_changed": false,
+            "approved_meaning_changed": false
+          }
+        }
+      },
+      "context_digest": "324546bcaa6b0b645aacfaab14f466a350d7f8d65463cae031fabc30a7117950",
+      "usage": {
+        "total_tokens": 150,
+        "prompt_tokens": 100,
+        "completion_tokens": 50
+      },
+      "reported_cost_usd": null,
+      "estimated_cost_usd": null,
+      "reported_model": "fictional/recorded-response",
+      "provider_request_id": null,
+      "latency_ms": 1,
+      "stop_reason": "completed",
+      "original_stale_reasons": [],
+      "limitations": [
+        "Fresh model interpretation of one retained digest, not verified facts or a current macro regime.",
+        "Exact source quotes establish attribution, not truth or semantic support.",
+        "Earlier analyses remain labelled model interpretations under their original inputs.",
+        "The attached-thesis paper book is not the whole portfolio; instrument mapping and prices remain unverified.",
+        "No thesis edit, publication, external notification, execution or automatic paid retry is authorized."
+      ]
+    },
+    "current_disposition": {
+      "status": "current",
+      "stale_reasons": [],
+      "observed_at": "2026-10-12T16:58:55.846462+00:00",
+      "publication_authority": false
+    },
+    "replayed": true,
+    "review_id": "da1c6bef-c9d9-4c6f-8db2-7321af65a077",
+    "review_digest": "3fb9d972d7ea47cbf44087e42daa4d26acf887daa54028a478114bf2055e58ab"
+  },
+  "after_correction": {
+    "evidence": {
+      "evidence": {
+        "id": "a0f1e3e6-df28-457b-ba33-29c724a39424",
+        "command_id": "ca44547e-dbee-4dc8-9f12-ca7962df9035",
+        "thesis_id": "50c2960d-813e-4b9b-a538-de0dd39b08b8",
+        "digest": "98e2c6aab78057761e042275c05ae591a289f4bda595d4da58b1150c2b7f4da5",
+        "content": {
+          "cutoff": "2026-10-12T16:58:55.298971+00:00",
+          "gaps": [
+            "Explicitly selected retained reports do not establish broad market coverage or the current macro regime.",
+            "Source statements and exact quotations establish attribution, not factual truth or semantic support.",
+            "Consensus, current prices, valuation and instrument mapping are unavailable unless explicitly supported."
+          ],
+          "reports": [
+            {
+              "availability_witness_at": "2026-10-12T16:58:55.283505+00:00",
+              "content": "The committee left the rate at 4%.",
+              "contract_digest": "1eba7a4ff35ff17993fc7c5cfe0d7f435724003735de7297a0f94d761f72396b",
+              "contract_version_id": "8c8329fd-e51a-4647-ab98-fa83be818b96",
+              "head_at_admission_id": "569e409f-caf6-48c6-8e85-cea14a749c31",
+              "revision_id": "569e409f-caf6-48c6-8e85-cea14a749c31",
+              "source_claimed_published_at": "2026-10-11T16:58:55.251033+00:00",
+              "source_id": "fixture-research-engine-trace",
+              "source_url": "https://example.invalid/rate",
+              "system_received_at": "2026-10-12T16:58:55.261188+00:00",
+              "title": "Fictional policy report"
+            }
+          ],
+          "schema_version": "retained-source-evidence-v1"
+        },
+        "created_at": "2026-10-12T16:58:55.298971+00:00"
+      },
+      "current_disposition": {
+        "status": "stale",
+        "stale_reasons": [
+          "research_report_corrected:1"
+        ],
+        "observed_at": "2026-10-12T16:58:55.889030+00:00"
+      },
+      "replayed": false
+    },
+    "synthesis": {
+      "synthesis": {
+        "id": "4661ffe6-2a8d-4213-9394-edf1814ee8e4",
+        "command_id": "c1d6fecb-cc9c-4fc2-833b-cb0f45fac9ae",
+        "review_id": "da1c6bef-c9d9-4c6f-8db2-7321af65a077",
+        "review_digest": "3fb9d972d7ea47cbf44087e42daa4d26acf887daa54028a478114bf2055e58ab",
+        "provider": "nanogpt",
+        "model_id": "fictional/recorded-response",
+        "schema_version": "retained-daily-synthesis-v1",
+        "prompt_version": "retained-daily-synthesis-prompt-v1",
+        "status": "synthesised",
+        "created_at": "2026-10-12T16:58:55.746607+00:00",
+        "finished_at": "2026-10-12T16:58:55.772069+00:00",
+        "document": {
+          "gaps": [
+            "Current prices, funding and verified macro regime unavailable."
+          ],
+          "overview": {
+            "text": "The policy-to-yields pathway remains conditional.",
+            "claim_ids": [
+              "rate"
+            ],
+            "uncertainty": "Transmission and positioning are unknown.",
+            "prior_analysis_ids": []
+          },
+          "counter_case": {
+            "text": "The policy-to-yields pathway remains conditional.",
+            "claim_ids": [
+              "rate"
+            ],
+            "uncertainty": "Transmission and positioning are unknown.",
+            "prior_analysis_ids": []
+          },
+          "thesis_effect": {
+            "effect": "supports",
+            "claim_ids": [
+              "rate"
+            ],
+            "reasoning": "The policy-to-yields pathway remains conditional.",
+            "uncertainty": "Transmission and positioning are unknown.",
+            "prior_analysis_ids": []
+          },
+          "trade_effects": [
+            {
+              "effect": "potential_risk",
+              "claim_ids": [
+                "rate"
+              ],
+              "reasoning": "Funding or currency stress could hurt the trade before the thesis resolves.",
+              "position_id": "140ef502-eb44-458d-b191-e2297dcb775a",
+              "uncertainty": "Transmission and positioning are unknown.",
+              "prior_analysis_ids": []
+            }
+          ],
+          "schema_version": "retained-daily-synthesis-v1",
+          "watch_questions": [
+            "Does policy transmit to real yields?"
+          ],
+          "attributed_claims": [
+            {
+              "quote": "The committee left the rate at 4%.",
+              "claim_id": "rate",
+              "source_field": "content",
+              "source_revision_id": "569e409f-caf6-48c6-8e85-cea14a749c31"
+            }
+          ]
+        },
+        "context": {
+          "review": {
+            "scope": {
+              "owner_id": "ceffe897-5e3a-456c-9fc9-4284127d3024",
+              "thesis_id": "50c2960d-813e-4b9b-a538-de0dd39b08b8",
+              "approval_id": "3bc67186-7f2b-4ffb-b1a7-20a10aea07b6",
+              "exposure_digest": "1b90c3d88c0d292d2eac5dbfc9a8b865af016a0822a96c3954a403a63eff4336",
+              "source_contracts": [
+                {
+                  "digest": "1eba7a4ff35ff17993fc7c5cfe0d7f435724003735de7297a0f94d761f72396b",
+                  "source_id": "fixture-research-engine-trace",
+                  "version_id": "8c8329fd-e51a-4647-ab98-fa83be818b96"
+                }
+              ],
+              "interpretation_id": "4125f72a-1bfd-488e-89e0-7080d5984981",
+              "exposure_version_ids": [
+                "61b1b3b4-7b9b-4402-9de2-beef36f6f7c4"
+              ],
+              "predecessor_context_id": null,
+              "predecessor_assessment_id": null
+            },
+            "issues": [
+              {
+                "kind": "coverage_gap",
+                "detail": {
+                  "coverage": "bounded_snapshot",
+                  "last_code": "snapshot_captured",
+                  "last_outcome": "captured",
+                  "active_capture_id": null,
+                  "complete_market_coverage": false,
+                  "last_successful_capture_at": "2026-10-12T16:58:55.263663+00:00"
+                },
+                "issue_id": "coverage:fixture-research-engine-trace",
+                "source_id": "fixture-research-engine-trace",
+                "analysis_id": null
+              },
+              {
+                "kind": "unresolved_work",
+                "detail": {
+                  "state": "pending",
+                  "decision": "relevance_unresolved",
+                  "lease_until": null,
+                  "attempt_count": 0
+                },
+                "issue_id": "screening:569e409f-caf6-48c6-8e85-cea14a749c31",
+                "source_id": "fixture-research-engine-trace",
+                "analysis_id": null
+              }
+            ],
+            "period": {
+              "prepared_at": "2026-10-12T16:58:55.556138+00:00",
+              "start_exclusive": "2026-10-11T16:58:55.519821+00:00",
+              "cutoff_inclusive": "2026-10-12T16:58:55.519821+00:00"
+            },
+            "reports": {
+              "new": [
+                {
+                  "payload": {
+                    "id": "rate-report",
+                    "url": "https://example.invalid/rate",
+                    "title": "Fictional policy report",
+                    "content": "The committee left the rate at 4%.",
+                    "published_at": "2026-10-11T16:58:55.251033+00:00"
+                  },
+                  "report_id": "1",
+                  "source_id": "fixture-research-engine-trace",
+                  "received_at": "2026-10-12T16:58:55.261188+00:00",
+                  "revision_id": "569e409f-caf6-48c6-8e85-cea14a749c31",
+                  "payload_digest": "cdfcd1b2fb724c98ce1849e5f1d690ef70e16693da11d0d3037ad5b332cb5943",
+                  "deferred_reason": null,
+                  "source_contract_digest": "1eba7a4ff35ff17993fc7c5cfe0d7f435724003735de7297a0f94d761f72396b",
+                  "availability_witness_at": "2026-10-12T16:58:55.283505+00:00",
+                  "source_contract_version_id": "8c8329fd-e51a-4647-ab98-fa83be818b96"
+                }
+              ],
+              "deferred": [],
+              "background": []
+            },
+            "analyses": {
+              "new": [],
+              "deferred": [],
+              "background": []
+            },
+            "limitations": [
+              "No new eligible reports does not establish that no market events occurred.",
+              "Exact retained quotations establish attribution, not factual truth or investment usefulness.",
+              "Current disposition is a caller observation at preparation, not reconstructed cutoff state.",
+              "Cross-source independence, current macro regime and market expectations remain unverified.",
+              "This deterministic review grants no approval, publication, notification or paid-retry authority."
+            ],
+            "schema_version": "deterministic-daily-evidence-review-v1",
+            "unresolved_analysis_ids": [],
+            "assembly_inference_calls": 0,
+            "new_eligible_report_count": 1,
+            "assembly_inference_cost_usd": "0",
+            "unknown_reported_cost_analysis_ids": []
+          },
+          "review_id": "da1c6bef-c9d9-4c6f-8db2-7321af65a077",
+          "report_heads": {
+            "1": "569e409f-caf6-48c6-8e85-cea14a749c31"
+          },
+          "review_digest": "3fb9d972d7ea47cbf44087e42daa4d26acf887daa54028a478114bf2055e58ab",
+          "original_inputs": {
+            "approved_user": {
+              "text": {
+                "digest": "93edf5b9675e78e4f0844f0e85e53a5b7679399e140e69e61097fb61f6758fa8",
+                "created_at": "2026-10-12T16:58:55.235684+00:00",
+                "exact_text": "  The policy rate is now 3%.\r\nGold may benefit if real yields fall. Δ\r\n",
+                "version_id": "d9e47216-13eb-4cc2-ba9e-3b01cf1fe00d"
+              },
+              "approval": {
+                "digest": "33117b7d5da73eb0520f05469c937c5e649e862cae321138afd1b4f3c230d817",
+                "actor_id": "ceffe897-5e3a-456c-9fc9-4284127d3024",
+                "revision": 3,
+                "version_id": "3bc67186-7f2b-4ffb-b1a7-20a10aea07b6",
+                "approved_at": "2026-10-12T16:58:55.455243+00:00"
+              },
+              "exposure": {
+                "positions": [
+                  {
+                    "payload": {
+                      "paper": true,
+                      "venue": null,
+                      "expiry": null,
+                      "status": "open",
+                      "horizon": null,
+                      "owner_id": "ceffe897-5e3a-456c-9fc9-4284127d3024",
+                      "quantity": null,
+                      "direction": "long",
+                      "thesis_id": "50c2960d-813e-4b9b-a538-de0dd39b08b8",
+                      "product_id": null,
+                      "underlying": "XAU",
+                      "version_id": "61b1b3b4-7b9b-4402-9de2-beef36f6f7c4",
+                      "accepted_at": "2026-10-12T16:58:55.482409+00:00",
+                      "approval_id": "3bc67186-7f2b-4ffb-b1a7-20a10aea07b6",
+                      "position_id": "140ef502-eb44-458d-b191-e2297dcb775a",
+                      "quantity_unit": null,
+                      "mapping_status": "user_declared_unverified",
+                      "quote_currency": null,
+                      "parent_version_id": null
+                    },
+                    "version_id": "61b1b3b4-7b9b-4402-9de2-beef36f6f7c4",
+                    "position_id": "140ef502-eb44-458d-b191-e2297dcb775a",
+                    "version_digest": "a47d7e181f65695ad93a5a52c8b0b099cca3d1f77b5d082b7ea47f15a1fa20e0"
+                  }
+                ],
+                "thesis_id": "50c2960d-813e-4b9b-a538-de0dd39b08b8"
+              },
+              "owner_id": "ceffe897-5e3a-456c-9fc9-4284127d3024",
+              "thesis_id": "50c2960d-813e-4b9b-a538-de0dd39b08b8",
+              "interpretation": {
+                "digest": "df70d5380f22a61a7451f0d28d1b3e2f16bfb90b04cd71e7f0b8111a5eb29bdb",
+                "origin": "model_compilation",
+                "drivers": [
+                  "Falling real yields may support gold."
+                ],
+                "horizon": null,
+                "version_id": "4125f72a-1bfd-488e-89e0-7080d5984981",
+                "prepared_at": "2026-10-12T16:58:55.386339+00:00",
+                "review_card": {
+                  "inputs": [
+                    {
+                      "input_id": "thesis",
+                      "exact_text": "  The policy rate is now 3%.\r\nGold may benefit if real yields fall. Δ\r\n"
+                    }
+                  ],
+                  "document": {
+                    "grounding": [
+                      {
+                        "field": "drivers",
+                        "index": 0,
+                        "input_id": "thesis",
+                        "exact_quote": "Gold may benefit if real yields fall."
+                      }
+                    ],
+                    "review_card": {
+                      "claim": {
+                        "gap": "Unresolved.",
+                        "proposed": [],
+                        "extracted": []
+                      },
+                      "catalysts": {
+                        "gap": "Unresolved.",
+                        "proposed": [],
+                        "extracted": []
+                      },
+                      "scenarios": {
+                        "gap": "Unresolved.",
+                        "proposed": [],
+                        "extracted": []
+                      },
+                      "assumptions": {
+                        "gap": "Unresolved.",
+                        "proposed": [],
+                        "extracted": []
+                      },
+                      "causal_path": {
+                        "gap": "Unresolved.",
+                        "proposed": [],
+                        "extracted": []
+                      },
+                      "affected_assets": {
+                        "gap": "Unresolved.",
+                        "proposed": [],
+                        "extracted": []
+                      },
+                      "monitoring_scope": {
+                        "gap": "Unresolved.",
+                        "proposed": [],
+                        "extracted": []
+                      }
+                    },
+                    "counter_case": "Currency strength might offset the yield effect.",
+                    "interpretation": {
+                      "drivers": [
+                        "Falling real yields may support gold."
+                      ],
+                      "horizon": null,
+                      "invalidation_signposts": []
+                    },
+                    "agent_hypotheses": [],
+                    "attributed_claims": [
+                      {
+                        "field": "content",
+                        "claim_id": "rate",
+                        "exact_quote": "The committee left the rate at 4%.",
+                        "revision_id": "569e409f-caf6-48c6-8e85-cea14a749c31"
+                      }
+                    ],
+                    "factual_conflicts": [
+                      {
+                        "status": "model_identified",
+                        "input_id": "thesis",
+                        "question": "Which rate series and date does your premise refer to?",
+                        "claim_ids": [
+                          "rate"
+                        ],
+                        "exact_quote": "The policy rate is now 3%.",
+                        "explanation": "The retained source names 4%; date or series may differ."
+                      }
+                    ],
+                    "refinement_issues": [
+                      {
+                        "kind": "missing_detail",
+                        "input_id": null,
+                        "question": "Over what period and under what failure condition?",
+                        "exact_quote": null,
+                        "explanation": "Horizon and invalidation are unspecified."
+                      },
+                      {
+                        "kind": "verification_needed",
+                        "input_id": "thesis",
+                        "question": "Which rate series and date does your premise refer to?",
+                        "exact_quote": "The policy rate is now 3%.",
+                        "explanation": "The fictional source names a different rate."
+                      }
+                    ],
+                    "evidence_assessment": {
+                      "gaps": [
+                        "Market expectations and current macro regime unavailable."
+                      ],
+                      "summary": "The fictional source challenges the numeric premise.",
+                      "counter_claim_ids": [
+                        "rate"
+                      ],
+                      "supporting_claim_ids": []
+                    }
+                  },
+                  "evidence": {
+                    "status": "retained_sources",
+                    "context": {
+                      "gaps": [
+                        "Explicitly selected retained reports do not establish broad market coverage or the current macro regime.",
+                        "Source statements and exact quotations establish attribution, not factual truth or semantic support.",
+                        "Consensus, current prices, valuation and instrument mapping are unavailable unless explicitly supported."
+                      ],
+                      "cutoff": "2026-10-12T16:58:55.298971+00:00",
+                      "reports": [
+                        {
+                          "title": "Fictional policy report",
+                          "content": "The committee left the rate at 4%.",
+                          "source_id": "fixture-research-engine-trace",
+                          "source_url": "https://example.invalid/rate",
+                          "revision_id": "569e409f-caf6-48c6-8e85-cea14a749c31",
+                          "contract_digest": "1eba7a4ff35ff17993fc7c5cfe0d7f435724003735de7297a0f94d761f72396b",
+                          "system_received_at": "2026-10-12T16:58:55.261188+00:00",
+                          "contract_version_id": "8c8329fd-e51a-4647-ab98-fa83be818b96",
+                          "head_at_admission_id": "569e409f-caf6-48c6-8e85-cea14a749c31",
+                          "availability_witness_at": "2026-10-12T16:58:55.283505+00:00",
+                          "source_claimed_published_at": "2026-10-11T16:58:55.251033+00:00"
+                        }
+                      ],
+                      "schema_version": "retained-source-evidence-v1"
+                    }
+                  },
+                  "schema_version": "thesis-review-card-v2"
+                },
+                "text_version_id": "d9e47216-13eb-4cc2-ba9e-3b01cf1fe00d",
+                "invalidation_signposts": []
+              }
+            },
+            "source_contracts": [
+              {
+                "digest": "1eba7a4ff35ff17993fc7c5cfe0d7f435724003735de7297a0f94d761f72396b",
+                "reason": "Observed existing contract; this snapshot is not a new human rights review.",
+                "contract": {
+                  "kind": "fictional_fixture",
+                  "label": "Fictional policy report",
+                  "coverage": "bounded_snapshot"
+                },
+                "parent_id": null,
+                "permitted": true,
+                "source_id": "fixture-research-engine-trace",
+                "provenance": "existing_allowlisted_adapter_manifest",
+                "version_id": "8c8329fd-e51a-4647-ab98-fa83be818b96",
+                "observed_at": "2026-10-12T16:58:55.298971+00:00",
+                "reviewer_id": "ceffe897-5e3a-456c-9fc9-4284127d3024"
+              }
+            ],
+            "predecessor_assessment": {
+              "reason": "No cumulative model assessment is implemented.",
+              "status": "unavailable"
+            },
+            "starting_macro_context": {
+              "status": "unavailable"
+            },
+            "changes_since_predecessor": {
+              "exposure_changed": false,
+              "approved_meaning_changed": false
+            }
+          }
+        },
+        "context_digest": "324546bcaa6b0b645aacfaab14f466a350d7f8d65463cae031fabc30a7117950",
+        "usage": {
+          "total_tokens": 150,
+          "prompt_tokens": 100,
+          "completion_tokens": 50
+        },
+        "reported_cost_usd": null,
+        "estimated_cost_usd": null,
+        "reported_model": "fictional/recorded-response",
+        "provider_request_id": null,
+        "latency_ms": 1,
+        "stop_reason": "completed",
+        "original_stale_reasons": [],
+        "limitations": [
+          "Fresh model interpretation of one retained digest, not verified facts or a current macro regime.",
+          "Exact source quotes establish attribution, not truth or semantic support.",
+          "Earlier analyses remain labelled model interpretations under their original inputs.",
+          "The attached-thesis paper book is not the whole portfolio; instrument mapping and prices remain unverified.",
+          "No thesis edit, publication, external notification, execution or automatic paid retry is authorized."
+        ]
+      },
+      "current_disposition": {
+        "status": "stale",
+        "stale_reasons": [
+          "included_report_corrected:1"
+        ],
+        "observed_at": "2026-10-12T16:58:55.898372+00:00",
+        "publication_authority": false
+      },
+      "replayed": false,
+      "review_id": "da1c6bef-c9d9-4c6f-8db2-7321af65a077",
+      "review_digest": "3fb9d972d7ea47cbf44087e42daa4d26acf887daa54028a478114bf2055e58ab"
+    },
+    "current_brief": {
+      "thesis_id": "50c2960d-813e-4b9b-a538-de0dd39b08b8",
+      "brief_id": "daily:50c2960d-813e-4b9b-a538-de0dd39b08b8",
+      "generation": 1,
+      "current_publication": null,
+      "current_synthesis": null,
+      "observed_at": "2026-10-12T16:58:55.912499+00:00"
+    },
+    "thesis": {
+      "id": "50c2960d-813e-4b9b-a538-de0dd39b08b8",
+      "revision": 3,
+      "created_at": "2026-10-12T16:58:55.235684+00:00",
+      "changed_at": "2026-10-12T16:58:55.455243+00:00",
+      "draft": {
+        "text_version": {
+          "id": "d9e47216-13eb-4cc2-ba9e-3b01cf1fe00d",
+          "parent_version_id": null,
+          "exact_text": "  The policy rate is now 3%.\r\nGold may benefit if real yields fall. Δ\r\n",
+          "text_digest": "93edf5b9675e78e4f0844f0e85e53a5b7679399e140e69e61097fb61f6758fa8",
+          "created_at": "2026-10-12T16:58:55.235684+00:00"
+        },
+        "interpretation": {
+          "id": "4125f72a-1bfd-488e-89e0-7080d5984981",
+          "text_version_id": "d9e47216-13eb-4cc2-ba9e-3b01cf1fe00d",
+          "drivers": [
+            "Falling real yields may support gold."
+          ],
+          "horizon": null,
+          "invalidation_signposts": [],
+          "known_at": "2026-10-12T16:58:55.386339+00:00",
+          "digest": "df70d5380f22a61a7451f0d28d1b3e2f16bfb90b04cd71e7f0b8111a5eb29bdb",
+          "origin": "model_compilation",
+          "review_card": {
+            "inputs": [
+              {
+                "input_id": "thesis",
+                "exact_text": "  The policy rate is now 3%.\r\nGold may benefit if real yields fall. Δ\r\n"
+              }
+            ],
+            "document": {
+              "grounding": [
+                {
+                  "field": "drivers",
+                  "index": 0,
+                  "input_id": "thesis",
+                  "exact_quote": "Gold may benefit if real yields fall."
+                }
+              ],
+              "review_card": {
+                "claim": {
+                  "gap": "Unresolved.",
+                  "proposed": [],
+                  "extracted": []
+                },
+                "catalysts": {
+                  "gap": "Unresolved.",
+                  "proposed": [],
+                  "extracted": []
+                },
+                "scenarios": {
+                  "gap": "Unresolved.",
+                  "proposed": [],
+                  "extracted": []
+                },
+                "assumptions": {
+                  "gap": "Unresolved.",
+                  "proposed": [],
+                  "extracted": []
+                },
+                "causal_path": {
+                  "gap": "Unresolved.",
+                  "proposed": [],
+                  "extracted": []
+                },
+                "affected_assets": {
+                  "gap": "Unresolved.",
+                  "proposed": [],
+                  "extracted": []
+                },
+                "monitoring_scope": {
+                  "gap": "Unresolved.",
+                  "proposed": [],
+                  "extracted": []
+                }
+              },
+              "counter_case": "Currency strength might offset the yield effect.",
+              "interpretation": {
+                "drivers": [
+                  "Falling real yields may support gold."
+                ],
+                "horizon": null,
+                "invalidation_signposts": []
+              },
+              "agent_hypotheses": [],
+              "attributed_claims": [
+                {
+                  "field": "content",
+                  "claim_id": "rate",
+                  "exact_quote": "The committee left the rate at 4%.",
+                  "revision_id": "569e409f-caf6-48c6-8e85-cea14a749c31"
+                }
+              ],
+              "factual_conflicts": [
+                {
+                  "status": "model_identified",
+                  "input_id": "thesis",
+                  "question": "Which rate series and date does your premise refer to?",
+                  "claim_ids": [
+                    "rate"
+                  ],
+                  "exact_quote": "The policy rate is now 3%.",
+                  "explanation": "The retained source names 4%; date or series may differ."
+                }
+              ],
+              "refinement_issues": [
+                {
+                  "kind": "missing_detail",
+                  "input_id": null,
+                  "question": "Over what period and under what failure condition?",
+                  "exact_quote": null,
+                  "explanation": "Horizon and invalidation are unspecified."
+                },
+                {
+                  "kind": "verification_needed",
+                  "input_id": "thesis",
+                  "question": "Which rate series and date does your premise refer to?",
+                  "exact_quote": "The policy rate is now 3%.",
+                  "explanation": "The fictional source names a different rate."
+                }
+              ],
+              "evidence_assessment": {
+                "gaps": [
+                  "Market expectations and current macro regime unavailable."
+                ],
+                "summary": "The fictional source challenges the numeric premise.",
+                "counter_claim_ids": [
+                  "rate"
+                ],
+                "supporting_claim_ids": []
+              }
+            },
+            "evidence": {
+              "status": "retained_sources",
+              "context": {
+                "gaps": [
+                  "Explicitly selected retained reports do not establish broad market coverage or the current macro regime.",
+                  "Source statements and exact quotations establish attribution, not factual truth or semantic support.",
+                  "Consensus, current prices, valuation and instrument mapping are unavailable unless explicitly supported."
+                ],
+                "cutoff": "2026-10-12T16:58:55.298971+00:00",
+                "reports": [
+                  {
+                    "title": "Fictional policy report",
+                    "content": "The committee left the rate at 4%.",
+                    "source_id": "fixture-research-engine-trace",
+                    "source_url": "https://example.invalid/rate",
+                    "revision_id": "569e409f-caf6-48c6-8e85-cea14a749c31",
+                    "contract_digest": "1eba7a4ff35ff17993fc7c5cfe0d7f435724003735de7297a0f94d761f72396b",
+                    "system_received_at": "2026-10-12T16:58:55.261188+00:00",
+                    "contract_version_id": "8c8329fd-e51a-4647-ab98-fa83be818b96",
+                    "head_at_admission_id": "569e409f-caf6-48c6-8e85-cea14a749c31",
+                    "availability_witness_at": "2026-10-12T16:58:55.283505+00:00",
+                    "source_claimed_published_at": "2026-10-11T16:58:55.251033+00:00"
+                  }
+                ],
+                "schema_version": "retained-source-evidence-v1"
+              }
+            },
+            "schema_version": "thesis-review-card-v2"
+          }
+        }
+      },
+      "approved": {
+        "approval": {
+          "id": "3bc67186-7f2b-4ffb-b1a7-20a10aea07b6",
+          "text_version_id": "d9e47216-13eb-4cc2-ba9e-3b01cf1fe00d",
+          "interpretation_version_id": "4125f72a-1bfd-488e-89e0-7080d5984981",
+          "text_digest": "93edf5b9675e78e4f0844f0e85e53a5b7679399e140e69e61097fb61f6758fa8",
+          "interpretation_digest": "df70d5380f22a61a7451f0d28d1b3e2f16bfb90b04cd71e7f0b8111a5eb29bdb",
+          "approved_at": "2026-10-12T16:58:55.455243+00:00",
+          "digest": "33117b7d5da73eb0520f05469c937c5e649e862cae321138afd1b4f3c230d817",
+          "revision": 3
+        },
+        "text_version": {
+          "id": "d9e47216-13eb-4cc2-ba9e-3b01cf1fe00d",
+          "parent_version_id": null,
+          "exact_text": "  The policy rate is now 3%.\r\nGold may benefit if real yields fall. Δ\r\n",
+          "text_digest": "93edf5b9675e78e4f0844f0e85e53a5b7679399e140e69e61097fb61f6758fa8",
+          "created_at": "2026-10-12T16:58:55.235684+00:00"
+        },
+        "interpretation": {
+          "id": "4125f72a-1bfd-488e-89e0-7080d5984981",
+          "text_version_id": "d9e47216-13eb-4cc2-ba9e-3b01cf1fe00d",
+          "drivers": [
+            "Falling real yields may support gold."
+          ],
+          "horizon": null,
+          "invalidation_signposts": [],
+          "known_at": "2026-10-12T16:58:55.386339+00:00",
+          "digest": "df70d5380f22a61a7451f0d28d1b3e2f16bfb90b04cd71e7f0b8111a5eb29bdb",
+          "origin": "model_compilation",
+          "review_card": {
+            "inputs": [
+              {
+                "input_id": "thesis",
+                "exact_text": "  The policy rate is now 3%.\r\nGold may benefit if real yields fall. Δ\r\n"
+              }
+            ],
+            "document": {
+              "grounding": [
+                {
+                  "field": "drivers",
+                  "index": 0,
+                  "input_id": "thesis",
+                  "exact_quote": "Gold may benefit if real yields fall."
+                }
+              ],
+              "review_card": {
+                "claim": {
+                  "gap": "Unresolved.",
+                  "proposed": [],
+                  "extracted": []
+                },
+                "catalysts": {
+                  "gap": "Unresolved.",
+                  "proposed": [],
+                  "extracted": []
+                },
+                "scenarios": {
+                  "gap": "Unresolved.",
+                  "proposed": [],
+                  "extracted": []
+                },
+                "assumptions": {
+                  "gap": "Unresolved.",
+                  "proposed": [],
+                  "extracted": []
+                },
+                "causal_path": {
+                  "gap": "Unresolved.",
+                  "proposed": [],
+                  "extracted": []
+                },
+                "affected_assets": {
+                  "gap": "Unresolved.",
+                  "proposed": [],
+                  "extracted": []
+                },
+                "monitoring_scope": {
+                  "gap": "Unresolved.",
+                  "proposed": [],
+                  "extracted": []
+                }
+              },
+              "counter_case": "Currency strength might offset the yield effect.",
+              "interpretation": {
+                "drivers": [
+                  "Falling real yields may support gold."
+                ],
+                "horizon": null,
+                "invalidation_signposts": []
+              },
+              "agent_hypotheses": [],
+              "attributed_claims": [
+                {
+                  "field": "content",
+                  "claim_id": "rate",
+                  "exact_quote": "The committee left the rate at 4%.",
+                  "revision_id": "569e409f-caf6-48c6-8e85-cea14a749c31"
+                }
+              ],
+              "factual_conflicts": [
+                {
+                  "status": "model_identified",
+                  "input_id": "thesis",
+                  "question": "Which rate series and date does your premise refer to?",
+                  "claim_ids": [
+                    "rate"
+                  ],
+                  "exact_quote": "The policy rate is now 3%.",
+                  "explanation": "The retained source names 4%; date or series may differ."
+                }
+              ],
+              "refinement_issues": [
+                {
+                  "kind": "missing_detail",
+                  "input_id": null,
+                  "question": "Over what period and under what failure condition?",
+                  "exact_quote": null,
+                  "explanation": "Horizon and invalidation are unspecified."
+                },
+                {
+                  "kind": "verification_needed",
+                  "input_id": "thesis",
+                  "question": "Which rate series and date does your premise refer to?",
+                  "exact_quote": "The policy rate is now 3%.",
+                  "explanation": "The fictional source names a different rate."
+                }
+              ],
+              "evidence_assessment": {
+                "gaps": [
+                  "Market expectations and current macro regime unavailable."
+                ],
+                "summary": "The fictional source challenges the numeric premise.",
+                "counter_claim_ids": [
+                  "rate"
+                ],
+                "supporting_claim_ids": []
+              }
+            },
+            "evidence": {
+              "status": "retained_sources",
+              "context": {
+                "gaps": [
+                  "Explicitly selected retained reports do not establish broad market coverage or the current macro regime.",
+                  "Source statements and exact quotations establish attribution, not factual truth or semantic support.",
+                  "Consensus, current prices, valuation and instrument mapping are unavailable unless explicitly supported."
+                ],
+                "cutoff": "2026-10-12T16:58:55.298971+00:00",
+                "reports": [
+                  {
+                    "title": "Fictional policy report",
+                    "content": "The committee left the rate at 4%.",
+                    "source_id": "fixture-research-engine-trace",
+                    "source_url": "https://example.invalid/rate",
+                    "revision_id": "569e409f-caf6-48c6-8e85-cea14a749c31",
+                    "contract_digest": "1eba7a4ff35ff17993fc7c5cfe0d7f435724003735de7297a0f94d761f72396b",
+                    "system_received_at": "2026-10-12T16:58:55.261188+00:00",
+                    "contract_version_id": "8c8329fd-e51a-4647-ab98-fa83be818b96",
+                    "head_at_admission_id": "569e409f-caf6-48c6-8e85-cea14a749c31",
+                    "availability_witness_at": "2026-10-12T16:58:55.283505+00:00",
+                    "source_claimed_published_at": "2026-10-11T16:58:55.251033+00:00"
+                  }
+                ],
+                "schema_version": "retained-source-evidence-v1"
+              }
+            },
+            "schema_version": "thesis-review-card-v2"
+          }
+        }
+      },
+      "monitoring": "not_configured"
+    }
+  },
+  "recorded_model_calls": {
+    "compilation": 1,
+    "synthesis": 1
+  },
+  "real_model_calls": 0,
+  "real_network_calls": 0,
+  "real_model_spend_usd": "0",
+  "limits": [
+    "Recorded interpretation does not demonstrate live model usefulness.",
+    "Fictional source only; no verified macro regime or live coverage.",
+    "The naive premise remains exact trader text; conflict is separately model-identified.",
+    "Connection restart demonstrates receipt recovery, not an operating-system crash.",
+    "Internal notification intent only; no external delivery."
+  ],
+  "database_isolation": {
+    "temporary_database": "test_research_engine_demo_91cd44d2bf774590",
+    "dropped_after_trace": true,
+    "existing_trader_records_used": false
+  }
+}

@@ -2,7 +2,7 @@
 
 Daily reviews can now become the protected current morning digest for a thesis. Publication saves the exact retained review, its original admission decision, a version and an internal notification intent atomically. It makes no model call. Earlier analyses keep their original status, current labels, provenance and gaps.
 
-This proves publication mechanics. A deterministic digest is still less useful than a fresh analyst synthesis: it preserves evidence reliably but does not newly prioritise developments or reconcile their combined effect. Fresh synthesis, verified starting macro context and source-backed thesis compilation remain separate work.
+This proves publication mechanics. A deterministic digest is still less useful than a fresh analyst synthesis: it preserves evidence reliably but does not newly prioritise developments or reconcile their combined effect. [Fresh synthesis](MORNING_SYNTHESIS.md) and [source-backed compilation](SOURCED_RESEARCH.md) are now implemented separately. Verified starting macro context and live usefulness remain outstanding.
 
 ## Try the recorded proof
 
@@ -53,7 +53,7 @@ These local endpoints use the existing authenticated session and owner scope:
 - `GET /api/v1/daily-publications/{publication_id}/`
 - `GET /api/v1/theses/{thesis_id}/daily-brief/`
 
-The current endpoint returns only the protected pointer. A null current publication never falls back to a historical brief. Staff status does not grant access to another trader's records. Responses distinguish the immutable original decision from present disposition and notification state.
+The current endpoint returns the protected pointer and an optional current synthesis for that exact published review. Synthesis adds no publication or delivery authority. A null current publication never falls back to a historical brief. Staff status does not grant access to another trader's records. Responses distinguish the immutable original decision from present disposition and notification state.
 
 ## Authority and failure behavior
 

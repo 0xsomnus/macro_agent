@@ -2,6 +2,7 @@
 
 from django.core.validators import RegexValidator
 from rest_framework import serializers
+from .synthesis_serializers import SynthesisResponseSerializer
 
 from .desk_serializers import DailyReviewDispositionSerializer, RetainedDailyReviewSerializer
 from .strict import StrictIntegerField, StrictSerializer, StrictStringField, StrictUUIDField
@@ -65,6 +66,10 @@ class CurrentDailyBriefSerializer(serializers.Serializer):
         "Only the protected current pointer. Null does not fall back to the latest historical review."
     ))
     observed_at = serializers.DateTimeField()
+
+    current_synthesis = SynthesisResponseSerializer(allow_null=True, help_text=(
+        "Successful current interpretation of this exact published review. No historical fallback or publication authority."
+    ))
 
 
 class DailyPublicationPreviewSerializer(serializers.Serializer):

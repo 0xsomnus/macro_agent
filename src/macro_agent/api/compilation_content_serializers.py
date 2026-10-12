@@ -3,6 +3,8 @@
 from rest_framework import serializers
 
 from .strict import StrictSerializer, StrictStringField, StrictIntegerField, StrictListField, StrictUUIDField
+from .research_serializers import (AttributedSourceClaimSerializer, FactualConflictSerializer,
+    EvidenceAssessmentSerializer, SourceEvidenceEnvelopeSerializer)
 
 
 class InterpretationInputSerializer(StrictSerializer):
@@ -88,6 +90,11 @@ class CompilationDocumentSerializer(StrictSerializer):
         "Required for current v2 model output; absent in retained historical v1 documents. "
         "The complete card combines these sections with interpretation, counter-case and questions."
     ))
+    attributed_claims = AttributedSourceClaimSerializer(many=True, required=False)
+    factual_conflicts = FactualConflictSerializer(many=True, required=False, help_text=(
+        "Model-identified conflicts between quoted user premises and quoted source claims. Not adjudicated fact errors."
+    ))
+    evidence_assessment = EvidenceAssessmentSerializer(required=False)
 
 
 class ReviewInputSerializer(StrictSerializer):
@@ -104,8 +111,20 @@ class UnavailableEvidenceSerializer(StrictSerializer):
     references = StrictListField(child=StrictStringField(), max_length=0, allow_empty=True)
 
 
+class ReviewEvidenceSerializer(StrictSerializer):
+    status = serializers.ChoiceField(choices=["unavailable", "retained_sources"])
+    references = StrictListField(child=StrictStringField(), max_length=0, allow_empty=True, required=False)
+    context = SourceEvidenceEnvelopeSerializer(required=False)
+
+    def validate(self, value):
+        expected = {"status", "references"} if value["status"] == "unavailable" else {"status", "context"}
+        if set(value) != expected:
+            raise serializers.ValidationError("Evidence must match its exact labelled variant.")
+        return value
+
+
 class PinnedReviewCardSerializer(StrictSerializer):
-    schema_version = serializers.ChoiceField(choices=["thesis-review-card-v1"])
+    schema_version = serializers.ChoiceField(choices=["thesis-review-card-v1", "thesis-review-card-v2"])
     inputs = ReviewInputSerializer(many=True)
     document = CompilationDocumentSerializer()
-    evidence = UnavailableEvidenceSerializer()
+    evidence = ReviewEvidenceSerializer()

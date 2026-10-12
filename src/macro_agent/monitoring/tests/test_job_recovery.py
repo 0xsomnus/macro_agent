@@ -247,7 +247,7 @@ class PostgreSQLRunnerRecoveryTests(TransactionTestCase):
         slot, _, _ = self.blocked_daily()
         self.revise_bounds(encoded_bytes=1_000_000)
 
-        def replaced_while_working(lease, clock):
+        def replaced_while_working(lease, provider, clock):
             self.at += timedelta(seconds=31)
             replacement = schedule.claim_due(self.actor, "daily_review", watch_id=self.watch, clock=self.clock)
             self.assertNotEqual(replacement["token"], lease["token"])

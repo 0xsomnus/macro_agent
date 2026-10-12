@@ -83,8 +83,8 @@ def _journalled_request(client, kind, thesis_id, command, exact_text, journal, s
 
 
 def _response_error(path, message):
-    if path.endswith("/compile/"):
-        return WalkthroughError("The compilation response was not received. Its outcome and cost are unknown. The saved draft remains unapproved; check its history before another provider request. No retry was made.")
+    if path.endswith(("/compile/", "/synthesise/")):
+        return WalkthroughError("The model response was not received. Its outcome and cost are unknown. Recover the saved command before another provider request. No retry was made.")
     return WalkthroughError(message)
 
 
@@ -138,7 +138,7 @@ class DeskClient:
             data = json.dumps(body, ensure_ascii=False, allow_nan=False).encode("utf-8")
         request = urllib.request.Request(self.url + path, data=data, headers=headers, method=method)
         try:
-            timeout = 90 if path.endswith("/compile/") else self.timeout
+            timeout = 90 if path.endswith(("/compile/", "/synthesise/")) else self.timeout
             with self.opener.open(request, timeout=timeout) as response:
                 raw = response.read(MAX_RESPONSE_BYTES + 1)
         except urllib.error.HTTPError as exc:
@@ -322,10 +322,19 @@ def render_compilation(compilation, say):
         value = compilation.get(key)
         say(label + ": " + (quoted(value) if value is not None else "unknown"))
     say("Token usage: " + quoted(compilation.get("usage")))
-    say("This model output is unverified. Current macro context and factual verification are unavailable.")
+    say("This model output is unverified. A complete macro regime and independent factual verification are unavailable.")
     document = compilation.get("document")
     if type(document) is not dict:
         return
+    if compilation.get("evidence_context") is not None:
+        say("Retained source packet: " + quoted(compilation["evidence_context"]))
+        say("Present source disposition: " + quoted(compilation.get("evidence_disposition")))
+        say("Model-identified factual conflicts, inspect these before the assessment:")
+        for conflict in document.get("factual_conflicts", []):
+            say("  " + quoted(conflict))
+        say("Attributed source claims, quotations establish attribution rather than truth:")
+        say(quoted(document.get("attributed_claims", [])))
+        say("Source-based assessment, a model interpretation: " + quoted(document.get("evidence_assessment")))
     say("Grounding in your supplied text, without independent verification:")
     grounding = document.get("grounding", [])
     if not grounding:
@@ -392,8 +401,17 @@ def _checked_current_compilation(result, thesis_id, exact_text, selection):
             or type(compilation.get("document")) is not dict):
         return False
     inputs = compilation.get("refinement_inputs", [])
-    document = parse_compilation(quoted(compilation["document"]), exact_text, refinement_inputs=inputs)
-    card = build_review_card(document, exact_text, refinement_inputs=inputs)
+    if compilation.get("evidence_context") is not None:
+        from macro_agent.domain import sourced_compilation
+        evidence = compilation["evidence_context"]["content"]
+        if compilation.get("evidence_disposition", {}).get("status") != "current":
+            return False
+        document = sourced_compilation.parse_compilation(quoted(compilation["document"]), exact_text,
+            evidence, refinement_inputs=inputs)
+        card = sourced_compilation.build_review_card(document, exact_text, evidence, refinement_inputs=inputs)
+    else:
+        document = parse_compilation(quoted(compilation["document"]), exact_text, refinement_inputs=inputs)
+        card = build_review_card(document, exact_text, refinement_inputs=inputs)
     meaning = thesis["draft"]["interpretation"]
     if (meaning.get("origin") != "model_compilation" or meaning.get("review_card") != card
             or any(meaning[field] != document["interpretation"][field]
@@ -426,7 +444,7 @@ def _refinement_answers(issues, ask, say):
 
 
 def compiled_review(client, thesis, *, selection, trace, ask, say, journal,
-                    initial_refinement_id=None, initial_refinement_inputs=()):
+                    initial_refinement_id=None, initial_refinement_inputs=(), evidence_context_id=None):
     thesis_id = _id(thesis["id"])
     exact_text = thesis["draft"]["text_version"]["exact_text"]
     trace["compilations"] = []
@@ -439,9 +457,13 @@ def compiled_review(client, thesis, *, selection, trace, ask, say, journal,
                    "provider_id": provider_id, "model_id": model_id}
         if refinement_id is not None:
             command["refinement_id"] = refinement_id
+        if evidence_context_id is not None:
+            command["evidence_context_id"] = evidence_context_id
         result = _journalled_request(client, "compile", thesis_id, command, exact_text, journal, say)
         trace["compilations"].append(result)
         compilation = result["compilation"]
+        if evidence_context_id is not None and compilation.get("evidence_context", {}).get("id") != evidence_context_id:
+            raise WalkthroughError("The compilation changed the selected evidence packet. No approval was made.")
         if (compilation.get("refinement_inputs", []) != expected_inputs
                 or (refinement_id is not None and compilation.get("refinement_id") != refinement_id)):
             raise WalkthroughError("The compilation lost or changed the retained answer lineage. No approval was made.")
@@ -664,10 +686,11 @@ def approve_reviewed_thesis(client, thesis):
 
 
 def compile_existing(client, thesis_id, *, refinement_id=None, model_id=None, journal=None,
-                     ask=input, secret=getpass.getpass, say=print):
+                     evidence_context_id=None, ask=input, secret=getpass.getpass, say=print):
     """Explicit continuation of a retained draft, separate from read-only recovery."""
     thesis_id = _id(thesis_id)
     refinement_id = _id(refinement_id) if refinement_id is not None else None
+    evidence_context_id = _id(evidence_context_id) if evidence_context_id is not None else None
     owns_journal = journal is None
     if owns_journal:
         journal = new_command_journal()
@@ -706,6 +729,16 @@ def compile_existing(client, thesis_id, *, refinement_id=None, model_id=None, jo
             trace["saved_refinement"] = saved
         say("Retained exact thesis: " + quoted(exact_text))
         say("Exact answers included in this request: " + quoted(inputs))
+        if evidence_context_id is not None:
+            packet = client.request("GET", f"/api/v1/theses/{thesis_id}/evidence/{evidence_context_id}/")
+            if (_id(packet["evidence"]["id"]) != evidence_context_id
+                    or _id(packet["evidence"]["thesis_id"]) != thesis_id
+                    or packet["current_disposition"]["status"] != "current"):
+                raise WalkthroughError("The selected evidence is stale or belongs to another thesis. No model request was made.")
+            from macro_agent.domain.source_evidence import validate_source_evidence
+            validate_source_evidence(packet["evidence"]["content"])
+            trace["evidence"] = packet
+            say("Selected source claims, separate from trader intent: " + quoted(packet))
         say("An existing approval stays active until you explicitly approve a new reviewed proposal.")
         selection = select_model(client, requested=model_id, ask=ask, say=say)
         if selection is None:
@@ -716,7 +749,8 @@ def compile_existing(client, thesis_id, *, refinement_id=None, model_id=None, jo
             say("Cancelled. No compilation or approval was made.")
             return trace
         reviewed = compiled_review(client, thesis, selection=selection, trace=trace, ask=ask,
-            say=say, journal=journal, initial_refinement_id=refinement_id, initial_refinement_inputs=inputs)
+            say=say, journal=journal, initial_refinement_id=refinement_id, initial_refinement_inputs=inputs,
+            evidence_context_id=evidence_context_id)
         if reviewed is not None:
             trace["approval"] = approve_reviewed_thesis(client, reviewed)
             say("The exact text and reviewed interpretation are approved. No paper position or example news was created.")
@@ -798,10 +832,15 @@ def recover_command(client, target, *, ask=input, secret=getpass.getpass, say=pr
             if target.get("exact_text", original) != original:
                 raise WalkthroughError("The saved original input differs from this journal. No retry was made.")
             if compilation.get("document") is not None:
-                from macro_agent.domain.compilation import parse_compilation, SCHEMA_VERSION
-                parse_compilation(quoted(compilation["document"]), original,
-                    refinement_inputs=compilation.get("refinement_inputs", []),
-                    schema_version=compilation.get("schema_version", SCHEMA_VERSION))
+                if compilation.get("evidence_context") is not None:
+                    from macro_agent.domain import sourced_compilation
+                    sourced_compilation.parse_compilation(quoted(compilation["document"]), original,
+                        compilation["evidence_context"]["content"], refinement_inputs=compilation.get("refinement_inputs", []))
+                else:
+                    from macro_agent.domain.compilation import parse_compilation, SCHEMA_VERSION
+                    parse_compilation(quoted(compilation["document"]), original,
+                        refinement_inputs=compilation.get("refinement_inputs", []),
+                        schema_version=compilation.get("schema_version", SCHEMA_VERSION))
             say("Original exact input: " + quoted(original))
             say("Retained refinement inputs: " + quoted(compilation.get("refinement_inputs", [])))
             render_compilation(compilation, say)
@@ -848,6 +887,7 @@ def parser():
     retained.add_argument("--url", type=local_url, default="http://127.0.0.1:8000")
     retained.add_argument("--thesis-id", required=True)
     retained.add_argument("--refinement-id", help="Explicit saved answer submission to include after restart")
+    retained.add_argument("--evidence-context", help="Explicit immutable retained-source packet UUID")
     retained.add_argument("--model", help="Explicit model ID from the current fetched catalogue")
     retained.add_argument("--journal", type=Path, help="New private durable command journal")
     retained.add_argument("--output", type=Path, help="Optional new private final trace filename")
@@ -880,7 +920,7 @@ def main(argv=None):
                 raise WalkthroughError("Choose a new trace filename in an existing directory.")
             journal = new_command_journal(args.journal)
             trace = compile_existing(DeskClient(args.url), thesis_id, refinement_id=refinement_id,
-                model_id=args.model, journal=journal)
+                evidence_context_id=args.evidence_context, model_id=args.model, journal=journal)
             if args.output:
                 write_trace(args.output, trace)
             return 0

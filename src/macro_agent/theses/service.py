@@ -160,6 +160,13 @@ def interpretation_value(item: InterpretationRecord) -> CompiledThesisVersion:
         if (item.review_card["inputs"][1:] != expected_inputs or result is None
                 or item.review_card["document"] != result.document):
             raise ThesisConflict("review card differs from saved compilation inputs or output")
+        if attempt.evidence_context_id is not None:
+            from macro_agent.desk.evidence import _validated
+            if item.review_card["evidence"] != {"status": "retained_sources",
+                                                "context": _validated(attempt.evidence_context)}:
+                raise ThesisConflict("review card differs from saved source evidence")
+        elif item.review_card["schema_version"] == "thesis-review-card-v2":
+            raise ThesisConflict("source-backed review card requires retained evidence provenance")
     return value
 
 
@@ -318,7 +325,26 @@ def approve_thesis(actor_id: str, thesis_id: str, command_id: str,
         "interpretation_version_id": interpretation_version_id,
         "interpretation_digest": interpretation_digest, "expected_revision": revision,
     })
+    # Immutable lookup discovers source protection before taking owner/thesis
+    # locks. The protected comparison below still binds the exact displayed IDs.
+    _owner(actor_id)
+    existing = _receipt(actor_id, command_id, digest)
+    if existing is not None:
+        with transaction.atomic():
+            _owner(actor_id, lock=True)
+            thesis = _record(actor_id, thesis_id, lock=True)
+            return _response(thesis, existing, replayed=True)
+    context = None
+    meaning = InterpretationRecord.objects.select_related("compilation__evidence_context").filter(
+        pk=interpretation_version_id, thesis_id=thesis_id, thesis__owner_id=actor_id).first()
+    if meaning is not None and meaning.compilation_id is not None:
+        context = meaning.compilation.evidence_context
+    if context is not None and (connection.in_atomic_block or not connection.get_autocommit()):
+        raise RuntimeError("Source-backed approval requires its own outermost transaction")
     with transaction.atomic():
+        if context is not None:
+            from macro_agent.desk.evidence import lock_context_sources
+            lock_context_sources(context)
         _owner(actor_id, lock=True)
         thesis = _record(actor_id, thesis_id, lock=True)
         receipt = _receipt(actor_id, command_id, digest)
@@ -342,6 +368,10 @@ def approve_thesis(actor_id: str, thesis_id: str, command_id: str,
         at = _instant(clock, thesis)
         if any(at < brief.changed_at for brief in briefs):
             raise ThesisConflict("trusted clock precedes current publication state")
+        if context is not None:
+            from macro_agent.desk.evidence import context_stale_reasons
+            if context_stale_reasons(context, at):
+                raise ThesisConflict("Source evidence changed; review a fresh sourced proposal before approval")
         approval = approve_exact(text_value, meaning_value, ApprovalRequest(
             str(uuid4()), actor_id, "user", thesis_version_id, text_digest,
             interpretation_version_id, interpretation_digest, at,

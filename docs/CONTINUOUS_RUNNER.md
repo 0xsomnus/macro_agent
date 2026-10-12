@@ -112,3 +112,9 @@ The [context contract](CONTEXT_CONTINUITY.md) and [weekly test](WEEKLY_WORKFLOW_
 Existing watches retain assembly-only behavior. An explicitly reviewed watch configuration can add `daily_publication: {"fanout_limit": REVIEWED_INTEGER}` to publish the exact daily digest internally. The integer must be selected within 1 to 1000 and remains fixed for the thesis daily stream. This example has no implicit operating value.
 
 The worker recovers a saved publication before attempting admission, including after a lost scheduler completion. Each review has one immutable decision. Stale reviews finish visibly superseded; recovery does not regenerate them or repeat inference. Source corrections, permission revisions, approval and exposure changes atomically clear current authority and cancel pending intents. There is no external delivery. See [daily publication](DAILY_PUBLICATION.md) for preview commands, API reads, capacity admission and the isolated trace.
+
+## Optional fresh morning synthesis
+
+A watch with daily publication can additionally pin `daily_synthesis.model_configuration` from the current synthesis service. See [morning synthesis](MORNING_SYNTHESIS.md#enable-on-a-reviewed-watch) for the exact opt-in and bounds. The daily worker publishes its retained digest first, then attempts synthesis under a fixed daily command identity. The active lease is checked in the admission transaction after protecting source, owner/thesis, briefs and the shared model budget.
+
+A model outage, budget rejection or invalid output leaves a labelled digest fallback. Restart inspects any saved admission before credentials or catalogue; an uncertain call is never resent. These calls share the application/account rolling private-call ceiling; `allowances.analysis_dispatches` continues to count news dispatches only. Capture stays independent. No external delivery is added.
