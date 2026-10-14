@@ -57,6 +57,8 @@ Before unattended activation, review the actual thesis/exposure, sources, cadenc
 
 The [driver-review clarification](DRIVER_REVIEW.md), accepted 2026-10-14, adds a case where observed direction agrees with the view but evidence weakens its central explanation, and a separate case where an additional driver amplifies the original mechanism. Material explanation changes require prompt thesis attention without waiting for an adverse price move or an attached trade. Current narrative model outputs can describe these cases; mandatory per-driver reassessment and live attention integration remain outstanding.
 
+Accepted 2026-10-14: use rough headline-led input as an ordinary onboarding case. The agent proposes and explains evidenced omitted drivers before consequential clarification, rather than requiring the trader to finish the research. Include a case where a thesis progresses while prospective entry attractiveness remains a separate, possibly unresolved assessment. No exact time target, numerical R:R, stop or position is invented from an incomplete idea.
+
 User-observed chart prices remain declared observations until independently verified. An observation-only research case has no execution, P&L or inferred paper position. A later report can update today's review but cannot be inserted into an earlier information set. This is current thesis assessment; automated outcome-learning remains deferred.
 
 ## Source fit

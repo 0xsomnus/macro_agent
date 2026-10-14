@@ -1,6 +1,6 @@
 # Thesis engine
 
-Status, 2026-10-12: this document specifies intended behavior. The [current compiler](THESIS_COMPILATION.md) implements a text-grounded review card, exact saved answers, guided recompilation and explicit approval. Selected [source-backed compilation](SOURCED_RESEARCH.md) now exists; autonomous sourced research, verified causal relationships and the monitoring manifest below remain implementation work for the [weekly workflow test](WEEKLY_WORKFLOW_TEST.md). A structured proposal is not a verified investment argument.
+Status, 2026-10-14: this document specifies intended behavior. The [current compiler](THESIS_COMPILATION.md) implements a text-grounded review card, exact saved answers, guided recompilation and explicit approval. Selected [source-backed compilation](SOURCED_RESEARCH.md) now exists; autonomous sourced research, verified causal relationships and the monitoring manifest below remain implementation work for the [weekly workflow test](WEEKLY_WORKFLOW_TEST.md). A structured proposal is not a verified investment argument.
 
 ## Compilation contract
 
@@ -34,7 +34,7 @@ Present the following together before approval, rather than scattering the thesi
 
 Label extracted trader intent, agent proposals and external evidence separately throughout the card. A fluent proposal cannot become a sourced fact, verified causal relationship or approved intent by appearing in this structure. Headline-only research must disclose its depth and cannot imply article-level verification or a known market expectation.
 
-The guided flow is: initial input, draft card and consequential questions, trader answers, revised immutable proposal, then exact approval preview. Preserve attributable trader inputs and links between proposals; do not replace the original prompt with a model rewrite. The trader can revise, decline or leave gaps visible. Proposed additions only enter active monitoring meaning after explicit approval. The richer contract must be reflected in versioned domain and approval hashes before these fields become governing inputs; this specification does not change the current API schema.
+The guided flow is: initial rough input, examination of relevant permitted context, an evidence-qualified draft with proposed missing drivers and their limitations, consequential clarification, revised immutable proposal, then exact approval preview. Preserve attributable trader inputs and links between proposals; do not replace the original prompt with a model rewrite. The trader can revise, decline or leave gaps visible. Proposed additions only enter active monitoring meaning after explicit approval. The richer contract must be reflected in versioned domain and approval hashes before these fields become governing inputs; this specification does not change the current API schema.
 
 ## User-led research before a thesis exists
 
@@ -49,11 +49,13 @@ This user-initiated workflow is distinct from deferred Discovery, which proactiv
 | Issue | Response |
 | --- | --- |
 | Factual error | Show sourced correction and its consequence for the argument. A retained false premise remains labelled a factual conflict. |
-| Unsupported mechanism | Ask what evidence supports the transmission path; bring counter-evidence and distinguish causal hypotheses from association. |
+| Unsupported mechanism | Investigate support and counter-evidence, propose a qualified transmission explanation, then ask only questions affecting intent or the conclusion. Distinguish causal hypotheses from association. |
 | Missing detail | Ask for the consequential horizon, exposure, assumptions, or invalidation criterion. Do not invent user conviction or timing. |
 | Defensible disagreement | Preserve the trader's view and present competing scenarios and evidence without treating disagreement as a factual error. |
 
-Explain the consequential gaps before offering a strengthened draft. Separate trader-provided assumptions from agent-proposed additions. Strengthening means more explicit, supported, and falsifiable; it does not mean more persuasive or greater conviction. The result can be reduced conviction or abandonment. Treat the agent's current-regime interpretation as a hypothesis with alternatives, not authority over the trader.
+Accepted 2026-10-14: propose missing drivers and explain their evidence first, then clarify consequential uncertainty or trader intent. A headline-led or half-formed idea is an expected input; the trader does not have to discover the missing major drivers before receiving help. The agent owns the bounded research and counter-analysis, and must expose unavailable evidence rather than fill gaps with confident prose. Separate trader-provided assumptions from agent-proposed additions. Strengthening means more explicit, supported, and falsifiable; it does not mean more persuasive or greater conviction. The result can be reduced conviction or abandonment. Treat the agent's current-regime interpretation as a hypothesis with alternatives, not authority over the trader.
+
+Keep explanation validity, thesis progression and prospective entry attractiveness separate, per [driver review](DRIVER_REVIEW.md#thesis-progression-and-entry-conditions). A view can be playing out while the proposed entry is less attractive, without invalidating the argument. Conditional timing stays conditional; an imprecise word such as "soon" cannot become a fabricated deadline.
 
 If the trader declines refinement, monitor approved observable elements and visibly retain unresolved gaps. The agent can investigate and challenge gaps without inventing missing intent.
 

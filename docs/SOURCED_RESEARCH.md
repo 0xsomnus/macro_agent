@@ -54,3 +54,7 @@ The strict session/CSRF endpoints are:
 - Existing `POST /api/v1/theses/{thesis_id}/compile/`, with optional `evidence_context_id`.
 
 Legacy text-only requests retain their card version and hashes. New sourced cards use `thesis-review-card-v2`; factual conflicts remain `model_identified`, never verified corrections. Costs, unknown outcomes and explicit paid retries follow [compilation](THESIS_COMPILATION.md).
+
+## Remaining rough-thesis research gap
+
+The accepted interaction is to propose evidence-qualified omitted drivers, explain why they matter and then ask consequential questions, as described in [the thesis engine](THESIS_ENGINE.md#collaborative-refinement-of-rough-theses). Today's compiler can use a manually selected packet and labelled hypotheses, but it does not independently investigate a rough prompt. Evidence references are packet-wide; individual proposed drivers do not yet require explicit support/counter references. Compilation acceptance therefore does not prove the contextual research capability or the separate progression/entry assessment required by [driver review](DRIVER_REVIEW.md).

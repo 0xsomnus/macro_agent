@@ -18,6 +18,26 @@ A favorable price observation does not validate the trader's proposed mechanism.
 
 These are semantic requirements, not a frozen wire schema. Driver identity, exact enums and admission/publication integration remain implementation choices for review.
 
+## Helping a rough thesis
+
+Accepted 2026-10-14: propose and explain evidence-qualified missing drivers before asking consequential clarification questions. The initial idea may reflect only a few headlines. The agent must investigate more important drivers, their transmission, counter-evidence and interactions rather than require the trader to know the complete framework or curate every source in advance. A result of insufficient evidence or no defensible thesis is valid.
+
+Link each proposed driver to its supporting and counter-evidence, assumptions and limitations, and explain why it could matter more than the original explanation. A verified event does not make its proposed market effect a fact. Unavailable current context stays unavailable. Search remains a bounded investigation of a named unresolved material question, with source rights, provenance and cost recorded. User-initiated refinement is distinct from deferred proactive Discovery.
+
+Ask the trader about intent and consequential unknowns; do not turn clarification into an exhaustive input form. New explanations can be investigated and surfaced immediately as agent hypotheses. They enter approved trader reasoning only through explicit incorporation and approval, and cannot promote themselves to canonical knowledge.
+
+## Thesis progression and entry conditions
+
+| Question | Separate conclusion |
+| --- | --- |
+| Is the explanation still supported? | Evidence may strengthen, weaken or leave the original mechanism unresolved even when direction is favorable. |
+| Is the thesis progressing? | Expected conditions may be occurring. This does not imply the idea is invalidated or the original causal attribution is proven. |
+| Is a prospective entry still attractive? | Progression can leave an entry less attractive under the contemplated scenario. This requires a separate assessment and may remain unavailable. |
+
+Preserve fundamental conditions, user-declared technical abandonment criteria and entry constraints as distinct inputs. A trader may choose a price condition for abandoning an idea; that choice does not establish that the underlying causal mechanism was false. A qualitative conditional horizon is valid input. Do not invent a date, target, stop, risk/reward ratio, position or execution.
+
+A proposed deterioration in entry attractiveness is conditional on the contemplated entry and scenario. Without suitable prices, horizon and loss/upside assumptions, no numerical risk/reward comparison or claim of a missed profitable trade is justified. The trader retains entry planning and execution.
+
 ## Immediate material attention
 
 A material weakening, displacement or amplification of a central approved explanation is a thesis-impact route. It can warrant prompt attention when the price direction remains favorable or no position is attached. It must not wait for the morning brief merely because the trade has not visibly deteriorated.
@@ -34,6 +54,10 @@ Pin the approved interpretation, source revisions, observation status, predecess
 
 ## Acceptance cases
 
+- A trader supplies a headline-led explanation X and does not know driver Y exists. Investigate and propose Y with evidence, transmission and limits, then ask only consequential clarification. Preserve X as trader intent and Y as agent-proposed.
+- The original condition persists while a new event advances the thesis. Explain progression separately from a potentially less attractive prospective entry; do not equate playing out with invalidation.
+- Timing is conditional on the absence of a resolution. Preserve that condition without assigning a calendar deadline.
+
 - Price rises as expected, but evidence weakens the original mechanism. Surface the material explanation change without asserting that the directional thesis failed.
 - The original mechanism has evidence and another development plausibly amplifies it. Explain both and the limit of the attribution.
 - An event occurred, but its marginal price effect is unresolved. Do not mark its mechanism validated from event confirmation alone.
@@ -45,5 +69,7 @@ Pin the approved interpretation, source revisions, observation status, predecess
 ## Current implementation gap
 
 News analysis can express transmission, assumptions, counter-case and uncertainty in generic hypotheses. Cumulative comparisons connect prior model analyses. Morning synthesis has overall thesis and individual trade effects. Neither contract requires an explicit reassessment of each approved driver or a separately verified price-direction observation.
+
+Source-backed compilation also lacks evidence references on each proposed driver: selected-packet support/counter references do not guarantee that an individual hypothesis is supported. Source selection remains manual; automatic contextual investigation from a rough prompt is unimplemented. Neither news analysis nor daily synthesis requires separate thesis-progression and prospective-entry assessments.
 
 Captured-news model analysis also has no live publication/current-pointer authority. The immediate material-driver route remains an implementation gate, independently of retained daily publication. [News analysis](NEWS_ANALYSIS.md), [morning synthesis](MORNING_SYNTHESIS.md) and the [weekly test](WEEKLY_WORKFLOW_TEST.md) must continue to report that limitation honestly.
