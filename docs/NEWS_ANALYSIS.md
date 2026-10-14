@@ -65,7 +65,7 @@ After a valid current response, type `review` to record whether attribution, ind
 | Trader questions | Consequential missing intent or context to discuss before drawing stronger conclusions. |
 | `not_identified` | No connection identified within this limited report and input. It does not establish non-materiality or resolve monitoring work. |
 
-The context includes the complete latest attached-thesis book, including closed declarations, within the existing 200-record bound. This is not the user's whole portfolio. Where present, it also preserves the exact approved review card, including original text, attributable answers, extracted intent, proposals and gaps. Review approval does not turn proposed assets, causal paths or scenarios into trader belief or verified facts. The compiler's own evidence remains explicitly unavailable; retained report quotations are separate inputs.
+The context includes the complete latest attached-thesis book, including closed declarations, within the existing 200-record bound. This is not the user's whole portfolio. Where present, it also preserves the exact approved review card, including original text, attributable answers, extracted intent, proposals and gaps. Review approval does not turn proposed assets, causal paths or scenarios into trader belief or verified facts. The compiler can retain explicitly selected research evidence, with original provenance and authority labels. That packet does not substitute for the current news-source manifest or a verified macro regime.
 
 The 65,536-byte prompt-context limit covers the whole news context and rejects oversized input before paid admission. The compiler permits cards up to 524,288 bytes, so a valid compilation may be too large for this news workflow. Inputs and the exposure book are never silently truncated. Instrument mapping remains user-declared and unverified.
 
@@ -107,3 +107,7 @@ Capture the narrow [reviewed Fed feed](MONITORING_PIPELINE.md#try-the-narrow-off
 Recorded responses establish mechanics only. Live model quality, recurring operation, broad materiality screening, global macro context, correction protection for published briefs and external delivery remain ahead. See the [monitoring plan](MONITORING_SLICE.md) and [roadmap](ROADMAP.md).
 
 For inspection, the relevant code is the [domain contract](../src/macro_agent/domain/news_analysis.py), [protected context](../src/macro_agent/monitoring/news_context.py), [analysis service](../src/macro_agent/monitoring/analysis.py), [API views](../src/macro_agent/api/news_analysis_views.py) and [terminal review](../tools/review_news.py).
+
+## Explicit driver reassessment remains outstanding
+
+The [accepted driver-review requirement](DRIVER_REVIEW.md) distinguishes whether a move followed the expected direction from whether evidence supports its proposed mechanism. Current generic hypotheses and cumulative comparisons can discuss this in prose, but neither requires a review of every approved driver. A material explanation change must eventually enter thesis attention even with unchanged direction or no attached trade. This captured-news model role currently has no live publication/current-pointer authority; that route is not yet implemented.

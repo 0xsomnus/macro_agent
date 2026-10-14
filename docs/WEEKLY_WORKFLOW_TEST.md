@@ -53,6 +53,12 @@ Report and analysis eligibility use separate conservative postcommit availabilit
 
 Before unattended activation, review the actual thesis/exposure, sources, cadence/detection target, daily time/timezone, explicit context and work bounds, allowances, ambiguous-call disposition and missed-slot policy. Production queue selection remains separate. Call/token limits do not establish a dollar ceiling. Neither a lease expiry nor a missed slot authorizes an uncertain paid retry.
 
+## Explanatory-driver acceptance
+
+The [driver-review clarification](DRIVER_REVIEW.md), accepted 2026-10-14, adds a case where observed direction agrees with the view but evidence weakens its central explanation, and a separate case where an additional driver amplifies the original mechanism. Material explanation changes require prompt thesis attention without waiting for an adverse price move or an attached trade. Current narrative model outputs can describe these cases; mandatory per-driver reassessment and live attention integration remain outstanding.
+
+User-observed chart prices remain declared observations until independently verified. An observation-only research case has no execution, P&L or inferred paper position. A later report can update today's review but cannot be inserted into an earlier information set. This is current thesis assessment; automated outcome-learning remains deferred.
+
 ## Source fit
 
 A narrow feed is sufficient when it addresses the test thesis. The first joint research question is which assets are affected by AI buildout and whether it is too late to position over a few weeks to months. Candidate expressions are an Exness `XCUUSD` copper CFD and AMD/NVDA equity perpetuals. These are not approved trades, validated instrument mappings or supported packs; no trading thesis or source manifest is selected. Equity and valuation requirements remain to be reviewed. The product must support [user-led research from a question or observation](THESIS_ENGINE.md#user-led-research-before-a-thesis-exists), including a result of no defensible thesis.

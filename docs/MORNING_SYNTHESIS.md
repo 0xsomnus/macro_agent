@@ -62,3 +62,7 @@ All endpoints use authenticated owner scope. Writes require CSRF and strict JSON
 Original outcomes are `synthesised`, `stale`, `failed`, or `outcome_unknown`; an admitted unfinished request reads as `running` until its deadline. Current disposition is separately `current`, `stale`, or `unresolved`. Unknown provider charges stay null. Failed synthesis leaves the digest independently available, unless its own governing dependencies have changed.
 
 Recorded providers test mechanics and recovery, not live reasoning quality, source rights, external delivery or production readiness. The [weekly test](WEEKLY_WORKFLOW_TEST.md) still needs a reviewed real thesis, suitable permitted feeds and supervised live operation.
+
+## Driver-review limitation
+
+The [accepted driver-review requirement](DRIVER_REVIEW.md) calls for explicit reassessment of the original explanation, competing mechanisms and amplification separately from observed direction. Current synthesis can discuss these in prose but does not require per-driver review. Material explanation changes must eventually be surfaced promptly rather than held for the next morning merely because direction remains intact. This clarification does not add notification authority to synthesis.

@@ -31,6 +31,7 @@ Start with [Getting started](GETTING_STARTED.md) to run the current prototype. T
 | [Product doctrine](PRODUCT_DOCTRINE.md) | User authority, evidence standards and non-negotiable behavior |
 | [Product specification](PRODUCT_SPEC.md) | Intended trader journeys and pilot acceptance scenarios |
 | [Roadmap](ROADMAP.md) | Current work, pilot gates, expansion and deferred capabilities |
+| [Driver review](DRIVER_REVIEW.md) | Required distinction between observed direction and explanatory support, including immediate material review |
 | [Thesis engine](THESIS_ENGINE.md) | Refinement, factual challenge, interpretation and user approval |
 | [Monitoring and sources](MONITORING_AND_SOURCES.md) | Continuous capture, source rights, coverage and costs |
 | [Source options](SOURCE_OPTIONS.md) | Compare initial news feeds, published access and unresolved usage rights |
