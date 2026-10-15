@@ -1,6 +1,6 @@
 # Review the explanation as well as the direction
 
-Status, 2026-10-14: the user accepted immediate attention for material driver changes, even when the directional view remains intact. This document records required behavior. Structured driver reassessment and its live attention route are not implemented yet.
+Status, 2026-10-15: the user accepted immediate attention for material driver changes, even when the directional view remains intact. An optional structured profile now implements evidence-linked research proposals and driver reassessment in retained news and morning synthesis. Its live attention route is not implemented yet.
 
 A favorable price observation does not validate the trader's proposed mechanism. Compilation should expose unsupported premises and transmission assumptions; monitoring should reassess them as evidence arrives. The agent may find support for the original mechanism, a stronger competing explanation, an amplifier, an offset, or insufficient evidence to distinguish them.
 
@@ -16,7 +16,7 @@ A favorable price observation does not validate the trader's proposed mechanism.
 | Change from predecessor | State what new evidence changed the assessment and what remained intact. Retain the prior assessment and its actual inputs. |
 | Discriminating evidence | Name the unresolved material question, relevant signposts and coverage gaps. Attribution may remain unresolved. No numeric causal contribution or probability is invented. |
 
-These are semantic requirements, not a frozen wire schema. Driver identity, exact enums and admission/publication integration remain implementation choices for review.
+The current profile binds a driver by its zero-based index and exact text within the pinned approved interpretation. Every approved driver must appear exactly once. Support is `supports`, `challenges`, `mixed` or `unresolved`, separately for premise and mechanism. References name exact current-output quotations and eligible earlier labelled model analyses, not newly verified facts. An assessment can remain unresolved.
 
 ## Helping a rough thesis
 
@@ -25,6 +25,8 @@ Accepted 2026-10-14: propose and explain evidence-qualified missing drivers befo
 Link each proposed driver to its supporting and counter-evidence, assumptions and limitations, and explain why it could matter more than the original explanation. A verified event does not make its proposed market effect a fact. Unavailable current context stays unavailable. Search remains a bounded investigation of a named unresolved material question, with source rights, provenance and cost recorded. User-initiated refinement is distinct from deferred proactive Discovery.
 
 Ask the trader about intent and consequential unknowns; do not turn clarification into an exhaustive input form. New explanations can be investigated and surfaced immediately as agent hypotheses. They enter approved trader reasoning only through explicit incorporation and approval, and cannot promote themselves to canonical knowledge.
+
+Research is not restricted by the pilot instrument list. An exploratory request can investigate an unfamiliar commodity, affected firms and ways to obtain exposure. It does not request monitoring, create a position or initiate a coverage-review workflow. Exposure candidates must explain their relationship and basis risks, including possible adverse effects on related businesses. Availability remains unverified until suitable instrument evidence is checked. The present implementation uses selected retained evidence; automatic contextual investigation remains ahead.
 
 ## Thesis progression and entry conditions
 
@@ -66,10 +68,28 @@ Pin the approved interpretation, source revisions, observation status, predecess
 - Duplicate headlines, unsupported alternatives and wording changes alone do not produce repeated attention.
 - No verified price data or expectation vintage exists. Keep these gaps visible and make no claim that direction, surprise or causation was verified.
 
-## Current implementation gap
+## Try the implemented profile
 
-News analysis can express transmission, assumptions, counter-case and uncertainty in generic hypotheses. Cumulative comparisons connect prior model analyses. Morning synthesis has overall thesis and individual trade effects. Neither contract requires an explicit reassessment of each approved driver or a separately verified price-direction observation.
+Use existing setup and retain an exact source packet, then opt into research proposals:
 
-Source-backed compilation also lacks evidence references on each proposed driver: selected-packet support/counter references do not guarantee that an individual hypothesis is supported. Source selection remains manual; automatic contextual investigation from a rough prompt is unimplemented. Neither news analysis nor daily synthesis requires separate thesis-progression and prospective-entry assessments.
+```sh
+.venv/bin/python tools/desk_cli.py compile --thesis-id THESIS_UUID --evidence-context EVIDENCE_CONTEXT_UUID --driver-review
+.venv/bin/python tools/review_news.py --thesis-id THESIS_UUID --driver-review
+.venv/bin/python tools/review_morning.py --review-id REVIEW_UUID --driver-review
+```
 
-Captured-news model analysis also has no live publication/current-pointer authority. The immediate material-driver route remains an implementation gate, independently of retained daily publication. [News analysis](NEWS_ANALYSIS.md), [morning synthesis](MORNING_SYNTHESIS.md) and the [weekly test](WEEKLY_WORKFLOW_TEST.md) must continue to report that limitation honestly.
+These commands perform their existing separately initiated model requests. Research compilation needs a draft and selected evidence; news review needs an approved thesis; morning synthesis needs a retained daily review. Research proposals alone change none of those prerequisites or authorities. No command automatically adopts a proposed driver.
+
+For a watch, preview its new news configuration with `manage.py desk_watch --owner OWNER_UUID --thesis-id THESIS_UUID --preview --cumulative --driver-review`, then enroll the complete explicitly reviewed configuration. Morning synthesis separately pins `model_configuration(provider, driver_review=True)` from `macro_agent.desk.synthesis`. Existing watches stay on their saved profiles.
+
+The shared `driver_assessment` contains complete `approved_drivers`, separate `other_drivers`, `progression`, `price_observation`, `entry_assessment` and `attention`. Other drivers remain agent hypotheses and require current source-claim references. A material-review recommendation requires current attributed evidence. Generic relevance routes and cumulative comparisons remain separately visible. Current inputs contain no verified market-price history, so price status is `unavailable` and entry status is `not_assessed`, with nonempty gaps.
+
+Opt-in admissions pin new schema/prompt versions and context before inference. Saved-command reads recover that exact profile without keys, catalogue calls or paid retries. Source corrections, permission changes and governing inputs keep their existing protected comparisons. Old schemas and omitted-flag command hashes remain valid.
+
+## Remaining implementation gaps
+
+The profile requires explicit driver reviews and separates progression from unavailable entry analysis. It validates structure, exact driver identity and eligible references. It cannot prove that a cited passage supports a conclusion, that the model found the most important driver or that a reported event caused a price move. Supervised live evaluation remains necessary.
+
+Source selection remains manual. Automatic contextual investigation from a rough prompt, source-fit checks and verified price/provenance inputs remain unimplemented. Broad research capability does not establish broad monitoring coverage.
+
+Captured-news model analysis has no live publication/current-pointer authority. The immediate material-driver route remains an implementation gate, independently of retained daily publication. [News analysis](NEWS_ANALYSIS.md), [morning synthesis](MORNING_SYNTHESIS.md) and the [weekly test](WEEKLY_WORKFLOW_TEST.md) must continue to report that limitation honestly.

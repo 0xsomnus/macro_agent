@@ -10,6 +10,8 @@ The compiler can read your thesis text and saved answers alone, or an explicitly
 
 The next internal test targets a week of durable paper workflow with a narrow live feed and headline-level analysis. [The test plan](docs/WEEKLY_WORKFLOW_TEST.md) distinguishes that goal from the broader desk roadmap and records the remaining compilation, context continuity, source and daily-brief work.
 
+Research is broader than the pilot instrument list. A rough question can explore an unfamiliar commodity, affected businesses and possible exposure routes without requesting monitoring or creating a position. The optional [driver-review profile](docs/DRIVER_REVIEW.md#try-the-implemented-profile) adds evidence-linked proposed drivers and exposure candidates to sourced compilation. News and morning reviews can separately reassess each approved explanation, thesis progression and missing entry context. Source selection is still manual, instrument availability remains unverified, and immediate live driver-change alerts remain outstanding.
+
 The first [research pack](research/ai-infrastructure/2026-10-09/README.md) examines AI infrastructure beneficiaries, copper CFDs and semiconductor stock perps. It separates sourced observations from candidate hypotheses and unknown entry valuation. Daily reviews and cumulative model admissions retain evidence, original analyses, exact approved inputs and predecessor context in PostgreSQL. Daily review assembly makes no new model call. Cumulative analysis and optional morning synthesis share the private-model allowance and expose missing context explicitly.
 
 ## Set up locally

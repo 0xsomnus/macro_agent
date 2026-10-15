@@ -50,8 +50,12 @@ def configuration(value):
     if "daily_synthesis" in value:
         from macro_agent.desk.synthesis import model_configuration as synthesis_configuration
         selected = value["daily_synthesis"]
+        from macro_agent.domain.daily_synthesis import DRIVER_SCHEMA_VERSION
+        driver_review = (type(selected) is dict
+            and type(selected.get("model_configuration")) is dict
+            and selected["model_configuration"].get("schema_version") == DRIVER_SCHEMA_VERSION)
         if (type(selected) is not dict or set(selected) != {"model_configuration"}
-                or canonical_json(selected["model_configuration"]) != canonical_json(synthesis_configuration(value["provider"]))):
+                or canonical_json(selected["model_configuration"]) != canonical_json(synthesis_configuration(value["provider"], driver_review=driver_review))):
             raise ValueError("daily_synthesis requires its exact reviewed model configuration and daily publication")
     _uuid(value["approval_id"], "approval_id")
     require_digest(value["exposure_digest"], "exposure_digest")
@@ -75,8 +79,8 @@ def configuration(value):
     context = value["model_configuration"].get("context")
     if context not in ("one_retained_report_and_approved_paper_book", "complete_retained_context"):
         raise ValueError("model context mode must be explicitly reviewed")
-    expected = (model_configuration(value["provider"], cumulative=True)
-        if context == "complete_retained_context" else model_configuration(value["provider"]))
+    expected = model_configuration(value["provider"], cumulative=context == "complete_retained_context",
+        driver_review=value["model_configuration"].get("driver_review", False))
     if set(value["model_configuration"]) != set(expected) or value["model_configuration"] != expected:
         raise ValueError("model configuration must exactly match the current safe server configuration")
     for name in ("capture_interval_seconds", "analysis_interval_seconds", "lease_seconds", "daily_backlog_limit"):

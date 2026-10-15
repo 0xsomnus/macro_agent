@@ -133,6 +133,8 @@ def render_analysis(analysis, say):
         say(quoted(hypothesis))
     for question in document["trader_questions"]:
         say("Trader question: " + quoted(question))
+    if "driver_assessment" in document:
+        say("Driver reassessment, model interpretation: " + quoted(document["driver_assessment"]))
     say("A scoped not_identified result leaves monitoring unresolved. This review does not publish an alert.")
 
 
@@ -189,7 +191,7 @@ def recover_one(client, thesis_id, command_id, journal, *, ask=input,
 
 
 def review_one(client, thesis_id, journal, *, requested_source=None, requested_model=None,
-               ask=input, secret=getpass.getpass, say=print):
+               driver_review=False, ask=input, secret=getpass.getpass, say=print):
     thesis_id = _id(thesis_id)
     username = required("Username: ", ask, say)
     password = secret("Password: ")
@@ -216,6 +218,8 @@ def review_one(client, thesis_id, journal, *, requested_source=None, requested_m
             return None
         command = {"command_id": str(uuid4()), "expected_approval_id": preview["approval_id"],
             "expected_exposure_digest": preview["exposure_digest"], "source_id": source_id, **selection}
+        if driver_review:
+            command["driver_review"] = True
         path = f"/api/v1/theses/{thesis_id}/analyse-next/"
         journal.append("analysis_requested", {"thesis_id": thesis_id, "path": path, "request": command})
         try:
@@ -227,6 +231,9 @@ def review_one(client, thesis_id, journal, *, requested_source=None, requested_m
                 + ". The request identity is saved in your journal; its outcome and cost may be unknown. "
                 "Inspect backend history before another request. No retry was made.") from None
         journal.append("analysis_response", result)
+        if (driver_review and result["analysis"]["context"] is not None
+                and result["analysis"]["context"].get("driver_review") is not True):
+            raise WalkthroughError("The analysis receipt changed the requested driver-review profile.")
         state = _available_result(result, preview, selection, source_id)
         render_analysis(result["analysis"], say)
         if state != "analysed":
@@ -267,6 +274,7 @@ def parser():
     result.add_argument("--url", type=local_url, default="http://127.0.0.1:8000")
     result.add_argument("--output", type=Path, help="New private JSONL journal; defaults to ignored .local/")
     result.add_argument("--recover-command", help="Read a saved command UUID without another model request")
+    result.add_argument("--driver-review", action="store_true")
     return result
 
 
@@ -276,7 +284,7 @@ def main(argv=None):
     try:
         thesis_id = _id(args.thesis_id)
         command_id = _id(args.recover_command) if args.recover_command else None
-        if command_id is not None and (args.source is not None or args.model is not None):
+        if command_id is not None and (args.source is not None or args.model is not None or args.driver_review):
             raise WalkthroughError("Recovery reads the saved command only; omit --source and --model.")
         path = args.output
         if path is None:
@@ -291,7 +299,8 @@ def main(argv=None):
             recover_one(DeskClient(args.url), thesis_id, command_id, journal)
         else:
             review_one(DeskClient(args.url, timeout=90), thesis_id, journal,
-                       requested_source=args.source, requested_model=args.model)
+                       requested_source=args.source, requested_model=args.model,
+                       driver_review=args.driver_review)
         return 0
     except (EOFError, KeyboardInterrupt):
         print("\nStopped. Completed journal steps remain saved; no automatic retry was made.", file=sys.stderr)

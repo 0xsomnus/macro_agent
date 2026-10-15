@@ -69,6 +69,13 @@ class StrictIntegerField(serializers.IntegerField):
         return super().to_internal_value(data)
 
 
+class StrictBooleanField(serializers.BooleanField):
+    def to_internal_value(self, data):
+        if type(data) is not bool:
+            raise serializers.ValidationError("A boolean is required.")
+        return data
+
+
 class StrictListField(serializers.ListField):
     def to_internal_value(self, data):
         if type(data) is not list:

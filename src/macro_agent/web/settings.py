@@ -118,5 +118,10 @@ SPECTACULAR_SETTINGS = {
         "ModelProviderEnum": ["nanogpt", "openrouter", "cheaperinference"],
         "PositionStatusEnum": ["open", "closed"],
         "DailyPublicationStatusEnum": ["current", "superseded"],
+        "ExplanatorySupportEnum": ["supports", "challenges", "mixed", "unresolved"],
+        "ThesisProgressionEnum": ["progressing", "not_progressing", "mixed", "unresolved"],
+        "DriverAttentionEnum": ["review_recommended", "not_identified"],
+        "EntryAssessmentStatusEnum": ["not_assessed"],
+        "ExposureAvailabilityEnum": ["unverified"],
     },
 }

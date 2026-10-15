@@ -58,6 +58,29 @@ class CompilationHypothesisSerializer(StrictSerializer):
     )
 
 
+class ProposedDriverSerializer(StrictSerializer):
+    driver_id = StrictStringField(max_length=128)
+    explanation = StrictStringField(max_length=2000)
+    transmission = StrictStringField(max_length=2000)
+    supporting_claim_ids = StrictListField(child=StrictStringField(max_length=128), max_length=32)
+    counter_claim_ids = StrictListField(child=StrictStringField(max_length=128), max_length=32)
+    assumptions = StrictListField(child=StrictStringField(max_length=1000), max_length=32)
+    uncertainty = StrictStringField(max_length=2000)
+    why_material = StrictStringField(max_length=2000)
+
+
+class ExposureCandidateSerializer(StrictSerializer):
+    candidate_id = StrictStringField(max_length=128)
+    asset = StrictStringField(max_length=1000)
+    expression = StrictStringField(max_length=1000)
+    relationship = StrictStringField(max_length=2000)
+    claim_ids = StrictListField(child=StrictStringField(max_length=128), min_length=1, max_length=32)
+    basis_risks = StrictListField(child=StrictStringField(max_length=1000), min_length=1, max_length=32)
+    verification_questions = StrictListField(child=StrictStringField(max_length=1000), min_length=1, max_length=32)
+    uncertainty = StrictStringField(max_length=2000)
+    availability = serializers.ChoiceField(choices=["unverified"])
+
+
 class ReviewExtractedItemSerializer(StrictSerializer):
     text = StrictStringField(max_length=1000)
     input_id = StrictStringField(max_length=100)
@@ -95,6 +118,12 @@ class CompilationDocumentSerializer(StrictSerializer):
         "Model-identified conflicts between quoted user premises and quoted source claims. Not adjudicated fact errors."
     ))
     evidence_assessment = EvidenceAssessmentSerializer(required=False)
+    proposed_drivers = ProposedDriverSerializer(many=True, max_length=32, required=False, help_text=(
+        "Evidence-qualified agent hypotheses, distinct from extracted trader intent."
+    ))
+    exposure_candidates = ExposureCandidateSerializer(many=True, max_length=32, required=False, help_text=(
+        "Exploratory exposure routes, with unverified instrument availability and explicit basis risks. Starts no monitoring."
+    ))
 
 
 class ReviewInputSerializer(StrictSerializer):
@@ -124,7 +153,7 @@ class ReviewEvidenceSerializer(StrictSerializer):
 
 
 class PinnedReviewCardSerializer(StrictSerializer):
-    schema_version = serializers.ChoiceField(choices=["thesis-review-card-v1", "thesis-review-card-v2"])
+    schema_version = serializers.ChoiceField(choices=["thesis-review-card-v1", "thesis-review-card-v2", "thesis-review-card-v3"])
     inputs = ReviewInputSerializer(many=True)
     document = CompilationDocumentSerializer()
     evidence = ReviewEvidenceSerializer()

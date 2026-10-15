@@ -335,6 +335,10 @@ def render_compilation(compilation, say):
         say("Attributed source claims, quotations establish attribution rather than truth:")
         say(quoted(document.get("attributed_claims", [])))
         say("Source-based assessment, a model interpretation: " + quoted(document.get("evidence_assessment")))
+        if "proposed_drivers" in document:
+            say("Proposed drivers, evidence-qualified agent hypotheses: " + quoted(document["proposed_drivers"]))
+            say("Exploratory exposure candidates, availability unverified: " + quoted(document["exposure_candidates"]))
+            say("These research candidates do not start monitoring or create positions.")
     say("Grounding in your supplied text, without independent verification:")
     grounding = document.get("grounding", [])
     if not grounding:
@@ -389,6 +393,15 @@ def render_review_card(card, say):
             say("  Unresolved: " + quoted(section["gap"]))
 
 
+def _source_compiler(compilation):
+    from macro_agent.domain import research_compilation, sourced_compilation
+    schema = compilation.get("schema_version", sourced_compilation.SOURCED_SCHEMA_VERSION)
+    for compiler in (sourced_compilation, research_compilation):
+        if schema == compiler.SOURCED_SCHEMA_VERSION:
+            return compiler
+    raise WalkthroughError("Unsupported saved source-compilation profile. No retry or approval was made.")
+
+
 def _checked_current_compilation(result, thesis_id, exact_text, selection):
     from macro_agent.domain.compilation import build_review_card, parse_compilation
     compilation, thesis = result["compilation"], result["thesis"]
@@ -402,13 +415,13 @@ def _checked_current_compilation(result, thesis_id, exact_text, selection):
         return False
     inputs = compilation.get("refinement_inputs", [])
     if compilation.get("evidence_context") is not None:
-        from macro_agent.domain import sourced_compilation
+        source_compiler = _source_compiler(compilation)
         evidence = compilation["evidence_context"]["content"]
         if compilation.get("evidence_disposition", {}).get("status") != "current":
             return False
-        document = sourced_compilation.parse_compilation(quoted(compilation["document"]), exact_text,
+        document = source_compiler.parse_compilation(quoted(compilation["document"]), exact_text,
             evidence, refinement_inputs=inputs)
-        card = sourced_compilation.build_review_card(document, exact_text, evidence, refinement_inputs=inputs)
+        card = source_compiler.build_review_card(document, exact_text, evidence, refinement_inputs=inputs)
     else:
         document = parse_compilation(quoted(compilation["document"]), exact_text, refinement_inputs=inputs)
         card = build_review_card(document, exact_text, refinement_inputs=inputs)
@@ -444,7 +457,8 @@ def _refinement_answers(issues, ask, say):
 
 
 def compiled_review(client, thesis, *, selection, trace, ask, say, journal,
-                    initial_refinement_id=None, initial_refinement_inputs=(), evidence_context_id=None):
+                    initial_refinement_id=None, initial_refinement_inputs=(), evidence_context_id=None,
+                    driver_review=False):
     thesis_id = _id(thesis["id"])
     exact_text = thesis["draft"]["text_version"]["exact_text"]
     trace["compilations"] = []
@@ -459,9 +473,13 @@ def compiled_review(client, thesis, *, selection, trace, ask, say, journal,
             command["refinement_id"] = refinement_id
         if evidence_context_id is not None:
             command["evidence_context_id"] = evidence_context_id
+        if driver_review:
+            command["driver_review"] = True
         result = _journalled_request(client, "compile", thesis_id, command, exact_text, journal, say)
         trace["compilations"].append(result)
         compilation = result["compilation"]
+        if driver_review and compilation.get("schema_version") != "source-backed-thesis-compilation-v2":
+            raise WalkthroughError("The compilation changed the requested driver-review profile. No approval was made.")
         if evidence_context_id is not None and compilation.get("evidence_context", {}).get("id") != evidence_context_id:
             raise WalkthroughError("The compilation changed the selected evidence packet. No approval was made.")
         if (compilation.get("refinement_inputs", []) != expected_inputs
@@ -686,11 +704,13 @@ def approve_reviewed_thesis(client, thesis):
 
 
 def compile_existing(client, thesis_id, *, refinement_id=None, model_id=None, journal=None,
-                     evidence_context_id=None, ask=input, secret=getpass.getpass, say=print):
+                     evidence_context_id=None, driver_review=False, ask=input, secret=getpass.getpass, say=print):
     """Explicit continuation of a retained draft, separate from read-only recovery."""
     thesis_id = _id(thesis_id)
     refinement_id = _id(refinement_id) if refinement_id is not None else None
     evidence_context_id = _id(evidence_context_id) if evidence_context_id is not None else None
+    if driver_review and evidence_context_id is None:
+        raise WalkthroughError("Use --evidence-context with --driver-review to supply retained research evidence.")
     owns_journal = journal is None
     if owns_journal:
         journal = new_command_journal()
@@ -750,7 +770,7 @@ def compile_existing(client, thesis_id, *, refinement_id=None, model_id=None, jo
             return trace
         reviewed = compiled_review(client, thesis, selection=selection, trace=trace, ask=ask,
             say=say, journal=journal, initial_refinement_id=refinement_id, initial_refinement_inputs=inputs,
-            evidence_context_id=evidence_context_id)
+            evidence_context_id=evidence_context_id, driver_review=driver_review)
         if reviewed is not None:
             trace["approval"] = approve_reviewed_thesis(client, reviewed)
             say("The exact text and reviewed interpretation are approved. No paper position or example news was created.")
@@ -833,8 +853,7 @@ def recover_command(client, target, *, ask=input, secret=getpass.getpass, say=pr
                 raise WalkthroughError("The saved original input differs from this journal. No retry was made.")
             if compilation.get("document") is not None:
                 if compilation.get("evidence_context") is not None:
-                    from macro_agent.domain import sourced_compilation
-                    sourced_compilation.parse_compilation(quoted(compilation["document"]), original,
+                    _source_compiler(compilation).parse_compilation(quoted(compilation["document"]), original,
                         compilation["evidence_context"]["content"], refinement_inputs=compilation.get("refinement_inputs", []))
                 else:
                     from macro_agent.domain.compilation import parse_compilation, SCHEMA_VERSION
@@ -888,6 +907,7 @@ def parser():
     retained.add_argument("--thesis-id", required=True)
     retained.add_argument("--refinement-id", help="Explicit saved answer submission to include after restart")
     retained.add_argument("--evidence-context", help="Explicit immutable retained-source packet UUID")
+    retained.add_argument("--driver-review", action="store_true", help="Evidence-linked proposed drivers and exploratory exposures; requires --evidence-context")
     retained.add_argument("--model", help="Explicit model ID from the current fetched catalogue")
     retained.add_argument("--journal", type=Path, help="New private durable command journal")
     retained.add_argument("--output", type=Path, help="Optional new private final trace filename")
@@ -920,7 +940,8 @@ def main(argv=None):
                 raise WalkthroughError("Choose a new trace filename in an existing directory.")
             journal = new_command_journal(args.journal)
             trace = compile_existing(DeskClient(args.url), thesis_id, refinement_id=refinement_id,
-                evidence_context_id=args.evidence_context, model_id=args.model, journal=journal)
+                evidence_context_id=args.evidence_context, driver_review=args.driver_review,
+                model_id=args.model, journal=journal)
             if args.output:
                 write_trace(args.output, trace)
             return 0

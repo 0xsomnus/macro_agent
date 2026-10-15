@@ -12,7 +12,8 @@ from django.db import transaction
 from django.utils import timezone
 
 from macro_agent.domain.daily_synthesis import (
-    LIMITATIONS, MAX_CONTEXT_BYTES, PROMPT_VERSION, SCHEMA_VERSION,
+    DRIVER_PROMPT_VERSION, DRIVER_SCHEMA_VERSION, LIMITATIONS, MAX_CONTEXT_BYTES,
+    PROMPT_VERSION, SCHEMA_VERSION,
     build_synthesis_prompt, validate_synthesis_document,
 )
 from macro_agent.domain.models import canonical_json, require_digest, text_digest
@@ -32,15 +33,19 @@ def gate():
     compilation._gate()
 
 
-def model_configuration(provider_id):
+def model_configuration(provider_id, *, driver_review=False):
+    if type(driver_review) is not bool:
+        raise ValueError("driver_review requires an explicit boolean")
     configuration = compilation._configuration(provider_id)
-    configuration.update(prompt_version=PROMPT_VERSION, schema_version=SCHEMA_VERSION,
+    configuration.update(
+        prompt_version=DRIVER_PROMPT_VERSION if driver_review else PROMPT_VERSION,
+        schema_version=DRIVER_SCHEMA_VERSION if driver_review else SCHEMA_VERSION,
         cost_category="private_investigation", context="exact_retained_daily_review",
         max_context_bytes=MAX_CONTEXT_BYTES)
     return configuration
 
 
-def _context(review):
+def _context(review, *, driver_review=False):
     heads = {}
     for report_id, head_id in review.context.evidence.revisions.values_list(
             "revision__report_id", "head_at_preparation_id"):
@@ -51,6 +56,8 @@ def _context(review):
     value = {"review_id": str(review.pk), "review_digest": review.digest,
         "review": review.content, "original_inputs": review.context.resolved_inputs,
         "report_heads": heads}
+    if driver_review:
+        value["driver_review"] = True
     build_synthesis_prompt(value)
     return value
 
@@ -64,7 +71,10 @@ def _stale(review, thesis, at):
 
 def _response(attempt, thesis, at, *, replayed=False):
     result = DailySynthesisResult.objects.filter(attempt=attempt).first()
-    context = _context(attempt.review)
+    versions = (attempt.configuration.get("schema_version"), attempt.configuration.get("prompt_version"))
+    if versions not in ((SCHEMA_VERSION, PROMPT_VERSION), (DRIVER_SCHEMA_VERSION, DRIVER_PROMPT_VERSION)):
+        raise theses.ThesisConflict("Retained synthesis configuration has an unsupported exact profile")
+    context = _context(attempt.review, driver_review=versions[0] == DRIVER_SCHEMA_VERSION)
     if (attempt.review_digest != attempt.review.digest or attempt.context != context
             or attempt.context_digest != text_digest(canonical_json(context))):
         raise theses.ThesisConflict("Retained synthesis admission failed integrity verification")
@@ -139,7 +149,8 @@ def _existing(actor_id, command_id, digest):
 
 
 def synthesize_review(actor_id, review_id, command_id, expected_review_digest, model_id,
-                      provider_id, *, provider=None, clock=timezone.now, slot_token=None):
+                      provider_id, *, provider=None, clock=timezone.now, slot_token=None,
+                      driver_review=False):
     gate()
     service.outermost()
     for field, value in (("review_id", review_id), ("command_id", command_id)):
@@ -149,8 +160,13 @@ def synthesize_review(actor_id, review_id, command_id, expected_review_digest, m
         raise ValueError("Choose an explicit configured provider")
     if not is_explicit_model_id(model_id):
         raise ValueError("Choose an explicit catalogue model without tools or routing")
-    digest = text_digest(canonical_json({"review_id": review_id,
-        "review_digest": expected_review_digest, "model_id": model_id, "provider_id": provider_id}))
+    if type(driver_review) is not bool:
+        raise ValueError("driver_review requires an explicit boolean")
+    request = {"review_id": review_id,
+        "review_digest": expected_review_digest, "model_id": model_id, "provider_id": provider_id}
+    if driver_review:
+        request["driver_review"] = True
+    digest = text_digest(canonical_json(request))
     # Saved identities are inspected before catalogue, keys or fresh admission.
     with transaction.atomic():
         _read_snapshot()
@@ -165,11 +181,11 @@ def synthesize_review(actor_id, review_id, command_id, expected_review_digest, m
         at = as_utc(clock())
         if _stale(review, thesis, at):
             raise theses.ThesisConflict("Review is stale; retain the digest and prepare a later reviewed interval")
-        _context(review)
+        _context(review, driver_review=driver_review)
         source_ids = service._source_ids([item["source_id"] for item in review.context.evidence.source_manifest])
     if settings.MACRO_MODEL_PROVIDER != provider_id:
         raise theses.ThesisConflict("Provider changed; refresh the model catalogue")
-    configuration = model_configuration(provider_id)
+    configuration = model_configuration(provider_id, driver_review=driver_review)
     if not settings.MACRO_MODEL_API_KEY:
         raise compilation.CompilationUnavailable("Configure provider credentials in the backend environment")
     try:
@@ -212,7 +228,7 @@ def synthesize_review(actor_id, review_id, command_id, expected_review_digest, m
             raise theses.ThesisConflict("Review changed before synthesis admission")
         if not capacity_available(actor_id, at, configuration):
             raise compilation.CompilationBudgetExhausted("Shared private-model admission limit reached")
-        context = _context(review)
+        context = _context(review, driver_review=driver_review)
         messages = build_synthesis_prompt(context)
         attempt = DailySynthesisAttempt.objects.create(owner_id=actor_id, thesis=thesis, review=review,
             command_id=command_id, request_digest=digest, review_digest=review.digest,

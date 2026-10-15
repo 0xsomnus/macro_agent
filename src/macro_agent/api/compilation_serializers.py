@@ -1,6 +1,7 @@
 """Explicit internal compilation requests and generated response descriptions."""
 
 from rest_framework import serializers
+from .strict import StrictBooleanField
 
 from .compilation_content_serializers import (CompilationDocumentSerializer, RefinementInputSerializer,
     RefinementAnswerSerializer)
@@ -18,6 +19,9 @@ class CompileThesisRequestSerializer(StrictSerializer):
     command_id = StrictUUIDField()
     refinement_id = StrictUUIDField(required=False, allow_null=True)
     evidence_context_id = StrictUUIDField(required=False, allow_null=True)
+    driver_review = StrictBooleanField(required=False, help_text=(
+        "Opt into evidence-linked driver proposals and exploratory exposure candidates. Requires a retained source packet; starts no monitoring."
+    ))
     expected_revision = StrictIntegerField(min_value=1, max_value=2**63 - 1)
     provider_id = serializers.ChoiceField(choices=PROVIDERS, help_text=(
         "Provider identity shown by the catalogue, pinned against backend configuration."

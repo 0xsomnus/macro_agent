@@ -24,6 +24,8 @@ Repeat `--revision-id` for more reports. Inspect the returned exact packet, sour
 .venv/bin/python tools/desk_cli.py compile --thesis-id THESIS_UUID --evidence-context EVIDENCE_CONTEXT_UUID
 ```
 
+Add `--driver-review` for individually evidence-linked proposed drivers and exploratory exposure candidates. Research is not restricted to the pilot instruments. Each proposed driver records transmission, support/counter claim IDs, assumptions, uncertainty and why it could matter. Each exposure candidate records its relationship, basis risks and verification questions; instrument availability stays `unverified`. An importer can be hurt by rising input costs, so a related equity is not automatically a beneficiary or equivalent commodity exposure. This request starts no monitoring or paper position.
+
 Choose a model from the configured provider's catalogue and confirm the request. Inspect model-identified factual conflicts before its assessment. Extracted intent must still quote your own text or saved answers; source passages cannot stand in for your intent. Refinement and exact approval use the existing terminal flow. The full sourced review card is included in the interpretation hash.
 
 The initial manual flow needs no model call. A single-screen research onboarding flow remains future work. Each displayed factual conflict also has a matching retained refinement question, so you can answer it before explicitly recompiling.
@@ -51,10 +53,12 @@ The strict session/CSRF endpoints are:
 - `POST /api/v1/theses/{thesis_id}/evidence/`, exactly `command_id` and `revision_ids`.
 - `GET /api/v1/theses/{thesis_id}/evidence/{context_id}/`.
 - `GET /api/v1/theses/{thesis_id}/evidence-commands/{command_id}/`.
-- Existing `POST /api/v1/theses/{thesis_id}/compile/`, with optional `evidence_context_id`.
+- Existing `POST /api/v1/theses/{thesis_id}/compile/`, with optional `evidence_context_id` and strict boolean `driver_review`. The latter requires retained evidence when true.
 
 Legacy text-only requests retain their card version and hashes. New sourced cards use `thesis-review-card-v2`; factual conflicts remain `model_identified`, never verified corrections. Costs, unknown outcomes and explicit paid retries follow [compilation](THESIS_COMPILATION.md).
 
+The opted-in profile uses `source-backed-thesis-compilation-v2`, prompt v2 and `thesis-review-card-v3`. It requires `proposed_drivers` and `exposure_candidates`, including empty arrays when evidence is insufficient. The old unlinked `agent_hypotheses` array must be empty in this profile. Proposals do not enter extracted intent merely because the card is approved. Incorporation requires exact trader input and another explicit approval. Omitting the flag preserves the previous request identity and card format; a saved command cannot switch profiles.
+
 ## Remaining rough-thesis research gap
 
-The accepted interaction is to propose evidence-qualified omitted drivers, explain why they matter and then ask consequential questions, as described in [the thesis engine](THESIS_ENGINE.md#collaborative-refinement-of-rough-theses). Today's compiler can use a manually selected packet and labelled hypotheses, but it does not independently investigate a rough prompt. Evidence references are packet-wide; individual proposed drivers do not yet require explicit support/counter references. Compilation acceptance therefore does not prove the contextual research capability or the separate progression/entry assessment required by [driver review](DRIVER_REVIEW.md).
+The accepted interaction is to propose evidence-qualified omitted drivers, explain why they matter and then ask consequential questions, as described in [the thesis engine](THESIS_ENGINE.md#collaborative-refinement-of-rough-theses). The opted-in compiler now requires evidence references on each proposed driver, but it does not independently investigate a rough prompt. Automatic contextual source selection and bounded investigation remain unimplemented. A structurally valid citation proves attribution, not that the claim supports the proposed mechanism. Recorded tests do not establish research quality or instrument availability.

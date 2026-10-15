@@ -12,6 +12,8 @@ Complete [model setup](THESIS_COMPILATION.md), enable the continuous desk and mo
 .venv/bin/python tools/review_morning.py --review-id REVIEW_UUID
 ```
 
+Add `--driver-review` for explicit reassessment of every exact approved driver. Premise and mechanism support are separate, with evidence-linked competing/amplifying/offsetting hypotheses and a distinct thesis-progression assessment. Verified price observations remain unavailable and prospective entry remains `not_assessed` in this profile. It cannot infer causal correctness from direction or invent an entry plan. See [driver review](DRIVER_REVIEW.md).
+
 The terminal displays the exact review before model selection. Choose a catalogue model and type `synthesise` to initiate one call. It writes a private journal and prints the command UUID before transmission. Review the source quotations, thesis/trade effects, uncertainty and counter-case. Price, consensus, venue mapping and current macro context remain explicit gaps unless present in the retained inputs.
 
 Recover after interruption with a read-only lookup:
@@ -31,11 +33,13 @@ from macro_agent.desk.synthesis import model_configuration
 # Add these fields to the complete, explicitly reviewed watch configuration.
 watch_configuration["daily_publication"] = {"fanout_limit": reviewed_fanout_limit}
 watch_configuration["daily_synthesis"] = {
-    "model_configuration": model_configuration(watch_configuration["provider"])
+    "model_configuration": model_configuration(watch_configuration["provider"], driver_review=True)
 }
 ```
 
 Provider and model come from that watch's explicitly selected catalogue entry. Review the returned limits before versioned enrollment. An empty option or changed configuration is rejected. No implicit activation or model selection occurs.
+
+The example opts into `driver-reviewed-daily-synthesis-v1`. Omit `driver_review=True` to retain the original synthesis profile. The exact schema/prompt pair pins the profile; its immutable context saves `driver_review: true`. Omission preserves old request hashes. Recovery uses the saved profile.
 
 The daily worker saves and publishes the digest first, then uses the same fixed daily command identity for synthesis. Admission checks the live scheduler fence under protection. An expired/replaced lease cannot admit a fresh paid call. Recovery reads an existing attempt before catalogue, credentials or fresh admission. A failed or unknown result never triggers an automatic second call. Preflight failure retains a labelled digest fallback and completes that daily slot; the next day's slot is independent.
 
@@ -55,7 +59,7 @@ The model context is limited to 65,536 encoded bytes and output to 131,072 bytes
 
 All endpoints use authenticated owner scope. Writes require CSRF and strict JSON.
 
-- `POST /api/v1/daily-reviews/{review_id}/synthesise/`, exactly `command_id`, `expected_review_digest`, `provider_id`, `model_id`.
+- `POST /api/v1/daily-reviews/{review_id}/synthesise/`, `command_id`, `expected_review_digest`, `provider_id`, `model_id`, and optional strict boolean `driver_review`.
 - `GET /api/v1/daily-reviews/{review_id}/synthesis-commands/{command_id}/`.
 - `GET /api/v1/daily-syntheses/{synthesis_id}/`.
 
@@ -63,6 +67,6 @@ Original outcomes are `synthesised`, `stale`, `failed`, or `outcome_unknown`; an
 
 Recorded providers test mechanics and recovery, not live reasoning quality, source rights, external delivery or production readiness. The [weekly test](WEEKLY_WORKFLOW_TEST.md) still needs a reviewed real thesis, suitable permitted feeds and supervised live operation.
 
-## Driver-review limitation
+## Immediate attention remains outstanding
 
-The [accepted driver-review requirement](DRIVER_REVIEW.md) calls for explicit reassessment of the original explanation, competing mechanisms and amplification separately from observed direction. Current synthesis can discuss these in prose but does not require per-driver review. Material explanation changes must eventually be surfaced promptly rather than held for the next morning merely because direction remains intact. This clarification does not add notification authority to synthesis.
+The opted-in profile implements structured driver reassessment. Its attention recommendation adds no publication or notification authority. Material explanation changes still need an immediate live publication route; a morning assessment alone does not meet that requirement. Verified instrument-price observations and numerical entry assessment also remain outstanding.

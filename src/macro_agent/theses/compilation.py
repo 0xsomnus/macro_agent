@@ -334,7 +334,8 @@ def get_refinement_command(actor_id, thesis_id, command_id):
 
 
 def compile_thesis(actor_id, thesis_id, command_id, expected_revision, model_id, provider_id,
-                   *, refinement_id=None, evidence_context_id=None, provider=None, clock=timezone.now):
+                   *, refinement_id=None, evidence_context_id=None, driver_review=False,
+                   provider=None, clock=timezone.now):
     _gate()
     if connection.in_atomic_block or not connection.get_autocommit():
         raise RuntimeError("compilation requires durable admission outside a caller transaction")
@@ -345,6 +346,10 @@ def compile_thesis(actor_id, thesis_id, command_id, expected_revision, model_id,
         refinement_id = service._uuid(refinement_id, "refinement_id")
     if evidence_context_id is not None:
         evidence_context_id = service._uuid(evidence_context_id, "evidence_context_id")
+    if type(driver_review) is not bool:
+        raise ValueError("driver_review requires an explicit boolean")
+    if driver_review and evidence_context_id is None:
+        raise ValueError("driver review compilation requires retained source evidence")
     if type(provider_id) is not str or provider_id not in PROVIDER_IDS:
         raise ValueError("choose a configured provider")
     if not is_explicit_model_id(model_id):
@@ -356,6 +361,8 @@ def compile_thesis(actor_id, thesis_id, command_id, expected_revision, model_id,
         request["refinement_id"] = refinement_id
     if evidence_context_id is not None:
         request["evidence_context_id"] = evidence_context_id
+    if driver_review:
+        request["driver_review"] = True
     digest = text_digest(canonical_json(request))
     # Ownership and saved-command comparison precede all network work.
     with transaction.atomic():
@@ -376,10 +383,11 @@ def compile_thesis(actor_id, thesis_id, command_id, expected_revision, model_id,
         raise service.ThesisConflict("provider changed; refresh the model catalogue")
     configuration = _configuration(provider_id)
     if context is not None:
-        from macro_agent.domain import sourced_compilation
+        from macro_agent.domain import research_compilation, sourced_compilation
+        source_compiler = research_compilation if driver_review else sourced_compilation
         configuration = {**configuration, "context": "retained_source_evidence",
-            "schema_version": sourced_compilation.SOURCED_SCHEMA_VERSION,
-            "prompt_version": sourced_compilation.PROMPT_VERSION}
+            "schema_version": source_compiler.SOURCED_SCHEMA_VERSION,
+            "prompt_version": source_compiler.PROMPT_VERSION}
     if not settings.MACRO_MODEL_API_KEY:
         raise CompilationUnavailable("configure provider credentials in the backend environment")
     try:
@@ -410,7 +418,7 @@ def compile_thesis(actor_id, thesis_id, command_id, expected_revision, model_id,
             raise service.ThesisConflict("Research evidence changed; prepare and review a fresh context")
         if not capacity_available(actor_id, at, configuration):
             raise CompilationBudgetExhausted("compilation admission limit reached")
-        messages = (sourced_compilation.build_messages(thesis.latest_text.exact_text, context.content,
+        messages = (source_compiler.build_messages(thesis.latest_text.exact_text, context.content,
             refinement_inputs=inputs) if context is not None else
             build_messages(thesis.latest_text.exact_text, refinement_inputs=inputs))
         attempt = CompilationAttempt.objects.create(owner_id=actor_id, thesis=thesis,
@@ -432,7 +440,7 @@ def compile_thesis(actor_id, thesis_id, command_id, expected_revision, model_id,
     metadata, document, status, reason = {}, None, "failed", "invalid_model_output"
     try:
         metadata = adapter.complete(model_id, messages)
-        document = (sourced_compilation.parse_compilation(metadata.pop("content"),
+        document = (source_compiler.parse_compilation(metadata.pop("content"),
             attempt.text_version.exact_text, context.content, refinement_inputs=inputs) if context is not None else
             parse_compilation(metadata.pop("content"), attempt.text_version.exact_text, refinement_inputs=inputs))
         status, reason = "compiled", "completed"
@@ -462,7 +470,7 @@ def compile_thesis(actor_id, thesis_id, command_id, expected_revision, model_id,
             status, reason = "stale", "research_evidence_changed"
         elif status == "compiled":
             meaning = document["interpretation"]
-            card = (sourced_compilation.build_review_card(document, attempt.text_version.exact_text,
+            card = (source_compiler.build_review_card(document, attempt.text_version.exact_text,
                 context.content, refinement_inputs=inputs) if context is not None else
                 build_review_card(document, attempt.text_version.exact_text, refinement_inputs=inputs))
             value = CompiledThesisVersion(str(uuid4()), str(attempt.text_version_id),

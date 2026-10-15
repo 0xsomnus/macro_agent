@@ -138,7 +138,8 @@ def validate_cumulative_context(value: dict, focus: dict) -> tuple[dict, set]:
             raise ValueError("prior analysis document must be an object or null")
         if status in ("analysed", "stale"):
             if document is None or type(document.get("schema_version")) is not str or document.get(
-                    "schema_version") not in ("retained-news-analysis-v1", CUMULATIVE_SCHEMA_VERSION):
+                    "schema_version") not in ("retained-news-analysis-v1", CUMULATIVE_SCHEMA_VERSION,
+                                             "driver-reviewed-news-analysis-v1"):
                 raise ValueError("prior analysed interpretation requires a supported document")
             comparable_ids.add(identity)
         elif status is None and document is not None:

@@ -41,12 +41,14 @@ def render_synthesis(result, say=print):
                              ("counter_case", "Counter-case"),
                              ("watch_questions", "Questions to watch"), ("gaps", "Gaps")):
             say(label + ": " + json.dumps(document[field], ensure_ascii=False, indent=2))
+        if "driver_assessment" in document:
+            say("Driver reassessment, model interpretation: " + json.dumps(document["driver_assessment"], ensure_ascii=False, indent=2))
     say("Retained digest: " + saved["review_id"] + ", digest " + saved["review_digest"])
     say("This is unverified model interpretation. It does not edit your thesis or create a publication or notification.")
 
 
 def review_morning(client, review_id, *, command_id=None, recover=False, requested_model=None,
-                   journal=None, ask=input, secret=getpass.getpass, say=print):
+                   journal=None, driver_review=False, ask=input, secret=getpass.getpass, say=print):
     review_id = _id(review_id)
     command_id = _id(command_id) if command_id else (None if recover else str(uuid4()))
     if recover and command_id is None:
@@ -67,6 +69,8 @@ def review_morning(client, review_id, *, command_id=None, recover=False, request
                 return None
             command = {"command_id": command_id, "expected_review_digest": review["review"]["digest"],
                        "provider_id": selection["provider_id"], "model_id": selection["model_id"]}
+            if driver_review:
+                command["driver_review"] = True
             say("This sends the exact review, approved thesis and complete paper book to the selected provider. A charge may apply.")
             if ask("Type synthesise to make one fresh model request, or Enter to cancel: ").strip().lower() != "synthesise":
                 return None
@@ -86,6 +90,8 @@ def review_morning(client, review_id, *, command_id=None, recover=False, request
                     or result["synthesis"]["model_id"] != selection["model_id"]
                     or result["synthesis"]["review_digest"] != command["expected_review_digest"]):
                 raise WalkthroughError("The synthesis receipt changed the selected provider, model or exact review.")
+            if driver_review and result["synthesis"].get("schema_version") != "driver-reviewed-daily-synthesis-v1":
+                raise WalkthroughError("The synthesis receipt changed the requested driver-review profile.")
         if (_id(result["synthesis"]["command_id"]) != command_id
                 or _id(result["synthesis"]["review_id"]) != review_id):
             raise WalkthroughError("The synthesis receipt belongs to a different request.")
@@ -106,16 +112,17 @@ def main(argv=None):
     parser.add_argument("--recover", action="store_true")
     parser.add_argument("--model")
     parser.add_argument("--journal")
+    parser.add_argument("--driver-review", action="store_true")
     args = parser.parse_args(argv)
     journal = None
     try:
-        if args.recover and (args.model or args.journal):
+        if args.recover and (args.model or args.journal or args.driver_review):
             raise WalkthroughError("Recovery accepts saved IDs only; it cannot select a model or send a new request.")
         if not args.recover:
             journal = new_command_journal(args.journal)
             print("Private journal: " + str(journal.path))
         review_morning(DeskClient(args.url), args.review_id, command_id=args.command_id,
-            recover=args.recover, requested_model=args.model, journal=journal)
+            recover=args.recover, requested_model=args.model, journal=journal, driver_review=args.driver_review)
         return 0
     except (WalkthroughError, ValueError, TypeError, KeyError) as error:
         print(str(error) if isinstance(error, WalkthroughError) else "Invalid synthesis input or server response.", file=sys.stderr)

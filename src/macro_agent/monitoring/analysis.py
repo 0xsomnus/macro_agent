@@ -15,7 +15,8 @@ from django.utils import timezone
 from macro_agent.domain.daily_review import DailyReviewLimits
 from macro_agent.domain.cumulative_news import CUMULATIVE_PROMPT_VERSION, CUMULATIVE_SCHEMA_VERSION
 from macro_agent.domain.models import canonical_json, text_digest
-from macro_agent.domain.news_analysis import PROMPT_VERSION, SCHEMA_VERSION, build_news_prompt, validate_news_document
+from macro_agent.domain.news_analysis import (PROMPT_VERSION, SCHEMA_VERSION, DRIVER_PROMPT_VERSION,
+    DRIVER_SCHEMA_VERSION, build_news_prompt, validate_news_document)
 from macro_agent.domain.time import as_utc
 from macro_agent.persistence.context_binding import _at, book_digest, lock_owner_thesis
 from macro_agent.positions.representation import exposure_book
@@ -37,13 +38,17 @@ class NewsBudgetExhausted(RuntimeError):
     pass
 
 
-def model_configuration(provider_id, *, cumulative=False):
+def model_configuration(provider_id, *, cumulative=False, driver_review=False):
     """Safe configuration shared by watch review and actual news admission."""
+    if type(driver_review) is not bool:
+        raise ValueError("Driver review requires an explicit boolean")
     configuration = compilation._configuration(provider_id)
-    configuration.update(prompt_version=CUMULATIVE_PROMPT_VERSION if cumulative else PROMPT_VERSION,
-        schema_version=CUMULATIVE_SCHEMA_VERSION if cumulative else SCHEMA_VERSION,
+    configuration.update(prompt_version=DRIVER_PROMPT_VERSION if driver_review else CUMULATIVE_PROMPT_VERSION if cumulative else PROMPT_VERSION,
+        schema_version=DRIVER_SCHEMA_VERSION if driver_review else CUMULATIVE_SCHEMA_VERSION if cumulative else SCHEMA_VERSION,
         cost_category="private_investigation",
         context="complete_retained_context" if cumulative else "one_retained_report_and_approved_paper_book")
+    if driver_review:
+        configuration["driver_review"] = True
     return configuration
 
 
@@ -213,10 +218,12 @@ def _cumulative_context(actor_id, thesis, approval, inputs, exposure, sources, r
 
 def analyse_next(actor_id, thesis_id, command_id, expected_approval_id, expected_exposure_digest,
                  source_id, model_id, provider_id, *, provider=None, clock=timezone.now,
-                 context_source_ids=None, context_limits=None):
+                 context_source_ids=None, context_limits=None, driver_review=False):
     gate()
     if connection.in_atomic_block or not connection.get_autocommit():
         raise RuntimeError("News analysis requires durable admission outside a caller transaction")
+    if type(driver_review) is not bool:
+        raise ValueError("Driver review requires an explicit boolean")
     command_id = theses._uuid(command_id, "command_id")
     thesis_id = theses._uuid(thesis_id, "thesis_id")
     expected_approval_id = theses._uuid(expected_approval_id, "expected_approval_id")
@@ -232,6 +239,8 @@ def analyse_next(actor_id, thesis_id, command_id, expected_approval_id, expected
         "exposure_digest": expected_exposure_digest, "source_id": source_id, "provider_id": provider_id, "model_id": model_id}
     if scope is not None:
         request.update(context_source_ids=scope, context_bounds=asdict(context_limits))
+    if driver_review:
+        request["driver_review"] = True
     digest = text_digest(canonical_json(request))
     # Ownership and saved identity precede any source disclosure or network call.
     with readonly_snapshot():
@@ -262,11 +271,13 @@ def analyse_next(actor_id, thesis_id, command_id, expected_approval_id, expected
             at = _at(clock, thesis, resolved=inputs)
             _, context = _cumulative_context(actor_id, thesis, approval, inputs, exposure,
                 sources, revision, context_limits, at, persist=False)
+        if driver_review:
+            context["driver_review"] = True
         build_news_prompt(context)
     if settings.MACRO_MODEL_PROVIDER != provider_id or not settings.MACRO_MODEL_API_KEY:
         raise NewsUnavailable("Configure the selected provider in the backend environment")
     try:
-        configuration = model_configuration(provider_id, cumulative=scope is not None)
+        configuration = model_configuration(provider_id, cumulative=scope is not None, driver_review=driver_review)
         adapter = provider or create_provider(provider_id, settings.MACRO_MODEL_API_KEY,
             timeout_seconds=configuration["timeout_seconds"], max_output_tokens=configuration["max_output_tokens"])
         catalog = adapter.list_models()
@@ -291,6 +302,8 @@ def analyse_next(actor_id, thesis_id, command_id, expected_approval_id, expected
                                _at(clock, thesis, resolved=inputs))
         if scope is None:
             context = build_context(source, revision, inputs)
+            if driver_review:
+                context["driver_review"] = True
             messages = build_news_prompt(context)
         lock_model_budget()
         at = _at(clock, thesis, resolved=inputs)
@@ -302,6 +315,8 @@ def analyse_next(actor_id, thesis_id, command_id, expected_approval_id, expected
         if scope is not None:
             private, context = _cumulative_context(actor_id, thesis, approval, inputs, exposure,
                 sources, revision, context_limits, at, persist=True)
+            if driver_review:
+                context["driver_review"] = True
             messages = build_news_prompt(context)
         attempt = NewsAnalysisAttempt.objects.create(owner_id=actor_id, thesis=thesis, approval=approval,
             source_revision=revision, admission_context=private, exposure_digest=exposure, request_digest=digest, command_id=command_id,

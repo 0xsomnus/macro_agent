@@ -2,6 +2,8 @@
 
 from django.core.validators import RegexValidator
 from rest_framework import serializers
+from .strict import StrictBooleanField
+from .driver_review_serializers import DriverAssessmentSerializer
 
 from .compilation_content_serializers import PinnedReviewCardSerializer
 
@@ -22,6 +24,9 @@ class AnalyseNextRequestSerializer(StrictSerializer):
     source_id = StrictStringField(max_length=128)
     provider_id = serializers.ChoiceField(choices=PROVIDERS)
     model_id = StrictStringField(max_length=255)
+    driver_review = StrictBooleanField(required=False, help_text=(
+        "Require a separate reassessment of each exact approved driver. Adds no notification authority."
+    ))
 
 
 class NewsCatalogSourceSerializer(serializers.Serializer):
@@ -99,6 +104,7 @@ class NewsApprovedThesisSerializer(serializers.Serializer):
 
 
 class NewsAnalysisContextSerializer(serializers.Serializer):
+    driver_review = serializers.BooleanField(required=False)
     source = NewsSourceSnapshotSerializer()
     approved_thesis = NewsApprovedThesisSerializer()
     positions = NewsContextPositionSerializer(many=True)
@@ -149,7 +155,7 @@ class NewsEvidenceComparisonSerializer(StrictSerializer):
 
 
 class NewsDocumentSerializer(StrictSerializer):
-    schema_version = serializers.ChoiceField(choices=["retained-news-analysis-v1", "retained-news-analysis-v2"])
+    schema_version = serializers.ChoiceField(choices=["retained-news-analysis-v1", "retained-news-analysis-v2", "driver-reviewed-news-analysis-v1"])
     attributed_facts = NewsAttributedFactSerializer(many=True)
     thesis_route = NewsThesisRouteSerializer()
     trade_route = NewsTradeRouteSerializer()
@@ -159,6 +165,7 @@ class NewsDocumentSerializer(StrictSerializer):
         "Present only in v2 retained analyses. References eligible prior model interpretations and "
         "this document's source-grounded facts; comparisons confer no canonical-update authority."
     ))
+    driver_assessment = DriverAssessmentSerializer(required=False)
 
 
 class NewsAnalysisSerializer(serializers.Serializer):

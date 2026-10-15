@@ -1,8 +1,9 @@
 """Fresh interpretation contracts, separate from the retained digest authority."""
 
 from rest_framework import serializers
-from .strict import StrictSerializer, StrictUUIDField, StrictStringField, StrictListField
+from .strict import StrictSerializer, StrictUUIDField, StrictStringField, StrictListField, StrictBooleanField
 from .compilation_serializers import CompilationUsageSerializer, PROVIDERS
+from .driver_review_serializers import DriverAssessmentSerializer
 
 
 class SynthesizeReviewSerializer(StrictSerializer):
@@ -10,6 +11,9 @@ class SynthesizeReviewSerializer(StrictSerializer):
     expected_review_digest = StrictStringField(min_length=64, max_length=64)
     provider_id = serializers.ChoiceField(choices=PROVIDERS)
     model_id = StrictStringField(max_length=255)
+    driver_review = StrictBooleanField(required=False, help_text=(
+        "Require approved-driver reassessment alongside the exact retained daily digest."
+    ))
 
 
 class SynthesisClaimSerializer(StrictSerializer):
@@ -40,7 +44,7 @@ class SynthesisTradeEffectSerializer(SynthesisThesisEffectSerializer):
 
 
 class SynthesisDocumentSerializer(StrictSerializer):
-    schema_version = serializers.ChoiceField(choices=["retained-daily-synthesis-v1"])
+    schema_version = serializers.ChoiceField(choices=["retained-daily-synthesis-v1", "driver-reviewed-daily-synthesis-v1"])
     attributed_claims = SynthesisClaimSerializer(many=True, max_length=32)
     overview = SynthesisSectionSerializer()
     thesis_effect = SynthesisThesisEffectSerializer()
@@ -48,9 +52,11 @@ class SynthesisDocumentSerializer(StrictSerializer):
     counter_case = SynthesisSectionSerializer()
     watch_questions = StrictListField(child=StrictStringField(max_length=2000), max_length=32)
     gaps = StrictListField(child=StrictStringField(max_length=2000), max_length=32)
+    driver_assessment = DriverAssessmentSerializer(required=False)
 
 
 class SynthesisContextSerializer(serializers.Serializer):
+    driver_review = serializers.BooleanField(required=False)
     review_id = serializers.UUIDField()
     review_digest = serializers.CharField(min_length=64, max_length=64)
     review = serializers.JSONField(help_text="Exact immutable daily digest, validated by the retained daily-review domain contract.")

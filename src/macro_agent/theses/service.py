@@ -154,6 +154,14 @@ def interpretation_value(item: InterpretationRecord) -> CompiledThesisVersion:
         if item.origin != "model_compilation" or item.compilation_id is None:
             raise ThesisConflict("review card requires immutable compilation provenance")
         attempt = item.compilation
+        source_profiles = {
+            "thesis-review-card-v2": ("source-backed-thesis-compilation-v1", "source-backed-thesis-prompt-v1"),
+            "thesis-review-card-v3": ("source-backed-thesis-compilation-v2", "source-backed-thesis-prompt-v2"),
+        }
+        profile = source_profiles.get(item.review_card["schema_version"])
+        if profile is not None and (attempt.configuration.get("context") != "retained_source_evidence"
+                or (attempt.configuration.get("schema_version"), attempt.configuration.get("prompt_version")) != profile):
+            raise ThesisConflict("review card differs from its pinned compilation profile")
         expected_inputs = attempt.refinement.cumulative_inputs if attempt.refinement_id else []
         from .models import CompilationResult
         result = CompilationResult.objects.filter(attempt=attempt, status="compiled", interpretation=item).first()
@@ -165,7 +173,7 @@ def interpretation_value(item: InterpretationRecord) -> CompiledThesisVersion:
             if item.review_card["evidence"] != {"status": "retained_sources",
                                                 "context": _validated(attempt.evidence_context)}:
                 raise ThesisConflict("review card differs from saved source evidence")
-        elif item.review_card["schema_version"] == "thesis-review-card-v2":
+        elif item.review_card["schema_version"] in ("thesis-review-card-v2", "thesis-review-card-v3"):
             raise ThesisConflict("source-backed review card requires retained evidence provenance")
     return value
 

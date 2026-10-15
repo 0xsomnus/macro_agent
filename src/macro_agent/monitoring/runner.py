@@ -31,7 +31,7 @@ def gate():
         raise PermissionError("Internal continuous desk is disabled")
 
 
-def enrollment_preview(actor_id, thesis_id, *, cumulative=False):
+def enrollment_preview(actor_id, thesis_id, *, cumulative=False, driver_review=False):
     """Inspect existing authority and safe configuration, never fetch a model."""
     gate()
     context = news_context.review_context(actor_id, thesis_id)
@@ -42,8 +42,8 @@ def enrollment_preview(actor_id, thesis_id, *, cumulative=False):
                    for row in SourceState.objects.order_by("id") if news_context.allowed_source(row)]
     return {"thesis": context, "sources": sources,
             "provider": settings.MACRO_MODEL_PROVIDER,
-            "model_configuration": analysis.model_configuration(settings.MACRO_MODEL_PROVIDER, cumulative=True)
-                if cumulative else analysis.model_configuration(settings.MACRO_MODEL_PROVIDER),
+            "model_configuration": analysis.model_configuration(settings.MACRO_MODEL_PROVIDER,
+                cumulative=cumulative, driver_review=driver_review),
             "limitations": ["No model catalogue or inference request was made.",
                             "Timing, bounds and allowances require explicit configuration."]}
 
@@ -123,8 +123,9 @@ def _analysis_slot(lease, provider, clock):
             or current["exposure_digest"] != config["exposure_digest"]):
         return "blocked", {"code": "reviewed_approval_or_exposure_changed", "model_calls": 0}
     cumulative = config["model_configuration"].get("context") == "complete_retained_context"
-    expected_model_configuration = (analysis.model_configuration(config["provider"], cumulative=True)
-        if cumulative else analysis.model_configuration(config["provider"]))
+    driver_review = config["model_configuration"].get("driver_review", False)
+    expected_model_configuration = analysis.model_configuration(config["provider"],
+        cumulative=cumulative, driver_review=driver_review)
     if expected_model_configuration != config["model_configuration"]:
         return "blocked", {"code": "model_configuration_changed", "model_calls": 0}
     if settings.MACRO_MODEL_PROVIDER != config["provider"] or not settings.MACRO_MODEL_API_KEY:
@@ -155,6 +156,7 @@ def _analysis_slot(lease, provider, clock):
         response = analysis.analyse_next(lease["owner_id"], lease["thesis_id"], lease["command_id"],
             request["expected_approval_id"], request["expected_exposure_digest"], request["source_id"],
             request["model_id"], request["provider"], provider=provider, clock=clock,
+            driver_review=driver_review,
             **({"context_source_ids": tuple(source_ids),
                 "context_limits": DailyReviewLimits(**config["context_bounds"])} if cumulative else {}))
     except DatabaseError:
@@ -177,7 +179,9 @@ def _daily_synthesis(lease, review, provider, clock):
     try:
         return synthesis.synthesize_review(lease["owner_id"], review["id"], lease["command_id"],
             review["digest"], lease["configuration"]["model_id"], lease["configuration"]["provider"],
-            provider=provider, clock=clock, slot_token=lease["token"])
+            provider=provider, clock=clock, slot_token=lease["token"],
+            driver_review=lease["configuration"]["daily_synthesis"]["model_configuration"].get("schema_version")
+                == synthesis.DRIVER_SCHEMA_VERSION)
     except DatabaseError:
         raise
     except (ValueError, PermissionError, PermissionDenied, RuntimeError) as error:

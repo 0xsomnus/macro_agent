@@ -13,10 +13,14 @@ from .cumulative_news import (
     COMPARISON_RELATIONSHIPS, CUMULATIVE_PROMPT_VERSION, CUMULATIVE_SCHEMA_VERSION,
     validate_cumulative_context,
 )
+from .driver_review import (driver_assessment_example, driver_assessment_instructions,
+                            validate_driver_assessment)
 
 
 PROMPT_VERSION = "retained-news-analysis-prompt-v2"
 SCHEMA_VERSION = "retained-news-analysis-v1"
+DRIVER_SCHEMA_VERSION = "driver-reviewed-news-analysis-v1"
+DRIVER_PROMPT_VERSION = "driver-reviewed-news-prompt-v1"
 MAX_CONTENT_BYTES = 131_072
 MAX_CONTEXT_BYTES = 65_536
 MAX_ITEMS = 16
@@ -79,6 +83,8 @@ def _context(context):
     """
     if type(context) is not dict or not {"source", "approved_thesis", "positions"} <= set(context):
         raise ValueError("context requires source, approved_thesis and positions")
+    if "driver_review" in context and context["driver_review"] is not True:
+        raise ValueError("driver review context requires explicit true opt-in")
     source = context["source"]
     if type(source) is not dict or not {"revision_id", "title", "content"} <= set(source):
         raise ValueError("source requires retained revision identity and fields")
@@ -133,8 +139,11 @@ def build_news_prompt(context: dict) -> list[dict]:
     """Keep exact retained evidence and private approved state in a data message."""
     _, _, encoded = _context(context)
     cumulative = "cumulative" in context
-    schema_version = CUMULATIVE_SCHEMA_VERSION if cumulative else SCHEMA_VERSION
-    prompt_version = CUMULATIVE_PROMPT_VERSION if cumulative else PROMPT_VERSION
+    driver_review = context.get("driver_review") is True
+    schema_version = (DRIVER_SCHEMA_VERSION if driver_review else
+                      CUMULATIVE_SCHEMA_VERSION if cumulative else SCHEMA_VERSION)
+    prompt_version = (DRIVER_PROMPT_VERSION if driver_review else
+                      CUMULATIVE_PROMPT_VERSION if cumulative else PROMPT_VERSION)
     example = {
         "schema_version": schema_version,
         "attributed_facts": [],
@@ -146,6 +155,9 @@ def build_news_prompt(context: dict) -> list[dict]:
     }
     if cumulative:
         example["evidence_comparisons"] = []
+    if driver_review:
+        example["driver_assessment"] = driver_assessment_example(
+            ["Copy each exact approved driver from the data envelope."])
     instructions = f"""You analyse one selected retained news report against a trader's approved
 thesis and its attached paper declarations, for explicit human review.
 Prompt version: {prompt_version}. Output schema version: {schema_version}.
@@ -263,6 +275,8 @@ The empty arrays in the shape example do not override these required references.
 Comparisons are hypotheses about evidence, not canonical updates or authority.
 The same array and string bounds above apply to comparisons and their references.
 """
+    if driver_review:
+        instructions += driver_assessment_instructions()
     return [{"role": "system", "content": instructions},
             {"role": "user", "content": encoded}]
 
@@ -271,6 +285,7 @@ def validate_news_document(raw: str, context: dict) -> dict:
     """Reject malformed attribution and references; never repair or approve."""
     source, open_ids, _ = _context(context)
     cumulative = "cumulative" in context
+    driver_review = context.get("driver_review") is True
     reports, prior_ids = (validate_cumulative_context(context["cumulative"], source)
                           if cumulative else ({source["revision_id"]: source}, set()))
     _text(raw, "content", MAX_CONTENT_BYTES)
@@ -281,8 +296,11 @@ def validate_news_document(raw: str, context: dict) -> dict:
     except (ValueError, RecursionError, OverflowError):
         raise ValueError("content must be one unambiguous finite JSON object") from None
     fields = DOCUMENT_FIELDS | {"evidence_comparisons"} if cumulative else DOCUMENT_FIELDS
+    if driver_review:
+        fields = fields | {"driver_assessment"}
     _object(document, fields, "analysis")
-    schema_version = CUMULATIVE_SCHEMA_VERSION if cumulative else SCHEMA_VERSION
+    schema_version = (DRIVER_SCHEMA_VERSION if driver_review else
+                      CUMULATIVE_SCHEMA_VERSION if cumulative else SCHEMA_VERSION)
     if type(document["schema_version"]) is not str or document["schema_version"] != schema_version:
         raise ValueError("analysis schema version is unsupported")
     fact_ids = set()
@@ -362,4 +380,7 @@ def validate_news_document(raw: str, context: dict) -> dict:
                 raise ValueError("comparison relationship is unsupported")
             _text(comparison["explanation"], "comparison explanation")
             _text(comparison["uncertainty"], "comparison uncertainty")
+    if driver_review:
+        validate_driver_assessment(document["driver_assessment"], drivers=context["approved_thesis"]["drivers"],
+                                   claim_ids=fact_ids, prior_analysis_ids=prior_ids)
     return document

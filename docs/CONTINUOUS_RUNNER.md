@@ -118,3 +118,11 @@ The worker recovers a saved publication before attempting admission, including a
 A watch with daily publication can additionally pin `daily_synthesis.model_configuration` from the current synthesis service. See [morning synthesis](MORNING_SYNTHESIS.md#enable-on-a-reviewed-watch) for the exact opt-in and bounds. The daily worker publishes its retained digest first, then attempts synthesis under a fixed daily command identity. The active lease is checked in the admission transaction after protecting source, owner/thesis, briefs and the shared model budget.
 
 A model outage, budget rejection or invalid output leaves a labelled digest fallback. Restart inspects any saved admission before credentials or catalogue; an uncertain call is never resent. These calls share the application/account rolling private-call ceiling; `allowances.analysis_dispatches` continues to count news dispatches only. Capture stays independent. No external delivery is added.
+
+## Optional driver-review profiles
+
+Use `desk_watch --preview --cumulative --driver-review` with the existing owner/thesis arguments to inspect the news profile, then save the complete reviewed configuration. It pins `driver-reviewed-news-analysis-v1`, its prompt and `driver_review: true` inside `model_configuration`. Existing watch versions are unchanged. Single-report mode can also opt in.
+
+For morning synthesis, select `macro_agent.desk.synthesis.model_configuration(provider, driver_review=True)` in the existing `daily_synthesis` option. The exact schema/prompt pair pins its profile independently of the news option. Daily publication remains a prerequisite. Runner admission still requires a protected live lease; saved-command recovery still precedes credentials and never repeats a paid call.
+
+These profiles require exact driver reviews and labelled alternative hypotheses. An analytical recommendation does not add live publication or notification authority. Exploratory research itself enrolls no watch. See [driver review](DRIVER_REVIEW.md).

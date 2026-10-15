@@ -108,6 +108,8 @@ Recorded responses establish mechanics only. Live model quality, recurring opera
 
 For inspection, the relevant code is the [domain contract](../src/macro_agent/domain/news_analysis.py), [protected context](../src/macro_agent/monitoring/news_context.py), [analysis service](../src/macro_agent/monitoring/analysis.py), [API views](../src/macro_agent/api/news_analysis_views.py) and [terminal review](../tools/review_news.py).
 
-## Explicit driver reassessment remains outstanding
+## Optional explicit driver reassessment
 
-The [accepted driver-review requirement](DRIVER_REVIEW.md) distinguishes whether a move followed the expected direction from whether evidence supports its proposed mechanism. Current generic hypotheses and cumulative comparisons can discuss this in prose, but neither requires a review of every approved driver. A material explanation change must eventually enter thesis attention even with unchanged direction or no attached trade. This captured-news model role currently has no live publication/current-pointer authority; that route is not yet implemented.
+Add `--driver-review` to `tools/review_news.py`, or strict boolean `driver_review: true` to the analysis request, for `driver-reviewed-news-analysis-v1`. The profile requires every exact approved driver once, separate premise/mechanism support, evidence-linked alternative or amplifying drivers and independent progression. Without verified prices and an entry plan, price observation is `unavailable` and entry is `not_assessed`. The enclosing context pins approval and interpretation identities. Existing single-report and cumulative profiles remain valid when omitted.
+
+Reviewed watches can opt in with `desk_watch --preview --cumulative --driver-review` and the exact resulting model configuration. Prior new-profile analyses can enter later cumulative context under their original labels. Material-review recommendations require current quoted evidence even with no attached trade, but confer no publication/current-pointer or notification authority. The [immediate live attention route](DRIVER_REVIEW.md) remains unimplemented. Research requests alone do not enroll a watch.

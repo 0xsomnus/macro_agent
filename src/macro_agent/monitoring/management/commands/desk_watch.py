@@ -25,14 +25,18 @@ class Command(BaseCommand):
         parser.add_argument("--expected-revision", type=int)
         parser.add_argument("--cumulative", action="store_true",
             help="Preview complete retained-context analysis; valid only with --preview")
+        parser.add_argument("--driver-review", action="store_true",
+            help="Preview structured approved-driver reassessment; valid only with --preview")
 
     def handle(self, *args, **options):
         try:
             if options["cumulative"] and not options["preview"]:
                 raise ValueError("--cumulative is valid only with --preview; configure the exact reviewed JSON")
+            if options["driver_review"] and not options["preview"]:
+                raise ValueError("--driver-review is valid only with --preview; configure the exact reviewed JSON")
             if options["preview"]:
                 result = enrollment_preview(options["owner"], options["thesis_id"],
-                                            cumulative=options["cumulative"])
+                                            cumulative=options["cumulative"], driver_review=options["driver_review"])
             else:
                 import json
                 path = options["config"]
