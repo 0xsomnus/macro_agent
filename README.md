@@ -10,7 +10,7 @@ The compiler can read your thesis text and saved answers alone, or an explicitly
 
 The next internal test targets a week of durable paper workflow with a narrow live feed and headline-level analysis. [The test plan](docs/WEEKLY_WORKFLOW_TEST.md) distinguishes that goal from the broader desk roadmap and records the remaining compilation, context continuity, source and daily-brief work.
 
-Research is broader than the pilot instrument list. A rough question can explore an unfamiliar commodity, affected businesses and possible exposure routes without requesting monitoring or creating a position. The optional [driver-review profile](docs/DRIVER_REVIEW.md#try-the-implemented-profile) adds evidence-linked proposed drivers and exposure candidates to sourced compilation. News and morning reviews can separately reassess each approved explanation, thesis progression and missing entry context. Source selection is still manual, instrument availability remains unverified, and immediate live driver-change alerts remain outstanding.
+Research is broader than the pilot instrument list. The new [question-led workflow](docs/QUESTION_RESEARCH.md) plans named questions and counter-evidence, discovers bounded GDELT headlines/metadata and produces sourced proposals without hand-picking reports. It starts no monitoring or position. Reviewed cumulative watches can separately publish [evolving driver briefs and qualified internal review notices](docs/DRIVER_ATTENTION.md). Instrument availability, primary-source research, live analytical quality and external notification delivery remain unverified or outstanding.
 
 The first [research pack](research/ai-infrastructure/2026-10-09/README.md) examines AI infrastructure beneficiaries, copper CFDs and semiconductor stock perps. It separates sourced observations from candidate hypotheses and unknown entry valuation. Daily reviews and cumulative model admissions retain evidence, original analyses, exact approved inputs and predecessor context in PostgreSQL. Daily review assembly makes no new model call. Cumulative analysis and optional morning synthesis share the private-model allowance and expose missing context explicitly.
 
@@ -65,6 +65,16 @@ To preserve text from a file exactly:
 ```
 
 The example news is fictional and its relevance is predetermined for testing. Portfolio consequences remain unresolved. This is the first CLI workflow milestone, not a live monitoring desk.
+
+## Research from a rough question
+
+After model setup, enable the local research and capture gates in the [question-research walkthrough](docs/QUESTION_RESEARCH.md), migrate and restart the backend. Then run:
+
+```sh
+.venv/bin/python tools/research_question.py --question "Research possible helium exposure and what could undermine the idea."
+```
+
+Choose a model and inspect the bounded request before starting. The result shows queries, selected and excluded source metadata, proposed drivers, exposure candidates and gaps. The first path uses headlines rather than article bodies. It preserves your exact question, makes no approval or watch, and can recover saved work without repeating an uncertain model call.
 
 ## Try model compilation
 

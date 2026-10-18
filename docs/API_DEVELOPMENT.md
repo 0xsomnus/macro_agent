@@ -203,3 +203,9 @@ These operations cannot fetch sources, call a model, prepare a missing review, r
 [Source-backed research](SOURCED_RESEARCH.md#contracts-and-limits) documents source preparation, exact context lookup, command recovery and the optional compilation evidence-context field. It works before thesis approval; source text cannot establish trader intent. [Morning synthesis](MORNING_SYNTHESIS.md#api-and-failures) documents one explicit model request over an exact daily review and private read-only recovery. Both use session-derived owner scope, strict JSON and CSRF on writes.
 
 The current daily-brief endpoint also returns nullable `current_synthesis`, restricted to a successful current interpretation of its exact protected published review. Null current publication means null synthesis. This adjacent model output adds no publication or external delivery authority. The generated [research-engine schema](../artifacts/research-engine-openapi-2026-10-12.yaml) describes these additions.
+
+## Question research and driver publication
+
+The strict session/CSRF boundary now also exposes [question-led research](QUESTION_RESEARCH.md#authority-and-privacy) and [qualified driver publication](DRIVER_ATTENTION.md#session-api). Research begins with exact input and selected provider/model, has separate read-only command recovery and explicit continuation, and starts no monitoring or approval. Publication binds an existing cumulative driver analysis to exact digest/generation and explicit policy, with no inference or external send. Current news reads never fall back to historical output.
+
+Both are described in the [current generated schema](../artifacts/research-attention-openapi-2026-10-18.yaml). Responses distinguish original outcomes from present disposition and unknown costs. See [ADR 019](ADR/019-question-research-and-driver-publication.md) for scope and authority.

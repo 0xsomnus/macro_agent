@@ -11,7 +11,7 @@ from macro_agent.domain.models import canonical_json, text_digest
 from macro_agent.domain.source_evidence import SOURCE_EVIDENCE_SCHEMA_VERSION, validate_source_evidence
 from macro_agent.domain.time import as_utc
 from macro_agent.monitoring.models import SourceRevision, SourceState
-from macro_agent.monitoring.news_context import allowed_source
+from macro_agent.monitoring.news_context import allowed_research_source as allowed_source
 from macro_agent.theses import service as theses
 
 from .models import SourceContractHead
@@ -34,6 +34,7 @@ def _gate():
 
 
 def _validated(context):
+    from macro_agent.monitoring.news_context import research_source_owned_by
     content = validate_source_evidence(context.content)
     if text_digest(canonical_json(content)) != context.digest:
         raise theses.ThesisConflict("Retained research evidence failed integrity verification")
@@ -44,6 +45,8 @@ def _validated(context):
     for member in members:
         report = reports.get(str(member.revision_id))
         row = member.revision
+        if not research_source_owned_by(row.report.source, context.owner_id):
+            raise theses.ThesisConflict("Research evidence is outside its private investigation scope")
         if (report is None or report["source_id"] != row.report.source_id
                 or report["contract_version_id"] != str(member.contract_id)
                 or report["contract_digest"] != member.contract.digest
@@ -94,7 +97,7 @@ def context_stale_reasons(context, at=None):
         if (head is None or head.version_id != member.contract_id
                 or source.contract_digest != member.contract.digest or source.contract != member.contract.contract):
             reasons.add("research_source_contract_changed:" + source.pk)
-        if not allowed_source(source):
+        if not allowed_source(source, context.owner_id):
             reasons.add("research_source_permission_unavailable:" + source.pk)
         current = member.revision.report.current_revision
         if current is None or current.pk != member.head_at_admission_id:
@@ -188,7 +191,7 @@ def prepare_evidence(actor_id, thesis_id, command_id, revision_ids, *, clock=tim
         if any(getattr(row, "durableobservation", None) is None for row in rows):
             raise theses.ThesisConflict("Selected research evidence requires a conservative durable witness")
         at = theses._instant(clock, thesis)
-        contracts = {source.pk: contract_snapshot(source, actor_id, at) for source in sources}
+        contracts = {source.pk: contract_snapshot(source, actor_id, at, research=True) for source in sources}
         if any(contract.observed_at > at for contract in contracts.values()):
             raise theses.ThesisConflict("Research preparation precedes source permission observation")
         reports = [{"revision_id": str(row.pk), "source_id": row.report.source_id,

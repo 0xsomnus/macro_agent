@@ -2,7 +2,7 @@
 
 You can now give thesis compilation a selected packet of captured evidence. The model still preserves your exact text and separates your intent from its own proposals. It can quote retained reports, identify a possible factual conflict, and ask which premise, date or series you meant. A quotation proves attribution, not that the source is true or that its statement supports the model's conclusion.
 
-This is a bounded research step, not an autonomous investigation or a verified macro regime. Source selection is currently manual. No source is fetched by the compiler.
+This selected-packet workflow is a bounded research step. For automatic named-question discovery without hand-picking reports, use [question-led research](QUESTION_RESEARCH.md). The compiler itself fetches no source; the separate orchestrator retains discovery before compilation. Neither path establishes a verified macro regime.
 
 ## Terminal workflow
 
@@ -28,7 +28,7 @@ Add `--driver-review` for individually evidence-linked proposed drivers and expl
 
 Choose a model from the configured provider's catalogue and confirm the request. Inspect model-identified factual conflicts before its assessment. Extracted intent must still quote your own text or saved answers; source passages cannot stand in for your intent. Refinement and exact approval use the existing terminal flow. The full sourced review card is included in the interpretation hash.
 
-The initial manual flow needs no model call. A single-screen research onboarding flow remains future work. Each displayed factual conflict also has a matching retained refinement question, so you can answer it before explicitly recompiling.
+The initial manual flow needs no model call. The [question-led terminal flow](QUESTION_RESEARCH.md) can now begin directly from a rough question without this manual packet preparation. Each displayed factual conflict also has a matching retained refinement question, so you can answer it before explicitly recompiling.
 
 ## Recovery and changes
 
@@ -61,4 +61,4 @@ The opted-in profile uses `source-backed-thesis-compilation-v2`, prompt v2 and `
 
 ## Remaining rough-thesis research gap
 
-The accepted interaction is to propose evidence-qualified omitted drivers, explain why they matter and then ask consequential questions, as described in [the thesis engine](THESIS_ENGINE.md#collaborative-refinement-of-rough-theses). The opted-in compiler now requires evidence references on each proposed driver, but it does not independently investigate a rough prompt. Automatic contextual source selection and bounded investigation remain unimplemented. A structurally valid citation proves attribution, not that the claim supports the proposed mechanism. Recorded tests do not establish research quality or instrument availability.
+The accepted interaction is to propose evidence-qualified omitted drivers, explain why they matter and then ask consequential questions, as described in [the thesis engine](THESIS_ENGINE.md#collaborative-refinement-of-rough-theses). The opted-in compiler requires evidence references on each proposed driver. The separate [research orchestrator](QUESTION_RESEARCH.md) now plans and gathers bounded headline metadata from a rough prompt. Automatic primary-source investigation and independent semantic source-fit selection remain unimplemented. A structurally valid citation proves attribution, not that the claim supports the proposed mechanism. Recorded tests do not establish research quality or instrument availability.

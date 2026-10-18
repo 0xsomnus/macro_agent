@@ -1,6 +1,6 @@
 # Architectural decision records
 
-These records explain settled choices and rejected alternatives. Updated 2026-10-09 after acceptance of the internal runtime and deterministic daily-review direction. Status `Accepted` means the user established the direction or explicitly delegated its selection; it does not mean implementation, coverage, or legal review is complete. Dated amendments preserve earlier rationale while specifying revised pilot boundaries. A coding agent may propose a superseding ADR, but must not silently change an accepted decision.
+These records explain settled choices and rejected alternatives. Updated 2026-10-18 after delegated implementation of bounded question research and qualified driver publication. Status `Accepted` means the user established the direction or explicitly delegated its selection; it does not mean implementation, coverage, or legal review is complete. Dated amendments preserve earlier rationale while specifying revised pilot boundaries. A coding agent may propose a superseding ADR, but must not silently change an accepted decision.
 
 | ADR | Decision |
 | --- | --- |
@@ -22,8 +22,9 @@ These records explain settled choices and rejected alternatives. Updated 2026-10
 | [016](016-django-postgresql-foundation.md) | Django/PostgreSQL, ORM/migrations, and established account/admin foundation |
 | [017](017-drf-and-openapi-boundary.md) | Explicit DRF serializers/APIViews, generated drf-spectacular OpenAPI, strict JSON, and session approval authority |
 | [018](018-internal-runtime-and-daily-review.md) | Deterministic daily evidence review; separate internal capture/analysis processes with PostgreSQL scheduling and leases |
+| [019](019-question-research-and-driver-publication.md) | Bounded question research, separate source eligibility, protected driver publication and qualified internal review |
 
-The language arrangement is accepted in ADR 014 after [STACK_OPTIONS.md](../STACK_OPTIONS.md) review. ADR 016 selects Django/PostgreSQL and Django ORM/migrations with authentication, sessions, and internal admin. ADR 017 selects DRF with drf-spectacular-generated OpenAPI. ADR 018 selects an internal process/scheduling direction whose durable records and runner remain unimplemented. Production queue, frontend and TypeScript client/validator tooling, hosting, and model providers remain unselected.
+The language arrangement is accepted in ADR 014 after [STACK_OPTIONS.md](../STACK_OPTIONS.md) review. ADR 016 selects Django/PostgreSQL and Django ORM/migrations with authentication, sessions, and internal admin. ADR 017 selects DRF with drf-spectacular-generated OpenAPI. ADR 018 selects the implemented internal process/scheduling direction. ADR 019 adds bounded research and a separate qualified driver-publication path. Production queue, frontend and TypeScript client/validator tooling, hosting, and model providers remain unselected.
 
 [Paper positions and committed-context admission](../PAPER_POSITIONS.md) implement the existing authority and publication decisions. Their synthetic trace is implementation evidence, not a new source-rights, worker, provider or replay guarantee.
 

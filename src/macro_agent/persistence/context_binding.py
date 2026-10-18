@@ -151,9 +151,12 @@ def lock_thesis_briefs(thesis: ThesisRecord, *, using: str = "default") -> list[
     if not require_postgresql(using).in_atomic_block:
         raise RuntimeError("bound brief locks require a protected write transaction")
     from macro_agent.desk.models import DailyBrief
+    from macro_agent.monitoring.attention_models import NewsBrief
     ids = set(ThesisBriefBinding.objects.using(using).filter(thesis=thesis)
               .values_list("brief_id", flat=True))
     ids.update(DailyBrief.objects.using(using).filter(thesis=thesis)
+               .values_list("brief_id", flat=True))
+    ids.update(NewsBrief.objects.using(using).filter(thesis=thesis)
                .values_list("brief_id", flat=True))
     return list(BriefStateRecord.objects.using(using).select_for_update(of=("self",))
                 .filter(brief_id__in=ids, owner_id=thesis.owner_id).order_by("brief_id"))

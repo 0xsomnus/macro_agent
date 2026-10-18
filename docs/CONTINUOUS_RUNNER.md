@@ -126,3 +126,11 @@ Use `desk_watch --preview --cumulative --driver-review` with the existing owner/
 For morning synthesis, select `macro_agent.desk.synthesis.model_configuration(provider, driver_review=True)` in the existing `daily_synthesis` option. The exact schema/prompt pair pins its profile independently of the news option. Daily publication remains a prerequisite. Runner admission still requires a protected live lease; saved-command recovery still precedes credentials and never repeats a paid call.
 
 These profiles require exact driver reviews and labelled alternative hypotheses. An analytical recommendation does not add live publication or notification authority. Exploratory research itself enrolls no watch. See [driver review](DRIVER_REVIEW.md).
+
+## Qualified internal driver publication
+
+Reviewed cumulative driver watches can opt into `news_publication` with an exact `fanout_limit` and `policy_version: "evidence-linked-driver-review-v1"`. The option is independent of daily publication/synthesis and is rejected for single-report or non-driver profiles. Model output alone creates no publication.
+
+The analysis worker separately admits publication after retaining its model result. The exact current watch/slot lease is protected and compared; a worker whose lease expired or watch was replaced cannot install fresh output. Recovery first reads a saved publication, including cancellation, and cannot repeat inference or reactivate that decision. Unread internal work can carry to the evolving brief with its original evidence and origin. Source corrections invalidate the complete union of daily and news dependents.
+
+See [driver attention](DRIVER_ATTENTION.md) for the operating policy, one-off terminal/API commands, carried-work semantics and explicit limits. An internal pending intent is not a delivered alert or proof of market materiality. Exploratory [question research](QUESTION_RESEARCH.md) does not enroll this watch.

@@ -19,7 +19,7 @@ from macro_agent.scheduling import service as schedule
 from macro_agent.scheduling.recovery import begin_recovery
 from macro_agent.theses.service import ThesisUnavailable
 
-from . import analysis, capture, news_context
+from . import analysis, capture, news_context, publication as news_publication
 from .gates import require_local_proof
 from .models import NewsAnalysisAttempt, SourceRevision, SourceState
 from .sources import fetch_source, source_specs
@@ -228,7 +228,33 @@ def _daily_slot(lease, provider, clock):
     return "completed", payload
 
 
+def _publish_news(lease, payload, clock):
+    """Separate publication admission, with saved decisions winning on restart."""
+    option = lease["configuration"].get("news_publication")
+    value = payload.get("analysis")
+    if option is None or value is None or value.get("id") is None:
+        return
+    try:
+        saved = news_publication.get_publication_command(lease["owner_id"],
+            lease["thesis_id"], lease["command_id"], clock=clock)
+    except ThesisUnavailable:
+        if value["status"] not in ("analysed", "stale") or value.get("document") is None:
+            return
+        preview = news_publication.preview_publication(lease["owner_id"], value["id"],
+            option["fanout_limit"], option["policy_version"], clock=clock)
+        saved = news_publication.publish_analysis(lease["owner_id"], value["id"], lease["command_id"],
+            preview["analysis_digest"], preview["expected_generation"],
+            option["fanout_limit"], option["policy_version"], clock=clock, slot_token=lease["token"])
+    payload["news_publication"] = saved
+
+
 def _publication_state(processed):
+    news = any(item.get("publication") == "internal_driver_news"
+        or item["outcome"].get("payload", {}).get("news_publication") for item in processed)
+    daily = any(item.get("publication") == "internal_daily"
+        or item["outcome"].get("payload", {}).get("publication") for item in processed)
+    if news:
+        return "internal_daily_and_driver_news" if daily else "internal_driver_news"
     return ("internal_daily" if any(item.get("publication") == "internal_daily"
             or item["outcome"].get("payload", {}).get("publication")
             for item in processed) else "none")
@@ -245,6 +271,7 @@ def execute_lease(lease, *, loaders=None, provider=None, clock=timezone.now):
             status, payload = _capture_slot(lease, loaders or {}, clock)
         elif kind == "analysis":
             status, payload = _analysis_slot(lease, provider, clock)
+            _publish_news(lease, payload, clock)
             if lease["mode"] != "recover":
                 desk.observe_analysis_results(actor_id, lease["thesis_id"],
                     tuple(row["source_id"] for row in lease["configuration"]["sources"]),
@@ -264,6 +291,8 @@ def execute_lease(lease, *, loaders=None, provider=None, clock=timezone.now):
     if payload.get("publication"):
         # Fencing the scheduler receipt cannot undo a retained publication.
         result["publication"] = "internal_daily"
+    if payload.get("news_publication"):
+        result["publication"] = "internal_driver_news"
     return result
 
 

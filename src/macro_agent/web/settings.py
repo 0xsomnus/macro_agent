@@ -77,6 +77,7 @@ MACRO_ENABLE_MODEL_COMPILATION = False
 MACRO_ENABLE_MONITORING_PROOF = False
 MACRO_ENABLE_NEWS_ANALYSIS = False
 MACRO_ENABLE_CONTINUOUS_DESK = False
+MACRO_ENABLE_RESEARCH_DISCOVERY = False
 MACRO_MODEL_PROVIDER = os.environ.get("MACRO_MODEL_PROVIDER", "nanogpt")
 MACRO_MODEL_API_KEY = os.environ.get("MACRO_MODEL_API_KEY", "")
 # Internal research limits, recorded with every admission and configurable.
@@ -123,5 +124,11 @@ SPECTACULAR_SETTINGS = {
         "DriverAttentionEnum": ["review_recommended", "not_identified"],
         "EntryAssessmentStatusEnum": ["not_assessed"],
         "ExposureAvailabilityEnum": ["unverified"],
+        "NoAuthorityEnum": [(False, False)],
+        "ResearchPlanNodeStatusEnum": ["planned", "stale", "failed", "outcome_unknown", "running"],
+        "ResearchDiscoveryNodeStatusEnum": ["captured", "failed", "outcome_unknown", "running"],
+        "ResearchRunStatusEnum": ["planning", "plan_failed", "plan_uncertain", "discovering",
+            "discovery_failed", "discovery_uncertain", "no_evidence", "ready_to_compile", "compiling",
+            "compiled", "compile_failed", "compile_uncertain", "stale"],
     },
 }

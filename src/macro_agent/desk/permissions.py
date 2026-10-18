@@ -17,10 +17,10 @@ def permission_allows(source_id):
     return None if head is None else head.version.permitted
 
 
-def contract_snapshot(source, actor_id, at):
+def contract_snapshot(source, actor_id, at, *, research=False):
     """Called under its source lock and owner protection, no rights inference."""
-    from macro_agent.monitoring.news_context import allowed_source
-    if not allowed_source(source):
+    from macro_agent.monitoring.news_context import allowed_research_source, allowed_source
+    if not (allowed_research_source(source, actor_id) if research else allowed_source(source)):
         raise theses.ThesisConflict("Source is outside the current permitted adapter manifest")
     head = SourceContractHead.objects.select_related("version").filter(source=source).first()
     if head is not None:

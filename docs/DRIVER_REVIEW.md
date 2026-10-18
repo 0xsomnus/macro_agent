@@ -1,6 +1,6 @@
 # Review the explanation as well as the direction
 
-Status, 2026-10-15: the user accepted immediate attention for material driver changes, even when the directional view remains intact. An optional structured profile now implements evidence-linked research proposals and driver reassessment in retained news and morning synthesis. Its live attention route is not implemented yet.
+Status, 2026-10-18: the user accepted immediate attention for material driver changes, even when the directional view remains intact. An optional structured profile now implements evidence-linked research proposals and driver reassessment in retained news and morning synthesis. A separate [qualified internal publication route](DRIVER_ATTENTION.md) now exists; external delivery and live materiality calibration remain outstanding.
 
 A favorable price observation does not validate the trader's proposed mechanism. Compilation should expose unsupported premises and transmission assumptions; monitoring should reassess them as evidence arrives. The agent may find support for the original mechanism, a stronger competing explanation, an amplifier, an offset, or insufficient evidence to distinguish them.
 
@@ -26,7 +26,7 @@ Link each proposed driver to its supporting and counter-evidence, assumptions an
 
 Ask the trader about intent and consequential unknowns; do not turn clarification into an exhaustive input form. New explanations can be investigated and surfaced immediately as agent hypotheses. They enter approved trader reasoning only through explicit incorporation and approval, and cannot promote themselves to canonical knowledge.
 
-Research is not restricted by the pilot instrument list. An exploratory request can investigate an unfamiliar commodity, affected firms and ways to obtain exposure. It does not request monitoring, create a position or initiate a coverage-review workflow. Exposure candidates must explain their relationship and basis risks, including possible adverse effects on related businesses. Availability remains unverified until suitable instrument evidence is checked. The present implementation uses selected retained evidence; automatic contextual investigation remains ahead.
+Research is not restricted by the pilot instrument list. An exploratory request can investigate an unfamiliar commodity, affected firms and ways to obtain exposure. It does not request monitoring, create a position or initiate a coverage-review workflow. Exposure candidates must explain their relationship and basis risks, including possible adverse effects on related businesses. Availability remains unverified until suitable instrument evidence is checked. The [question-led workflow](QUESTION_RESEARCH.md) can now gather bounded headline metadata automatically. Primary-source investigation and semantic source-fit evaluation remain ahead.
 
 ## Thesis progression and entry conditions
 
@@ -90,6 +90,6 @@ Opt-in admissions pin new schema/prompt versions and context before inference. S
 
 The profile requires explicit driver reviews and separates progression from unavailable entry analysis. It validates structure, exact driver identity and eligible references. It cannot prove that a cited passage supports a conclusion, that the model found the most important driver or that a reported event caused a price move. Supervised live evaluation remains necessary.
 
-Source selection remains manual. Automatic contextual investigation from a rough prompt, source-fit checks and verified price/provenance inputs remain unimplemented. Broad research capability does not establish broad monitoring coverage.
+Manual source selection remains available. Automatic named-question headline discovery now exists; primary-source investigation, independent source-fit checks and verified price/provenance inputs remain unimplemented. Broad research capability does not establish broad monitoring coverage.
 
-Captured-news model analysis has no live publication/current-pointer authority. The immediate material-driver route remains an implementation gate, independently of retained daily publication. [News analysis](NEWS_ANALYSIS.md), [morning synthesis](MORNING_SYNTHESIS.md) and the [weekly test](WEEKLY_WORKFLOW_TEST.md) must continue to report that limitation honestly.
+Captured-news model analysis has no publication authority itself. A separate [driver publication contract](DRIVER_ATTENTION.md) now installs a protected current brief and qualified internal review intent for eligible cumulative analyses. External delivery, calibrated materiality and measured attention latency remain gates, independently of retained daily publication. [News analysis](NEWS_ANALYSIS.md), [morning synthesis](MORNING_SYNTHESIS.md) and the [weekly test](WEEKLY_WORKFLOW_TEST.md) must continue to report that limitation honestly.

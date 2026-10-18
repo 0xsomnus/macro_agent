@@ -197,3 +197,6 @@ class NewsReviewReceipt(models.Model):
             models.CheckConstraint(condition=(Q(attempt__isnull=False, empty_response__isnull=True)
                 | Q(attempt__isnull=True, empty_response__isnull=False)), name="monitor_news_receipt_outcome"),
         ]
+
+# Publication is a separately typed admission, never authority of model output.
+from .attention_models import NewsBrief, NewsPublication  # noqa: E402,F401

@@ -67,6 +67,6 @@ Original outcomes are `synthesised`, `stale`, `failed`, or `outcome_unknown`; an
 
 Recorded providers test mechanics and recovery, not live reasoning quality, source rights, external delivery or production readiness. The [weekly test](WEEKLY_WORKFLOW_TEST.md) still needs a reviewed real thesis, suitable permitted feeds and supervised live operation.
 
-## Immediate attention remains outstanding
+## Separate driver attention
 
-The opted-in profile implements structured driver reassessment. Its attention recommendation adds no publication or notification authority. Material explanation changes still need an immediate live publication route; a morning assessment alone does not meet that requirement. Verified instrument-price observations and numerical entry assessment also remain outstanding.
+The opted-in profile implements structured driver reassessment. Its attention recommendation adds no publication or notification authority. A separate [driver publication route](DRIVER_ATTENTION.md) now serves qualified internal review from cumulative news analysis. Morning synthesis alone neither publishes nor delivers that review. External delivery and calibrated live materiality remain outstanding. Verified instrument-price observations and numerical entry assessment also remain outstanding.

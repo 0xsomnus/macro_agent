@@ -38,9 +38,18 @@ def json_object(value, field):
 
 def configuration(value):
     value = json_object(value, "watch configuration")
-    if (set(value) not in (FIELDS, FIELDS | {"daily_publication"}, FIELDS | {"daily_publication", "daily_synthesis"})
+    extras = set(value) - FIELDS
+    if (not FIELDS <= set(value) or extras - {"daily_publication", "daily_synthesis", "news_publication"}
+            or "daily_synthesis" in extras and "daily_publication" not in extras
             or value["schema_version"] != SCHEMA_VERSION):
         raise ValueError("watch configuration requires exactly its documented fields and schema version")
+    if "news_publication" in value:
+        from macro_agent.domain.news_publication import POLICY_VERSION
+        selected = value["news_publication"]
+        if (type(selected) is not dict or set(selected) != {"fanout_limit", "policy_version"}
+                or type(selected["fanout_limit"]) is not int or not 1 <= selected["fanout_limit"] <= 1000
+                or selected["policy_version"] != POLICY_VERSION):
+            raise ValueError("news_publication requires an explicit bounded fanout and exact qualified-review policy")
     if "daily_publication" in value:
         publication = value["daily_publication"]
         if (type(publication) is not dict or set(publication) != {"fanout_limit"}
@@ -83,6 +92,9 @@ def configuration(value):
         driver_review=value["model_configuration"].get("driver_review", False))
     if set(value["model_configuration"]) != set(expected) or value["model_configuration"] != expected:
         raise ValueError("model configuration must exactly match the current safe server configuration")
+    if "news_publication" in value and (context != "complete_retained_context"
+            or value["model_configuration"].get("driver_review") is not True):
+        raise ValueError("news publication requires the exact cumulative driver-review profile")
     for name in ("capture_interval_seconds", "analysis_interval_seconds", "lease_seconds", "daily_backlog_limit"):
         integer(value[name], name)
     if type(value["timezone"]) is not str:

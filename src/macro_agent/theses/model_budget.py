@@ -18,8 +18,9 @@ def lock_model_budget():
 def capacity_available(owner_id, at, configuration):
     from macro_agent.monitoring.models import NewsAnalysisAttempt
     from macro_agent.desk.synthesis_models import DailySynthesisAttempt
+    from macro_agent.desk.investigation_models import ResearchPlanAttempt
     groups = [model.objects.filter(created_at__gt=at - timedelta(days=1))
-              for model in (CompilationAttempt, NewsAnalysisAttempt, DailySynthesisAttempt)]
+              for model in (CompilationAttempt, NewsAnalysisAttempt, DailySynthesisAttempt, ResearchPlanAttempt)]
     return (sum(rows.count() for rows in groups) < configuration["aggregate_attempts_per_day"]
             and sum(rows.filter(owner_id=owner_id).count() for rows in groups) < configuration["owner_attempts_per_day"]
             and not any(rows.filter(owner_id=owner_id, result__isnull=True, deadline_at__gt=at).exists()

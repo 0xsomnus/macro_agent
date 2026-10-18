@@ -65,6 +65,28 @@ def allowed_source(row):
     return _adapter_allowed_source(row) and permission_allows(row.pk) is not False
 
 
+def research_source_owned_by(row, actor_id):
+    if row.contract.get("kind") != "gdelt_research_metadata":
+        return True
+    if actor_id is None:
+        return False
+    from macro_agent.desk.investigation_models import ResearchDiscoveryAttempt
+    return ResearchDiscoveryAttempt.objects.filter(source_id=row.pk, run__owner_id=actor_id).exists()
+
+
+def allowed_research_source(row, actor_id=None):
+    """One-shot metadata research does not enroll a continuous source adapter."""
+    from macro_agent.desk.permissions import permission_allows
+    from .gdelt_research import matches_source_contract
+    name = settings.DATABASES["default"]["NAME"]
+    experiment = (settings.SETTINGS_MODULE == "macro_agent.web.local_settings"
+        and getattr(settings, "MACRO_ENABLE_RESEARCH_DISCOVERY", False) is True
+        and (name.endswith("_dev") or name.startswith("test_")))
+    return ((_adapter_allowed_source(row) or experiment and matches_source_contract(row)
+             and research_source_owned_by(row, actor_id))
+            and permission_allows(row.pk) is not False)
+
+
 def protected_source(source_id):
     row = SourceState.objects.select_for_update().filter(pk=source_id).first()
     if row is None or not allowed_source(row):

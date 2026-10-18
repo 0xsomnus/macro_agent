@@ -11,6 +11,11 @@ from .news_analysis_views import (
 )
 
 from .lab_views import RecordedNewsView
+from .investigation_views import ResearchStartView, ResearchDetailView, ResearchCommandView, ResearchContinueView
+from .news_publication_views import (
+    NewsPublicationPreviewView, NewsPublishView, NewsPublicationDetailView,
+    NewsPublicationCommandView, CurrentNewsBriefView,
+)
 from .desk_views import DailyReviewCollectionView, DailyReviewDetailView
 from .position_views import (
     PositionCloseView, PositionCollectionView, PositionDetailView,
@@ -24,6 +29,15 @@ from .views import (
 
 app_name = "macro_api"
 urlpatterns = [
+    path("research/", ResearchStartView.as_view(), name="research-start"),
+    path("research/<uuid:run_id>/", ResearchDetailView.as_view(), name="research-detail"),
+    path("research/<uuid:run_id>/continue/", ResearchContinueView.as_view(), name="research-continue"),
+    path("research-commands/<uuid:command_id>/", ResearchCommandView.as_view(), name="research-command"),
+    path("news-analyses/<uuid:analysis_id>/publication-preview/", NewsPublicationPreviewView.as_view(), name="news-publication-preview"),
+    path("news-analyses/<uuid:analysis_id>/publish/", NewsPublishView.as_view(), name="news-publish"),
+    path("news-publications/<uuid:publication_id>/", NewsPublicationDetailView.as_view(), name="news-publication-detail"),
+    path("theses/<uuid:thesis_id>/news-publication-commands/<uuid:command_id>/", NewsPublicationCommandView.as_view(), name="news-publication-command"),
+    path("theses/<uuid:thesis_id>/news-brief/", CurrentNewsBriefView.as_view(), name="current-news-brief"),
     path("theses/<uuid:thesis_id>/daily-reviews/", DailyReviewCollectionView.as_view(), name="daily-review-list"),
     path("daily-reviews/<uuid:review_id>/", DailyReviewDetailView.as_view(), name="daily-review-detail"),
     path("news/sources/", NewsSourcesView.as_view(), name="news-sources"),
