@@ -1,7 +1,58 @@
 """Explicit selected-source packet and attributable model claim contracts."""
 
 from rest_framework import serializers
-from .strict import StrictSerializer, StrictStringField, StrictListField, StrictUUIDField
+from .strict import (StrictSerializer, StrictStringField, StrictListField, StrictUUIDField,
+                     StrictIntegerField, StrictBooleanField)
+
+
+class PlannedResearchQuestionSerializer(StrictSerializer):
+    question_id = StrictStringField(max_length=64)
+    question = StrictStringField(max_length=1000)
+    why_material = StrictStringField(max_length=2000)
+    evidence_to_seek = StrictStringField(max_length=2000)
+    counter_evidence_to_seek = StrictStringField(max_length=2000)
+    query = StrictStringField(max_length=300)
+
+
+class ResearchExclusionCountsSerializer(StrictSerializer):
+    duplicate_url_identity = StrictIntegerField(min_value=1, max_value=5, required=False)
+    unsafe_or_non_https_attribution_url = StrictIntegerField(min_value=1, max_value=5, required=False)
+    explicit_selection_limit = StrictIntegerField(min_value=1, max_value=5, required=False)
+
+
+class QuestionResearchOutcomeSerializer(StrictSerializer):
+    question_index = StrictIntegerField(min_value=0, max_value=2)
+    planned_question = PlannedResearchQuestionSerializer()
+    source_id = StrictStringField(max_length=128)
+    discovery_attempt_id = StrictUUIDField()
+    contract_version_id = StrictUUIDField()
+    contract_digest = StrictStringField(min_length=64, max_length=64)
+    receipt_id = StrictUUIDField()
+    receipt_digest = StrictStringField(min_length=64, max_length=64)
+    result_id = StrictUUIDField()
+    result_digest = StrictStringField(min_length=64, max_length=64)
+    capture_id = StrictUUIDField()
+    status = serializers.ChoiceField(choices=["captured"])
+    returned_candidate_count = StrictIntegerField(min_value=0, max_value=5)
+    selected_count = StrictIntegerField(min_value=0, max_value=4)
+    excluded_count = StrictIntegerField(min_value=0, max_value=5)
+    exclusion_counts = ResearchExclusionCountsSerializer()
+    candidate_cap_reached = StrictBooleanField()
+    revision_ids = StrictListField(child=StrictUUIDField(), max_length=4)
+
+
+class QuestionResearchContextSerializer(StrictSerializer):
+    schema_version = serializers.ChoiceField(choices=["question-research-context-v1"])
+    run_id = StrictUUIDField()
+    run_request_digest = StrictStringField(min_length=64, max_length=64)
+    exact_question_digest = StrictStringField(min_length=64, max_length=64)
+    plan_attempt_id = StrictUUIDField()
+    plan_prompt_digest = StrictStringField(min_length=64, max_length=64)
+    plan_result_id = StrictUUIDField()
+    plan_result_digest = StrictStringField(min_length=64, max_length=64)
+    evidence_depth = serializers.ChoiceField(choices=["headline_metadata_only"])
+    coverage_complete = serializers.ChoiceField(choices=[(False, False)])
+    questions = QuestionResearchOutcomeSerializer(many=True, min_length=1, max_length=3)
 
 
 class SourceEvidenceReportSerializer(StrictSerializer):
@@ -19,10 +70,17 @@ class SourceEvidenceReportSerializer(StrictSerializer):
 
 
 class SourceEvidenceEnvelopeSerializer(StrictSerializer):
-    schema_version = serializers.ChoiceField(choices=["retained-source-evidence-v1"])
+    schema_version = serializers.ChoiceField(choices=["retained-source-evidence-v1", "retained-source-evidence-v2"])
     cutoff = serializers.DateTimeField()
     reports = SourceEvidenceReportSerializer(many=True, min_length=1, max_length=16)
     gaps = StrictListField(child=StrictStringField(max_length=2000), max_length=32)
+    question_research = QuestionResearchContextSerializer(required=False)
+
+    def validate(self, value):
+        contextual = value["schema_version"] == "retained-source-evidence-v2"
+        if contextual != ("question_research" in value):
+            raise serializers.ValidationError("Source evidence must match its exact retained variant.")
+        return value
 
 
 class EvidenceDispositionSerializer(serializers.Serializer):

@@ -13,6 +13,7 @@ from .time import parse_instant
 
 
 SOURCE_EVIDENCE_SCHEMA_VERSION = "retained-source-evidence-v1"
+SOURCE_EVIDENCE_QUESTION_SCHEMA_VERSION = "retained-source-evidence-v2"
 MAX_EVIDENCE_BYTES = 65_536
 MAX_REPORTS = 16
 MAX_CLAIMS = 32
@@ -72,10 +73,15 @@ def validate_source_evidence(envelope):
     timestamps remain source claims and cannot substitute for that witness.
     This first contract deliberately admits only current selected revisions.
     """
-    _object(envelope, frozenset(("schema_version", "cutoff", "reports", "gaps")),
-            "source evidence")
-    if envelope["schema_version"] != SOURCE_EVIDENCE_SCHEMA_VERSION:
+    if type(envelope) is not dict:
+        raise ValueError("source evidence requires exactly its documented fields")
+    schema_version = envelope.get("schema_version")
+    fields = frozenset(("schema_version", "cutoff", "reports", "gaps"))
+    if schema_version == SOURCE_EVIDENCE_QUESTION_SCHEMA_VERSION:
+        fields |= {"question_research"}
+    elif schema_version != SOURCE_EVIDENCE_SCHEMA_VERSION:
         raise ValueError("unsupported source evidence schema version")
+    _object(envelope, fields, "source evidence")
     cutoff = _instant(envelope["cutoff"], "source evidence cutoff")
     reports = _array(envelope["reports"], "source reports", MAX_REPORTS)
     if not reports:
@@ -109,6 +115,9 @@ def validate_source_evidence(envelope):
             _instant(report["source_claimed_published_at"], "source claimed publication")
     for gap in _array(envelope["gaps"], "source evidence gaps", 32):
         _text(gap, "source evidence gap", 2_000)
+    if schema_version == SOURCE_EVIDENCE_QUESTION_SCHEMA_VERSION:
+        from .question_research_context import validate_question_research_context
+        validate_question_research_context(envelope["question_research"], reports)
     try:
         encoded = canonical_json(envelope)
         if len(encoded.encode("utf-8")) > MAX_EVIDENCE_BYTES:

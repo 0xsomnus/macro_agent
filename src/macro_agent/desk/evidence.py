@@ -8,7 +8,8 @@ from django.db import connection, transaction
 from django.utils import timezone
 
 from macro_agent.domain.models import canonical_json, text_digest
-from macro_agent.domain.source_evidence import SOURCE_EVIDENCE_SCHEMA_VERSION, validate_source_evidence
+from macro_agent.domain.source_evidence import (SOURCE_EVIDENCE_SCHEMA_VERSION,
+    SOURCE_EVIDENCE_QUESTION_SCHEMA_VERSION, validate_source_evidence)
 from macro_agent.domain.time import as_utc
 from macro_agent.monitoring.models import SourceRevision, SourceState
 from macro_agent.monitoring.news_context import allowed_research_source as allowed_source
@@ -61,6 +62,13 @@ def _validated(context):
             raise theses.ThesisConflict("Retained research evidence differs from its immutable inputs")
     if content["cutoff"] != context.created_at.isoformat():
         raise theses.ThesisConflict("Retained research cutoff differs from preparation time")
+    if "question_research" in content:
+        from .question_evidence import build_context, retained_contracts
+        retained = content["question_research"]
+        expected = build_context(context.owner_id, context.thesis_id, retained["run_id"],
+                                 content["reports"], context.created_at, retained_contracts(retained))
+        if expected != retained:
+            raise theses.ThesisConflict("Retained investigation context differs from its exact lineage")
     return content
 
 
@@ -75,7 +83,11 @@ def get_context(actor_id, thesis_id, context_id):
 
 
 def source_ids_for_context(context):
-    return sorted({item["source_id"] for item in _validated(context)["reports"]})
+    content = _validated(context)
+    ids = {item["source_id"] for item in content["reports"]}
+    if "question_research" in content:
+        ids.update(item["source_id"] for item in content["question_research"]["questions"])
+    return sorted(ids)
 
 
 def lock_context_sources(context):
@@ -87,7 +99,7 @@ def lock_context_sources(context):
 
 
 def context_stale_reasons(context, at=None):
-    _validated(context)
+    content = _validated(context)
     reasons = set()
     bounds = [context.created_at]
     for member in context.members.select_related("revision__report__source",
@@ -106,6 +118,18 @@ def context_stale_reasons(context, at=None):
             bounds.append(current.system_received_at)
         if head is not None:
             bounds.append(head.version.observed_at)
+    if "question_research" in content:
+        from .question_evidence import retained_contracts
+        for source_id, contract in retained_contracts(content["question_research"]).items():
+            source = contract.source
+            head = SourceContractHead.objects.select_related("version").filter(source=source).first()
+            if (head is None or head.version_id != contract.pk
+                    or source.contract_digest != contract.digest or source.contract != contract.contract):
+                reasons.add("research_source_contract_changed:" + source_id)
+            if not allowed_source(source, context.owner_id):
+                reasons.add("research_source_permission_unavailable:" + source_id)
+            if head is not None:
+                bounds.append(head.version.observed_at)
     if at is not None and any(as_utc(at) < bound for bound in bounds):
         raise theses.ThesisConflict("Research observation cannot precede retained or present source state")
     return sorted(reasons)
@@ -150,7 +174,8 @@ def get_evidence_command(actor_id, thesis_id, command_id, *, clock=timezone.now)
         return _wire(context, as_utc(clock()), replayed=True)
 
 
-def prepare_evidence(actor_id, thesis_id, command_id, revision_ids, *, clock=timezone.now):
+def prepare_evidence(actor_id, thesis_id, command_id, revision_ids, *, question_run_id=None,
+                     clock=timezone.now):
     _gate()
     theses._uuid(thesis_id, "thesis_id")
     theses._uuid(command_id, "command_id")
@@ -160,7 +185,10 @@ def prepare_evidence(actor_id, thesis_id, command_id, revision_ids, *, clock=tim
     if len(set(revision_ids)) != len(revision_ids):
         raise ValueError("Selected revisions must be unique")
     revision_ids = sorted(revision_ids)
-    digest = text_digest(canonical_json({"thesis_id": thesis_id, "revision_ids": revision_ids}))
+    request = {"thesis_id": thesis_id, "revision_ids": revision_ids}
+    if question_run_id is not None:
+        request["question_run_id"] = theses._uuid(str(question_run_id), "question_run_id")
+    digest = text_digest(canonical_json(request))
     # Recovery compares the retained request before current rights or heads.
     with transaction.atomic():
         _snapshot()
@@ -173,6 +201,9 @@ def prepare_evidence(actor_id, thesis_id, command_id, revision_ids, *, clock=tim
             return _wire(saved, as_utc(clock()), replayed=True)
         ids = sorted(set(SourceRevision.objects.filter(pk__in=revision_ids)
                          .values_list("report__source_id", flat=True)))
+        if question_run_id is not None:
+            from .question_evidence import source_ids
+            ids = sorted(set(ids) | set(source_ids(actor_id, thesis_id, question_run_id)))
     with transaction.atomic():
         sources = list(SourceState.objects.select_for_update().filter(pk__in=ids).order_by("pk"))
         theses._owner(actor_id, lock=True)
@@ -202,8 +233,14 @@ def prepare_evidence(actor_id, thesis_id, command_id, revision_ids, *, clock=tim
             "contract_version_id": str(contracts[row.report.source_id].pk),
             "contract_digest": contracts[row.report.source_id].digest,
             "head_at_admission_id": str(row.pk)} for row in rows]
-        content = validate_source_evidence({"schema_version": SOURCE_EVIDENCE_SCHEMA_VERSION,
-            "cutoff": at.isoformat(), "reports": reports, "gaps": GAPS})
+        content = {"schema_version": SOURCE_EVIDENCE_SCHEMA_VERSION,
+            "cutoff": at.isoformat(), "reports": reports, "gaps": GAPS}
+        if question_run_id is not None:
+            from .question_evidence import build_context
+            content["schema_version"] = SOURCE_EVIDENCE_QUESTION_SCHEMA_VERSION
+            content["question_research"] = build_context(actor_id, thesis_id,
+                                                         question_run_id, reports, at, contracts)
+        content = validate_source_evidence(content)
         context = ResearchEvidenceContext.objects.create(owner_id=actor_id, thesis=thesis,
             command_id=command_id, request_digest=digest, content=content,
             digest=text_digest(canonical_json(content)), created_at=at)

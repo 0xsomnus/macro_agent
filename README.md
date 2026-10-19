@@ -68,7 +68,13 @@ The example news is fictional and its relevance is predetermined for testing. Po
 
 ## Research from a rough question
 
-After model setup, enable the local research and capture gates in the [question-research walkthrough](docs/QUESTION_RESEARCH.md), migrate and restart the backend. Then run:
+After model setup, enable the local research and capture gates in the [question-research walkthrough](docs/QUESTION_RESEARCH.md), migrate and restart the backend. Check source reachability before starting paid planning:
+
+```sh
+.venv/bin/python manage.py research_check_source --query "helium supply"
+```
+
+This check needs no model key and saves no database records. The latest live GDELT check timed out, so broad automatic research remains blocked on usable acquisition. Once the source check succeeds, run:
 
 ```sh
 .venv/bin/python tools/research_question.py --question "Research possible helium exposure and what could undermine the idea."
@@ -150,7 +156,7 @@ Follow [the runner guide](docs/CONTINUOUS_RUNNER.md) to preview an approved thes
 
 The runner creates each missed daily review once and labels late preparation. Restart recovers retained evidence and saved command outcomes; an uncertain model call is never automatically repeated. [Job inspection and recovery](docs/JOB_RECOVERY.md) explains blocked jobs and the explicit operator recovery command. Use `desk_inspect --owner OWNER_UUID --watch-id WATCH_UUID --brief` for a readable saved-state summary. Authenticated local clients can [list and inspect daily reviews through the API](docs/API_DEVELOPMENT.md#internal-daily-review-inspection). Daily output preserves gaps and costs. Explicit publication opt-in gives it a protected current pointer and an internal notification intent, while fresh macro synthesis and external delivery remain unavailable. See [daily publication](docs/DAILY_PUBLICATION.md) for the terminal preview, session API and isolated proof. The AI research workflow still needs a reviewed thesis and matching permitted sources.
 
-The latest [free-source research](research/source-options-2026-10-10.md) compares yfinance, GDELT metadata and official feeds. GDELT is a proposed adapter; live Yahoo automated-use permission remains unresolved. Neither is activated by this research.
+The [free-source research](research/source-options-2026-10-10.md) compares yfinance, GDELT metadata and official feeds. The bounded GDELT research adapter is implemented, but its latest live acquisition failed; it is not enrolled in continuous monitoring. Live Yahoo automated-use permission remains unresolved. See the [source recheck](research/research-source-recheck-2026-10-19.md) for current evidence.
 
 ## Inspect and develop
 

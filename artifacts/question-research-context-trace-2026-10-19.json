@@ -1,0 +1,1874 @@
+{
+  "scope": "Fictional rough-question to sourced-proposal session API proof",
+  "initial_request": {
+    "command_id": "5215aa3a-6607-46bd-a522-e302abdc1976",
+    "exact_question": "  Could fictional helium supply disruption create a useful exposure idea?\r\nΔ",
+    "provider_id": "nanogpt",
+    "model_id": "Qwen/Qwen3-4B"
+  },
+  "interruption_after_durable_capture": {
+    "research": {
+      "id": "549be4d2-19bb-4c93-9924-c939e8b3b383",
+      "command_id": "5215aa3a-6607-46bd-a522-e302abdc1976",
+      "request_digest": "d64b8707d2d26d45cd975f614cc25750bf779a15998581126c583b13054d7c1b",
+      "exact_question": "  Could fictional helium supply disruption create a useful exposure idea?\r\nΔ",
+      "thesis_id": "29a86248-e768-46ad-801a-d78186736931",
+      "initial_thesis_revision": 1,
+      "provider": "nanogpt",
+      "model_id": "Qwen/Qwen3-4B",
+      "bounds": {
+        "max_questions": 3,
+        "max_model_calls": 2,
+        "max_selected_reports": 12,
+        "max_results_per_question": 4
+      },
+      "created_at": "2026-10-19T07:19:46.604266+00:00",
+      "status": "discovering",
+      "plan": {
+        "attempt_id": "8f12b888-b29a-4077-a6c8-ce076c3f9a02",
+        "status": "planned",
+        "document": {
+          "questions": [
+            {
+              "query": "fictional helium supply substitutes",
+              "question": "Could fictional supply disruption reach business cash flows?",
+              "question_id": "supply",
+              "why_material": "An exposure idea depends on who bears higher input costs.",
+              "evidence_to_seek": "A relevant supply observation and business exposure.",
+              "counter_evidence_to_seek": "Substitutes, cost pass-through or offsetting supply."
+            },
+            {
+              "query": "fictional helium replacement supply offsets",
+              "question": "Could replacement supply offset this fictional disruption?",
+              "question_id": "offsets",
+              "why_material": "Replacement supply could undermine the proposed scarcity mechanism.",
+              "evidence_to_seek": "Attributed evidence about replacement gas supply.",
+              "counter_evidence_to_seek": "Evidence that replacement capacity is unavailable."
+            }
+          ],
+          "schema_version": "research-plan-v1"
+        },
+        "stop_reason": "completed",
+        "provider_metadata": {
+          "usage": {
+            "total_tokens": 30,
+            "prompt_tokens": 10,
+            "completion_tokens": 20
+          },
+          "latency_ms": 1,
+          "reported_model": "Qwen/Qwen3-4B",
+          "reported_cost_usd": null,
+          "provider_request_id": "recorded-1"
+        },
+        "created_at": "2026-10-19T07:19:46.622777+00:00",
+        "finished_at": "2026-10-19T07:19:46.632952+00:00"
+      },
+      "discoveries": [
+        {
+          "question_index": 0,
+          "question_id": "supply",
+          "source_id": "research-gdelt-549be4d219bb4c939924c939e8b3b383-0",
+          "status": "running",
+          "capture_id": null,
+          "revision_ids": [],
+          "metadata": null,
+          "stop_reason": "response_not_recorded",
+          "admitted_at": "2026-10-19T07:19:46.636034+00:00",
+          "finished_at": null
+        }
+      ],
+      "evidence_context_id": null,
+      "compilation": null,
+      "gaps": [
+        "This is explicitly initiated research, not monitoring, approval or a position.",
+        "Discovery uses bounded metadata and headlines, not publisher article bodies or verified macro context.",
+        "Provider relevance order selects up to four results per question; this is not an exhaustive or independent source-quality assessment.",
+        "Counter-evidence is requested, but its presence or absence does not establish that competing explanations were adequately covered.",
+        "Exact source quotations prove attribution, not truth, semantic support or causation.",
+        "Prices, valuation, market expectations and instrument availability remain unverified or unavailable.",
+        "Call and result bounds do not establish a guaranteed monetary ceiling; unknown costs remain unknown."
+      ],
+      "authority": {
+        "monitoring_started": false,
+        "thesis_approved": false,
+        "positions_created": false
+      },
+      "costs": {
+        "planning_reported_cost_usd": null,
+        "compilation_reported_cost_usd": null,
+        "total_known_cost_usd": null
+      }
+    },
+    "replayed": true
+  },
+  "read_after_connection_restart": {
+    "research": {
+      "id": "549be4d2-19bb-4c93-9924-c939e8b3b383",
+      "command_id": "5215aa3a-6607-46bd-a522-e302abdc1976",
+      "request_digest": "d64b8707d2d26d45cd975f614cc25750bf779a15998581126c583b13054d7c1b",
+      "exact_question": "  Could fictional helium supply disruption create a useful exposure idea?\r\nΔ",
+      "thesis_id": "29a86248-e768-46ad-801a-d78186736931",
+      "initial_thesis_revision": 1,
+      "provider": "nanogpt",
+      "model_id": "Qwen/Qwen3-4B",
+      "bounds": {
+        "max_questions": 3,
+        "max_model_calls": 2,
+        "max_selected_reports": 12,
+        "max_results_per_question": 4
+      },
+      "created_at": "2026-10-19T07:19:46.604266+00:00",
+      "status": "discovering",
+      "plan": {
+        "attempt_id": "8f12b888-b29a-4077-a6c8-ce076c3f9a02",
+        "status": "planned",
+        "document": {
+          "questions": [
+            {
+              "query": "fictional helium supply substitutes",
+              "question": "Could fictional supply disruption reach business cash flows?",
+              "question_id": "supply",
+              "why_material": "An exposure idea depends on who bears higher input costs.",
+              "evidence_to_seek": "A relevant supply observation and business exposure.",
+              "counter_evidence_to_seek": "Substitutes, cost pass-through or offsetting supply."
+            },
+            {
+              "query": "fictional helium replacement supply offsets",
+              "question": "Could replacement supply offset this fictional disruption?",
+              "question_id": "offsets",
+              "why_material": "Replacement supply could undermine the proposed scarcity mechanism.",
+              "evidence_to_seek": "Attributed evidence about replacement gas supply.",
+              "counter_evidence_to_seek": "Evidence that replacement capacity is unavailable."
+            }
+          ],
+          "schema_version": "research-plan-v1"
+        },
+        "stop_reason": "completed",
+        "provider_metadata": {
+          "usage": {
+            "total_tokens": 30,
+            "prompt_tokens": 10,
+            "completion_tokens": 20
+          },
+          "latency_ms": 1,
+          "reported_model": "Qwen/Qwen3-4B",
+          "reported_cost_usd": null,
+          "provider_request_id": "recorded-1"
+        },
+        "created_at": "2026-10-19T07:19:46.622777+00:00",
+        "finished_at": "2026-10-19T07:19:46.632952+00:00"
+      },
+      "discoveries": [
+        {
+          "question_index": 0,
+          "question_id": "supply",
+          "source_id": "research-gdelt-549be4d219bb4c939924c939e8b3b383-0",
+          "status": "running",
+          "capture_id": null,
+          "revision_ids": [],
+          "metadata": null,
+          "stop_reason": "response_not_recorded",
+          "admitted_at": "2026-10-19T07:19:46.636034+00:00",
+          "finished_at": null
+        }
+      ],
+      "evidence_context_id": null,
+      "compilation": null,
+      "gaps": [
+        "This is explicitly initiated research, not monitoring, approval or a position.",
+        "Discovery uses bounded metadata and headlines, not publisher article bodies or verified macro context.",
+        "Provider relevance order selects up to four results per question; this is not an exhaustive or independent source-quality assessment.",
+        "Counter-evidence is requested, but its presence or absence does not establish that competing explanations were adequately covered.",
+        "Exact source quotations prove attribution, not truth, semantic support or causation.",
+        "Prices, valuation, market expectations and instrument availability remain unverified or unavailable.",
+        "Call and result bounds do not establish a guaranteed monetary ceiling; unknown costs remain unknown."
+      ],
+      "authority": {
+        "monitoring_started": false,
+        "thesis_approved": false,
+        "positions_created": false
+      },
+      "costs": {
+        "planning_reported_cost_usd": null,
+        "compilation_reported_cost_usd": null,
+        "total_known_cost_usd": null
+      }
+    },
+    "replayed": false
+  },
+  "completed_after_explicit_continuation": {
+    "research": {
+      "id": "549be4d2-19bb-4c93-9924-c939e8b3b383",
+      "command_id": "5215aa3a-6607-46bd-a522-e302abdc1976",
+      "request_digest": "d64b8707d2d26d45cd975f614cc25750bf779a15998581126c583b13054d7c1b",
+      "exact_question": "  Could fictional helium supply disruption create a useful exposure idea?\r\nΔ",
+      "thesis_id": "29a86248-e768-46ad-801a-d78186736931",
+      "initial_thesis_revision": 1,
+      "provider": "nanogpt",
+      "model_id": "Qwen/Qwen3-4B",
+      "bounds": {
+        "max_questions": 3,
+        "max_model_calls": 2,
+        "max_selected_reports": 12,
+        "max_results_per_question": 4
+      },
+      "created_at": "2026-10-19T07:19:46.604266+00:00",
+      "status": "compiled",
+      "plan": {
+        "attempt_id": "8f12b888-b29a-4077-a6c8-ce076c3f9a02",
+        "status": "planned",
+        "document": {
+          "questions": [
+            {
+              "query": "fictional helium supply substitutes",
+              "question": "Could fictional supply disruption reach business cash flows?",
+              "question_id": "supply",
+              "why_material": "An exposure idea depends on who bears higher input costs.",
+              "evidence_to_seek": "A relevant supply observation and business exposure.",
+              "counter_evidence_to_seek": "Substitutes, cost pass-through or offsetting supply."
+            },
+            {
+              "query": "fictional helium replacement supply offsets",
+              "question": "Could replacement supply offset this fictional disruption?",
+              "question_id": "offsets",
+              "why_material": "Replacement supply could undermine the proposed scarcity mechanism.",
+              "evidence_to_seek": "Attributed evidence about replacement gas supply.",
+              "counter_evidence_to_seek": "Evidence that replacement capacity is unavailable."
+            }
+          ],
+          "schema_version": "research-plan-v1"
+        },
+        "stop_reason": "completed",
+        "provider_metadata": {
+          "usage": {
+            "total_tokens": 30,
+            "prompt_tokens": 10,
+            "completion_tokens": 20
+          },
+          "latency_ms": 1,
+          "reported_model": "Qwen/Qwen3-4B",
+          "reported_cost_usd": null,
+          "provider_request_id": "recorded-1"
+        },
+        "created_at": "2026-10-19T07:19:46.622777+00:00",
+        "finished_at": "2026-10-19T07:19:46.632952+00:00"
+      },
+      "discoveries": [
+        {
+          "question_index": 0,
+          "question_id": "supply",
+          "source_id": "research-gdelt-549be4d219bb4c939924c939e8b3b383-0",
+          "status": "captured",
+          "capture_id": "c192f0a5-562d-4b0d-ae07-41d7ff96c277",
+          "revision_ids": [
+            "1299c073-a475-4e7c-a07e-7d7ded6e41f8",
+            "3de15ddf-301f-453c-a6bd-e65a81be3ad4",
+            "831350a5-b3a7-4828-82fd-5ddefa49949c",
+            "a9f274c7-771c-40e0-9c8f-85e66f04d5af"
+          ],
+          "metadata": {
+            "query": "fictional helium supply substitutes",
+            "candidates": [
+              {
+                "rank": 1,
+                "metadata": {
+                  "url": "https://example.invalid/fictional-helium/candidate-0",
+                  "title": "FICTIONAL helium importer reports higher input costs [fictional candidate 1]",
+                  "domain": "example.invalid",
+                  "language": "English",
+                  "seendate": "20261019T071946Z",
+                  "url_mobile": "",
+                  "socialimage": "",
+                  "sourcecountry": "Uganda"
+                },
+                "selected": true,
+                "native_id": "url-sha256:9ba4c79224c1782e983bf71e1f8f8ab9720c627e1ef6a2764c9d7eb34ee8c168",
+                "gdelt_seen_at": "2026-10-19T07:19:46+00:00",
+                "exclusion_reason": null
+              },
+              {
+                "rank": 2,
+                "metadata": {
+                  "url": "https://example.invalid/fictional-helium/candidate-1",
+                  "title": "FICTIONAL helium importer reports higher input costs [fictional candidate 2]",
+                  "domain": "example.invalid",
+                  "language": "English",
+                  "seendate": "20261019T071946Z",
+                  "url_mobile": "",
+                  "socialimage": "",
+                  "sourcecountry": "Uganda"
+                },
+                "selected": true,
+                "native_id": "url-sha256:73603b12d8253e99ab7dc1f9d3d89a290f207dc25a5e0ff0d9b200b9db4153c3",
+                "gdelt_seen_at": "2026-10-19T07:19:46+00:00",
+                "exclusion_reason": null
+              },
+              {
+                "rank": 3,
+                "metadata": {
+                  "url": "https://example.invalid/fictional-helium/candidate-2",
+                  "title": "FICTIONAL helium importer reports higher input costs [fictional candidate 3]",
+                  "domain": "example.invalid",
+                  "language": "English",
+                  "seendate": "20261019T071946Z",
+                  "url_mobile": "",
+                  "socialimage": "",
+                  "sourcecountry": "Uganda"
+                },
+                "selected": true,
+                "native_id": "url-sha256:da893324cf3458d47b2705d3ea58cb6a15965616bd141e54e60b94b49e507740",
+                "gdelt_seen_at": "2026-10-19T07:19:46+00:00",
+                "exclusion_reason": null
+              },
+              {
+                "rank": 4,
+                "metadata": {
+                  "url": "https://example.invalid/fictional-helium/candidate-3",
+                  "title": "FICTIONAL helium importer reports higher input costs [fictional candidate 4]",
+                  "domain": "example.invalid",
+                  "language": "English",
+                  "seendate": "20261019T071946Z",
+                  "url_mobile": "",
+                  "socialimage": "",
+                  "sourcecountry": "Uganda"
+                },
+                "selected": true,
+                "native_id": "url-sha256:6aad8662b5ba71937018d03c10bfb6ae4e42a5d25eafa0c30abe95acf6f57212",
+                "gdelt_seen_at": "2026-10-19T07:19:46+00:00",
+                "exclusion_reason": null
+              },
+              {
+                "rank": 5,
+                "metadata": {
+                  "url": "https://example.invalid/fictional-helium/candidate-4",
+                  "title": "FICTIONAL helium importer reports higher input costs [fictional candidate 5]",
+                  "domain": "example.invalid",
+                  "language": "English",
+                  "seendate": "20261019T071946Z",
+                  "url_mobile": "",
+                  "socialimage": "",
+                  "sourcecountry": "Uganda"
+                },
+                "selected": false,
+                "native_id": "url-sha256:2920ad513a07672d72ede598555d4b1c19c539002e446965bdf8dfa528c9334b",
+                "gdelt_seen_at": "2026-10-19T07:19:46+00:00",
+                "exclusion_reason": "explicit_selection_limit"
+              }
+            ],
+            "limitations": [
+              "GDELT DOC headline metadata only; linked article bodies were not retrieved.",
+              "Search ranking and bounded results do not establish complete or suitable research coverage.",
+              "Headlines and automated metadata are attributed claims, not verified facts or causal support.",
+              "GDELT seen time is not publisher publication time or first public availability.",
+              "Prices, consensus, instrument availability and company-specific exposure remain unverified.",
+              "The GDELT Project: https://www.gdeltproject.org/"
+            ],
+            "received_at": "2026-10-19T07:19:46.644841+00:00",
+            "request_url": "https://api.gdeltproject.org/api/v2/doc/doc?query=fictional+helium+supply+substitutes&mode=ArtList&format=json&timespan=30d&sort=HybridRel&maxrecords=5",
+            "schema_version": "gdelt-research-selection-v1",
+            "selected_count": 4,
+            "selection_limit": 4,
+            "transport_digest": "02cfda2eb90ef3348334896f5d635047d83fab9b6c0096a20498d2600ea6357c",
+            "coverage_complete": false,
+            "candidate_cap_reached": true,
+            "returned_candidate_count": 5,
+            "requested_candidate_limit": 5
+          },
+          "stop_reason": "snapshot_captured",
+          "admitted_at": "2026-10-19T07:19:46.636034+00:00",
+          "finished_at": "2026-10-19T07:19:46.746505+00:00"
+        },
+        {
+          "question_index": 1,
+          "question_id": "offsets",
+          "source_id": "research-gdelt-549be4d219bb4c939924c939e8b3b383-1",
+          "status": "captured",
+          "capture_id": "a1d98383-d956-4240-8af0-a5360d742051",
+          "revision_ids": [],
+          "metadata": {
+            "query": "fictional helium replacement supply offsets",
+            "candidates": [],
+            "limitations": [
+              "GDELT DOC headline metadata only; linked article bodies were not retrieved.",
+              "Search ranking and bounded results do not establish complete or suitable research coverage.",
+              "Headlines and automated metadata are attributed claims, not verified facts or causal support.",
+              "GDELT seen time is not publisher publication time or first public availability.",
+              "Prices, consensus, instrument availability and company-specific exposure remain unverified.",
+              "The GDELT Project: https://www.gdeltproject.org/"
+            ],
+            "received_at": "2026-10-19T07:19:46.757034+00:00",
+            "request_url": "https://api.gdeltproject.org/api/v2/doc/doc?query=fictional+helium+replacement+supply+offsets&mode=ArtList&format=json&timespan=30d&sort=HybridRel&maxrecords=5",
+            "schema_version": "gdelt-research-selection-v1",
+            "selected_count": 0,
+            "selection_limit": 4,
+            "transport_digest": "35c74c2e22b3ccd222b09b8b63f16f3c9c1312e50fbdaff47ef8af563af95791",
+            "coverage_complete": false,
+            "candidate_cap_reached": false,
+            "returned_candidate_count": 0,
+            "requested_candidate_limit": 5
+          },
+          "stop_reason": "snapshot_captured",
+          "admitted_at": "2026-10-19T07:19:46.750446+00:00",
+          "finished_at": "2026-10-19T07:19:46.765526+00:00"
+        }
+      ],
+      "evidence_context_id": "a6430971-6cc4-4e09-b83f-35efd43446d5",
+      "compilation": {
+        "compilation": {
+          "id": "aaafe371-9033-4bb7-9c70-2016368223ab",
+          "status": "compiled",
+          "provider": "nanogpt",
+          "input_text_version": {
+            "id": "31ea62ad-b5a3-4ee9-b0e3-6c22ac7a34ce",
+            "parent_version_id": null,
+            "exact_text": "  Could fictional helium supply disruption create a useful exposure idea?\r\nΔ",
+            "text_digest": "b79ebfdd3fe4ad506b217a3924de469b2b1fc5e588319886cc973873e02fa1dc",
+            "created_at": "2026-10-19T07:19:46.594632+00:00"
+          },
+          "schema_version": "source-backed-thesis-compilation-v2",
+          "prompt_version": "source-backed-thesis-prompt-v2-question-research-v1",
+          "model_id": "Qwen/Qwen3-4B",
+          "created_at": "2026-10-19T07:19:46.921869+00:00",
+          "finished_at": "2026-10-19T07:19:46.998548+00:00",
+          "document": {
+            "grounding": [],
+            "review_card": {
+              "claim": {
+                "gap": "This recorded metadata does not settle the research question.",
+                "proposed": [],
+                "extracted": []
+              },
+              "catalysts": {
+                "gap": "This recorded metadata does not settle the research question.",
+                "proposed": [],
+                "extracted": []
+              },
+              "scenarios": {
+                "gap": "This recorded metadata does not settle the research question.",
+                "proposed": [],
+                "extracted": []
+              },
+              "assumptions": {
+                "gap": "This recorded metadata does not settle the research question.",
+                "proposed": [],
+                "extracted": []
+              },
+              "causal_path": {
+                "gap": "This recorded metadata does not settle the research question.",
+                "proposed": [],
+                "extracted": []
+              },
+              "affected_assets": {
+                "gap": "This recorded metadata does not settle the research question.",
+                "proposed": [],
+                "extracted": []
+              },
+              "monitoring_scope": {
+                "gap": "This recorded metadata does not settle the research question.",
+                "proposed": [],
+                "extracted": []
+              }
+            },
+            "counter_case": null,
+            "interpretation": {
+              "drivers": [],
+              "horizon": null,
+              "invalidation_signposts": []
+            },
+            "agent_hypotheses": [],
+            "proposed_drivers": [
+              {
+                "driver_id": "input-cost",
+                "assumptions": [
+                  "Costs cannot immediately be passed through."
+                ],
+                "explanation": "Higher input costs may affect margins.",
+                "uncertainty": "The headline does not establish the firm's actual cost exposure.",
+                "transmission": "A supply disruption could increase input costs if substitutes are unavailable.",
+                "why_material": "An importer may lose rather than benefit from higher gas prices.",
+                "counter_claim_ids": [],
+                "supporting_claim_ids": [
+                  "headline"
+                ]
+              }
+            ],
+            "attributed_claims": [
+              {
+                "field": "title",
+                "claim_id": "headline",
+                "exact_quote": "FICTIONAL helium importer reports higher input costs [fictional candidate 1]",
+                "revision_id": "1299c073-a475-4e7c-a07e-7d7ded6e41f8"
+              }
+            ],
+            "factual_conflicts": [],
+            "refinement_issues": [],
+            "evidence_assessment": {
+              "gaps": [
+                "No article body, verified prices or business cash-flow data."
+              ],
+              "summary": "A fictional headline motivates a qualified investigation.",
+              "counter_claim_ids": [],
+              "supporting_claim_ids": [
+                "headline"
+              ]
+            },
+            "exposure_candidates": [
+              {
+                "asset": "Fictional industrial gas business",
+                "claim_ids": [
+                  "headline"
+                ],
+                "expression": "Potential related-equity exposure, instrument availability unverified.",
+                "basis_risks": [
+                  "Business margins may diverge from gas prices."
+                ],
+                "uncertainty": "No company financials or broker contract was supplied.",
+                "availability": "unverified",
+                "candidate_id": "gas-business",
+                "relationship": "Possible input-cost exposure, not direct commodity ownership.",
+                "verification_questions": [
+                  "What proportion of costs can be hedged or passed through?"
+                ]
+              }
+            ]
+          },
+          "refinement_id": null,
+          "refinement_inputs": [],
+          "parent_attempt_id": null,
+          "interpretation_version_id": "35c0a584-37e4-46df-9c68-e10c0bd38ed8",
+          "is_current_draft": true,
+          "usage": {
+            "total_tokens": 30,
+            "prompt_tokens": 10,
+            "completion_tokens": 20
+          },
+          "reported_cost_usd": null,
+          "estimated_cost_usd": null,
+          "reported_model": "Qwen/Qwen3-4B",
+          "provider_request_id": "recorded-2",
+          "latency_ms": 1,
+          "stop_reason": "completed",
+          "limitations": [
+            "Explicitly selected retained reports do not establish broad market coverage or the current macro regime.",
+            "Source statements and exact quotations establish attribution, not factual truth or semantic support.",
+            "Consensus, current prices, valuation and instrument mapping are unavailable unless explicitly supported.",
+            "Model-identified conflicts and causal interpretations remain hypotheses for human review.",
+            "No automatic thesis amendment, external notice, execution or paid retry is authorized."
+          ],
+          "evidence_context": {
+            "id": "a6430971-6cc4-4e09-b83f-35efd43446d5",
+            "digest": "468b5fdd145461693d32236aa8a6beb99f79d68b658f995c99376d506761a6b6",
+            "content": {
+              "cutoff": "2026-10-19T07:19:46.777452+00:00",
+              "gaps": [
+                "Explicitly selected retained reports do not establish broad market coverage or the current macro regime.",
+                "Source statements and exact quotations establish attribution, not factual truth or semantic support.",
+                "Consensus, current prices, valuation and instrument mapping are unavailable unless explicitly supported."
+              ],
+              "question_research": {
+                "coverage_complete": false,
+                "evidence_depth": "headline_metadata_only",
+                "exact_question_digest": "b79ebfdd3fe4ad506b217a3924de469b2b1fc5e588319886cc973873e02fa1dc",
+                "plan_attempt_id": "8f12b888-b29a-4077-a6c8-ce076c3f9a02",
+                "plan_prompt_digest": "b9a91e94d13792976685419262e55c3f20ec123ac3c2cbaa1b56d90e6d562ee6",
+                "plan_result_digest": "0017fd7ad5560fb29837037a09222886d6266cfad9e9c7dcc8f2a037d55524be",
+                "plan_result_id": "8f12b888-b29a-4077-a6c8-ce076c3f9a02",
+                "questions": [
+                  {
+                    "candidate_cap_reached": true,
+                    "capture_id": "c192f0a5-562d-4b0d-ae07-41d7ff96c277",
+                    "contract_digest": "0e4a1b2f55113cbbe15997bf7e745933da19cbe1ee99dad5a502d7ea11318570",
+                    "contract_version_id": "2f3d27b2-2c24-4f92-a63d-2c456639a9ce",
+                    "discovery_attempt_id": "f5dfd67f-e399-44c7-a8da-ce92b0aedb31",
+                    "excluded_count": 1,
+                    "exclusion_counts": {
+                      "explicit_selection_limit": 1
+                    },
+                    "planned_question": {
+                      "counter_evidence_to_seek": "Substitutes, cost pass-through or offsetting supply.",
+                      "evidence_to_seek": "A relevant supply observation and business exposure.",
+                      "query": "fictional helium supply substitutes",
+                      "question": "Could fictional supply disruption reach business cash flows?",
+                      "question_id": "supply",
+                      "why_material": "An exposure idea depends on who bears higher input costs."
+                    },
+                    "question_index": 0,
+                    "receipt_digest": "9b45c3b33afec5c7a4865262142c035616b8c912851279853c5ded78ebc0497a",
+                    "receipt_id": "f5dfd67f-e399-44c7-a8da-ce92b0aedb31",
+                    "result_digest": "61ade39a2526e0ba58b0c937ed893f5460fd50392ad7ab79cc0f9fb887170d9a",
+                    "result_id": "f5dfd67f-e399-44c7-a8da-ce92b0aedb31",
+                    "returned_candidate_count": 5,
+                    "revision_ids": [
+                      "1299c073-a475-4e7c-a07e-7d7ded6e41f8",
+                      "3de15ddf-301f-453c-a6bd-e65a81be3ad4",
+                      "831350a5-b3a7-4828-82fd-5ddefa49949c",
+                      "a9f274c7-771c-40e0-9c8f-85e66f04d5af"
+                    ],
+                    "selected_count": 4,
+                    "source_id": "research-gdelt-549be4d219bb4c939924c939e8b3b383-0",
+                    "status": "captured"
+                  },
+                  {
+                    "candidate_cap_reached": false,
+                    "capture_id": "a1d98383-d956-4240-8af0-a5360d742051",
+                    "contract_digest": "7d5f7b5190fcd3711ad0f50c14b2389bd7d4226c4ac22402d73c4690f30faad7",
+                    "contract_version_id": "8b7334b0-99fe-4a53-99b0-27193ff4824c",
+                    "discovery_attempt_id": "d52b6415-2dbe-400d-bad3-3015c3a0312c",
+                    "excluded_count": 0,
+                    "exclusion_counts": {},
+                    "planned_question": {
+                      "counter_evidence_to_seek": "Evidence that replacement capacity is unavailable.",
+                      "evidence_to_seek": "Attributed evidence about replacement gas supply.",
+                      "query": "fictional helium replacement supply offsets",
+                      "question": "Could replacement supply offset this fictional disruption?",
+                      "question_id": "offsets",
+                      "why_material": "Replacement supply could undermine the proposed scarcity mechanism."
+                    },
+                    "question_index": 1,
+                    "receipt_digest": "f5d81564f55b68fc3f774647038f97c9fbdfb2ecb0907f4b069667b56173f4fd",
+                    "receipt_id": "d52b6415-2dbe-400d-bad3-3015c3a0312c",
+                    "result_digest": "ae073d1e86779f4d1ac690a438f1f5ccbe1d68cb2620f3b46d183937b2e379ff",
+                    "result_id": "d52b6415-2dbe-400d-bad3-3015c3a0312c",
+                    "returned_candidate_count": 0,
+                    "revision_ids": [],
+                    "selected_count": 0,
+                    "source_id": "research-gdelt-549be4d219bb4c939924c939e8b3b383-1",
+                    "status": "captured"
+                  }
+                ],
+                "run_id": "549be4d2-19bb-4c93-9924-c939e8b3b383",
+                "run_request_digest": "d64b8707d2d26d45cd975f614cc25750bf779a15998581126c583b13054d7c1b",
+                "schema_version": "question-research-context-v1"
+              },
+              "reports": [
+                {
+                  "availability_witness_at": "2026-10-19T07:19:46.739837+00:00",
+                  "content": "{\"article_body\":\"not_retrieved\",\"domain\":\"example.invalid\",\"gdelt_seen_at\":\"2026-10-19T07:19:46+00:00\",\"kind\":\"gdelt_headline_metadata_only\",\"language\":\"English\",\"publisher_publication_time\":\"unavailable\",\"sourcecountry\":\"Uganda\"}",
+                  "contract_digest": "0e4a1b2f55113cbbe15997bf7e745933da19cbe1ee99dad5a502d7ea11318570",
+                  "contract_version_id": "2f3d27b2-2c24-4f92-a63d-2c456639a9ce",
+                  "head_at_admission_id": "1299c073-a475-4e7c-a07e-7d7ded6e41f8",
+                  "revision_id": "1299c073-a475-4e7c-a07e-7d7ded6e41f8",
+                  "source_claimed_published_at": null,
+                  "source_id": "research-gdelt-549be4d219bb4c939924c939e8b3b383-0",
+                  "source_url": "https://example.invalid/fictional-helium/candidate-0",
+                  "system_received_at": "2026-10-19T07:19:46.644841+00:00",
+                  "title": "FICTIONAL helium importer reports higher input costs [fictional candidate 1]"
+                },
+                {
+                  "availability_witness_at": "2026-10-19T07:19:46.739837+00:00",
+                  "content": "{\"article_body\":\"not_retrieved\",\"domain\":\"example.invalid\",\"gdelt_seen_at\":\"2026-10-19T07:19:46+00:00\",\"kind\":\"gdelt_headline_metadata_only\",\"language\":\"English\",\"publisher_publication_time\":\"unavailable\",\"sourcecountry\":\"Uganda\"}",
+                  "contract_digest": "0e4a1b2f55113cbbe15997bf7e745933da19cbe1ee99dad5a502d7ea11318570",
+                  "contract_version_id": "2f3d27b2-2c24-4f92-a63d-2c456639a9ce",
+                  "head_at_admission_id": "3de15ddf-301f-453c-a6bd-e65a81be3ad4",
+                  "revision_id": "3de15ddf-301f-453c-a6bd-e65a81be3ad4",
+                  "source_claimed_published_at": null,
+                  "source_id": "research-gdelt-549be4d219bb4c939924c939e8b3b383-0",
+                  "source_url": "https://example.invalid/fictional-helium/candidate-2",
+                  "system_received_at": "2026-10-19T07:19:46.644841+00:00",
+                  "title": "FICTIONAL helium importer reports higher input costs [fictional candidate 3]"
+                },
+                {
+                  "availability_witness_at": "2026-10-19T07:19:46.739837+00:00",
+                  "content": "{\"article_body\":\"not_retrieved\",\"domain\":\"example.invalid\",\"gdelt_seen_at\":\"2026-10-19T07:19:46+00:00\",\"kind\":\"gdelt_headline_metadata_only\",\"language\":\"English\",\"publisher_publication_time\":\"unavailable\",\"sourcecountry\":\"Uganda\"}",
+                  "contract_digest": "0e4a1b2f55113cbbe15997bf7e745933da19cbe1ee99dad5a502d7ea11318570",
+                  "contract_version_id": "2f3d27b2-2c24-4f92-a63d-2c456639a9ce",
+                  "head_at_admission_id": "831350a5-b3a7-4828-82fd-5ddefa49949c",
+                  "revision_id": "831350a5-b3a7-4828-82fd-5ddefa49949c",
+                  "source_claimed_published_at": null,
+                  "source_id": "research-gdelt-549be4d219bb4c939924c939e8b3b383-0",
+                  "source_url": "https://example.invalid/fictional-helium/candidate-3",
+                  "system_received_at": "2026-10-19T07:19:46.644841+00:00",
+                  "title": "FICTIONAL helium importer reports higher input costs [fictional candidate 4]"
+                },
+                {
+                  "availability_witness_at": "2026-10-19T07:19:46.739837+00:00",
+                  "content": "{\"article_body\":\"not_retrieved\",\"domain\":\"example.invalid\",\"gdelt_seen_at\":\"2026-10-19T07:19:46+00:00\",\"kind\":\"gdelt_headline_metadata_only\",\"language\":\"English\",\"publisher_publication_time\":\"unavailable\",\"sourcecountry\":\"Uganda\"}",
+                  "contract_digest": "0e4a1b2f55113cbbe15997bf7e745933da19cbe1ee99dad5a502d7ea11318570",
+                  "contract_version_id": "2f3d27b2-2c24-4f92-a63d-2c456639a9ce",
+                  "head_at_admission_id": "a9f274c7-771c-40e0-9c8f-85e66f04d5af",
+                  "revision_id": "a9f274c7-771c-40e0-9c8f-85e66f04d5af",
+                  "source_claimed_published_at": null,
+                  "source_id": "research-gdelt-549be4d219bb4c939924c939e8b3b383-0",
+                  "source_url": "https://example.invalid/fictional-helium/candidate-1",
+                  "system_received_at": "2026-10-19T07:19:46.644841+00:00",
+                  "title": "FICTIONAL helium importer reports higher input costs [fictional candidate 2]"
+                }
+              ],
+              "schema_version": "retained-source-evidence-v2"
+            }
+          },
+          "evidence_disposition": {
+            "status": "current",
+            "stale_reasons": [],
+            "observed_at": "2026-10-19T07:19:47.108243+00:00"
+          }
+        },
+        "thesis": {
+          "id": "29a86248-e768-46ad-801a-d78186736931",
+          "revision": 2,
+          "created_at": "2026-10-19T07:19:46.594632+00:00",
+          "changed_at": "2026-10-19T07:19:46.998548+00:00",
+          "draft": {
+            "text_version": {
+              "id": "31ea62ad-b5a3-4ee9-b0e3-6c22ac7a34ce",
+              "parent_version_id": null,
+              "exact_text": "  Could fictional helium supply disruption create a useful exposure idea?\r\nΔ",
+              "text_digest": "b79ebfdd3fe4ad506b217a3924de469b2b1fc5e588319886cc973873e02fa1dc",
+              "created_at": "2026-10-19T07:19:46.594632+00:00"
+            },
+            "interpretation": {
+              "id": "35c0a584-37e4-46df-9c68-e10c0bd38ed8",
+              "text_version_id": "31ea62ad-b5a3-4ee9-b0e3-6c22ac7a34ce",
+              "drivers": [],
+              "horizon": null,
+              "invalidation_signposts": [],
+              "known_at": "2026-10-19T07:19:46.998548+00:00",
+              "digest": "2cd8449c56fafbcbd3051c731b83296b94ed7b576df168ad87979c76cf30a0af",
+              "origin": "model_compilation",
+              "review_card": {
+                "inputs": [
+                  {
+                    "input_id": "thesis",
+                    "exact_text": "  Could fictional helium supply disruption create a useful exposure idea?\r\nΔ"
+                  }
+                ],
+                "document": {
+                  "grounding": [],
+                  "review_card": {
+                    "claim": {
+                      "gap": "This recorded metadata does not settle the research question.",
+                      "proposed": [],
+                      "extracted": []
+                    },
+                    "catalysts": {
+                      "gap": "This recorded metadata does not settle the research question.",
+                      "proposed": [],
+                      "extracted": []
+                    },
+                    "scenarios": {
+                      "gap": "This recorded metadata does not settle the research question.",
+                      "proposed": [],
+                      "extracted": []
+                    },
+                    "assumptions": {
+                      "gap": "This recorded metadata does not settle the research question.",
+                      "proposed": [],
+                      "extracted": []
+                    },
+                    "causal_path": {
+                      "gap": "This recorded metadata does not settle the research question.",
+                      "proposed": [],
+                      "extracted": []
+                    },
+                    "affected_assets": {
+                      "gap": "This recorded metadata does not settle the research question.",
+                      "proposed": [],
+                      "extracted": []
+                    },
+                    "monitoring_scope": {
+                      "gap": "This recorded metadata does not settle the research question.",
+                      "proposed": [],
+                      "extracted": []
+                    }
+                  },
+                  "counter_case": null,
+                  "interpretation": {
+                    "drivers": [],
+                    "horizon": null,
+                    "invalidation_signposts": []
+                  },
+                  "agent_hypotheses": [],
+                  "proposed_drivers": [
+                    {
+                      "driver_id": "input-cost",
+                      "assumptions": [
+                        "Costs cannot immediately be passed through."
+                      ],
+                      "explanation": "Higher input costs may affect margins.",
+                      "uncertainty": "The headline does not establish the firm's actual cost exposure.",
+                      "transmission": "A supply disruption could increase input costs if substitutes are unavailable.",
+                      "why_material": "An importer may lose rather than benefit from higher gas prices.",
+                      "counter_claim_ids": [],
+                      "supporting_claim_ids": [
+                        "headline"
+                      ]
+                    }
+                  ],
+                  "attributed_claims": [
+                    {
+                      "field": "title",
+                      "claim_id": "headline",
+                      "exact_quote": "FICTIONAL helium importer reports higher input costs [fictional candidate 1]",
+                      "revision_id": "1299c073-a475-4e7c-a07e-7d7ded6e41f8"
+                    }
+                  ],
+                  "factual_conflicts": [],
+                  "refinement_issues": [],
+                  "evidence_assessment": {
+                    "gaps": [
+                      "No article body, verified prices or business cash-flow data."
+                    ],
+                    "summary": "A fictional headline motivates a qualified investigation.",
+                    "counter_claim_ids": [],
+                    "supporting_claim_ids": [
+                      "headline"
+                    ]
+                  },
+                  "exposure_candidates": [
+                    {
+                      "asset": "Fictional industrial gas business",
+                      "claim_ids": [
+                        "headline"
+                      ],
+                      "expression": "Potential related-equity exposure, instrument availability unverified.",
+                      "basis_risks": [
+                        "Business margins may diverge from gas prices."
+                      ],
+                      "uncertainty": "No company financials or broker contract was supplied.",
+                      "availability": "unverified",
+                      "candidate_id": "gas-business",
+                      "relationship": "Possible input-cost exposure, not direct commodity ownership.",
+                      "verification_questions": [
+                        "What proportion of costs can be hedged or passed through?"
+                      ]
+                    }
+                  ]
+                },
+                "evidence": {
+                  "status": "retained_sources",
+                  "context": {
+                    "gaps": [
+                      "Explicitly selected retained reports do not establish broad market coverage or the current macro regime.",
+                      "Source statements and exact quotations establish attribution, not factual truth or semantic support.",
+                      "Consensus, current prices, valuation and instrument mapping are unavailable unless explicitly supported."
+                    ],
+                    "cutoff": "2026-10-19T07:19:46.777452+00:00",
+                    "reports": [
+                      {
+                        "title": "FICTIONAL helium importer reports higher input costs [fictional candidate 1]",
+                        "content": "{\"article_body\":\"not_retrieved\",\"domain\":\"example.invalid\",\"gdelt_seen_at\":\"2026-10-19T07:19:46+00:00\",\"kind\":\"gdelt_headline_metadata_only\",\"language\":\"English\",\"publisher_publication_time\":\"unavailable\",\"sourcecountry\":\"Uganda\"}",
+                        "source_id": "research-gdelt-549be4d219bb4c939924c939e8b3b383-0",
+                        "source_url": "https://example.invalid/fictional-helium/candidate-0",
+                        "revision_id": "1299c073-a475-4e7c-a07e-7d7ded6e41f8",
+                        "contract_digest": "0e4a1b2f55113cbbe15997bf7e745933da19cbe1ee99dad5a502d7ea11318570",
+                        "system_received_at": "2026-10-19T07:19:46.644841+00:00",
+                        "contract_version_id": "2f3d27b2-2c24-4f92-a63d-2c456639a9ce",
+                        "head_at_admission_id": "1299c073-a475-4e7c-a07e-7d7ded6e41f8",
+                        "availability_witness_at": "2026-10-19T07:19:46.739837+00:00",
+                        "source_claimed_published_at": null
+                      },
+                      {
+                        "title": "FICTIONAL helium importer reports higher input costs [fictional candidate 3]",
+                        "content": "{\"article_body\":\"not_retrieved\",\"domain\":\"example.invalid\",\"gdelt_seen_at\":\"2026-10-19T07:19:46+00:00\",\"kind\":\"gdelt_headline_metadata_only\",\"language\":\"English\",\"publisher_publication_time\":\"unavailable\",\"sourcecountry\":\"Uganda\"}",
+                        "source_id": "research-gdelt-549be4d219bb4c939924c939e8b3b383-0",
+                        "source_url": "https://example.invalid/fictional-helium/candidate-2",
+                        "revision_id": "3de15ddf-301f-453c-a6bd-e65a81be3ad4",
+                        "contract_digest": "0e4a1b2f55113cbbe15997bf7e745933da19cbe1ee99dad5a502d7ea11318570",
+                        "system_received_at": "2026-10-19T07:19:46.644841+00:00",
+                        "contract_version_id": "2f3d27b2-2c24-4f92-a63d-2c456639a9ce",
+                        "head_at_admission_id": "3de15ddf-301f-453c-a6bd-e65a81be3ad4",
+                        "availability_witness_at": "2026-10-19T07:19:46.739837+00:00",
+                        "source_claimed_published_at": null
+                      },
+                      {
+                        "title": "FICTIONAL helium importer reports higher input costs [fictional candidate 4]",
+                        "content": "{\"article_body\":\"not_retrieved\",\"domain\":\"example.invalid\",\"gdelt_seen_at\":\"2026-10-19T07:19:46+00:00\",\"kind\":\"gdelt_headline_metadata_only\",\"language\":\"English\",\"publisher_publication_time\":\"unavailable\",\"sourcecountry\":\"Uganda\"}",
+                        "source_id": "research-gdelt-549be4d219bb4c939924c939e8b3b383-0",
+                        "source_url": "https://example.invalid/fictional-helium/candidate-3",
+                        "revision_id": "831350a5-b3a7-4828-82fd-5ddefa49949c",
+                        "contract_digest": "0e4a1b2f55113cbbe15997bf7e745933da19cbe1ee99dad5a502d7ea11318570",
+                        "system_received_at": "2026-10-19T07:19:46.644841+00:00",
+                        "contract_version_id": "2f3d27b2-2c24-4f92-a63d-2c456639a9ce",
+                        "head_at_admission_id": "831350a5-b3a7-4828-82fd-5ddefa49949c",
+                        "availability_witness_at": "2026-10-19T07:19:46.739837+00:00",
+                        "source_claimed_published_at": null
+                      },
+                      {
+                        "title": "FICTIONAL helium importer reports higher input costs [fictional candidate 2]",
+                        "content": "{\"article_body\":\"not_retrieved\",\"domain\":\"example.invalid\",\"gdelt_seen_at\":\"2026-10-19T07:19:46+00:00\",\"kind\":\"gdelt_headline_metadata_only\",\"language\":\"English\",\"publisher_publication_time\":\"unavailable\",\"sourcecountry\":\"Uganda\"}",
+                        "source_id": "research-gdelt-549be4d219bb4c939924c939e8b3b383-0",
+                        "source_url": "https://example.invalid/fictional-helium/candidate-1",
+                        "revision_id": "a9f274c7-771c-40e0-9c8f-85e66f04d5af",
+                        "contract_digest": "0e4a1b2f55113cbbe15997bf7e745933da19cbe1ee99dad5a502d7ea11318570",
+                        "system_received_at": "2026-10-19T07:19:46.644841+00:00",
+                        "contract_version_id": "2f3d27b2-2c24-4f92-a63d-2c456639a9ce",
+                        "head_at_admission_id": "a9f274c7-771c-40e0-9c8f-85e66f04d5af",
+                        "availability_witness_at": "2026-10-19T07:19:46.739837+00:00",
+                        "source_claimed_published_at": null
+                      }
+                    ],
+                    "schema_version": "retained-source-evidence-v2",
+                    "question_research": {
+                      "run_id": "549be4d2-19bb-4c93-9924-c939e8b3b383",
+                      "questions": [
+                        {
+                          "status": "captured",
+                          "result_id": "f5dfd67f-e399-44c7-a8da-ce92b0aedb31",
+                          "source_id": "research-gdelt-549be4d219bb4c939924c939e8b3b383-0",
+                          "capture_id": "c192f0a5-562d-4b0d-ae07-41d7ff96c277",
+                          "receipt_id": "f5dfd67f-e399-44c7-a8da-ce92b0aedb31",
+                          "revision_ids": [
+                            "1299c073-a475-4e7c-a07e-7d7ded6e41f8",
+                            "3de15ddf-301f-453c-a6bd-e65a81be3ad4",
+                            "831350a5-b3a7-4828-82fd-5ddefa49949c",
+                            "a9f274c7-771c-40e0-9c8f-85e66f04d5af"
+                          ],
+                          "result_digest": "61ade39a2526e0ba58b0c937ed893f5460fd50392ad7ab79cc0f9fb887170d9a",
+                          "excluded_count": 1,
+                          "question_index": 0,
+                          "receipt_digest": "9b45c3b33afec5c7a4865262142c035616b8c912851279853c5ded78ebc0497a",
+                          "selected_count": 4,
+                          "contract_digest": "0e4a1b2f55113cbbe15997bf7e745933da19cbe1ee99dad5a502d7ea11318570",
+                          "exclusion_counts": {
+                            "explicit_selection_limit": 1
+                          },
+                          "planned_question": {
+                            "query": "fictional helium supply substitutes",
+                            "question": "Could fictional supply disruption reach business cash flows?",
+                            "question_id": "supply",
+                            "why_material": "An exposure idea depends on who bears higher input costs.",
+                            "evidence_to_seek": "A relevant supply observation and business exposure.",
+                            "counter_evidence_to_seek": "Substitutes, cost pass-through or offsetting supply."
+                          },
+                          "contract_version_id": "2f3d27b2-2c24-4f92-a63d-2c456639a9ce",
+                          "discovery_attempt_id": "f5dfd67f-e399-44c7-a8da-ce92b0aedb31",
+                          "candidate_cap_reached": true,
+                          "returned_candidate_count": 5
+                        },
+                        {
+                          "status": "captured",
+                          "result_id": "d52b6415-2dbe-400d-bad3-3015c3a0312c",
+                          "source_id": "research-gdelt-549be4d219bb4c939924c939e8b3b383-1",
+                          "capture_id": "a1d98383-d956-4240-8af0-a5360d742051",
+                          "receipt_id": "d52b6415-2dbe-400d-bad3-3015c3a0312c",
+                          "revision_ids": [],
+                          "result_digest": "ae073d1e86779f4d1ac690a438f1f5ccbe1d68cb2620f3b46d183937b2e379ff",
+                          "excluded_count": 0,
+                          "question_index": 1,
+                          "receipt_digest": "f5d81564f55b68fc3f774647038f97c9fbdfb2ecb0907f4b069667b56173f4fd",
+                          "selected_count": 0,
+                          "contract_digest": "7d5f7b5190fcd3711ad0f50c14b2389bd7d4226c4ac22402d73c4690f30faad7",
+                          "exclusion_counts": {},
+                          "planned_question": {
+                            "query": "fictional helium replacement supply offsets",
+                            "question": "Could replacement supply offset this fictional disruption?",
+                            "question_id": "offsets",
+                            "why_material": "Replacement supply could undermine the proposed scarcity mechanism.",
+                            "evidence_to_seek": "Attributed evidence about replacement gas supply.",
+                            "counter_evidence_to_seek": "Evidence that replacement capacity is unavailable."
+                          },
+                          "contract_version_id": "8b7334b0-99fe-4a53-99b0-27193ff4824c",
+                          "discovery_attempt_id": "d52b6415-2dbe-400d-bad3-3015c3a0312c",
+                          "candidate_cap_reached": false,
+                          "returned_candidate_count": 0
+                        }
+                      ],
+                      "evidence_depth": "headline_metadata_only",
+                      "plan_result_id": "8f12b888-b29a-4077-a6c8-ce076c3f9a02",
+                      "schema_version": "question-research-context-v1",
+                      "plan_attempt_id": "8f12b888-b29a-4077-a6c8-ce076c3f9a02",
+                      "coverage_complete": false,
+                      "plan_prompt_digest": "b9a91e94d13792976685419262e55c3f20ec123ac3c2cbaa1b56d90e6d562ee6",
+                      "plan_result_digest": "0017fd7ad5560fb29837037a09222886d6266cfad9e9c7dcc8f2a037d55524be",
+                      "run_request_digest": "d64b8707d2d26d45cd975f614cc25750bf779a15998581126c583b13054d7c1b",
+                      "exact_question_digest": "b79ebfdd3fe4ad506b217a3924de469b2b1fc5e588319886cc973873e02fa1dc"
+                    }
+                  }
+                },
+                "schema_version": "thesis-review-card-v3"
+              }
+            }
+          },
+          "approved": null,
+          "monitoring": "not_configured"
+        }
+      },
+      "gaps": [
+        "This is explicitly initiated research, not monitoring, approval or a position.",
+        "Discovery uses bounded metadata and headlines, not publisher article bodies or verified macro context.",
+        "Provider relevance order selects up to four results per question; this is not an exhaustive or independent source-quality assessment.",
+        "Counter-evidence is requested, but its presence or absence does not establish that competing explanations were adequately covered.",
+        "Exact source quotations prove attribution, not truth, semantic support or causation.",
+        "Prices, valuation, market expectations and instrument availability remain unverified or unavailable.",
+        "Call and result bounds do not establish a guaranteed monetary ceiling; unknown costs remain unknown."
+      ],
+      "authority": {
+        "monitoring_started": false,
+        "thesis_approved": false,
+        "positions_created": false
+      },
+      "costs": {
+        "planning_reported_cost_usd": null,
+        "compilation_reported_cost_usd": null,
+        "total_known_cost_usd": null
+      }
+    },
+    "replayed": false
+  },
+  "recovery_after_source_correction_and_key_provider_removal": {
+    "research": {
+      "id": "549be4d2-19bb-4c93-9924-c939e8b3b383",
+      "command_id": "5215aa3a-6607-46bd-a522-e302abdc1976",
+      "request_digest": "d64b8707d2d26d45cd975f614cc25750bf779a15998581126c583b13054d7c1b",
+      "exact_question": "  Could fictional helium supply disruption create a useful exposure idea?\r\nΔ",
+      "thesis_id": "29a86248-e768-46ad-801a-d78186736931",
+      "initial_thesis_revision": 1,
+      "provider": "nanogpt",
+      "model_id": "Qwen/Qwen3-4B",
+      "bounds": {
+        "max_questions": 3,
+        "max_model_calls": 2,
+        "max_selected_reports": 12,
+        "max_results_per_question": 4
+      },
+      "created_at": "2026-10-19T07:19:46.604266+00:00",
+      "status": "stale",
+      "plan": {
+        "attempt_id": "8f12b888-b29a-4077-a6c8-ce076c3f9a02",
+        "status": "planned",
+        "document": {
+          "questions": [
+            {
+              "query": "fictional helium supply substitutes",
+              "question": "Could fictional supply disruption reach business cash flows?",
+              "question_id": "supply",
+              "why_material": "An exposure idea depends on who bears higher input costs.",
+              "evidence_to_seek": "A relevant supply observation and business exposure.",
+              "counter_evidence_to_seek": "Substitutes, cost pass-through or offsetting supply."
+            },
+            {
+              "query": "fictional helium replacement supply offsets",
+              "question": "Could replacement supply offset this fictional disruption?",
+              "question_id": "offsets",
+              "why_material": "Replacement supply could undermine the proposed scarcity mechanism.",
+              "evidence_to_seek": "Attributed evidence about replacement gas supply.",
+              "counter_evidence_to_seek": "Evidence that replacement capacity is unavailable."
+            }
+          ],
+          "schema_version": "research-plan-v1"
+        },
+        "stop_reason": "completed",
+        "provider_metadata": {
+          "usage": {
+            "total_tokens": 30,
+            "prompt_tokens": 10,
+            "completion_tokens": 20
+          },
+          "latency_ms": 1,
+          "reported_model": "Qwen/Qwen3-4B",
+          "reported_cost_usd": null,
+          "provider_request_id": "recorded-1"
+        },
+        "created_at": "2026-10-19T07:19:46.622777+00:00",
+        "finished_at": "2026-10-19T07:19:46.632952+00:00"
+      },
+      "discoveries": [
+        {
+          "question_index": 0,
+          "question_id": "supply",
+          "source_id": "research-gdelt-549be4d219bb4c939924c939e8b3b383-0",
+          "status": "captured",
+          "capture_id": "c192f0a5-562d-4b0d-ae07-41d7ff96c277",
+          "revision_ids": [
+            "1299c073-a475-4e7c-a07e-7d7ded6e41f8",
+            "3de15ddf-301f-453c-a6bd-e65a81be3ad4",
+            "831350a5-b3a7-4828-82fd-5ddefa49949c",
+            "a9f274c7-771c-40e0-9c8f-85e66f04d5af"
+          ],
+          "metadata": {
+            "query": "fictional helium supply substitutes",
+            "candidates": [
+              {
+                "rank": 1,
+                "metadata": {
+                  "url": "https://example.invalid/fictional-helium/candidate-0",
+                  "title": "FICTIONAL helium importer reports higher input costs [fictional candidate 1]",
+                  "domain": "example.invalid",
+                  "language": "English",
+                  "seendate": "20261019T071946Z",
+                  "url_mobile": "",
+                  "socialimage": "",
+                  "sourcecountry": "Uganda"
+                },
+                "selected": true,
+                "native_id": "url-sha256:9ba4c79224c1782e983bf71e1f8f8ab9720c627e1ef6a2764c9d7eb34ee8c168",
+                "gdelt_seen_at": "2026-10-19T07:19:46+00:00",
+                "exclusion_reason": null
+              },
+              {
+                "rank": 2,
+                "metadata": {
+                  "url": "https://example.invalid/fictional-helium/candidate-1",
+                  "title": "FICTIONAL helium importer reports higher input costs [fictional candidate 2]",
+                  "domain": "example.invalid",
+                  "language": "English",
+                  "seendate": "20261019T071946Z",
+                  "url_mobile": "",
+                  "socialimage": "",
+                  "sourcecountry": "Uganda"
+                },
+                "selected": true,
+                "native_id": "url-sha256:73603b12d8253e99ab7dc1f9d3d89a290f207dc25a5e0ff0d9b200b9db4153c3",
+                "gdelt_seen_at": "2026-10-19T07:19:46+00:00",
+                "exclusion_reason": null
+              },
+              {
+                "rank": 3,
+                "metadata": {
+                  "url": "https://example.invalid/fictional-helium/candidate-2",
+                  "title": "FICTIONAL helium importer reports higher input costs [fictional candidate 3]",
+                  "domain": "example.invalid",
+                  "language": "English",
+                  "seendate": "20261019T071946Z",
+                  "url_mobile": "",
+                  "socialimage": "",
+                  "sourcecountry": "Uganda"
+                },
+                "selected": true,
+                "native_id": "url-sha256:da893324cf3458d47b2705d3ea58cb6a15965616bd141e54e60b94b49e507740",
+                "gdelt_seen_at": "2026-10-19T07:19:46+00:00",
+                "exclusion_reason": null
+              },
+              {
+                "rank": 4,
+                "metadata": {
+                  "url": "https://example.invalid/fictional-helium/candidate-3",
+                  "title": "FICTIONAL helium importer reports higher input costs [fictional candidate 4]",
+                  "domain": "example.invalid",
+                  "language": "English",
+                  "seendate": "20261019T071946Z",
+                  "url_mobile": "",
+                  "socialimage": "",
+                  "sourcecountry": "Uganda"
+                },
+                "selected": true,
+                "native_id": "url-sha256:6aad8662b5ba71937018d03c10bfb6ae4e42a5d25eafa0c30abe95acf6f57212",
+                "gdelt_seen_at": "2026-10-19T07:19:46+00:00",
+                "exclusion_reason": null
+              },
+              {
+                "rank": 5,
+                "metadata": {
+                  "url": "https://example.invalid/fictional-helium/candidate-4",
+                  "title": "FICTIONAL helium importer reports higher input costs [fictional candidate 5]",
+                  "domain": "example.invalid",
+                  "language": "English",
+                  "seendate": "20261019T071946Z",
+                  "url_mobile": "",
+                  "socialimage": "",
+                  "sourcecountry": "Uganda"
+                },
+                "selected": false,
+                "native_id": "url-sha256:2920ad513a07672d72ede598555d4b1c19c539002e446965bdf8dfa528c9334b",
+                "gdelt_seen_at": "2026-10-19T07:19:46+00:00",
+                "exclusion_reason": "explicit_selection_limit"
+              }
+            ],
+            "limitations": [
+              "GDELT DOC headline metadata only; linked article bodies were not retrieved.",
+              "Search ranking and bounded results do not establish complete or suitable research coverage.",
+              "Headlines and automated metadata are attributed claims, not verified facts or causal support.",
+              "GDELT seen time is not publisher publication time or first public availability.",
+              "Prices, consensus, instrument availability and company-specific exposure remain unverified.",
+              "The GDELT Project: https://www.gdeltproject.org/"
+            ],
+            "received_at": "2026-10-19T07:19:46.644841+00:00",
+            "request_url": "https://api.gdeltproject.org/api/v2/doc/doc?query=fictional+helium+supply+substitutes&mode=ArtList&format=json&timespan=30d&sort=HybridRel&maxrecords=5",
+            "schema_version": "gdelt-research-selection-v1",
+            "selected_count": 4,
+            "selection_limit": 4,
+            "transport_digest": "02cfda2eb90ef3348334896f5d635047d83fab9b6c0096a20498d2600ea6357c",
+            "coverage_complete": false,
+            "candidate_cap_reached": true,
+            "returned_candidate_count": 5,
+            "requested_candidate_limit": 5
+          },
+          "stop_reason": "snapshot_captured",
+          "admitted_at": "2026-10-19T07:19:46.636034+00:00",
+          "finished_at": "2026-10-19T07:19:46.746505+00:00"
+        },
+        {
+          "question_index": 1,
+          "question_id": "offsets",
+          "source_id": "research-gdelt-549be4d219bb4c939924c939e8b3b383-1",
+          "status": "captured",
+          "capture_id": "a1d98383-d956-4240-8af0-a5360d742051",
+          "revision_ids": [],
+          "metadata": {
+            "query": "fictional helium replacement supply offsets",
+            "candidates": [],
+            "limitations": [
+              "GDELT DOC headline metadata only; linked article bodies were not retrieved.",
+              "Search ranking and bounded results do not establish complete or suitable research coverage.",
+              "Headlines and automated metadata are attributed claims, not verified facts or causal support.",
+              "GDELT seen time is not publisher publication time or first public availability.",
+              "Prices, consensus, instrument availability and company-specific exposure remain unverified.",
+              "The GDELT Project: https://www.gdeltproject.org/"
+            ],
+            "received_at": "2026-10-19T07:19:46.757034+00:00",
+            "request_url": "https://api.gdeltproject.org/api/v2/doc/doc?query=fictional+helium+replacement+supply+offsets&mode=ArtList&format=json&timespan=30d&sort=HybridRel&maxrecords=5",
+            "schema_version": "gdelt-research-selection-v1",
+            "selected_count": 0,
+            "selection_limit": 4,
+            "transport_digest": "35c74c2e22b3ccd222b09b8b63f16f3c9c1312e50fbdaff47ef8af563af95791",
+            "coverage_complete": false,
+            "candidate_cap_reached": false,
+            "returned_candidate_count": 0,
+            "requested_candidate_limit": 5
+          },
+          "stop_reason": "snapshot_captured",
+          "admitted_at": "2026-10-19T07:19:46.750446+00:00",
+          "finished_at": "2026-10-19T07:19:46.765526+00:00"
+        }
+      ],
+      "evidence_context_id": "a6430971-6cc4-4e09-b83f-35efd43446d5",
+      "compilation": {
+        "compilation": {
+          "id": "aaafe371-9033-4bb7-9c70-2016368223ab",
+          "status": "compiled",
+          "provider": "nanogpt",
+          "input_text_version": {
+            "id": "31ea62ad-b5a3-4ee9-b0e3-6c22ac7a34ce",
+            "parent_version_id": null,
+            "exact_text": "  Could fictional helium supply disruption create a useful exposure idea?\r\nΔ",
+            "text_digest": "b79ebfdd3fe4ad506b217a3924de469b2b1fc5e588319886cc973873e02fa1dc",
+            "created_at": "2026-10-19T07:19:46.594632+00:00"
+          },
+          "schema_version": "source-backed-thesis-compilation-v2",
+          "prompt_version": "source-backed-thesis-prompt-v2-question-research-v1",
+          "model_id": "Qwen/Qwen3-4B",
+          "created_at": "2026-10-19T07:19:46.921869+00:00",
+          "finished_at": "2026-10-19T07:19:46.998548+00:00",
+          "document": {
+            "grounding": [],
+            "review_card": {
+              "claim": {
+                "gap": "This recorded metadata does not settle the research question.",
+                "proposed": [],
+                "extracted": []
+              },
+              "catalysts": {
+                "gap": "This recorded metadata does not settle the research question.",
+                "proposed": [],
+                "extracted": []
+              },
+              "scenarios": {
+                "gap": "This recorded metadata does not settle the research question.",
+                "proposed": [],
+                "extracted": []
+              },
+              "assumptions": {
+                "gap": "This recorded metadata does not settle the research question.",
+                "proposed": [],
+                "extracted": []
+              },
+              "causal_path": {
+                "gap": "This recorded metadata does not settle the research question.",
+                "proposed": [],
+                "extracted": []
+              },
+              "affected_assets": {
+                "gap": "This recorded metadata does not settle the research question.",
+                "proposed": [],
+                "extracted": []
+              },
+              "monitoring_scope": {
+                "gap": "This recorded metadata does not settle the research question.",
+                "proposed": [],
+                "extracted": []
+              }
+            },
+            "counter_case": null,
+            "interpretation": {
+              "drivers": [],
+              "horizon": null,
+              "invalidation_signposts": []
+            },
+            "agent_hypotheses": [],
+            "proposed_drivers": [
+              {
+                "driver_id": "input-cost",
+                "assumptions": [
+                  "Costs cannot immediately be passed through."
+                ],
+                "explanation": "Higher input costs may affect margins.",
+                "uncertainty": "The headline does not establish the firm's actual cost exposure.",
+                "transmission": "A supply disruption could increase input costs if substitutes are unavailable.",
+                "why_material": "An importer may lose rather than benefit from higher gas prices.",
+                "counter_claim_ids": [],
+                "supporting_claim_ids": [
+                  "headline"
+                ]
+              }
+            ],
+            "attributed_claims": [
+              {
+                "field": "title",
+                "claim_id": "headline",
+                "exact_quote": "FICTIONAL helium importer reports higher input costs [fictional candidate 1]",
+                "revision_id": "1299c073-a475-4e7c-a07e-7d7ded6e41f8"
+              }
+            ],
+            "factual_conflicts": [],
+            "refinement_issues": [],
+            "evidence_assessment": {
+              "gaps": [
+                "No article body, verified prices or business cash-flow data."
+              ],
+              "summary": "A fictional headline motivates a qualified investigation.",
+              "counter_claim_ids": [],
+              "supporting_claim_ids": [
+                "headline"
+              ]
+            },
+            "exposure_candidates": [
+              {
+                "asset": "Fictional industrial gas business",
+                "claim_ids": [
+                  "headline"
+                ],
+                "expression": "Potential related-equity exposure, instrument availability unverified.",
+                "basis_risks": [
+                  "Business margins may diverge from gas prices."
+                ],
+                "uncertainty": "No company financials or broker contract was supplied.",
+                "availability": "unverified",
+                "candidate_id": "gas-business",
+                "relationship": "Possible input-cost exposure, not direct commodity ownership.",
+                "verification_questions": [
+                  "What proportion of costs can be hedged or passed through?"
+                ]
+              }
+            ]
+          },
+          "refinement_id": null,
+          "refinement_inputs": [],
+          "parent_attempt_id": null,
+          "interpretation_version_id": "35c0a584-37e4-46df-9c68-e10c0bd38ed8",
+          "is_current_draft": true,
+          "usage": {
+            "total_tokens": 30,
+            "prompt_tokens": 10,
+            "completion_tokens": 20
+          },
+          "reported_cost_usd": null,
+          "estimated_cost_usd": null,
+          "reported_model": "Qwen/Qwen3-4B",
+          "provider_request_id": "recorded-2",
+          "latency_ms": 1,
+          "stop_reason": "completed",
+          "limitations": [
+            "Explicitly selected retained reports do not establish broad market coverage or the current macro regime.",
+            "Source statements and exact quotations establish attribution, not factual truth or semantic support.",
+            "Consensus, current prices, valuation and instrument mapping are unavailable unless explicitly supported.",
+            "Model-identified conflicts and causal interpretations remain hypotheses for human review.",
+            "No automatic thesis amendment, external notice, execution or paid retry is authorized."
+          ],
+          "evidence_context": {
+            "id": "a6430971-6cc4-4e09-b83f-35efd43446d5",
+            "digest": "468b5fdd145461693d32236aa8a6beb99f79d68b658f995c99376d506761a6b6",
+            "content": {
+              "cutoff": "2026-10-19T07:19:46.777452+00:00",
+              "gaps": [
+                "Explicitly selected retained reports do not establish broad market coverage or the current macro regime.",
+                "Source statements and exact quotations establish attribution, not factual truth or semantic support.",
+                "Consensus, current prices, valuation and instrument mapping are unavailable unless explicitly supported."
+              ],
+              "question_research": {
+                "coverage_complete": false,
+                "evidence_depth": "headline_metadata_only",
+                "exact_question_digest": "b79ebfdd3fe4ad506b217a3924de469b2b1fc5e588319886cc973873e02fa1dc",
+                "plan_attempt_id": "8f12b888-b29a-4077-a6c8-ce076c3f9a02",
+                "plan_prompt_digest": "b9a91e94d13792976685419262e55c3f20ec123ac3c2cbaa1b56d90e6d562ee6",
+                "plan_result_digest": "0017fd7ad5560fb29837037a09222886d6266cfad9e9c7dcc8f2a037d55524be",
+                "plan_result_id": "8f12b888-b29a-4077-a6c8-ce076c3f9a02",
+                "questions": [
+                  {
+                    "candidate_cap_reached": true,
+                    "capture_id": "c192f0a5-562d-4b0d-ae07-41d7ff96c277",
+                    "contract_digest": "0e4a1b2f55113cbbe15997bf7e745933da19cbe1ee99dad5a502d7ea11318570",
+                    "contract_version_id": "2f3d27b2-2c24-4f92-a63d-2c456639a9ce",
+                    "discovery_attempt_id": "f5dfd67f-e399-44c7-a8da-ce92b0aedb31",
+                    "excluded_count": 1,
+                    "exclusion_counts": {
+                      "explicit_selection_limit": 1
+                    },
+                    "planned_question": {
+                      "counter_evidence_to_seek": "Substitutes, cost pass-through or offsetting supply.",
+                      "evidence_to_seek": "A relevant supply observation and business exposure.",
+                      "query": "fictional helium supply substitutes",
+                      "question": "Could fictional supply disruption reach business cash flows?",
+                      "question_id": "supply",
+                      "why_material": "An exposure idea depends on who bears higher input costs."
+                    },
+                    "question_index": 0,
+                    "receipt_digest": "9b45c3b33afec5c7a4865262142c035616b8c912851279853c5ded78ebc0497a",
+                    "receipt_id": "f5dfd67f-e399-44c7-a8da-ce92b0aedb31",
+                    "result_digest": "61ade39a2526e0ba58b0c937ed893f5460fd50392ad7ab79cc0f9fb887170d9a",
+                    "result_id": "f5dfd67f-e399-44c7-a8da-ce92b0aedb31",
+                    "returned_candidate_count": 5,
+                    "revision_ids": [
+                      "1299c073-a475-4e7c-a07e-7d7ded6e41f8",
+                      "3de15ddf-301f-453c-a6bd-e65a81be3ad4",
+                      "831350a5-b3a7-4828-82fd-5ddefa49949c",
+                      "a9f274c7-771c-40e0-9c8f-85e66f04d5af"
+                    ],
+                    "selected_count": 4,
+                    "source_id": "research-gdelt-549be4d219bb4c939924c939e8b3b383-0",
+                    "status": "captured"
+                  },
+                  {
+                    "candidate_cap_reached": false,
+                    "capture_id": "a1d98383-d956-4240-8af0-a5360d742051",
+                    "contract_digest": "7d5f7b5190fcd3711ad0f50c14b2389bd7d4226c4ac22402d73c4690f30faad7",
+                    "contract_version_id": "8b7334b0-99fe-4a53-99b0-27193ff4824c",
+                    "discovery_attempt_id": "d52b6415-2dbe-400d-bad3-3015c3a0312c",
+                    "excluded_count": 0,
+                    "exclusion_counts": {},
+                    "planned_question": {
+                      "counter_evidence_to_seek": "Evidence that replacement capacity is unavailable.",
+                      "evidence_to_seek": "Attributed evidence about replacement gas supply.",
+                      "query": "fictional helium replacement supply offsets",
+                      "question": "Could replacement supply offset this fictional disruption?",
+                      "question_id": "offsets",
+                      "why_material": "Replacement supply could undermine the proposed scarcity mechanism."
+                    },
+                    "question_index": 1,
+                    "receipt_digest": "f5d81564f55b68fc3f774647038f97c9fbdfb2ecb0907f4b069667b56173f4fd",
+                    "receipt_id": "d52b6415-2dbe-400d-bad3-3015c3a0312c",
+                    "result_digest": "ae073d1e86779f4d1ac690a438f1f5ccbe1d68cb2620f3b46d183937b2e379ff",
+                    "result_id": "d52b6415-2dbe-400d-bad3-3015c3a0312c",
+                    "returned_candidate_count": 0,
+                    "revision_ids": [],
+                    "selected_count": 0,
+                    "source_id": "research-gdelt-549be4d219bb4c939924c939e8b3b383-1",
+                    "status": "captured"
+                  }
+                ],
+                "run_id": "549be4d2-19bb-4c93-9924-c939e8b3b383",
+                "run_request_digest": "d64b8707d2d26d45cd975f614cc25750bf779a15998581126c583b13054d7c1b",
+                "schema_version": "question-research-context-v1"
+              },
+              "reports": [
+                {
+                  "availability_witness_at": "2026-10-19T07:19:46.739837+00:00",
+                  "content": "{\"article_body\":\"not_retrieved\",\"domain\":\"example.invalid\",\"gdelt_seen_at\":\"2026-10-19T07:19:46+00:00\",\"kind\":\"gdelt_headline_metadata_only\",\"language\":\"English\",\"publisher_publication_time\":\"unavailable\",\"sourcecountry\":\"Uganda\"}",
+                  "contract_digest": "0e4a1b2f55113cbbe15997bf7e745933da19cbe1ee99dad5a502d7ea11318570",
+                  "contract_version_id": "2f3d27b2-2c24-4f92-a63d-2c456639a9ce",
+                  "head_at_admission_id": "1299c073-a475-4e7c-a07e-7d7ded6e41f8",
+                  "revision_id": "1299c073-a475-4e7c-a07e-7d7ded6e41f8",
+                  "source_claimed_published_at": null,
+                  "source_id": "research-gdelt-549be4d219bb4c939924c939e8b3b383-0",
+                  "source_url": "https://example.invalid/fictional-helium/candidate-0",
+                  "system_received_at": "2026-10-19T07:19:46.644841+00:00",
+                  "title": "FICTIONAL helium importer reports higher input costs [fictional candidate 1]"
+                },
+                {
+                  "availability_witness_at": "2026-10-19T07:19:46.739837+00:00",
+                  "content": "{\"article_body\":\"not_retrieved\",\"domain\":\"example.invalid\",\"gdelt_seen_at\":\"2026-10-19T07:19:46+00:00\",\"kind\":\"gdelt_headline_metadata_only\",\"language\":\"English\",\"publisher_publication_time\":\"unavailable\",\"sourcecountry\":\"Uganda\"}",
+                  "contract_digest": "0e4a1b2f55113cbbe15997bf7e745933da19cbe1ee99dad5a502d7ea11318570",
+                  "contract_version_id": "2f3d27b2-2c24-4f92-a63d-2c456639a9ce",
+                  "head_at_admission_id": "3de15ddf-301f-453c-a6bd-e65a81be3ad4",
+                  "revision_id": "3de15ddf-301f-453c-a6bd-e65a81be3ad4",
+                  "source_claimed_published_at": null,
+                  "source_id": "research-gdelt-549be4d219bb4c939924c939e8b3b383-0",
+                  "source_url": "https://example.invalid/fictional-helium/candidate-2",
+                  "system_received_at": "2026-10-19T07:19:46.644841+00:00",
+                  "title": "FICTIONAL helium importer reports higher input costs [fictional candidate 3]"
+                },
+                {
+                  "availability_witness_at": "2026-10-19T07:19:46.739837+00:00",
+                  "content": "{\"article_body\":\"not_retrieved\",\"domain\":\"example.invalid\",\"gdelt_seen_at\":\"2026-10-19T07:19:46+00:00\",\"kind\":\"gdelt_headline_metadata_only\",\"language\":\"English\",\"publisher_publication_time\":\"unavailable\",\"sourcecountry\":\"Uganda\"}",
+                  "contract_digest": "0e4a1b2f55113cbbe15997bf7e745933da19cbe1ee99dad5a502d7ea11318570",
+                  "contract_version_id": "2f3d27b2-2c24-4f92-a63d-2c456639a9ce",
+                  "head_at_admission_id": "831350a5-b3a7-4828-82fd-5ddefa49949c",
+                  "revision_id": "831350a5-b3a7-4828-82fd-5ddefa49949c",
+                  "source_claimed_published_at": null,
+                  "source_id": "research-gdelt-549be4d219bb4c939924c939e8b3b383-0",
+                  "source_url": "https://example.invalid/fictional-helium/candidate-3",
+                  "system_received_at": "2026-10-19T07:19:46.644841+00:00",
+                  "title": "FICTIONAL helium importer reports higher input costs [fictional candidate 4]"
+                },
+                {
+                  "availability_witness_at": "2026-10-19T07:19:46.739837+00:00",
+                  "content": "{\"article_body\":\"not_retrieved\",\"domain\":\"example.invalid\",\"gdelt_seen_at\":\"2026-10-19T07:19:46+00:00\",\"kind\":\"gdelt_headline_metadata_only\",\"language\":\"English\",\"publisher_publication_time\":\"unavailable\",\"sourcecountry\":\"Uganda\"}",
+                  "contract_digest": "0e4a1b2f55113cbbe15997bf7e745933da19cbe1ee99dad5a502d7ea11318570",
+                  "contract_version_id": "2f3d27b2-2c24-4f92-a63d-2c456639a9ce",
+                  "head_at_admission_id": "a9f274c7-771c-40e0-9c8f-85e66f04d5af",
+                  "revision_id": "a9f274c7-771c-40e0-9c8f-85e66f04d5af",
+                  "source_claimed_published_at": null,
+                  "source_id": "research-gdelt-549be4d219bb4c939924c939e8b3b383-0",
+                  "source_url": "https://example.invalid/fictional-helium/candidate-1",
+                  "system_received_at": "2026-10-19T07:19:46.644841+00:00",
+                  "title": "FICTIONAL helium importer reports higher input costs [fictional candidate 2]"
+                }
+              ],
+              "schema_version": "retained-source-evidence-v2"
+            }
+          },
+          "evidence_disposition": {
+            "status": "stale",
+            "stale_reasons": [
+              "research_report_corrected:1"
+            ],
+            "observed_at": "2026-10-19T07:19:47.343770+00:00"
+          }
+        },
+        "thesis": {
+          "id": "29a86248-e768-46ad-801a-d78186736931",
+          "revision": 2,
+          "created_at": "2026-10-19T07:19:46.594632+00:00",
+          "changed_at": "2026-10-19T07:19:46.998548+00:00",
+          "draft": {
+            "text_version": {
+              "id": "31ea62ad-b5a3-4ee9-b0e3-6c22ac7a34ce",
+              "parent_version_id": null,
+              "exact_text": "  Could fictional helium supply disruption create a useful exposure idea?\r\nΔ",
+              "text_digest": "b79ebfdd3fe4ad506b217a3924de469b2b1fc5e588319886cc973873e02fa1dc",
+              "created_at": "2026-10-19T07:19:46.594632+00:00"
+            },
+            "interpretation": {
+              "id": "35c0a584-37e4-46df-9c68-e10c0bd38ed8",
+              "text_version_id": "31ea62ad-b5a3-4ee9-b0e3-6c22ac7a34ce",
+              "drivers": [],
+              "horizon": null,
+              "invalidation_signposts": [],
+              "known_at": "2026-10-19T07:19:46.998548+00:00",
+              "digest": "2cd8449c56fafbcbd3051c731b83296b94ed7b576df168ad87979c76cf30a0af",
+              "origin": "model_compilation",
+              "review_card": {
+                "inputs": [
+                  {
+                    "input_id": "thesis",
+                    "exact_text": "  Could fictional helium supply disruption create a useful exposure idea?\r\nΔ"
+                  }
+                ],
+                "document": {
+                  "grounding": [],
+                  "review_card": {
+                    "claim": {
+                      "gap": "This recorded metadata does not settle the research question.",
+                      "proposed": [],
+                      "extracted": []
+                    },
+                    "catalysts": {
+                      "gap": "This recorded metadata does not settle the research question.",
+                      "proposed": [],
+                      "extracted": []
+                    },
+                    "scenarios": {
+                      "gap": "This recorded metadata does not settle the research question.",
+                      "proposed": [],
+                      "extracted": []
+                    },
+                    "assumptions": {
+                      "gap": "This recorded metadata does not settle the research question.",
+                      "proposed": [],
+                      "extracted": []
+                    },
+                    "causal_path": {
+                      "gap": "This recorded metadata does not settle the research question.",
+                      "proposed": [],
+                      "extracted": []
+                    },
+                    "affected_assets": {
+                      "gap": "This recorded metadata does not settle the research question.",
+                      "proposed": [],
+                      "extracted": []
+                    },
+                    "monitoring_scope": {
+                      "gap": "This recorded metadata does not settle the research question.",
+                      "proposed": [],
+                      "extracted": []
+                    }
+                  },
+                  "counter_case": null,
+                  "interpretation": {
+                    "drivers": [],
+                    "horizon": null,
+                    "invalidation_signposts": []
+                  },
+                  "agent_hypotheses": [],
+                  "proposed_drivers": [
+                    {
+                      "driver_id": "input-cost",
+                      "assumptions": [
+                        "Costs cannot immediately be passed through."
+                      ],
+                      "explanation": "Higher input costs may affect margins.",
+                      "uncertainty": "The headline does not establish the firm's actual cost exposure.",
+                      "transmission": "A supply disruption could increase input costs if substitutes are unavailable.",
+                      "why_material": "An importer may lose rather than benefit from higher gas prices.",
+                      "counter_claim_ids": [],
+                      "supporting_claim_ids": [
+                        "headline"
+                      ]
+                    }
+                  ],
+                  "attributed_claims": [
+                    {
+                      "field": "title",
+                      "claim_id": "headline",
+                      "exact_quote": "FICTIONAL helium importer reports higher input costs [fictional candidate 1]",
+                      "revision_id": "1299c073-a475-4e7c-a07e-7d7ded6e41f8"
+                    }
+                  ],
+                  "factual_conflicts": [],
+                  "refinement_issues": [],
+                  "evidence_assessment": {
+                    "gaps": [
+                      "No article body, verified prices or business cash-flow data."
+                    ],
+                    "summary": "A fictional headline motivates a qualified investigation.",
+                    "counter_claim_ids": [],
+                    "supporting_claim_ids": [
+                      "headline"
+                    ]
+                  },
+                  "exposure_candidates": [
+                    {
+                      "asset": "Fictional industrial gas business",
+                      "claim_ids": [
+                        "headline"
+                      ],
+                      "expression": "Potential related-equity exposure, instrument availability unverified.",
+                      "basis_risks": [
+                        "Business margins may diverge from gas prices."
+                      ],
+                      "uncertainty": "No company financials or broker contract was supplied.",
+                      "availability": "unverified",
+                      "candidate_id": "gas-business",
+                      "relationship": "Possible input-cost exposure, not direct commodity ownership.",
+                      "verification_questions": [
+                        "What proportion of costs can be hedged or passed through?"
+                      ]
+                    }
+                  ]
+                },
+                "evidence": {
+                  "status": "retained_sources",
+                  "context": {
+                    "gaps": [
+                      "Explicitly selected retained reports do not establish broad market coverage or the current macro regime.",
+                      "Source statements and exact quotations establish attribution, not factual truth or semantic support.",
+                      "Consensus, current prices, valuation and instrument mapping are unavailable unless explicitly supported."
+                    ],
+                    "cutoff": "2026-10-19T07:19:46.777452+00:00",
+                    "reports": [
+                      {
+                        "title": "FICTIONAL helium importer reports higher input costs [fictional candidate 1]",
+                        "content": "{\"article_body\":\"not_retrieved\",\"domain\":\"example.invalid\",\"gdelt_seen_at\":\"2026-10-19T07:19:46+00:00\",\"kind\":\"gdelt_headline_metadata_only\",\"language\":\"English\",\"publisher_publication_time\":\"unavailable\",\"sourcecountry\":\"Uganda\"}",
+                        "source_id": "research-gdelt-549be4d219bb4c939924c939e8b3b383-0",
+                        "source_url": "https://example.invalid/fictional-helium/candidate-0",
+                        "revision_id": "1299c073-a475-4e7c-a07e-7d7ded6e41f8",
+                        "contract_digest": "0e4a1b2f55113cbbe15997bf7e745933da19cbe1ee99dad5a502d7ea11318570",
+                        "system_received_at": "2026-10-19T07:19:46.644841+00:00",
+                        "contract_version_id": "2f3d27b2-2c24-4f92-a63d-2c456639a9ce",
+                        "head_at_admission_id": "1299c073-a475-4e7c-a07e-7d7ded6e41f8",
+                        "availability_witness_at": "2026-10-19T07:19:46.739837+00:00",
+                        "source_claimed_published_at": null
+                      },
+                      {
+                        "title": "FICTIONAL helium importer reports higher input costs [fictional candidate 3]",
+                        "content": "{\"article_body\":\"not_retrieved\",\"domain\":\"example.invalid\",\"gdelt_seen_at\":\"2026-10-19T07:19:46+00:00\",\"kind\":\"gdelt_headline_metadata_only\",\"language\":\"English\",\"publisher_publication_time\":\"unavailable\",\"sourcecountry\":\"Uganda\"}",
+                        "source_id": "research-gdelt-549be4d219bb4c939924c939e8b3b383-0",
+                        "source_url": "https://example.invalid/fictional-helium/candidate-2",
+                        "revision_id": "3de15ddf-301f-453c-a6bd-e65a81be3ad4",
+                        "contract_digest": "0e4a1b2f55113cbbe15997bf7e745933da19cbe1ee99dad5a502d7ea11318570",
+                        "system_received_at": "2026-10-19T07:19:46.644841+00:00",
+                        "contract_version_id": "2f3d27b2-2c24-4f92-a63d-2c456639a9ce",
+                        "head_at_admission_id": "3de15ddf-301f-453c-a6bd-e65a81be3ad4",
+                        "availability_witness_at": "2026-10-19T07:19:46.739837+00:00",
+                        "source_claimed_published_at": null
+                      },
+                      {
+                        "title": "FICTIONAL helium importer reports higher input costs [fictional candidate 4]",
+                        "content": "{\"article_body\":\"not_retrieved\",\"domain\":\"example.invalid\",\"gdelt_seen_at\":\"2026-10-19T07:19:46+00:00\",\"kind\":\"gdelt_headline_metadata_only\",\"language\":\"English\",\"publisher_publication_time\":\"unavailable\",\"sourcecountry\":\"Uganda\"}",
+                        "source_id": "research-gdelt-549be4d219bb4c939924c939e8b3b383-0",
+                        "source_url": "https://example.invalid/fictional-helium/candidate-3",
+                        "revision_id": "831350a5-b3a7-4828-82fd-5ddefa49949c",
+                        "contract_digest": "0e4a1b2f55113cbbe15997bf7e745933da19cbe1ee99dad5a502d7ea11318570",
+                        "system_received_at": "2026-10-19T07:19:46.644841+00:00",
+                        "contract_version_id": "2f3d27b2-2c24-4f92-a63d-2c456639a9ce",
+                        "head_at_admission_id": "831350a5-b3a7-4828-82fd-5ddefa49949c",
+                        "availability_witness_at": "2026-10-19T07:19:46.739837+00:00",
+                        "source_claimed_published_at": null
+                      },
+                      {
+                        "title": "FICTIONAL helium importer reports higher input costs [fictional candidate 2]",
+                        "content": "{\"article_body\":\"not_retrieved\",\"domain\":\"example.invalid\",\"gdelt_seen_at\":\"2026-10-19T07:19:46+00:00\",\"kind\":\"gdelt_headline_metadata_only\",\"language\":\"English\",\"publisher_publication_time\":\"unavailable\",\"sourcecountry\":\"Uganda\"}",
+                        "source_id": "research-gdelt-549be4d219bb4c939924c939e8b3b383-0",
+                        "source_url": "https://example.invalid/fictional-helium/candidate-1",
+                        "revision_id": "a9f274c7-771c-40e0-9c8f-85e66f04d5af",
+                        "contract_digest": "0e4a1b2f55113cbbe15997bf7e745933da19cbe1ee99dad5a502d7ea11318570",
+                        "system_received_at": "2026-10-19T07:19:46.644841+00:00",
+                        "contract_version_id": "2f3d27b2-2c24-4f92-a63d-2c456639a9ce",
+                        "head_at_admission_id": "a9f274c7-771c-40e0-9c8f-85e66f04d5af",
+                        "availability_witness_at": "2026-10-19T07:19:46.739837+00:00",
+                        "source_claimed_published_at": null
+                      }
+                    ],
+                    "schema_version": "retained-source-evidence-v2",
+                    "question_research": {
+                      "run_id": "549be4d2-19bb-4c93-9924-c939e8b3b383",
+                      "questions": [
+                        {
+                          "status": "captured",
+                          "result_id": "f5dfd67f-e399-44c7-a8da-ce92b0aedb31",
+                          "source_id": "research-gdelt-549be4d219bb4c939924c939e8b3b383-0",
+                          "capture_id": "c192f0a5-562d-4b0d-ae07-41d7ff96c277",
+                          "receipt_id": "f5dfd67f-e399-44c7-a8da-ce92b0aedb31",
+                          "revision_ids": [
+                            "1299c073-a475-4e7c-a07e-7d7ded6e41f8",
+                            "3de15ddf-301f-453c-a6bd-e65a81be3ad4",
+                            "831350a5-b3a7-4828-82fd-5ddefa49949c",
+                            "a9f274c7-771c-40e0-9c8f-85e66f04d5af"
+                          ],
+                          "result_digest": "61ade39a2526e0ba58b0c937ed893f5460fd50392ad7ab79cc0f9fb887170d9a",
+                          "excluded_count": 1,
+                          "question_index": 0,
+                          "receipt_digest": "9b45c3b33afec5c7a4865262142c035616b8c912851279853c5ded78ebc0497a",
+                          "selected_count": 4,
+                          "contract_digest": "0e4a1b2f55113cbbe15997bf7e745933da19cbe1ee99dad5a502d7ea11318570",
+                          "exclusion_counts": {
+                            "explicit_selection_limit": 1
+                          },
+                          "planned_question": {
+                            "query": "fictional helium supply substitutes",
+                            "question": "Could fictional supply disruption reach business cash flows?",
+                            "question_id": "supply",
+                            "why_material": "An exposure idea depends on who bears higher input costs.",
+                            "evidence_to_seek": "A relevant supply observation and business exposure.",
+                            "counter_evidence_to_seek": "Substitutes, cost pass-through or offsetting supply."
+                          },
+                          "contract_version_id": "2f3d27b2-2c24-4f92-a63d-2c456639a9ce",
+                          "discovery_attempt_id": "f5dfd67f-e399-44c7-a8da-ce92b0aedb31",
+                          "candidate_cap_reached": true,
+                          "returned_candidate_count": 5
+                        },
+                        {
+                          "status": "captured",
+                          "result_id": "d52b6415-2dbe-400d-bad3-3015c3a0312c",
+                          "source_id": "research-gdelt-549be4d219bb4c939924c939e8b3b383-1",
+                          "capture_id": "a1d98383-d956-4240-8af0-a5360d742051",
+                          "receipt_id": "d52b6415-2dbe-400d-bad3-3015c3a0312c",
+                          "revision_ids": [],
+                          "result_digest": "ae073d1e86779f4d1ac690a438f1f5ccbe1d68cb2620f3b46d183937b2e379ff",
+                          "excluded_count": 0,
+                          "question_index": 1,
+                          "receipt_digest": "f5d81564f55b68fc3f774647038f97c9fbdfb2ecb0907f4b069667b56173f4fd",
+                          "selected_count": 0,
+                          "contract_digest": "7d5f7b5190fcd3711ad0f50c14b2389bd7d4226c4ac22402d73c4690f30faad7",
+                          "exclusion_counts": {},
+                          "planned_question": {
+                            "query": "fictional helium replacement supply offsets",
+                            "question": "Could replacement supply offset this fictional disruption?",
+                            "question_id": "offsets",
+                            "why_material": "Replacement supply could undermine the proposed scarcity mechanism.",
+                            "evidence_to_seek": "Attributed evidence about replacement gas supply.",
+                            "counter_evidence_to_seek": "Evidence that replacement capacity is unavailable."
+                          },
+                          "contract_version_id": "8b7334b0-99fe-4a53-99b0-27193ff4824c",
+                          "discovery_attempt_id": "d52b6415-2dbe-400d-bad3-3015c3a0312c",
+                          "candidate_cap_reached": false,
+                          "returned_candidate_count": 0
+                        }
+                      ],
+                      "evidence_depth": "headline_metadata_only",
+                      "plan_result_id": "8f12b888-b29a-4077-a6c8-ce076c3f9a02",
+                      "schema_version": "question-research-context-v1",
+                      "plan_attempt_id": "8f12b888-b29a-4077-a6c8-ce076c3f9a02",
+                      "coverage_complete": false,
+                      "plan_prompt_digest": "b9a91e94d13792976685419262e55c3f20ec123ac3c2cbaa1b56d90e6d562ee6",
+                      "plan_result_digest": "0017fd7ad5560fb29837037a09222886d6266cfad9e9c7dcc8f2a037d55524be",
+                      "run_request_digest": "d64b8707d2d26d45cd975f614cc25750bf779a15998581126c583b13054d7c1b",
+                      "exact_question_digest": "b79ebfdd3fe4ad506b217a3924de469b2b1fc5e588319886cc973873e02fa1dc"
+                    }
+                  }
+                },
+                "schema_version": "thesis-review-card-v3"
+              }
+            }
+          },
+          "approved": null,
+          "monitoring": "not_configured"
+        }
+      },
+      "gaps": [
+        "This is explicitly initiated research, not monitoring, approval or a position.",
+        "Discovery uses bounded metadata and headlines, not publisher article bodies or verified macro context.",
+        "Provider relevance order selects up to four results per question; this is not an exhaustive or independent source-quality assessment.",
+        "Counter-evidence is requested, but its presence or absence does not establish that competing explanations were adequately covered.",
+        "Exact source quotations prove attribution, not truth, semantic support or causation.",
+        "Prices, valuation, market expectations and instrument availability remain unverified or unavailable.",
+        "Call and result bounds do not establish a guaranteed monetary ceiling; unknown costs remain unknown."
+      ],
+      "authority": {
+        "monitoring_started": false,
+        "thesis_approved": false,
+        "positions_created": false
+      },
+      "costs": {
+        "planning_reported_cost_usd": null,
+        "compilation_reported_cost_usd": null,
+        "total_known_cost_usd": null
+      }
+    },
+    "replayed": false
+  },
+  "verified_recovery_paths": {
+    "get_by_id": true,
+    "get_by_command": true,
+    "initial_post_retry_is_read_only": true,
+    "explicit_continue_is_read_only_after_correction": true,
+    "original_plan_preserved": true,
+    "original_source_packet_preserved": true,
+    "original_compilation_document_preserved": true,
+    "observed_disposition_before_correction": "current",
+    "observed_disposition_after_correction": "stale",
+    "observed_at_before_correction": "2026-10-19T07:19:47.108243+00:00",
+    "observed_at_after_correction": "2026-10-19T07:19:47.343770+00:00"
+  },
+  "no_implicit_actions": {
+    "watches": 0,
+    "approvals": 0,
+    "positions": 0,
+    "current_assessments": 0,
+    "notification_intents": 0
+  },
+  "recorded_model_calls": {
+    "planning": 1,
+    "compilation": 1,
+    "total": 2
+  },
+  "recorded_discovery_calls": 2,
+  "executed_queries": [
+    "fictional helium supply substitutes",
+    "fictional helium replacement supply offsets"
+  ],
+  "research_context_checks": {
+    "plan_and_all_query_outcomes_reached_compilation": true,
+    "saturated_selection_and_empty_counter_search_preserved": true,
+    "selected_revision_union_matches_packet": true,
+    "context_is_not_trader_intent_or_quotable_source_evidence": true
+  },
+  "real_model_calls": 0,
+  "real_network_calls": 0,
+  "real_model_spend_usd": "0",
+  "limits": [
+    "All headlines, businesses and reasoning are fictional recordings, not financial research.",
+    "The bounded GDELT-shaped selection is metadata only, not article-level evidence or comprehensive source discovery.",
+    "A named counter-evidence question does not prove that counter-evidence was adequately researched.",
+    "Exact quotations establish attribution, not truth, semantic support, causation or live model usefulness.",
+    "Availability, price, valuation, expectations and company exposure remain unverified.",
+    "Research creates no monitoring, approval, position, current assessment or notification.",
+    "The recovery proof closes database connections and interrupts application execution; it is not an operating-system crash.",
+    "Recorded model costs remain unknown. Zero real spending refers only to this fixture demonstration."
+  ],
+  "database_isolation": {
+    "temporary_database": "test_question_research_demo_5b929359acc646e0",
+    "dropped_after_trace": true,
+    "existing_trader_records_used": false,
+    "teardown_statement_timeout_ms": 60000
+  }
+}

@@ -230,7 +230,11 @@ class GdeltResearchTests(unittest.TestCase):
     def test_remote_failures_are_safe_visible_and_never_retried(self):
         cases = [(urllib.error.HTTPError(gdelt.ENDPOINT, status, "secret remote detail", Message(), None), code)
                  for status, code in ((429, "rate_limited"), (503, "unavailable"), (403, "http_error"), (302, "http_error"))]
-        cases.extend(((TransportError("timeout"), "transport_error"), (OSError("private path"), "transport_error")))
+        cases.extend(((TransportError("timeout"), "timeout"),
+                      (TransportError("unavailable"), "unavailable"),
+                      (TransportError("private-category"), "transport_error"),
+                      (TimeoutError("secret path"), "timeout"),
+                      (OSError("private path"), "transport_error")))
         for error, code in cases:
             opener = Opener(error)
             with self.subTest(code=code), patch.object(gdelt, "require_internal_experiment"):

@@ -23,6 +23,10 @@ EXPOSURE_FIELDS = frozenset(("candidate_id", "asset", "expression", "relationshi
     "claim_ids", "basis_risks", "verification_questions", "uncertainty", "availability"))
 
 
+def prompt_version(evidence):
+    return PROMPT_VERSION + ("-question-research-v1" if "question_research" in evidence else "")
+
+
 def _identity(value, field, seen):
     identity = text_compilation._text(value, field, 128)
     if identity in seen:

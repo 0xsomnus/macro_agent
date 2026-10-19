@@ -16,7 +16,15 @@ export MACRO_ENABLE_RESEARCH_DISCOVERY=1
 .venv/bin/python manage.py runserver 127.0.0.1:8000
 ```
 
-Research does not require a continuous watch or the synthetic setup flag. From a second terminal:
+Research does not require a continuous watch or the synthetic setup flag. Before paying for planning, check that the metadata source works from the configured backend terminal:
+
+```sh
+.venv/bin/python manage.py research_check_source --query "helium supply"
+```
+
+This makes one bounded metadata request with no model key, model call, database write or retry. It prints a safe failure category or parsed candidate counts. A successful empty response is not evidence against an idea; successful acquisition does not establish coverage or source suitability. This check is separate from the paid graph, which can incur its planning charge before a source failure is discovered.
+
+Then, from a second terminal:
 
 ```sh
 .venv/bin/python tools/research_question.py --question "Research possible helium exposure and what could undermine the idea."
@@ -41,6 +49,8 @@ flowchart LR
 The graph permits at most two model calls, three named questions, five search candidates per question and four selected reports per question. The complete evidence set contains at most twelve reports. The search window is thirty days. These bounds are pinned in the research request and adapter contract; they do not establish complete coverage or a dollar ceiling.
 
 Selection follows the provider's returned ranking within each planned question. The fifth result, duplicates and unsafe attribution URLs remain explicitly excluded in the trace. Reaching the candidate cap is visible. There is no independent semantic source-quality ranker or guarantee that contrary evidence was found. [GDELT's DOC documentation](https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/) describes its query and ranking behavior.
+
+New research packets also carry the exact retained plan and every completed query outcome into final synthesis, including empty searches, candidate caps, exclusions and selected revision references. Every consumed query source retains its permission contract and is protected during fresh use, including sources with no selected report. This versioned workflow context is separate from source claims and trader intent. Zero returned results do not establish that a competing explanation is false or adequately investigated. Headlines cannot supply article-level mechanisms merely because a model can quote them. The complete packet keeps the existing byte bound and rejects overflow without truncation; earlier packets and prompts retain their original identities.
 
 GDELT seen time is retained separately from system receipt and conservative durable observation. Publisher publication time stays unknown, rather than being invented from the seen timestamp. Source statements and exact quotations establish attribution, not truth, semantic support or causation. [GDELT's terms](https://www.gdeltproject.org/about.html#termsofuse) cover its released datasets; linked publisher article rights are not inferred. This adapter is an internal metadata experiment, not a production source selection.
 
@@ -76,8 +86,10 @@ The session API exposes:
 - `GET /api/v1/research-commands/{command_id}/`.
 - `POST /api/v1/research/{run_id}/continue/`, with an empty JSON object.
 
-Writes require CSRF and reject unknown fields, duplicate keys and coercion. Reads make no provider, catalogue or search call. The [recorded proof](../artifacts/question-research-trace-2026-10-18.md) uses fictional inputs, including restart after capture. Primary-source investigation, source-fit evaluation, deeper company research and supervised live usefulness remain ahead.
+Writes require CSRF and reject unknown fields, duplicate keys and coercion. Reads make no provider, catalogue or search call. The [initial recorded proof](../artifacts/question-research-trace-2026-10-18.md) uses fictional inputs, including restart after capture. The [context-continuity proof](../artifacts/question-research-context-trace-2026-10-19.md) adds saturated and empty query outcomes reaching synthesis with exact recovery. Primary-source investigation, source-fit evaluation, deeper company research and supervised live usefulness remain ahead.
 
 ## Live validation status
 
 The 2026-10-18 real GDELT transport probe resolved DNS but timed out during TLS setup from this environment. No model request or database write was made. Recorded acquisition and recovery tests pass; actual live acquisition and usefulness still need validation. The workflow retains source failures explicitly rather than manufacturing a research conclusion.
+
+A 2026-10-19 recheck through the actual adapters timed out at GDELT after ten seconds while the Fed adapter parsed twenty items. [The recheck](../research/research-source-recheck-2026-10-19.md) records the scope and replacement-source constraints. The Fed feed can support a Fed-answerable selected-packet test through [source-backed compilation](SOURCED_RESEARCH.md); it cannot replace broad commodity or company research. No alternative provider or continuous watch was enabled.

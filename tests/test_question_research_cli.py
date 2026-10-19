@@ -101,6 +101,24 @@ class QuestionResearchCLITests(unittest.TestCase):
         self.assertEqual(client.calls, [("GET", f"/api/v1/research-commands/{command_id}/", None)])
         self.assertEqual(client.logouts, 1)
 
+    def test_failed_or_uncertain_plan_is_visible_on_read_only_recovery(self):
+        for status, reason in (("failed", "invalid_model_output"),
+                               ("outcome_unknown", "timeout")):
+            client = Client()
+            client.result["research"]["plan"] = {
+                "status": status, "stop_reason": reason, "document": None}
+            command_id = client.result["research"]["command_id"]
+            output = []
+            with self.subTest(status=status), patch.object(cli, "select_model",
+                    side_effect=AssertionError("Recovery cannot call a catalogue")):
+                cli.research(client, recover_command=command_id, ask=answers("trader"),
+                    secret=lambda _: "private-password", say=output.append)
+            self.assertIn("Planning state: " + json.dumps(status), output)
+            self.assertIn("Planning outcome: " + json.dumps(reason), output)
+            self.assertEqual(client.calls, [
+                ("GET", f"/api/v1/research-commands/{command_id}/", None)])
+            self.assertFalse(any("Named questions" in line for line in output))
+
     def test_show_run_is_get_only_and_missing_recovery_never_falls_back_to_post(self):
         client = Client()
         run_id = client.result["research"]["id"]

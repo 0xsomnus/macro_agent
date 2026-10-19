@@ -450,7 +450,13 @@ def continue_research(actor_id, run_id, *, provider=None, discovery=None, clock=
         return get_research(actor_id, run_id, clock=clock)
     if len(revisions) > BOUNDS["max_selected_reports"]:
         raise theses.ThesisConflict("Complete research evidence exceeds its graph bound")
-    packet = evidence.prepare_evidence(actor_id, str(run.thesis_id), _command(run, "evidence"), revisions, clock=clock)
+    # Saved v1 packets remain exact history. A restart cannot silently upgrade
+    # their request or approval identity to the new investigation context.
+    previous_packet = evidence.ResearchEvidenceContext.objects.filter(owner_id=actor_id,
+        command_id=_command(run, "evidence")).first()
+    contextual = previous_packet is None or "question_research" in previous_packet.content
+    packet = evidence.prepare_evidence(actor_id, str(run.thesis_id), _command(run, "evidence"), revisions,
+        question_run_id=str(run.pk) if contextual else None, clock=clock)
     if packet["current_disposition"]["status"] != "current":
         return get_research(actor_id, run_id, clock=clock)
     compilation.compile_thesis(actor_id, str(run.thesis_id), _command(run, "compile"), run.initial_revision,

@@ -1,0 +1,25 @@
+{
+  "observed_at": "2026-10-19T07:08:09.515423+00:00",
+  "client_date": "2026-10-19",
+  "scope": "Bounded read-only source acquisition, no persistence or model calls",
+  "proxy_or_ca_environment_present": false,
+  "database_writes": 0,
+  "model_calls": 0,
+  "article_fetches": 0,
+  "probes": [
+    {
+      "source": "gdelt-research",
+      "status": "failed",
+      "safe_code": "timeout",
+      "elapsed_ms": 10007
+    },
+    {
+      "source": "fed-press",
+      "status": "parsed",
+      "selected_items": 20,
+      "transport_digest": "529e889a916423a3979c1bebdd94c2b8d402889700d8c85cc4d125b7f538d327",
+      "coverage_complete": false,
+      "elapsed_ms": 663
+    }
+  ]
+}

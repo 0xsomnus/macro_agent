@@ -27,9 +27,12 @@ def render_research(result, say=print):
     say("Pinned model: " + quoted(run["provider"] + "/" + run["model_id"]))
     say("Costs, unknown values stay unknown: " + quoted(run["costs"]))
     plan = run["plan"]
-    if plan and plan["document"] is not None:
-        parse_plan(quoted(plan["document"]), run["exact_question"])
-        say("Named questions, counter-evidence and searches: " + quoted(plan["document"]))
+    if plan:
+        say("Planning state: " + quoted(plan["status"]))
+        say("Planning outcome: " + quoted(plan["stop_reason"]))
+        if plan["document"] is not None:
+            parse_plan(quoted(plan["document"]), run["exact_question"])
+            say("Named questions, counter-evidence and searches: " + quoted(plan["document"]))
     for discovery in run["discoveries"]:
         say("Source discovery, including selection limits and exclusions: " + quoted(discovery))
     compiled = run["compilation"]

@@ -48,6 +48,8 @@ Source corrections or permission changes make the packet stale. Compilation chec
 
 The complete packet is limited to 65,536 encoded bytes, sixteen reports, 4,096 characters per title/URL and 16,384 per content field. Overflow rejects visibly without truncation. Current revisions only are supported in this first selection flow. Historical selection, automated evidence discovery, verified causal edges, consensus and pricing are separate work.
 
+Question-led research now prepares `retained-source-evidence-v2` with a server-built `question_research` context. It pins the exact retained plan, discovery receipts/results and complete query-to-revision mapping, including empty searches and selection limits. This is workflow context, not quotable evidence or trader intent. The HTTP selection endpoint does not accept it. Selected packets without that context retain their v1 identities; new contextual prompts carry a distinct version suffix, and approval binds the full retained card.
+
 The strict session/CSRF endpoints are:
 
 - `POST /api/v1/theses/{thesis_id}/evidence/`, exactly `command_id` and `revision_ids`.

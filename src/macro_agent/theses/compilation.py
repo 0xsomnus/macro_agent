@@ -387,7 +387,7 @@ def compile_thesis(actor_id, thesis_id, command_id, expected_revision, model_id,
         source_compiler = research_compilation if driver_review else sourced_compilation
         configuration = {**configuration, "context": "retained_source_evidence",
             "schema_version": source_compiler.SOURCED_SCHEMA_VERSION,
-            "prompt_version": source_compiler.PROMPT_VERSION}
+            "prompt_version": source_compiler.prompt_version(context.content)}
     if not settings.MACRO_MODEL_API_KEY:
         raise CompilationUnavailable("configure provider credentials in the backend environment")
     try:

@@ -267,14 +267,17 @@ def discover(query, *, clock=_now, opener=None):
             if length is not None and int(length) != len(raw):
                 raise SourceError("incomplete_response")
     except TransportError as error:
-        code = error.code if error.code in ("byte_limit", "invalid_response", "incomplete_response") else "transport_error"
+        code = error.code if error.code in ("timeout", "unavailable", "byte_limit",
+            "invalid_response", "incomplete_response") else "transport_error"
         raise SourceError(code) from None
     except urllib.error.HTTPError as error:
         status = error.code
         error.close()
         code = "rate_limited" if status == 429 else "unavailable" if 500 <= status <= 599 else "http_error"
         raise SourceError(code) from None
-    except (TimeoutError, urllib.error.URLError, OSError, HTTPException):
+    except TimeoutError:
+        raise SourceError("timeout") from None
+    except (urllib.error.URLError, OSError, HTTPException):
         raise SourceError("transport_error") from None
     return parse_metadata(raw, query=query, received_at=received_at)
 

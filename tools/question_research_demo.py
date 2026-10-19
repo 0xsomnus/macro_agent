@@ -74,6 +74,33 @@ class InterruptedAfterCapture(RuntimeError):
     """A process interruption boundary, not an operating-system crash."""
 
 
+COUNTER_QUERY = "fictional helium replacement supply offsets"
+
+
+class ContextResearchProvider(RecordedResearchProvider):
+    """Record one supporting question and one separately empty counter search."""
+
+    def __init__(self):
+        super().__init__()
+        self.compilation_context = None
+
+    def complete(self, model_id, messages):
+        supplied = json.loads(messages[1]["content"])
+        response = super().complete(model_id, messages)
+        if "exact_question" in supplied:
+            document = json.loads(response["content"])
+            document["questions"].append({"question_id": "offsets",
+                "question": "Could replacement supply offset this fictional disruption?",
+                "why_material": "Replacement supply could undermine the proposed scarcity mechanism.",
+                "evidence_to_seek": "Attributed evidence about replacement gas supply.",
+                "counter_evidence_to_seek": "Evidence that replacement capacity is unavailable.",
+                "query": COUNTER_QUERY})
+            response["content"] = json.dumps(document)
+        else:
+            self.compilation_context = supplied
+        return response
+
+
 def no_implicit_actions():
     return {"watches": WatchRecord.objects.count(), "approvals": ApprovalRecord.objects.count(),
         "positions": PositionRecord.objects.count(), "current_assessments": CurrentAssessment.objects.count(),
@@ -99,11 +126,14 @@ def demonstrate():
         return response.json()
 
     post("/api/v1/session/login/", {"username": user.username, "password": "fictional-local-password"})
-    provider = RecordedResearchProvider()
+    provider = ContextResearchProvider()
     queries = []
 
     def discovery(query, *, clock):
         queries.append(query)
+        if query == COUNTER_QUERY:
+            return gdelt_research.parse_metadata(b'{"articles":[]}',
+                query=query, received_at=clock())
         # Reuse the API test's fictional article shape and expand its bounded
         # result set so the trace includes the explicitly excluded fifth row.
         fixture = recorded_discovery(query, clock=clock)
@@ -145,16 +175,20 @@ def demonstrate():
         connections.close_all()
         recovered_before_continue = get(f"/api/v1/research/{run_id}/")
         assert recovered_before_continue["research"]["plan"] == interrupted["research"]["plan"]
-        with patch.object(gdelt_research, "discover", side_effect=AssertionError("Captured search cannot be fetched twice")):
+        def remaining_discovery(next_query, *, clock):
+            if next_query == query:
+                raise AssertionError("Captured search cannot be fetched twice")
+            return discovery(next_query, clock=clock)
+        with patch.object(gdelt_research, "discover", side_effect=remaining_discovery):
             completed = post(f"/api/v1/research/{run_id}/continue/", {})
     research = completed["research"]
     assert research["status"] == "compiled", completed
     serializer = ResearchRunResponseSerializer(data=completed)
     assert serializer.is_valid(), serializer.errors
-    assert provider.calls == 2 and len(queries) == 1
+    assert provider.calls == 2 and queries == [query, COUNTER_QUERY]
     assert provider.catalog_calls == 2
     assert SourceRevision.objects.count() == 4 and DurableObservation.objects.count() == 4
-    assert CaptureAttempt.objects.count() == 1
+    assert CaptureAttempt.objects.count() == 2
     assert research["exact_question"] == EXACT
     assert research["compilation"]["thesis"]["draft"]["text_version"]["exact_text"] == EXACT
     assert research["compilation"]["compilation"]["document"]["interpretation"]["drivers"] == []
@@ -163,6 +197,20 @@ def demonstrate():
     assert selection["selected_count"] == 4 and selection["candidate_cap_reached"] is True
     assert selection["candidates"][-1]["selected"] is False
     assert selection["candidates"][-1]["exclusion_reason"] == "explicit_selection_limit"
+    packet = research["compilation"]["compilation"]["evidence_context"]["content"]
+    workflow = packet["question_research"]
+    assert packet["schema_version"] == "retained-source-evidence-v2"
+    assert provider.compilation_context["evidence"]["question_research"] == workflow
+    assert workflow["evidence_depth"] == "headline_metadata_only"
+    assert workflow["coverage_complete"] is False
+    saturated, empty = workflow["questions"]
+    assert saturated["returned_candidate_count"] == 5 and saturated["excluded_count"] == 1
+    assert saturated["candidate_cap_reached"] is True
+    assert empty["planned_question"]["query"] == COUNTER_QUERY
+    assert empty["returned_candidate_count"] == 0 and empty["revision_ids"] == []
+    assert empty["selected_count"] == 0 and empty["status"] == "captured"
+    assert {revision for item in workflow["questions"] for revision in item["revision_ids"]} == {
+        item["revision_id"] for item in packet["reports"]}
     assert all(value is None for value in research["costs"].values())
     assert all(count == 0 for count in no_implicit_actions().values())
     original_counts = no_implicit_actions()
@@ -204,7 +252,7 @@ def demonstrate():
         assert record["compilation"]["thesis"]["draft"]["text_version"]["exact_text"] == EXACT
     assert command_recovery["replayed"] and initial_post_retry["replayed"]
     assert original_counts == no_implicit_actions()
-    assert provider.calls == 2 and len(queries) == 1
+    assert provider.calls == 2 and len(queries) == 2
     assert ResearchRun.objects.count() == 1
     return {"scope": "Fictional rough-question to sourced-proposal session API proof",
         "initial_request": body, "interruption_after_durable_capture": interrupted,
@@ -223,6 +271,10 @@ def demonstrate():
         "no_implicit_actions": original_counts,
         "recorded_model_calls": {"planning": 1, "compilation": 1, "total": provider.calls},
         "recorded_discovery_calls": len(queries), "executed_queries": queries,
+        "research_context_checks": {"plan_and_all_query_outcomes_reached_compilation": True,
+            "saturated_selection_and_empty_counter_search_preserved": True,
+            "selected_revision_union_matches_packet": True,
+            "context_is_not_trader_intent_or_quotable_source_evidence": True},
         "real_model_calls": 0, "real_network_calls": 0, "real_model_spend_usd": "0",
         "limits": ["All headlines, businesses and reasoning are fictional recordings, not financial research.",
             "The bounded GDELT-shaped selection is metadata only, not article-level evidence or comprehensive source discovery.",

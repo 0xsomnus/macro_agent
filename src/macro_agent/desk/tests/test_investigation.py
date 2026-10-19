@@ -420,3 +420,169 @@ class QuestionResearchTests(TransactionTestCase):
         self.resume(clock=lambda: deadline + timedelta(seconds=1))
         self.assertEqual(self.discovery.calls, 0)
         self.assertEqual(self.provider.calls, 1)
+
+    def test_compilation_retains_saturated_support_and_empty_counter_search(self):
+        recorded = self.discovery
+        def mixed(query, *, clock):
+            recorded.count = 0 if "replacement" in query else 5
+            return recorded(query, clock=clock)
+        self.discovery = mixed
+        value = self.start()["research"]
+        attempt = CompilationAttempt.objects.get()
+        context = attempt.evidence_context.content["question_research"]
+        first, second = context["questions"]
+        self.assertEqual(first["selected_count"], 4)
+        self.assertEqual(first["exclusion_counts"], {"explicit_selection_limit": 1})
+        self.assertTrue(first["candidate_cap_reached"])
+        self.assertEqual(second["selected_count"], 0)
+        self.assertEqual(second["revision_ids"], [])
+        self.assertEqual([q["planned_question"] for q in context["questions"]], plan_document()["questions"])
+        supplied = json.loads(attempt.messages[1]["content"])
+        self.assertEqual(supplied["evidence"]["question_research"], context)
+        self.assertIn("Zero selected results", attempt.messages[0]["content"])
+        self.assertNotIn(plan_document()["questions"][1]["query"], attempt.messages[0]["content"])
+        self.assertEqual(attempt.configuration["prompt_version"],
+                         "source-backed-thesis-prompt-v2-question-research-v1")
+        self.assertEqual(value["status"], "compiled")
+        self.assertEqual(self.provider.calls, 2)
+
+    def test_question_context_requires_complete_revision_union_and_exact_run_scope(self):
+        value = self.start()["research"]
+        run = ResearchRun.objects.get()
+        revisions = [item for discovery in value["discoveries"] for item in discovery["revision_ids"]]
+        with self.assertRaises(service.ThesisConflict):
+            evidence.prepare_evidence(self.actor, str(run.thesis_id), str(uuid4()), revisions[:-1],
+                                      question_run_id=str(run.pk))
+        from macro_agent.desk.question_evidence import build_context
+        context = CompilationAttempt.objects.get().evidence_context
+        with self.assertRaises(service.ThesisUnavailable):
+            build_context(self.other.pk, run.thesis_id, run.pk, context.content["reports"], context.created_at, {})
+        other_draft = service.create_thesis(self.actor, str(uuid4()), "Another exploratory question",
+            {"drivers": [], "horizon": None, "invalidation_signposts": []})["thesis"]
+        with self.assertRaises(service.ThesisUnavailable):
+            build_context(self.actor, other_draft["id"], run.pk, context.content["reports"], context.created_at, {})
+
+    def test_changed_context_cannot_be_resealed_as_exact_retained_lineage(self):
+        from copy import deepcopy
+        self.start()
+        context = CompilationAttempt.objects.get().evidence_context
+        context.content = deepcopy(context.content)
+        context.content["question_research"]["questions"][0]["planned_question"]["why_material"] = "Changed rationale"
+        context.digest = text_digest(canonical_json(context.content))
+        with self.assertRaises(service.ThesisConflict):
+            evidence._validated(context)
+
+    def test_database_rejects_foreign_run_context_and_omitted_query_even_without_members(self):
+        from copy import deepcopy
+        self.start()
+        context = CompilationAttempt.objects.get().evidence_context
+        other_draft = service.create_thesis(str(self.other.pk), str(uuid4()), "Another owner's question",
+            {"drivers": [], "horizon": None, "invalidation_signposts": []})["thesis"]
+        values = {"owner": self.owner, "thesis_id": context.thesis_id,
+            "command_id": uuid4(), "request_digest": context.request_digest,
+            "content": context.content, "digest": context.digest, "created_at": context.created_at}
+        cases = [{**values, "owner": self.other, "thesis_id": other_draft["id"]}]
+        changed = deepcopy(context.content)
+        changed["question_research"]["questions"].pop()
+        cases.append({**values, "content": changed, "digest": text_digest(canonical_json(changed))})
+        for case in cases:
+            with self.subTest(case=case["thesis_id"]), self.assertRaises(IntegrityError), transaction.atomic():
+                # Force immediate shape validation, before deferred completeness.
+                saved = evidence.ResearchEvidenceContext.objects.create(**case)
+                self.fail("Forged context reached row creation: " + str(saved.pk))
+
+    def test_contextual_card_approval_binds_full_investigation_and_replays_exactly(self):
+        value = self.start()["research"]
+        draft = value["compilation"]["thesis"]
+        text, meaning = draft["draft"]["text_version"], draft["draft"]["interpretation"]
+        command = str(uuid4())
+        args = (self.actor, draft["id"], command, text["id"], text["text_digest"],
+                meaning["id"], meaning["digest"], draft["revision"])
+        approved = service.approve_thesis(*args)
+        self.assertEqual(approved["thesis"]["approved"]["text_version"]["exact_text"], QUESTION)
+        card = approved["thesis"]["approved"]["interpretation"]["review_card"]
+        self.assertIn("question_research", card["evidence"]["context"])
+        with override_settings(MACRO_MODEL_API_KEY=""):
+            retried = service.approve_thesis(*args)
+        self.assertEqual(retried["thesis"]["approved"], approved["thesis"]["approved"])
+
+    def test_legacy_packet_recovery_before_compile_preserves_original_request_identity(self):
+        from uuid import UUID, uuid5
+        # Simulate a pre-upgrade process that had already frozen a v1 packet.
+        original = evidence.prepare_evidence
+        def legacy(*args, **kwargs):
+            kwargs.pop("question_run_id", None)
+            return original(*args, **kwargs)
+        with patch.object(evidence, "prepare_evidence", side_effect=legacy), \
+                patch.object(compilation, "compile_thesis", side_effect=RuntimeError("restart before inference")):
+            with self.assertRaises(RuntimeError):
+                self.start()
+        run = ResearchRun.objects.get()
+        before = evidence.ResearchEvidenceContext.objects.get()
+        self.assertEqual(before.content["schema_version"], "retained-source-evidence-v1")
+        self.assertNotIn("question_research", before.content)
+        value = self.resume()["research"]
+        after = evidence.ResearchEvidenceContext.objects.get()
+        self.assertEqual((after.request_digest, after.digest, after.content),
+                         (before.request_digest, before.digest, before.content))
+        self.assertEqual(str(after.command_id), str(uuid5(UUID(str(run.pk)), "evidence")))
+        self.assertEqual(value["status"], "compiled")
+        self.assertEqual(CompilationAttempt.objects.get().configuration["prompt_version"],
+                         "source-backed-thesis-prompt-v2")
+
+    def test_empty_query_permission_withdrawal_stales_packet_and_blocks_approval(self):
+        recorded = self.discovery
+        def mixed(query, *, clock):
+            recorded.count = 0 if "replacement" in query else 2
+            return recorded(query, clock=clock)
+        self.discovery = mixed
+        value = self.start()["research"]
+        attempt = CompilationAttempt.objects.get()
+        context = attempt.evidence_context
+        second = context.content["question_research"]["questions"][1]
+        self.assertEqual(second["revision_ids"], [])
+        self.assertIn(second["source_id"], evidence.source_ids_for_context(context))
+        staff = get_user_model().objects.create_user(username="empty-query-permission-staff", is_staff=True)
+        source = capture.SourceState.objects.get(pk=second["source_id"])
+        permissions.set_source_permission(str(staff.pk), source.pk, source.contract_digest, False,
+                                         "Withdraw the empty-query metadata source.")
+        later = investigation.get_research(self.actor, value["id"])["research"]
+        self.assertEqual(later["status"], "stale")
+        self.assertEqual(later["compilation"]["compilation"]["document"],
+                         value["compilation"]["compilation"]["document"])
+        draft = value["compilation"]["thesis"]
+        text, meaning = draft["draft"]["text_version"], draft["draft"]["interpretation"]
+        with self.assertRaises(service.ThesisConflict):
+            service.approve_thesis(self.actor, draft["id"], str(uuid4()), text["id"],
+                text["text_digest"], meaning["id"], meaning["digest"], draft["revision"])
+        self.assertEqual(self.provider.calls, 2)
+
+    def test_database_rejects_missing_or_null_packet_version_and_source_prompt(self):
+        from copy import deepcopy
+        self.start()
+        attempt = CompilationAttempt.objects.get()
+        context = attempt.evidence_context
+        for replacement in ("missing", None):
+            content = deepcopy(context.content)
+            if replacement == "missing":
+                content.pop("schema_version")
+            else:
+                content["schema_version"] = None
+            with self.subTest(packet=replacement), self.assertRaisesRegex(IntegrityError,
+                    "research evidence requires bounded exact inputs"), transaction.atomic():
+                evidence.ResearchEvidenceContext.objects.create(owner=self.owner,
+                    thesis_id=context.thesis_id, command_id=uuid4(), request_digest=context.request_digest,
+                    content=content, digest=text_digest(canonical_json(content)), created_at=context.created_at)
+        for field in ("schema_version", "prompt_version"):
+            for replacement in ("missing", None):
+                configuration = dict(attempt.configuration)
+                if replacement == "missing":
+                    configuration.pop(field)
+                else:
+                    configuration[field] = None
+                values = {field.attname: getattr(attempt, field.attname)
+                          for field in CompilationAttempt._meta.concrete_fields if not field.primary_key}
+                values.update(command_id=uuid4(), configuration=configuration)
+                with self.subTest(field=field, value=replacement), self.assertRaisesRegex(IntegrityError,
+                        "source compilation context or admission mismatch"), transaction.atomic():
+                    CompilationAttempt.objects.create(**values)

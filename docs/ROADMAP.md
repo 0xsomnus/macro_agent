@@ -10,6 +10,8 @@ Updated 2026-10-18. The next [internal weekly test](WEEKLY_WORKFLOW_TEST.md) acc
 
 The optional [driver-review profile](DRIVER_REVIEW.md) now links individual research proposals to evidence and reassesses exact approved drivers in news and morning synthesis, including cumulative predecessors. Research can explore assets outside the pilot without requesting monitoring. Automatic [named-question headline research](QUESTION_RESEARCH.md) and a separate [qualified internal driver-publication route](DRIVER_ATTENTION.md) now exist. Primary-source investigation, semantic source fit, appropriate live inputs, external delivery and calibrated materiality remain outstanding.
 
+Research continuity update, 2026-10-19: final synthesis now receives the retained investigation plan and every completed query outcome, including empty searches and selection limits, separately from source claims. A no-model source check is available before paid planning. The [latest acquisition check](../research/research-source-recheck-2026-10-19.md) still times out at GDELT while the Fed feed works. Broad live research remains blocked on a usable permitted discovery source; a Fed-answerable selected-packet test is narrower. No replacement source or live watch is selected by these checks.
+
 ## Phase 0: reviewed contracts and internal research
 
 - Evaluate the [implemented text-grounded review card and guided refinement](THESIS_COMPILATION.md), including affected assets, causal paths, assumptions, catalysts, horizon, invalidation and counter-case/scenarios. Verify usefulness with a live model; selected retained evidence is available; verified canonical relationships and reviewed sourced monitoring scope remain outstanding. Agent proposals retain their labels after review.
