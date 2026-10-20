@@ -25,11 +25,14 @@ from macro_agent.domain.research_plan import validate_query
 from macro_agent.transport.http import BoundedOpener, TransportError
 
 from .sources import SourceBatch, SourceError, SourceItem, _utc
+from . import research_policy
 
 
 ENDPOINT = "https://api.gdeltproject.org/api/v2/doc/doc"
 ADAPTER_VERSION = "gdelt-research-metadata-v1"
 POLICY_VERSION = "gdelt-internal-metadata-2026-10-17-v1"
+RECOVERY_POLICY_VERSION = "gdelt-internal-metadata-2026-10-20-v2"
+RECOVERY_ADAPTER_VERSION = "gdelt-research-metadata-v2"
 MAX_CANDIDATES = 5
 MAX_SELECTED = 4
 MAX_BYTES = 65_536
@@ -70,29 +73,40 @@ def require_internal_experiment():
         raise PermissionError("Internal research discovery is unavailable")
 
 
-def source_contract(query):
+def _policy(policy_version):
+    if type(policy_version) is not str or policy_version not in (POLICY_VERSION, RECOVERY_POLICY_VERSION):
+        raise ValueError("unknown GDELT research policy")
+    return policy_version
+
+
+def source_contract(query, *, policy_version=POLICY_VERSION):
     """Pin the query and selection/rights policy before transport admission."""
     validate_query(query)
-    identity = "gdelt-research-" + text_digest(query)
-    return identity, contract(identity, query)
+    _policy(policy_version)
+    prefix = "gdelt-research-" if policy_version == POLICY_VERSION else "gdelt-research-v2-"
+    identity = prefix + text_digest(query)
+    return identity, contract(identity, query, policy_version=policy_version)
 
 
-def contract(source_id, query):
+def contract(source_id, query, *, policy_version=POLICY_VERSION):
     validate_query(query)
-    expected = "gdelt-research-" + text_digest(query)
+    _policy(policy_version)
+    legacy = policy_version == POLICY_VERSION
+    expected = ("gdelt-research-" if legacy else "gdelt-research-v2-") + text_digest(query)
     # A durable application run may own a separate capture node even when
     # another private run searches the same query. Ownership is enforced by the
     # application; this adapter recognizes only the bounded node identity form.
     if (type(source_id) is not str or (source_id != expected and
             re.fullmatch(r"research-gdelt-[0-9a-f]{32}-[0-2]", source_id) is None)):
         raise ValueError("research source identity must match a query or durable run node")
-    return {"id": source_id, "label": "GDELT DOC internal research metadata",
+    value = {"id": source_id, "label": "GDELT DOC internal research metadata",
         "kind": "gdelt_research_metadata", "url": ENDPOINT, "query": query,
-        "adapter_version": ADAPTER_VERSION, "policy_version": POLICY_VERSION,
+        "adapter_version": ADAPTER_VERSION if legacy else RECOVERY_ADAPTER_VERSION,
+        "policy_version": policy_version,
         "coverage": "bounded_snapshot", "mode": "ArtList", "format": "json",
         "timespan": TIMESPAN, "sort": "HybridRel", "max_candidates": MAX_CANDIDATES,
         "max_selected": MAX_SELECTED, "max_bytes": MAX_BYTES,
-        "timeout_seconds": TIMEOUT_SECONDS,
+        "timeout_seconds": TIMEOUT_SECONDS if legacy else research_policy.RECOVERY_POLICY["transport_timeout_seconds"],
         "rights_status": "internal_metadata_experiment_only",
         "rights_note": "GDELT dataset metadata, attributed to The GDELT Project "
             "(https://www.gdeltproject.org/). Dataset terms: "
@@ -101,20 +115,24 @@ def contract(source_id, query):
         "selection_policy": "first_four_distinct_safe_https_candidates_in_api_order",
         "publication_time": "unavailable; seendate retained as GDELT observation only",
         "monitoring_authority": False}
+    if not legacy:
+        value["recovery_policy"] = dict(research_policy.RECOVERY_POLICY)
+    return value
 
 
 def matches_source_contract(row):
     """Recognize a saved exact policy; callers separately enforce permissions."""
     try:
         query = row.contract["query"]
-        expected = contract(row.pk, query)
+        expected = contract(row.pk, query, policy_version=row.contract["policy_version"])
         return row.contract == expected and row.contract_digest == text_digest(canonical_json(expected))
     except (AttributeError, KeyError, TypeError, ValueError):
         return False
 
 
-def request_url(query):
+def request_url(query, *, policy_version=POLICY_VERSION):
     validate_query(query)
+    _policy(policy_version)
     return ENDPOINT + "?" + urllib.parse.urlencode({"query": query, "mode": "ArtList",
         "format": "json", "timespan": TIMESPAN, "sort": "HybridRel",
         "maxrecords": MAX_CANDIDATES})
@@ -176,9 +194,10 @@ def _safe_article_url(url):
         return False
 
 
-def parse_metadata(raw, *, query, received_at):
+def parse_metadata(raw, *, query, received_at, policy_version=POLICY_VERSION):
     """Preserve the entire bounded candidate log and an explicit selected set."""
     validate_query(query)
+    _policy(policy_version)
     received_at = _utc(received_at)
     if type(raw) is not bytes or len(raw) > MAX_BYTES:
         raise SourceError("byte_limit")
@@ -227,26 +246,43 @@ def parse_metadata(raw, *, query, received_at):
     # This batch is exactly the logged selection. API cap/scope limits are
     # distinct from a truncated transport payload and remain explicit metadata.
     batch = SourceBatch(tuple(selected), received_at, "bounded_snapshot", False, sha256(raw).hexdigest())
-    metadata = {"schema_version": "gdelt-research-selection-v1", "query": query,
-        "request_url": request_url(query), "received_at": received_at.isoformat(),
+    legacy = policy_version == POLICY_VERSION
+    metadata = {"schema_version": "gdelt-research-selection-v1" if legacy else "gdelt-research-selection-v2", "query": query,
+        "request_url": request_url(query, policy_version=policy_version), "received_at": received_at.isoformat(),
         "transport_digest": batch.transport_digest, "requested_candidate_limit": MAX_CANDIDATES,
         "selection_limit": MAX_SELECTED, "returned_candidate_count": len(articles),
         "selected_count": len(selected), "candidate_cap_reached": len(articles) == MAX_CANDIDATES,
         "coverage_complete": False, "candidates": candidates, "limitations": list(LIMITATIONS)}
+    if not legacy:
+        metadata["policy_version"] = policy_version
+        metadata["adapter_version"] = RECOVERY_ADAPTER_VERSION
     return ResearchSearchResult(batch=batch, metadata=metadata)
 
 
-def discover(query, *, clock=_now, opener=None):
+def _retry_after(headers, *, clock):
+    """Only a single bounded header is eligible; never expose the raw value."""
+    if headers is None:
+        return None
+    values = (headers.get_all("Retry-After", []) if hasattr(headers, "get_all")
+              else [headers.get("Retry-After")])
+    if len(values) != 1:
+        return None
+    return research_policy.parse_retry_after(values[0], now=clock())
+
+
+def discover(query, *, clock=_now, opener=None, policy_version=POLICY_VERSION):
     """One fixed HTTPS GET; no article fetch, redirect, credential or retry."""
     validate_query(query)
+    _policy(policy_version)
     require_internal_experiment()
-    url = request_url(query)
+    url = request_url(query, policy_version=policy_version)
+    timeout = TIMEOUT_SECONDS if policy_version == POLICY_VERSION else research_policy.RECOVERY_POLICY["transport_timeout_seconds"]
     request = urllib.request.Request(url, method="GET", headers={
         "Accept": "application/json", "Accept-Encoding": "identity",
         "User-Agent": "MacroAgentInternalResearch/0.1 (+https://github.com/0xsomnus/macro_agent)",
     })
     try:
-        with (opener or BoundedOpener()).open(request, timeout=TIMEOUT_SECONDS, limit=MAX_BYTES) as response:
+        with (opener or BoundedOpener()).open(request, timeout=timeout, limit=MAX_BYTES) as response:
             if response.status != 200 or not _same_request_url(response.geturl(), url):
                 raise SourceError("invalid_response")
             if response.headers.get("Content-Encoding", "identity").lower() not in ("", "identity"):
@@ -272,14 +308,17 @@ def discover(query, *, clock=_now, opener=None):
         raise SourceError(code) from None
     except urllib.error.HTTPError as error:
         status = error.code
-        error.close()
+        try:
+            retry_after = _retry_after(error.headers, clock=clock) if status == 429 or 500 <= status <= 599 else None
+        finally:
+            error.close()
         code = "rate_limited" if status == 429 else "unavailable" if 500 <= status <= 599 else "http_error"
-        raise SourceError(code) from None
+        raise SourceError(code, retry_after_seconds=retry_after) from None
     except TimeoutError:
         raise SourceError("timeout") from None
     except (urllib.error.URLError, OSError, HTTPException):
         raise SourceError("transport_error") from None
-    return parse_metadata(raw, query=query, received_at=received_at)
+    return parse_metadata(raw, query=query, received_at=received_at, policy_version=policy_version)
 
 
 fetch_research = discover

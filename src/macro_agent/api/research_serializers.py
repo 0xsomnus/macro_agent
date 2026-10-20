@@ -3,6 +3,7 @@
 from rest_framework import serializers
 from .strict import (StrictSerializer, StrictStringField, StrictListField, StrictUUIDField,
                      StrictIntegerField, StrictBooleanField)
+from .source_recovery_serializers import SourceRecoveryOutcomeSerializer, SourceRecoveryPolicySerializer
 
 
 class PlannedResearchQuestionSerializer(StrictSerializer):
@@ -18,6 +19,29 @@ class ResearchExclusionCountsSerializer(StrictSerializer):
     duplicate_url_identity = StrictIntegerField(min_value=1, max_value=5, required=False)
     unsafe_or_non_https_attribution_url = StrictIntegerField(min_value=1, max_value=5, required=False)
     explicit_selection_limit = StrictIntegerField(min_value=1, max_value=5, required=False)
+
+
+class QuestionResearchAttemptMetadataSerializer(SourceRecoveryOutcomeSerializer):
+    retry_after_seconds = StrictIntegerField(min_value=0, allow_null=True, required=False)
+    retry_reason = StrictStringField(max_length=64, required=False)
+    retry_due_at = serializers.DateTimeField(allow_null=True, required=False)
+
+    def validate(self, value):
+        if value and set(value) != set(self.fields):
+            raise serializers.ValidationError("Attempt metadata requires complete recovery fields or an empty object.")
+        return value
+
+
+class QuestionResearchAttemptSerializer(StrictSerializer):
+    attempt_id = StrictUUIDField()
+    attempt_number = StrictIntegerField(min_value=1, max_value=3)
+    capture_id = StrictUUIDField()
+    status = serializers.ChoiceField(choices=["captured", "failed", "outcome_unknown"])
+    stop_reason = StrictStringField(max_length=64)
+    admitted_at = serializers.DateTimeField()
+    finished_at = serializers.DateTimeField()
+    result_digest = StrictStringField(min_length=64, max_length=64)
+    metadata = QuestionResearchAttemptMetadataSerializer()
 
 
 class QuestionResearchOutcomeSerializer(StrictSerializer):
@@ -39,10 +63,11 @@ class QuestionResearchOutcomeSerializer(StrictSerializer):
     exclusion_counts = ResearchExclusionCountsSerializer()
     candidate_cap_reached = StrictBooleanField()
     revision_ids = StrictListField(child=StrictUUIDField(), max_length=4)
+    attempts = QuestionResearchAttemptSerializer(many=True, min_length=1, max_length=3, required=False)
 
 
 class QuestionResearchContextSerializer(StrictSerializer):
-    schema_version = serializers.ChoiceField(choices=["question-research-context-v1"])
+    schema_version = serializers.ChoiceField(choices=["question-research-context-v1", "question-research-context-v2"])
     run_id = StrictUUIDField()
     run_request_digest = StrictStringField(min_length=64, max_length=64)
     exact_question_digest = StrictStringField(min_length=64, max_length=64)
@@ -53,6 +78,7 @@ class QuestionResearchContextSerializer(StrictSerializer):
     evidence_depth = serializers.ChoiceField(choices=["headline_metadata_only"])
     coverage_complete = serializers.ChoiceField(choices=[(False, False)])
     questions = QuestionResearchOutcomeSerializer(many=True, min_length=1, max_length=3)
+    execution_policy = SourceRecoveryPolicySerializer(required=False)
 
 
 class SourceEvidenceReportSerializer(StrictSerializer):
@@ -70,16 +96,22 @@ class SourceEvidenceReportSerializer(StrictSerializer):
 
 
 class SourceEvidenceEnvelopeSerializer(StrictSerializer):
-    schema_version = serializers.ChoiceField(choices=["retained-source-evidence-v1", "retained-source-evidence-v2"])
+    schema_version = serializers.ChoiceField(choices=["retained-source-evidence-v1", "retained-source-evidence-v2",
+                                                     "retained-source-evidence-v3"])
     cutoff = serializers.DateTimeField()
     reports = SourceEvidenceReportSerializer(many=True, min_length=1, max_length=16)
     gaps = StrictListField(child=StrictStringField(max_length=2000), max_length=32)
     question_research = QuestionResearchContextSerializer(required=False)
 
     def validate(self, value):
-        contextual = value["schema_version"] == "retained-source-evidence-v2"
+        contextual = value["schema_version"] in ("retained-source-evidence-v2", "retained-source-evidence-v3")
         if contextual != ("question_research" in value):
             raise serializers.ValidationError("Source evidence must match its exact retained variant.")
+        if contextual:
+            expected = {"retained-source-evidence-v2": "question-research-context-v1",
+                        "retained-source-evidence-v3": "question-research-context-v2"}[value["schema_version"]]
+            if value["question_research"]["schema_version"] != expected:
+                raise serializers.ValidationError("Source evidence and investigation versions must agree.")
         return value
 
 

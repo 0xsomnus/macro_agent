@@ -160,7 +160,12 @@ def interpretation_value(item: InterpretationRecord) -> CompiledThesisVersion:
         }
         profile = source_profiles.get(item.review_card["schema_version"])
         if profile is not None and "question_research" in item.review_card["evidence"]["context"]:
-            profile = (profile[0], profile[1] + "-question-research-v1")
+            version = item.review_card["evidence"]["context"]["question_research"]["schema_version"]
+            suffix = {"question-research-context-v1": "-question-research-v1",
+                      "question-research-context-v2": "-question-research-v2"}.get(version)
+            if suffix is None:
+                raise ThesisConflict("Review card requires a supported question research context")
+            profile = (profile[0], profile[1] + suffix)
         if profile is not None and (attempt.configuration.get("context") != "retained_source_evidence"
                 or (attempt.configuration.get("schema_version"), attempt.configuration.get("prompt_version")) != profile):
             raise ThesisConflict("review card differs from its pinned compilation profile")

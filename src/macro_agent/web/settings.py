@@ -129,6 +129,9 @@ SPECTACULAR_SETTINGS = {
         "ResearchDiscoveryNodeStatusEnum": ["captured", "failed", "outcome_unknown", "running"],
         "ResearchRunStatusEnum": ["planning", "plan_failed", "plan_uncertain", "discovering",
             "discovery_failed", "discovery_uncertain", "no_evidence", "ready_to_compile", "compiling",
-            "compiled", "compile_failed", "compile_uncertain", "stale"],
+            "compiled", "compile_failed", "compile_uncertain", "stale", "waiting_source",
+            "source_exhausted", "source_deadline"],
+        "ResearchSourceRecoveryPolicyEnum": ["research-source-recovery-2026-10-20-v1"],
+        "DriverPublicationPolicyEnum": ["evidence-linked-driver-review-v1"],
     },
 }

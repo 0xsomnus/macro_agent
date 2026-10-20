@@ -1,10 +1,12 @@
 """Investigate one rough question, or recover its saved research without new calls."""
 
 import argparse
+from datetime import datetime, timezone
 import getpass
 import json
 from pathlib import Path
 import sys
+import time
 from uuid import uuid4
 
 from desk_cli import (DeskClient, WalkthroughError, _id, local_url, new_command_journal,
@@ -26,6 +28,15 @@ def render_research(result, say=print):
     say("Research state: " + quoted(run["status"]))
     say("Pinned model: " + quoted(run["provider"] + "/" + run["model_id"]))
     say("Costs, unknown values stay unknown: " + quoted(run["costs"]))
+    if run.get("execution_policy"):
+        say("Source-only recovery policy: " + quoted(run["execution_policy"]))
+        say("Source recovery deadline: " + quoted(run["source_deadline_at"]))
+        if run.get("source_next_attempt_at"):
+            say("Next source attempt is eligible at: " + quoted(run["source_next_attempt_at"]))
+        if run.get("source_stop_reason"):
+            say("Source recovery outcome: " + quoted(run["source_stop_reason"]))
+        if run["status"] == "waiting_source":
+            say("Progress is saved. Use --continue-run with this research ID, or --wait to follow eligible source recovery.")
     plan = run["plan"]
     if plan:
         say("Planning state: " + quoted(plan["status"]))
@@ -49,12 +60,69 @@ def render_research(result, say=print):
     say("Research starts no monitoring, approval or position. Any later adoption is separate.")
 
 
+def follow_sources(client, result, journal, *, wait_seconds=300, say=print,
+                   sleep=time.sleep, monotonic=time.monotonic,
+                   now=lambda: datetime.now(timezone.utc)):
+    """Follow only saved source waits; a lost HTTP response stops this client."""
+    if type(wait_seconds) is not int or not 1 <= wait_seconds <= 1800:
+        raise WalkthroughError("Wait budget must be between 1 and 1800 seconds.")
+    if journal is None:
+        raise WalkthroughError("A private journal is required before following source recovery.")
+    original = result["research"]
+    identity = {key: original[key] for key in ("id", "command_id", "exact_question", "provider", "model_id")}
+    run_id = _id(original["id"])
+    expires = monotonic() + wait_seconds
+    steps = 0
+    while result["research"]["status"] == "waiting_source":
+        if steps >= 12 or monotonic() >= expires:
+            say("Local wait budget ended. Saved research can be resumed with --continue-run " + run_id)
+            break
+        run = result["research"]
+        if not run.get("execution_policy") or not run.get("source_next_attempt_at"):
+            raise WalkthroughError("Waiting research lacks its pinned recovery policy or next due time.")
+        try:
+            due = datetime.fromisoformat(run["source_next_attempt_at"])
+            if due.tzinfo is None or due.utcoffset() is None:
+                raise ValueError
+            delay = max(1.0, (due - now()).total_seconds())
+        except (TypeError, ValueError, OverflowError):
+            raise WalkthroughError("Invalid source recovery due time.") from None
+        say("Waiting for the source. Saved planning and completed searches will be reused.")
+        remaining_delay = delay
+        while remaining_delay > 0 and monotonic() < expires:
+            pause = min(30.0, remaining_delay, max(0, expires - monotonic()))
+            if pause <= 0:
+                break
+            sleep(pause)
+            remaining_delay -= pause
+        if monotonic() >= expires:
+            say("Local wait budget ended. Saved research can be resumed with --continue-run " + run_id)
+            break
+        journal.append("research_continuation_requested", {"run_id": run_id, "request": {}})
+        try:
+            result = client.request("POST", f"/api/v1/research/{run_id}/continue/", {})
+        except WalkthroughError:
+            raise WalkthroughError("Continuation response unavailable. Use --show-run " + run_id
+                + " for read-only recovery. No request was retried; cost may be unknown.") from None
+        journal.append("research_response", result)
+        if any(result["research"][key] != value for key, value in identity.items()):
+            raise WalkthroughError("Source recovery changed its saved research identity.")
+        steps += 1
+        say("Research state: " + quoted(result["research"]["status"]))
+    return result
+
+
 def research(client, *, exact_question=None, requested_model=None, recover_command=None,
-             show_run=None, continue_run=None, journal=None,
+             show_run=None, continue_run=None, journal=None, source_recovery=True,
+             follow=False, wait_seconds=300,
              ask=input, secret=getpass.getpass, say=print):
+    if follow and (type(wait_seconds) is not int or not 1 <= wait_seconds <= 1800):
+        raise WalkthroughError("Wait budget must be between 1 and 1800 seconds.")
     if sum(item is not None for item in (recover_command, show_run, continue_run)) > 1:
         raise WalkthroughError("Choose one research operation.")
     reading = recover_command is not None or show_run is not None
+    if reading and follow:
+        raise WalkthroughError("Read-only recovery cannot follow or advance saved research.")
     if (reading or continue_run is not None) and (exact_question is not None or requested_model is not None):
         raise WalkthroughError("Saved research uses its exact original question and pinned model.")
     client.login(required("Username: ", ask, say), secret("Password: "))
@@ -84,9 +152,12 @@ def research(client, *, exact_question=None, requested_model=None, recover_comma
             selection = select_model(client, requested=requested_model, ask=ask, say=say)
             if selection is None:
                 return None
-            command = {"command_id": str(uuid4()), "exact_question": exact_question, **selection}
+            command = {"command_id": str(uuid4()), "exact_question": exact_question, **selection,
+                       "source_recovery": source_recovery}
             say("Exact question: " + quoted(exact_question))
-            say("Up to two selected-model calls and three bounded headline/metadata searches. A charge may apply. No monitoring is enrolled.")
+            say("Up to two selected-model calls and three named headline/metadata questions. A charge may apply. No monitoring is enrolled.")
+            if source_recovery:
+                say("Each source question permits at most three GET attempts with shared cooldown and a 30-minute source deadline. Paid model calls are not automatically repeated.")
             if ask("Type research to begin, or Enter to cancel: ").strip().lower() != "research":
                 return None
             if journal is None:
@@ -103,6 +174,8 @@ def research(client, *, exact_question=None, requested_model=None, recover_comma
             if (run["command_id"] != command["command_id"] or run["exact_question"] != exact_question
                     or run["provider"] != selection["provider_id"] or run["model_id"] != selection["model_id"]):
                 raise WalkthroughError("The research response changed its request, question or selected model.")
+        if follow:
+            result = follow_sources(client, result, journal, wait_seconds=wait_seconds, say=say)
         render_research(result, say)
         return result
     finally:
@@ -123,6 +196,9 @@ def main(argv=None):
     group.add_argument("--continue-run")
     parser.add_argument("--model")
     parser.add_argument("--journal")
+    parser.add_argument("--one-shot-sources", action="store_true", help="Use the legacy one-shot source contract for a new run")
+    parser.add_argument("--wait", action="store_true", help="Follow saved source waits within a bounded local time budget")
+    parser.add_argument("--wait-seconds", type=int, default=300)
     args = parser.parse_args(argv)
     journal = None
     try:
@@ -131,14 +207,17 @@ def main(argv=None):
             with args.question_file.open(encoding="utf-8", newline="") as stream:
                 exact = stream.read()
         if args.recover_command or args.show_run:
-            if args.model or args.journal:
+            if args.model or args.journal or args.wait or args.one_shot_sources:
                 raise WalkthroughError("Read-only recovery accepts saved IDs only.")
+        elif args.continue_run and args.one_shot_sources:
+            raise WalkthroughError("Continuation preserves the saved source policy.")
         else:
             journal = new_command_journal(args.journal)
             print("Private journal: " + str(journal.path))
         research(DeskClient(args.url, timeout=180), exact_question=exact, requested_model=args.model,
             recover_command=args.recover_command, show_run=args.show_run,
-            continue_run=args.continue_run, journal=journal)
+            continue_run=args.continue_run, journal=journal, source_recovery=not args.one_shot_sources,
+            follow=args.wait, wait_seconds=args.wait_seconds)
         return 0
     except (WalkthroughError, ValueError, TypeError, KeyError, OSError) as error:
         print(str(error) if isinstance(error, WalkthroughError) else "Invalid research input or saved response.", file=sys.stderr)

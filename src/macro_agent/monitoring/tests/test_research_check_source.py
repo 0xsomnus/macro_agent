@@ -50,6 +50,16 @@ class ResearchSourceCheckTests(SimpleTestCase):
             self.assertEqual(value["model_calls"], 0)
             self.assertNotIn("private", output.getvalue())
 
+    def test_explicit_recovery_policy_reports_only_safe_retry_delay(self):
+        output = io.StringIO()
+        with patch.object(gdelt_research, "discover", side_effect=SourceError(
+                "rate_limited", retry_after_seconds=90)) as discover, self.assertRaises(CommandError):
+            call_command("research_check_source", query="fictional gas supply", recovery_policy=True, stdout=output)
+        discover.assert_called_once_with("fictional gas supply", policy_version=gdelt_research.RECOVERY_POLICY_VERSION)
+        value = json.loads(output.getvalue())
+        self.assertEqual((value["code"], value["retry_after_seconds"]), ("rate_limited", 90))
+        self.assertEqual((value["database_writes"], value["model_calls"]), (0, 0))
+
     @override_settings(MACRO_ENABLE_RESEARCH_DISCOVERY=False)
     def test_disabled_local_gate_prevents_transport_without_a_database_connection(self):
         output, invoke = self.invoke()

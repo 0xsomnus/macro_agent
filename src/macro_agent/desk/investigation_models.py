@@ -23,6 +23,8 @@ class ResearchRun(models.Model):
     provider = models.CharField(max_length=32)
     model_id = models.CharField(max_length=255)
     bounds = models.JSONField()
+    # Empty policy retains the original one-shot graph and request identity.
+    execution_policy = models.JSONField(default=dict)
     created_at = models.DateTimeField()
 
     class Meta:
@@ -76,17 +78,37 @@ class ResearchDiscoveryAttempt(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     run = models.ForeignKey(ResearchRun, on_delete=models.PROTECT, related_name="discoveries")
     question_index = models.PositiveSmallIntegerField()
+    attempt_number = models.PositiveSmallIntegerField(default=1)
     question = models.JSONField()
     source_id = models.CharField(max_length=128)
     contract = models.JSONField()
     admitted_at = models.DateTimeField()
+    capture = models.OneToOneField("macro_monitoring.CaptureAttempt", null=True,
+        on_delete=models.PROTECT, related_name="research_discovery_admission")
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=("run", "question_index"), name="desk_research_discovery_once"),
+            models.UniqueConstraint(fields=("run", "question_index", "attempt_number"),
+                                    name="desk_research_discovery_number"),
             models.CheckConstraint(condition=Q(question_index__gte=0, question_index__lt=3),
                                    name="desk_research_discovery_index"),
+            models.CheckConstraint(condition=Q(attempt_number__gte=1, attempt_number__lte=3),
+                                   name="desk_research_attempt_bound"),
         ]
+
+
+class ResearchSourceState(models.Model):
+    """Shared transport reservation, carrying no private query or authority."""
+
+    id = models.CharField(primary_key=True, max_length=32)
+    next_request_at = models.DateTimeField()
+    active_capture = models.OneToOneField("macro_monitoring.CaptureAttempt", null=True,
+        on_delete=models.PROTECT, related_name="research_provider_reservation")
+    generation = models.PositiveBigIntegerField(default=0)
+
+    class Meta:
+        constraints = [models.CheckConstraint(condition=Q(id="gdelt"),
+            name="desk_research_source_provider")]
 
 
 class ResearchDiscoveryReceipt(models.Model):

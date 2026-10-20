@@ -9,7 +9,8 @@ from django.utils import timezone
 
 from macro_agent.domain.models import canonical_json, text_digest
 from macro_agent.domain.source_evidence import (SOURCE_EVIDENCE_SCHEMA_VERSION,
-    SOURCE_EVIDENCE_QUESTION_SCHEMA_VERSION, validate_source_evidence)
+    SOURCE_EVIDENCE_QUESTION_SCHEMA_VERSION, SOURCE_EVIDENCE_RECOVERY_SCHEMA_VERSION,
+    validate_source_evidence)
 from macro_agent.domain.time import as_utc
 from macro_agent.monitoring.models import SourceRevision, SourceState
 from macro_agent.monitoring.news_context import allowed_research_source as allowed_source
@@ -240,6 +241,8 @@ def prepare_evidence(actor_id, thesis_id, command_id, revision_ids, *, question_
             content["schema_version"] = SOURCE_EVIDENCE_QUESTION_SCHEMA_VERSION
             content["question_research"] = build_context(actor_id, thesis_id,
                                                          question_run_id, reports, at, contracts)
+            if content["question_research"]["schema_version"] == "question-research-context-v2":
+                content["schema_version"] = SOURCE_EVIDENCE_RECOVERY_SCHEMA_VERSION
         content = validate_source_evidence(content)
         context = ResearchEvidenceContext.objects.create(owner_id=actor_id, thesis=thesis,
             command_id=command_id, request_digest=digest, content=content,

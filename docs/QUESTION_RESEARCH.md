@@ -34,6 +34,8 @@ Alternatively, use `--question-file path/to/question.txt` to preserve UTF-8 text
 
 The terminal prints the request UUID before transmission and writes a private journal. It shows the named questions, counter-evidence sought, queries, all returned candidate identities, exclusions, retained evidence, source-linked proposals, costs and gaps. A related business may lose from a commodity disruption rather than benefit; exposure candidates must explain that relationship and basis risk.
 
+New terminal runs explicitly enable [source recovery](RESEARCH_SOURCE_RECOVERY.md). Add `--wait` to follow saved cooldowns within a local time budget, or resume later with `--continue-run`. At most three source GET attempts per question are allowed; paid planning and compilation are not automatically repeated. The source deadline is thirty minutes. Legacy runs and omitted-option HTTP requests preserve the one-shot contract.
+
 ## Bounded graph
 
 ```mermaid
@@ -46,7 +48,7 @@ flowchart LR
     C --> D[Qualified research draft]
 ```
 
-The graph permits at most two model calls, three named questions, five search candidates per question and four selected reports per question. The complete evidence set contains at most twelve reports. The search window is thirty days. These bounds are pinned in the research request and adapter contract; they do not establish complete coverage or a dollar ceiling.
+The graph permits at most two model calls, three named questions, five search candidates per successful lookup and four selected reports per question. The complete evidence set contains at most twelve reports. Opted-in source recovery permits at most nine GET attempts across those questions. The search window is thirty days relative to acquisition, so a later retry is not an original-time historical snapshot. These bounds are pinned in the research request and adapter contract; they do not establish complete coverage or a dollar ceiling.
 
 Selection follows the provider's returned ranking within each planned question. The fifth result, duplicates and unsafe attribution URLs remain explicitly excluded in the trace. Reaching the candidate cap is visible. There is no independent semantic source-quality ranker or guarantee that contrary evidence was found. [GDELT's DOC documentation](https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/) describes its query and ranking behavior.
 
@@ -69,7 +71,7 @@ The original start command is also inert on retry. It reads saved state rather t
 .venv/bin/python tools/research_question.py --continue-run RESEARCH_UUID
 ```
 
-Continuation first reads the saved state. It can incur a charge for a not-yet-admitted node, so the terminal asks before sending the continuation. An admitted uncertain paid call is never resent. Discovery receipts and committed captures can be adopted after restart without another search. An unrecorded uncertain transport, failed search or malformed plan remains visible; this increment has no automatic retry policy for those outcomes.
+Continuation first reads the saved state. It can incur a charge for a not-yet-admitted node, so the terminal asks before sending the continuation. An admitted uncertain paid call is never resent. Discovery receipts and committed captures can be adopted after restart without another search. Recovery-enabled source failures can advance only after their saved cooldown and within attempt/deadline limits. Legacy failed searches and malformed or uncertain paid nodes remain terminal. Read-only recovery never advances either graph.
 
 Source corrections or permission withdrawal make consumed evidence stale. Original questions, plans, candidate logs and model outputs remain retained. A changed draft cannot silently replace the question's input. Unknown costs stay null; planning and compilation share the existing private-call allowance.
 
@@ -81,10 +83,12 @@ Per-question research sources contain private query context. Ownership is enforc
 
 The session API exposes:
 
-- `POST /api/v1/research/`, exactly `command_id`, `exact_question`, `provider_id`, `model_id`.
+- `POST /api/v1/research/`, required `command_id`, `exact_question`, `provider_id`, `model_id`, and optional strict `source_recovery`.
 - `GET /api/v1/research/{run_id}/`.
 - `GET /api/v1/research-commands/{command_id}/`.
 - `POST /api/v1/research/{run_id}/continue/`, with an empty JSON object.
+
+The start endpoint also accepts strict optional `source_recovery: true`. It pins the reviewed source policy and changes the request identity. Omission keeps the legacy contract; a saved command cannot change that flag. Recovery responses expose the execution policy, source deadline, next eligible time and all numbered source attempts.
 
 Writes require CSRF and reject unknown fields, duplicate keys and coercion. Reads make no provider, catalogue or search call. The [initial recorded proof](../artifacts/question-research-trace-2026-10-18.md) uses fictional inputs, including restart after capture. The [context-continuity proof](../artifacts/question-research-context-trace-2026-10-19.md) adds saturated and empty query outcomes reaching synthesis with exact recovery. Primary-source investigation, source-fit evaluation, deeper company research and supervised live usefulness remain ahead.
 

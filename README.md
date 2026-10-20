@@ -74,13 +74,15 @@ After model setup, enable the local research and capture gates in the [question-
 .venv/bin/python manage.py research_check_source --query "helium supply"
 ```
 
-This check needs no model key and saves no database records. The latest live GDELT check timed out, so broad automatic research remains blocked on usable acquisition. Once the source check succeeds, run:
+This check needs no model key and saves no database records. Earlier live GDELT checks timed out; a longer diagnostic exposed rate limiting. Useful live acquisition remains unverified. Once the source check succeeds, run:
 
 ```sh
-.venv/bin/python tools/research_question.py --question "Research possible helium exposure and what could undermine the idea."
+.venv/bin/python tools/research_question.py --question "Research possible helium exposure and what could undermine the idea." --wait
 ```
 
 Choose a model and inspect the bounded request before starting. The result shows queries, selected and excluded source metadata, proposed drivers, exposure candidates and gaps. The first path uses headlines rather than article bodies. It preserves your exact question, makes no approval or watch, and can recover saved work without repeating an uncertain model call.
+
+New terminal runs enable [resumable source recovery](docs/RESEARCH_SOURCE_RECOVERY.md). Rate-limited lookups wait under saved bounds while reusing the paid plan and completed searches. `--wait` follows for up to five minutes; after that, resume with the displayed research ID. No alternative discovery source is configured yet.
 
 ## Try model compilation
 

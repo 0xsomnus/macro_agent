@@ -28,7 +28,9 @@ class ResearchStartView(ResearchAPIView):
     @extend_schema(operation_id="start_question_research", tags=["internal question research"],
         request=StartResearchSerializer, responses=RESPONSES,
         description=("Retain an exact rough question and bounded investigation. At most one planning and one compilation "
-            "model admission; up to three metadata-only searches. Creates no monitoring, approval or paper position. "
+            "model admission; up to three metadata-only questions. Optional source_recovery pins bounded "
+            "source-only attempts and shared pacing; omitted preserves the legacy one-shot contract. "
+            "Creates no monitoring, approval or paper position. "
             "Initial command retries read saved state without advancing or resending paid work."))
     def post(self, request):
         command = self.validated_command(request, StartResearchSerializer)
@@ -53,7 +55,8 @@ class ResearchCommandView(ResearchAPIView):
 class ResearchContinueView(ResearchAPIView):
     @extend_schema(operation_id="continue_question_research", tags=["internal question research"],
         request=ContinueResearchSerializer, responses=RESPONSES,
-        description=("Explicitly advance only unadmitted research nodes or finish retained discovery receipts. "
+        description=("Explicitly advance eligible research nodes or finish retained discovery receipts. "
+            "Recovery-enabled runs may retry only eligible source GETs after their saved due time. "
             "An admitted uncertain model call is inspected and never resent. A not-yet-admitted compilation may incur a charge."))
     def post(self, request, run_id):
         self.validated_command(request, ContinueResearchSerializer)

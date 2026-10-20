@@ -24,7 +24,8 @@ EXPOSURE_FIELDS = frozenset(("candidate_id", "asset", "expression", "relationshi
 
 
 def prompt_version(evidence):
-    return PROMPT_VERSION + ("-question-research-v1" if "question_research" in evidence else "")
+    return sourced_compilation.prompt_version(evidence).replace(
+        sourced_compilation.PROMPT_VERSION, PROMPT_VERSION, 1)
 
 
 def _identity(value, field, seen):

@@ -14,6 +14,7 @@ from .time import parse_instant
 
 SOURCE_EVIDENCE_SCHEMA_VERSION = "retained-source-evidence-v1"
 SOURCE_EVIDENCE_QUESTION_SCHEMA_VERSION = "retained-source-evidence-v2"
+SOURCE_EVIDENCE_RECOVERY_SCHEMA_VERSION = "retained-source-evidence-v3"
 MAX_EVIDENCE_BYTES = 65_536
 MAX_REPORTS = 16
 MAX_CLAIMS = 32
@@ -77,7 +78,8 @@ def validate_source_evidence(envelope):
         raise ValueError("source evidence requires exactly its documented fields")
     schema_version = envelope.get("schema_version")
     fields = frozenset(("schema_version", "cutoff", "reports", "gaps"))
-    if schema_version == SOURCE_EVIDENCE_QUESTION_SCHEMA_VERSION:
+    if schema_version in (SOURCE_EVIDENCE_QUESTION_SCHEMA_VERSION,
+                           SOURCE_EVIDENCE_RECOVERY_SCHEMA_VERSION):
         fields |= {"question_research"}
     elif schema_version != SOURCE_EVIDENCE_SCHEMA_VERSION:
         raise ValueError("unsupported source evidence schema version")
@@ -115,8 +117,15 @@ def validate_source_evidence(envelope):
             _instant(report["source_claimed_published_at"], "source claimed publication")
     for gap in _array(envelope["gaps"], "source evidence gaps", 32):
         _text(gap, "source evidence gap", 2_000)
-    if schema_version == SOURCE_EVIDENCE_QUESTION_SCHEMA_VERSION:
-        from .question_research_context import validate_question_research_context
+    if schema_version in (SOURCE_EVIDENCE_QUESTION_SCHEMA_VERSION,
+                           SOURCE_EVIDENCE_RECOVERY_SCHEMA_VERSION):
+        from .question_research_context import (RECOVERY_SCHEMA_VERSION,
+            SCHEMA_VERSION, validate_question_research_context)
+        expected = (RECOVERY_SCHEMA_VERSION if schema_version == SOURCE_EVIDENCE_RECOVERY_SCHEMA_VERSION
+                    else SCHEMA_VERSION)
+        context = envelope["question_research"]
+        if type(context) is not dict or context.get("schema_version") != expected:
+            raise ValueError("source evidence must match its question research context version")
         validate_question_research_context(envelope["question_research"], reports)
     try:
         encoded = canonical_json(envelope)

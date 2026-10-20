@@ -1,0 +1,16 @@
+{
+  "article_fetches": 0,
+  "code": "rate_limited",
+  "coverage_complete": false,
+  "database_writes": 0,
+  "elapsed_ms": 11534,
+  "model_calls": 0,
+  "source": "gdelt_research_metadata",
+  "status": "unavailable",
+  "reported_at": "2026-10-19T21:44:00.819871+00:00",
+  "client_date": "2026-10-20",
+  "diagnostic_policy": "gdelt-internal-metadata-2026-10-20-v2",
+  "request_count": 1,
+  "automatic_retries": 0,
+  "limitation": "One uncoordinated operator probe, no successful acquisition or coverage claim."
+}

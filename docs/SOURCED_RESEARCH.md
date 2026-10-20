@@ -50,6 +50,8 @@ The complete packet is limited to 65,536 encoded bytes, sixteen reports, 4,096 c
 
 Question-led research now prepares `retained-source-evidence-v2` with a server-built `question_research` context. It pins the exact retained plan, discovery receipts/results and complete query-to-revision mapping, including empty searches and selection limits. This is workflow context, not quotable evidence or trader intent. The HTTP selection endpoint does not accept it. Selected packets without that context retain their v1 identities; new contextual prompts carry a distinct version suffix, and approval binds the full retained card.
 
+Opted-in [source recovery](RESEARCH_SOURCE_RECOVERY.md) uses `retained-source-evidence-v3` and `question-research-context-v2`, adding the exact execution policy and compact ordered attempt history. Full immutable outcomes remain bound by digests. The winning search supplies report evidence; prior failures retain their unresolved labels. The profile uses a `question-research-v2` prompt suffix. Older packet/card/prompt identities remain valid and unchanged.
+
 The strict session/CSRF endpoints are:
 
 - `POST /api/v1/theses/{thesis_id}/evidence/`, exactly `command_id` and `revision_ids`.

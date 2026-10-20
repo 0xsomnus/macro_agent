@@ -16,7 +16,12 @@ DOCUMENT_FIELDS = text_compilation.DOCUMENT_FIELDS | ADDED_FIELDS
 
 def prompt_version(evidence):
     """Preserve historical prompts unless investigation context is supplied."""
-    return PROMPT_VERSION + ("-question-research-v1" if "question_research" in evidence else "")
+    context = evidence.get("question_research")
+    if context is None:
+        return PROMPT_VERSION
+    from .question_research_context import RECOVERY_SCHEMA_VERSION
+    suffix = "-question-research-v2" if context.get("schema_version") == RECOVERY_SCHEMA_VERSION else "-question-research-v1"
+    return PROMPT_VERSION + suffix
 
 
 def _references(value, identities, field, *, required=False):
@@ -134,6 +139,21 @@ mechanism, an asset relationship or investment consequences. Metadata fields
 and GDELT seen time do not establish article content, causation or public time.
 The exact original question can be exploratory rather than a trader's belief.
 Never infer conviction or extracted intent merely from a research question.
+"""
+        from .question_research_context import RECOVERY_SCHEMA_VERSION
+        if envelope["question_research"]["schema_version"] == RECOVERY_SCHEMA_VERSION:
+            instructions += """
+
+The acquisition context also retains the pinned source recovery execution
+policy and every numbered source attempt. Failed and uncertain lookups remain
+unresolved acquisition failures, not negative evidence about a driver or proof
+that a counter-case is absent. A later captured winner does not erase earlier
+failure reasons or make the source comprehensive. Failure reasons, retry timing,
+record digests and policy limits are workflow metadata, never factual source
+claims, trader intent or authority to act. Only the captured winner's retained
+report title/content fields may support attributed source quotations. Exact
+result digests bind separately retained immutable outcomes and selection logs;
+the compact attempt trace does not contain the complete candidate metadata.
 """
     data = json.loads(messages[1]["content"])
     data["evidence"] = envelope

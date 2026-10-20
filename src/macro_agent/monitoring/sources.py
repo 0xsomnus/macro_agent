@@ -30,6 +30,8 @@ import xml.etree.ElementTree as ET
 
 from macro_agent.transport.http import BoundedOpener, TransportError
 
+from .research_policy import validate_retry_after
+
 
 MAX_BATCH_BYTES = 1024 * 1024
 MAX_ITEMS = 100
@@ -42,8 +44,9 @@ _ISO_DATE = re.compile(
 class SourceError(RuntimeError):
     """Stable safe failure category, without remote bodies or local paths."""
 
-    def __init__(self, code: str):
+    def __init__(self, code: str, *, retry_after_seconds=None):
         self.code = code
+        self.retry_after_seconds = validate_retry_after(retry_after_seconds)
         super().__init__(f"Source capture failed ({code}).")
 
 

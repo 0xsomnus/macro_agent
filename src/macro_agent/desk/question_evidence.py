@@ -33,7 +33,7 @@ def source_ids(actor_id, thesis_id, run_id):
     run = _record(str(actor_id), str(run_id))
     if str(run.thesis_id) != str(thesis_id):
         raise theses.ThesisUnavailable("Research unavailable")
-    return sorted(run.discoveries.values_list("source_id", flat=True))
+    return sorted(set(run.discoveries.values_list("source_id", flat=True)))
 
 
 def build_context(actor_id, thesis_id, run_id, reports, cutoff, contracts):
@@ -51,12 +51,14 @@ def build_context(actor_id, thesis_id, run_id, reports, cutoff, contracts):
             or plan.messages != research_plan.build_plan_prompt(run.exact_question)):
         _conflict()
     document = research_plan.parse_plan(canonical_json(result.document), run.exact_question)
-    attempts = list(run.discoveries.order_by("question_index"))
+    all_attempts = list(run.discoveries.order_by("question_index", "attempt_number"))
+    attempts = {attempt.question_index: attempt for attempt in all_attempts}
     if len(attempts) != len(document["questions"]):
         _conflict()
     observed_times = [run.created_at, plan.created_at, result.finished_at]
     questions = []
-    for index, (question, attempt) in enumerate(zip(document["questions"], attempts)):
+    for index, question in enumerate(document["questions"]):
+        attempt = attempts[index]
         source_id = "research-gdelt-" + run.id.hex + "-" + str(index)
         contract = contracts.get(source_id)
         receipt = ResearchDiscoveryReceipt.objects.filter(attempt=attempt).select_related("capture").first()
@@ -65,7 +67,8 @@ def build_context(actor_id, thesis_id, run_id, reports, cutoff, contracts):
                 or attempt.source_id != source_id or receipt is None or outcome is None
                 or outcome.capture_id != receipt.capture_id
                 or receipt.capture.source_id != source_id
-                or attempt.contract != gdelt_research.contract(source_id, question["query"])
+                or attempt.contract != gdelt_research.contract(source_id, question["query"],
+                    policy_version=attempt.contract.get("policy_version", gdelt_research.POLICY_VERSION))
                 or receipt.capture.contract_digest != _digest(attempt.contract)
                 or outcome.metadata != receipt.metadata or contract is None
                 or contract.source_id != source_id or contract.contract != attempt.contract
@@ -84,7 +87,8 @@ def build_context(actor_id, thesis_id, run_id, reports, cutoff, contracts):
             # external request. Re-encoding need not reproduce transport bytes.
             parsed = gdelt_research.parse_metadata(canonical_json({"articles": [
                 candidate["metadata"] for candidate in candidates]}).encode("utf-8"),
-                query=question["query"], received_at=receipt.received_at)
+                query=question["query"], received_at=receipt.received_at,
+                policy_version=attempt.contract["policy_version"])
             reconstructed = dict(parsed.metadata)
             reconstructed["transport_digest"] = receipt.batch["transport_digest"]
             if (metadata != reconstructed or receipt.batch != {
@@ -130,6 +134,26 @@ def build_context(actor_id, thesis_id, run_id, reports, cutoff, contracts):
             "exclusion_counts": exclusions,
             "candidate_cap_reached": metadata["candidate_cap_reached"],
             "revision_ids": revisions})
+        if run.execution_policy:
+            history = []
+            for previous in (item for item in all_attempts if item.question_index == index):
+                saved = ResearchDiscoveryResult.objects.filter(attempt=previous).first()
+                if (saved is None or previous.capture_id is None
+                        or saved.capture_id != previous.capture_id
+                        or previous.question != question or previous.contract != attempt.contract
+                        or previous.source_id != source_id):
+                    _conflict()
+                history.append({"attempt_id": str(previous.pk), "attempt_number": previous.attempt_number,
+                    "capture_id": str(previous.capture_id), "status": saved.status,
+                    "stop_reason": saved.stop_reason, "admitted_at": previous.admitted_at.isoformat(),
+                    "finished_at": saved.finished_at.isoformat(), "result_digest": _digest({
+                        "attempt_id": str(saved.attempt_id), "capture_id": str(saved.capture_id),
+                        "status": saved.status, "revision_ids": saved.revision_ids,
+                        "metadata": saved.metadata, "stop_reason": saved.stop_reason,
+                        "finished_at": saved.finished_at.isoformat()}),
+                    "metadata": {} if saved.status == "captured" else saved.metadata})
+                observed_times.extend((previous.admitted_at, saved.finished_at))
+            questions[-1]["attempts"] = history
         observed_times.extend([attempt.admitted_at, receipt.capture.admitted_at,
             receipt.received_at, captured.finished_at, outcome.finished_at])
     if any(observed > cutoff for observed in observed_times):
@@ -144,6 +168,9 @@ def build_context(actor_id, thesis_id, run_id, reports, cutoff, contracts):
             "stop_reason": result.stop_reason, "finished_at": result.finished_at.isoformat()}),
         "evidence_depth": "headline_metadata_only", "coverage_complete": False,
         "questions": questions}
+    if run.execution_policy:
+        value["schema_version"] = "question-research-context-v2"
+        value["execution_policy"] = run.execution_policy
     try:
         return validate_question_research_context(value, reports)
     except (TypeError, ValueError):

@@ -2,7 +2,9 @@
 
 from rest_framework import serializers
 from .compilation_serializers import CompilationResponseSerializer, CompilationUsageSerializer, PROVIDERS
-from .strict import StrictListField, StrictSerializer, StrictStringField, StrictUUIDField
+from .strict import (StrictBooleanField, StrictListField, StrictSerializer,
+                     StrictStringField, StrictUUIDField)
+from .source_recovery_serializers import SourceRecoveryOutcomeSerializer, SourceRecoveryPolicySerializer
 
 
 class StartResearchSerializer(StrictSerializer):
@@ -10,6 +12,7 @@ class StartResearchSerializer(StrictSerializer):
     exact_question = StrictStringField(max_length=20000)
     provider_id = serializers.ChoiceField(choices=PROVIDERS)
     model_id = StrictStringField(max_length=255)
+    source_recovery = StrictBooleanField(required=False, default=False)
 
 
 class ContinueResearchSerializer(StrictSerializer):
@@ -70,7 +73,9 @@ class ResearchCandidateSerializer(serializers.Serializer):
 
 
 class ResearchSelectionSerializer(serializers.Serializer):
-    schema_version = serializers.ChoiceField(choices=["gdelt-research-selection-v1"])
+    schema_version = serializers.ChoiceField(choices=["gdelt-research-selection-v1", "gdelt-research-selection-v2"])
+    policy_version = serializers.CharField(max_length=64, required=False)
+    adapter_version = serializers.CharField(max_length=64, required=False)
     query = serializers.CharField()
     request_url = serializers.CharField()
     received_at = serializers.DateTimeField()
@@ -86,6 +91,8 @@ class ResearchSelectionSerializer(serializers.Serializer):
 
 
 class ResearchDiscoveryNodeSerializer(serializers.Serializer):
+    attempt_id = serializers.UUIDField()
+    attempt_number = serializers.IntegerField(min_value=1, max_value=3)
     question_index = serializers.IntegerField(min_value=0, max_value=2)
     question_id = serializers.CharField()
     source_id = serializers.CharField()
@@ -96,6 +103,8 @@ class ResearchDiscoveryNodeSerializer(serializers.Serializer):
     stop_reason = serializers.CharField(allow_null=True)
     admitted_at = serializers.DateTimeField()
     finished_at = serializers.DateTimeField(allow_null=True)
+    deadline_at = serializers.DateTimeField(allow_null=True)
+    recovery = SourceRecoveryOutcomeSerializer(allow_null=True)
 
 
 class ResearchBoundsSerializer(serializers.Serializer):
@@ -128,12 +137,17 @@ class ResearchRunSerializer(serializers.Serializer):
     created_at = serializers.DateTimeField()
     request_digest = serializers.CharField(min_length=64, max_length=64)
     bounds = ResearchBoundsSerializer()
+    execution_policy = SourceRecoveryPolicySerializer()
+    source_deadline_at = serializers.DateTimeField(allow_null=True)
+    source_next_attempt_at = serializers.DateTimeField(allow_null=True)
+    source_stop_reason = serializers.CharField(allow_null=True)
     status = serializers.ChoiceField(choices=["planning", "plan_failed", "plan_uncertain", "discovering",
         "discovery_failed", "discovery_uncertain", "no_evidence", "ready_to_compile", "compiling",
-        "compiled", "compile_failed", "compile_uncertain", "stale"], help_text=(
+        "compiled", "compile_failed", "compile_uncertain", "stale", "waiting_source",
+        "source_exhausted", "source_deadline"], help_text=(
         "Inspect node outcomes and gaps; HTTP 200 does not establish completed or useful research."))
     plan = ResearchPlanNodeSerializer(allow_null=True)
-    discoveries = ResearchDiscoveryNodeSerializer(many=True, max_length=3)
+    discoveries = ResearchDiscoveryNodeSerializer(many=True, max_length=9)
     evidence_context_id = serializers.UUIDField(allow_null=True)
     compilation = CompilationResponseSerializer(allow_null=True)
     gaps = serializers.ListField(child=serializers.CharField())

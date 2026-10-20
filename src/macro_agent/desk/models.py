@@ -175,4 +175,5 @@ class DailyPublication(models.Model):
 from .research_models import ResearchEvidenceContext, ResearchEvidenceMember  # noqa: E402,F401
 from .synthesis_models import DailySynthesisAttempt, DailySynthesisResult  # noqa: E402,F401
 from .investigation_models import (ResearchRun, ResearchPlanAttempt, ResearchPlanResult,
-    ResearchDiscoveryAttempt, ResearchDiscoveryReceipt, ResearchDiscoveryResult)  # noqa: E402,F401
+    ResearchDiscoveryAttempt, ResearchDiscoveryReceipt, ResearchDiscoveryResult,
+    ResearchSourceState)  # noqa: E402,F401

@@ -104,6 +104,57 @@ class GdeltResearchTests(unittest.TestCase):
             with self.subTest(node_id=node_id), self.assertRaises(ValueError):
                 gdelt.contract(node_id, QUERY)
 
+    def test_recovery_policy_is_explicit_and_preserves_exact_legacy_hashes(self):
+        source_id, legacy = gdelt.source_contract(QUERY)
+        self.assertEqual(text_digest(canonical_json(legacy)),
+                         "f1865e22077b1fd7923d3b3b614b6a927cf805242996012f378ab9cf479c0b8b")
+        legacy_metadata = self.parse(b'{"articles": []}').metadata
+        self.assertEqual(text_digest(canonical_json(legacy_metadata)),
+                         "e9864fa656dcb7a44982426cbf3a4b251ebc16a73354063f20f5acb6e9220899")
+        new_id, current = gdelt.source_contract(QUERY, policy_version=gdelt.RECOVERY_POLICY_VERSION)
+        self.assertNotEqual(new_id, source_id)
+        self.assertEqual(current["timeout_seconds"], 20)
+        self.assertEqual(legacy["timeout_seconds"], 10)
+        self.assertEqual(current["recovery_policy"]["max_attempts_per_question"], 3)
+        for contract in (legacy, current):
+            row = SimpleNamespace(pk=contract["id"], contract=contract,
+                                  contract_digest=text_digest(canonical_json(contract)))
+            self.assertTrue(gdelt.matches_source_contract(row))
+        corrupted = dict(current, timeout_seconds=10)
+        row = SimpleNamespace(pk=new_id, contract=corrupted,
+                              contract_digest=text_digest(canonical_json(corrupted)))
+        self.assertFalse(gdelt.matches_source_contract(row))
+
+    def test_new_policy_uses_twenty_second_single_exchange_and_versioned_metadata(self):
+        opener = Opener(Response(raw(article())))
+        with patch.object(gdelt, "require_internal_experiment"):
+            result = gdelt.discover(QUERY, clock=lambda: NOW, opener=opener,
+                                    policy_version=gdelt.RECOVERY_POLICY_VERSION)
+        self.assertEqual(len(opener.calls), 1)
+        self.assertEqual(opener.calls[0][1], 20)
+        self.assertEqual(result.metadata["schema_version"], "gdelt-research-selection-v2")
+        self.assertEqual(result.metadata["policy_version"], gdelt.RECOVERY_POLICY_VERSION)
+        self.assertEqual(result.metadata["adapter_version"], gdelt.RECOVERY_ADAPTER_VERSION)
+        rebuilt = gdelt.parse_metadata(raw(article()), query=QUERY, received_at=NOW,
+                                        policy_version=gdelt.RECOVERY_POLICY_VERSION)
+        self.assertEqual(result, rebuilt)
+        legacy = self.parse(raw(article()))
+        self.assertEqual(legacy.batch, result.batch)
+        self.assertNotIn("policy_version", legacy.metadata)
+
+    def test_unknown_policy_fails_before_any_transport_or_legacy_substitution(self):
+        opener = Opener(Response(raw()))
+        with patch.object(gdelt, "require_internal_experiment"):
+            with self.assertRaises(ValueError):
+                gdelt.discover(QUERY, opener=opener, policy_version="unknown")
+        self.assertEqual(opener.calls, [])
+        for callback in (lambda: gdelt.source_contract(QUERY, policy_version="unknown"),
+                         lambda: gdelt.request_url(QUERY, policy_version="unknown"),
+                         lambda: gdelt.parse_metadata(raw(), query=QUERY, received_at=NOW,
+                                                     policy_version="unknown")):
+            with self.assertRaises(ValueError):
+                callback()
+
     def test_metadata_attribution_receipt_and_seen_time_are_distinct(self):
         body = raw(article())
         result = self.parse(body)
@@ -240,6 +291,34 @@ class GdeltResearchTests(unittest.TestCase):
             with self.subTest(code=code), patch.object(gdelt, "require_internal_experiment"):
                 self.assert_code(code, lambda: gdelt.discover(QUERY, opener=opener))
             self.assertEqual(len(opener.calls), 1)
+
+    def test_retry_after_preserves_safe_delay_without_headers_body_or_retry(self):
+        for status in (429, 503):
+            headers = Message()
+            headers["Retry-After"] = "Tue, 20 Oct 2026 12:00:00 GMT"
+            headers["Sensitive-Remote-Detail"] = "never copy this"
+            body = io.BytesIO(b"secret error content")
+            error = urllib.error.HTTPError(gdelt.ENDPOINT, status, "private message", headers, body)
+            opener = Opener(error)
+            with patch.object(gdelt, "require_internal_experiment"), self.assertRaises(SourceError) as raised:
+                gdelt.discover(QUERY, clock=lambda: NOW, opener=opener,
+                                policy_version=gdelt.RECOVERY_POLICY_VERSION)
+            self.assertEqual(raised.exception.retry_after_seconds, 3 * 86400)
+            self.assertFalse(hasattr(raised.exception, "headers"))
+            self.assertNotIn("secret", str(raised.exception))
+            self.assertNotIn("private", str(raised.exception))
+            self.assertTrue(body.closed)
+            self.assertEqual(len(opener.calls), 1)
+
+    def test_duplicate_or_invalid_retry_after_is_not_forwarded(self):
+        for values in (("120", "240"), ("private error\r\nheader",), ("-2",)):
+            headers = Message()
+            for value in values:
+                headers["Retry-After"] = value
+            error = urllib.error.HTTPError(gdelt.ENDPOINT, 429, "private", headers, None)
+            with patch.object(gdelt, "require_internal_experiment"), self.assertRaises(SourceError) as raised:
+                gdelt.discover(QUERY, clock=lambda: NOW, opener=Opener(error))
+            self.assertIsNone(raised.exception.retry_after_seconds)
 
 
 if __name__ == "__main__":

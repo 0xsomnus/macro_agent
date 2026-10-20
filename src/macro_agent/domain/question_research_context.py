@@ -11,10 +11,12 @@ from uuid import UUID
 
 from .models import canonical_json
 from .research_plan import SCHEMA_VERSION as PLAN_SCHEMA_VERSION, parse_plan
-from .source_evidence import _array, _object, _text, _uuid
+from .research_recovery_policy import RETRY_REASONS, validate_recovery_policy, validate_retry_after
+from .source_evidence import _array, _instant, _object, _text, _uuid
 
 
 SCHEMA_VERSION = "question-research-context-v1"
+RECOVERY_SCHEMA_VERSION = "question-research-context-v2"
 CONTEXT_FIELDS = frozenset((
     "schema_version", "run_id", "run_request_digest", "exact_question_digest",
     "plan_attempt_id", "plan_prompt_digest", "plan_result_id", "plan_result_digest",
@@ -31,6 +33,11 @@ EXCLUSION_REASONS = frozenset((
     "duplicate_url_identity", "unsafe_or_non_https_attribution_url",
     "explicit_selection_limit",
 ))
+ATTEMPT_FIELDS = frozenset((
+    "attempt_id", "attempt_number", "capture_id", "status", "stop_reason",
+    "admitted_at", "finished_at", "result_digest", "metadata",
+))
+FAILURE_METADATA_FIELDS = frozenset(("retry_after_seconds", "retry_reason", "retry_due_at"))
 
 
 def _digest(value, name):
@@ -44,7 +51,7 @@ def _count(value, name, maximum):
     return value
 
 
-def validate_question_research_context(value, reports):
+def _validate_legacy_context(value, reports):
     """Return detached exact trace data, without asserting ownership or truth.
 
     Every selected report must belong to exactly one completed question search.
@@ -139,6 +146,74 @@ def validate_question_research_context(value, reports):
         # The original question is separately bound by its retained exact digest.
         parse_plan(canonical_json({"schema_version": PLAN_SCHEMA_VERSION,
                                    "questions": planned}), "Retained research question")
+        return json.loads(canonical_json(value))
+    except (TypeError, UnicodeError, RecursionError, OverflowError):
+        raise ValueError("question research context requires bounded finite JSON data") from None
+
+
+def validate_question_research_context(value, reports):
+    """Validate a complete retained trace without asserting truth or authority.
+
+    The optional recovery profile adds immutable failed lookup history. It does
+    not turn failed or empty searches into factual counter-evidence. Historical
+    v1 fields and encodings remain unchanged when recovery is absent.
+    """
+    if type(value) is not dict or value.get("schema_version") != RECOVERY_SCHEMA_VERSION:
+        return _validate_legacy_context(value, reports)
+    _object(value, CONTEXT_FIELDS | {"execution_policy"}, "recoverable question research context")
+    policy = validate_recovery_policy(value["execution_policy"])
+    questions = _array(value["questions"], "research questions", 3)
+    legacy_questions = []
+    seen_attempts, seen_captures = set(), set()
+    for item in questions:
+        _object(item, QUESTION_FIELDS | {"attempts"}, "recoverable retained research question")
+        history = _array(item["attempts"], "question search attempts", policy["max_attempts_per_question"])
+        if not history:
+            raise ValueError("recoverable research requires every admitted search attempt")
+        previous_finish = previous_due = None
+        for index, attempt in enumerate(history):
+            _object(attempt, ATTEMPT_FIELDS, "retained search attempt")
+            if type(attempt["attempt_number"]) is not int or attempt["attempt_number"] != index + 1:
+                raise ValueError("search attempt numbers must be contiguous and ordered")
+            identity = _uuid(attempt["attempt_id"], "search attempt")
+            capture = _uuid(attempt["capture_id"], "search attempt capture")
+            if identity in seen_attempts or capture in seen_captures:
+                raise ValueError("search history cannot reuse attempt or capture identities")
+            seen_attempts.add(identity)
+            seen_captures.add(capture)
+            _digest(attempt["result_digest"], "search attempt result digest")
+            admitted = _instant(attempt["admitted_at"], "search attempt admission")
+            finished = _instant(attempt["finished_at"], "search attempt finish")
+            if finished < admitted or (previous_finish is not None and
+                    (admitted < previous_finish or previous_due is None or admitted < previous_due)):
+                raise ValueError("search attempts must finish and honor retained retry ordering")
+            if index == len(history) - 1:
+                if (attempt["status"] != "captured" or attempt["stop_reason"] != "snapshot_captured"
+                        or attempt["metadata"] != {} or type(attempt["metadata"]) is not dict
+                        or identity != item["discovery_attempt_id"]
+                        or capture != item["capture_id"]
+                        or attempt["result_digest"] != item["result_digest"]):
+                    raise ValueError("search history must end with its exact captured winner")
+                previous_due = None
+            else:
+                if attempt["status"] not in ("failed", "outcome_unknown"):
+                    raise ValueError("superseded search attempts require a terminal failure outcome")
+                _text(attempt["stop_reason"], "failed search reason", 64)
+                metadata = _object(attempt["metadata"], FAILURE_METADATA_FIELDS,
+                                   "failed search retry metadata")
+                validate_retry_after(metadata["retry_after_seconds"])
+                if (metadata["retry_reason"] not in ("timeout", "unavailable", "rate_limited")
+                        or metadata["retry_reason"] != RETRY_REASONS.get(attempt["stop_reason"])):
+                    raise ValueError("superseded searches require an eligible recovery reason")
+                previous_due = _instant(metadata["retry_due_at"], "failed search retry due")
+                if previous_due < finished:
+                    raise ValueError("search retry due cannot precede its failure outcome")
+            previous_finish = finished
+        legacy_questions.append({key: val for key, val in item.items() if key != "attempts"})
+    legacy = {key: val for key, val in value.items() if key != "execution_policy"}
+    legacy.update(schema_version=SCHEMA_VERSION, questions=legacy_questions)
+    _validate_legacy_context(legacy, reports)
+    try:
         return json.loads(canonical_json(value))
     except (TypeError, UnicodeError, RecursionError, OverflowError):
         raise ValueError("question research context requires bounded finite JSON data") from None

@@ -28,3 +28,9 @@ Before implementation or activation, resolve a plan/order form covering retained
 Tavily's [current platform terms](https://www.tavily.com/terms), section 6.4, restrict use of AI functionality or outputs for financial investment decisions. That unresolved fit makes it unsuitable as a silent replacement. This is a source-contract screening finding, not a conclusion about negotiated terms.
 
 GDELT remains the implemented metadata experiment. Its failed acquisition is visible; the system must not manufacture research from model memory or quietly change sources.
+
+## Recovery follow-up, 2026-10-20
+
+A later thirty-second diagnostic returned HTTP 429 after 11.76 seconds. This establishes rate limiting on that request, while the earlier ten-second deadline hid its response. It does not prove every earlier TLS timeout had the same cause. GDELT [documents rate limiting on the DOC API](https://blog.gdeltproject.org/ukraine-api-rate-limiting-web-ngrams-3-0/); no current per-client quota was established.
+
+The [implemented recovery mode](../docs/RESEARCH_SOURCE_RECOVERY.md) uses a versioned twenty-second exchange budget, bounded source-only attempts and shared cooldown across opted-in runs. It preserves the paid plan and complete failure history, and respects server delays even when they exceed the run budget. This fixes terminal workflow behavior without proving upstream availability. Alternate-source fallback remains dependent on selecting and configuring a suitable provider; none was activated.

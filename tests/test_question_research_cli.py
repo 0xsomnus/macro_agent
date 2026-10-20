@@ -1,6 +1,7 @@
 """Question research keeps exact input and recovers through read-only calls."""
 
 from copy import deepcopy
+from datetime import datetime, timedelta, timezone
 import json
 from pathlib import Path
 import sys
@@ -218,6 +219,134 @@ class QuestionResearchCLITests(unittest.TestCase):
             with self.assertRaises(desk_cli.WalkthroughError):
                 self.run_cli(client, **kwargs)
             self.assertEqual(client.logins, [])
+            self.assertEqual(client.calls, [])
+
+    def test_follow_is_never_allowed_during_read_only_recovery(self):
+        client = Client()
+        with self.assertRaisesRegex(desk_cli.WalkthroughError, "Read-only recovery"):
+            self.run_cli(client, recover_command=str(uuid4()), follow=True)
+        self.assertEqual((client.logins, client.calls), ([], []))
+
+    def test_invalid_wait_budget_cannot_start_or_continue_research(self):
+        for budget in (0, 1801, True, 1.5):
+            for operation in ({"exact_question": EXACT}, {"continue_run": str(uuid4())}):
+                client = Client()
+                with self.subTest(budget=budget, operation=operation), self.assertRaisesRegex(
+                        desk_cli.WalkthroughError, "Wait budget"):
+                    self.run_cli(client, follow=True, wait_seconds=budget, **operation)
+                self.assertEqual((client.logins, client.calls), ([], []))
+
+    def test_start_explicitly_pins_source_recovery_in_saved_request(self):
+        client = Client()
+        with tempfile.TemporaryDirectory() as directory:
+            journal = desk_cli.CommandJournal(Path(directory) / "recovery.jsonl")
+            try:
+                with patch.object(cli, "select_model", return_value=MODEL):
+                    self.run_cli(client, exact_question=EXACT, journal=journal,
+                        ask=answers("trader", "research"))
+                request = json.loads(journal.path.read_text().splitlines()[0])["detail"]["request"]
+                self.assertIs(request["source_recovery"], True)
+                self.assertIs(client.calls[0][2]["source_recovery"], True)
+            finally:
+                journal.close()
+
+
+class FakeRecoveryClock:
+    def __init__(self):
+        self.elapsed = 0
+        self.origin = datetime(2026, 10, 20, tzinfo=timezone.utc)
+        self.pauses = []
+
+    def now(self):
+        return self.origin + timedelta(seconds=self.elapsed)
+
+    def sleep(self, seconds):
+        self.pauses.append(seconds)
+        self.elapsed += seconds
+
+
+class FollowResearchSourcesTests(unittest.TestCase):
+    def setUp(self):
+        self.clock = FakeRecoveryClock()
+        self.initial = receipt()
+        from macro_agent.domain.research_recovery_policy import RECOVERY_POLICY
+        self.initial["research"].update(status="waiting_source", execution_policy=dict(RECOVERY_POLICY),
+            source_next_attempt_at=(self.clock.origin + timedelta(seconds=40)).isoformat())
+        self.output = []
+
+    def follow(self, client, journal, **kwargs):
+        return cli.follow_sources(client, self.initial, journal, say=self.output.append,
+            sleep=self.clock.sleep, monotonic=lambda: self.clock.elapsed, now=self.clock.now, **kwargs)
+
+    def test_waits_until_due_and_journals_before_single_continuation(self):
+        final = deepcopy(self.initial)
+        final["research"]["status"] = "compiled"
+        client = Client(final)
+        with tempfile.TemporaryDirectory() as directory:
+            journal = desk_cli.CommandJournal(Path(directory) / "follow.jsonl")
+            def before(method, path, body):
+                self.assertEqual(self.clock.elapsed, 40)
+                saved = [json.loads(line) for line in journal.path.read_text().splitlines()]
+                self.assertEqual(saved[-1]["kind"], "research_continuation_requested")
+            client.before_request = before
+            try:
+                result = self.follow(client, journal)
+            finally:
+                journal.close()
+        self.assertEqual(result, final)
+        self.assertEqual(self.clock.pauses, [30, 10])
+        self.assertEqual(client.calls, [("POST",
+            f"/api/v1/research/{self.initial['research']['id']}/continue/", {})])
+
+    def test_local_wait_budget_preserves_pending_work_without_post(self):
+        client = Client()
+        with tempfile.TemporaryDirectory() as directory:
+            journal = desk_cli.CommandJournal(Path(directory) / "wait.jsonl")
+            try:
+                self.assertEqual(self.follow(client, journal, wait_seconds=5), self.initial)
+                self.assertEqual(journal.path.read_text(), "")
+            finally:
+                journal.close()
+        self.assertEqual(client.calls, [])
+        self.assertEqual(self.clock.pauses, [5])
+        self.assertTrue(any("--continue-run" in line for line in self.output))
+
+    def test_missing_http_outcome_stops_without_automatic_retry(self):
+        client = Client(missing=True)
+        with tempfile.TemporaryDirectory() as directory:
+            journal = desk_cli.CommandJournal(Path(directory) / "unknown.jsonl")
+            try:
+                with self.assertRaisesRegex(desk_cli.WalkthroughError, "--show-run"):
+                    self.follow(client, journal)
+                self.assertEqual(len(journal.path.read_text().splitlines()), 1)
+            finally:
+                journal.close()
+        self.assertEqual(len(client.calls), 1)
+
+    def test_changed_identity_stops_without_another_request(self):
+        final = deepcopy(self.initial)
+        final["research"]["id"] = str(uuid4())
+        client = Client(final)
+        with tempfile.TemporaryDirectory() as directory:
+            journal = desk_cli.CommandJournal(Path(directory) / "identity.jsonl")
+            try:
+                with self.assertRaisesRegex(desk_cli.WalkthroughError, "identity"):
+                    self.follow(client, journal)
+            finally:
+                journal.close()
+        self.assertEqual(len(client.calls), 1)
+
+    def test_uncertain_paid_nodes_and_terminal_source_states_are_never_advanced(self):
+        for status in ("plan_uncertain", "compile_uncertain", "source_exhausted", "source_deadline", "stale"):
+            self.initial["research"]["status"] = status
+            client = Client()
+            with tempfile.TemporaryDirectory() as directory:
+                journal = desk_cli.CommandJournal(Path(directory) / "terminal.jsonl")
+                try:
+                    with self.subTest(status=status):
+                        self.assertEqual(self.follow(client, journal), self.initial)
+                finally:
+                    journal.close()
             self.assertEqual(client.calls, [])
 
     def test_question_file_preserves_crlf_unicode_and_whitespace(self):

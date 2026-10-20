@@ -20,6 +20,7 @@ Start with [Getting started](GETTING_STARTED.md) to run the current prototype. T
 | [Weekly workflow test](WEEKLY_WORKFLOW_TEST.md) | Narrow headline-based durability target and remaining source, continuity, runner and daily-brief prerequisites |
 | [Frontend exploration](FRONTEND_EXPLORATION.md) | Proposed testing workflow and research on maps, positioning, valuation and charts; client tooling remains open |
 | [Question-led research](QUESTION_RESEARCH.md) | Start with a rough idea, inspect automatic headline discovery and recover retained work |
+| [Research source recovery](RESEARCH_SOURCE_RECOVERY.md) | Resume rate-limited lookups with the saved plan, bounded attempts and visible cooldown |
 | [Driver attention](DRIVER_ATTENTION.md) | Publish evolving driver briefs and qualified internal review notices |
 | [API guide](API_DEVELOPMENT.md) | Log in, save drafts and refinement answers, approve exact versions, and recover private commands |
 | [Paper positions](PAPER_POSITIONS.md) | Attach, revise and close a paper trade; understand brief invalidation |

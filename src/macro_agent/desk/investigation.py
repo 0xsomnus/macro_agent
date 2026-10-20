@@ -26,7 +26,8 @@ from macro_agent.theses.models import CompilationAttempt
 
 from . import evidence
 from .investigation_models import (ResearchDiscoveryAttempt, ResearchDiscoveryReceipt,
-    ResearchDiscoveryResult, ResearchPlanAttempt, ResearchPlanResult, ResearchRun)
+    ResearchDiscoveryResult, ResearchPlanAttempt, ResearchPlanResult, ResearchRun,
+    ResearchSourceState)
 
 
 BOUNDS = {"max_model_calls": 2, "max_questions": 3, "max_results_per_question": 4,
@@ -62,9 +63,12 @@ def _capture_gate():
         raise compilation.CompilationDisabled("Enable the internal capture proof before question-led research") from None
 
 
-def _request(exact_question, provider_id, model_id):
-    return text_digest(canonical_json({"exact_question": exact_question, "provider_id": provider_id,
-        "model_id": model_id, "bounds": BOUNDS, "graph_version": "question-research-v1"}))
+def _request(exact_question, provider_id, model_id, execution_policy=None):
+    value = {"exact_question": exact_question, "provider_id": provider_id,
+        "model_id": model_id, "bounds": BOUNDS, "graph_version": "question-research-v1"}
+    if execution_policy:
+        value.update(graph_version="question-research-v2", execution_policy=execution_policy)
+    return text_digest(canonical_json(value))
 
 
 def _record(actor_id, run_id):
@@ -72,7 +76,13 @@ def _record(actor_id, run_id):
     run = ResearchRun.objects.filter(pk=run_id, owner_id=actor_id).first()
     if run is None:
         raise theses.ThesisUnavailable("Research unavailable")
-    if (run.request_digest != _request(run.exact_question, run.provider, run.model_id)
+    from macro_agent.domain.research_recovery_policy import validate_recovery_policy
+    try:
+        if run.execution_policy != {}:
+            validate_recovery_policy(run.execution_policy)
+    except (TypeError, ValueError):
+        raise theses.ThesisConflict("Retained research recovery policy failed integrity verification") from None
+    if (run.request_digest != _request(run.exact_question, run.provider, run.model_id, run.execution_policy)
             or run.bounds != BOUNDS or run.initial_text.exact_text != run.exact_question
             or run.initial_text.thesis_id != run.thesis_id):
         raise theses.ThesisConflict("Retained research request failed integrity verification")
@@ -110,22 +120,26 @@ def _plan_wire(run, at):
 
 def _discoveries_wire(run, at):
     values = []
-    for attempt in run.discoveries.order_by("question_index"):
+    for attempt in run.discoveries.order_by("question_index", "attempt_number"):
         result = ResearchDiscoveryResult.objects.filter(attempt=attempt).first()
-        admission = CaptureAttempt.objects.filter(source_id=attempt.source_id).order_by("sequence").first()
+        admission = attempt.capture or CaptureAttempt.objects.filter(source_id=attempt.source_id).order_by("sequence").first()
         outcome = CaptureOutcome.objects.filter(attempt=admission).first() if admission else None
         # A durable captured batch remains recoverable after its transport
         # lease ends. Expiry alone cannot turn captured work into uncertainty.
         pending_status = ("running" if outcome and outcome.status == "captured" else
             "outcome_unknown" if admission and at >= admission.deadline_at else "running")
-        values.append({"question_index": attempt.question_index,
+        values.append({"attempt_id": str(attempt.pk), "attempt_number": attempt.attempt_number,
+            "question_index": attempt.question_index,
             "question_id": attempt.question["question_id"], "source_id": attempt.source_id,
             "status": result.status if result else pending_status,
             "capture_id": str(result.capture_id) if result and result.capture_id else None,
             "revision_ids": result.revision_ids if result else [],
-            "metadata": result.metadata or None if result else None,
+            "metadata": result.metadata or None if result and (
+                not run.execution_policy or result.status == "captured") else None,
+            "recovery": result.metadata if result and run.execution_policy and result.status != "captured" else None,
             "stop_reason": result.stop_reason if result else "response_not_recorded",
             "admitted_at": attempt.admitted_at.isoformat(),
+            "deadline_at": admission.deadline_at.isoformat() if admission else None,
             "finished_at": result.finished_at.isoformat() if result else None})
     return values
 
@@ -173,12 +187,23 @@ def _wire(run, at, *, replayed=False):
         status = "stale"
     if context and evidence.context_stale_reasons(context, at):
         status = "stale"
+    recovery = None
+    if run.execution_policy:
+        from .investigation_recovery import source_progress
+        recovery = source_progress(run, plan, at)
+        if status in {"discovering", "discovery_failed", "discovery_uncertain", "ready_to_compile", "no_evidence"} or (
+                status == "planning" and plan is None and recovery["status"] == "source_deadline"):
+            status = recovery["status"]
     planning_cost = plan["provider_metadata"].get("reported_cost_usd") if plan else None
     compilation_cost = compiled["compilation"]["reported_cost_usd"] if compiled else None
     return {"research": {"id": str(run.pk), "command_id": str(run.command_id),
         "request_digest": run.request_digest, "exact_question": run.exact_question,
         "thesis_id": str(run.thesis_id), "initial_thesis_revision": run.initial_revision,
         "provider": run.provider, "model_id": run.model_id, "bounds": run.bounds,
+        "execution_policy": run.execution_policy,
+        "source_deadline_at": recovery["deadline_at"] if recovery else None,
+        "source_next_attempt_at": recovery["next_attempt_at"] if recovery else None,
+        "source_stop_reason": recovery["stop_reason"] if recovery else None,
         "created_at": run.created_at.isoformat(), "status": status, "plan": plan,
         "discoveries": discoveries, "evidence_context_id": str(context.pk) if context else None,
         "compilation": compiled, "gaps": GAPS,
@@ -211,13 +236,17 @@ def get_research_command(actor_id, command_id, *, clock=timezone.now):
 
 
 def start_research(actor_id, command_id, exact_question, provider_id, model_id,
-                   *, provider=None, discovery=None, clock=timezone.now):
+                   *, source_recovery=False, provider=None, discovery=None, clock=timezone.now):
     _gate()
     command_id = theses._uuid(command_id, "command_id")
     exact_question = theses._text(exact_question, "exact_question", theses.TEXT_LIMIT)
     if type(provider_id) is not str or provider_id not in PROVIDER_IDS or not is_explicit_model_id(model_id):
         raise ValueError("Choose a configured provider and explicit catalogue model")
-    digest = _request(exact_question, provider_id, model_id)
+    if type(source_recovery) is not bool:
+        raise ValueError("source_recovery requires an explicit boolean")
+    from macro_agent.monitoring.research_policy import RECOVERY_POLICY
+    policy = dict(RECOVERY_POLICY) if source_recovery else {}
+    digest = _request(exact_question, provider_id, model_id, policy)
     with transaction.atomic():
         evidence._snapshot()
         theses._owner(actor_id)
@@ -243,6 +272,7 @@ def start_research(actor_id, command_id, exact_question, provider_id, model_id,
             defaults={"request_digest": digest, "exact_question": exact_question, "thesis": thesis,
                 "initial_text": thesis.latest_text, "initial_revision": thesis.revision,
                 "provider": provider_id, "model_id": model_id, "bounds": BOUNDS,
+                "execution_policy": policy,
                 "created_at": theses._instant(clock, thesis)})
         if run.request_digest != digest:
             raise theses.ThesisConflict("Research command belongs to another request")
@@ -275,6 +305,9 @@ def _plan(run, *, provider, clock):
         raise ValueError("Selected model is no longer in the catalogue")
     messages = research_plan.build_plan_prompt(run.exact_question)
     with transaction.atomic():
+        if run.execution_policy:
+            from .investigation_recovery import _root
+            _root(run.created_at)
         theses._owner(str(run.owner_id), lock=True)
         thesis = theses._record(str(run.owner_id), str(run.thesis_id), lock=True)
         if ResearchPlanAttempt.objects.filter(run=run).exists():
@@ -283,6 +316,11 @@ def _plan(run, *, provider, clock):
             return
         lock_model_budget()
         at = theses._instant(clock, thesis)
+        if run.execution_policy:
+            from .investigation_recovery import deadline, _provider_due
+            if (at >= deadline(run) or _provider_due(at) >= deadline(run) -
+                    timedelta(seconds=run.execution_policy["transport_timeout_seconds"] + 5)):
+                return
         if not capacity_available(str(run.owner_id), at, configuration):
             raise compilation.CompilationBudgetExhausted("Private research admission limit reached")
         attempt = ResearchPlanAttempt.objects.create(run=run, owner_id=run.owner_id, thesis=thesis,
@@ -327,6 +365,9 @@ def _deserialize_batch(value):
 
 
 def _discovery_result(attempt, capture_attempt, status, metadata, code, *, clock):
+    if attempt.run.execution_policy:
+        from .investigation_recovery import record_result
+        return record_result(attempt, capture_attempt, status, metadata, code, clock=clock)
     with transaction.atomic():
         if capture_attempt:
             SourceState.objects.select_for_update().get(pk=attempt.source_id)
@@ -340,6 +381,9 @@ def _discovery_result(attempt, capture_attempt, status, metadata, code, *, clock
 
 
 def _discover(run, index, question, *, discovery, clock):
+    if run.execution_policy:
+        from .investigation_recovery import discover
+        return discover(run, index, question, discovery=discovery, clock=clock)
     from macro_agent.monitoring import gdelt_research
     source_id = "research-gdelt-" + run.id.hex + "-" + str(index)
     contract = gdelt_research.contract(source_id, question["query"])
@@ -388,8 +432,18 @@ def _finish_discovery(attempt, capture_attempt, receipt, *, discovery, clock):
                 _discovery_result(attempt, capture_attempt, "outcome_unknown", {},
                     "capture_response_not_recorded", clock=clock)
             return
+        if attempt.run.execution_policy:
+            transport_budget = timedelta(seconds=attempt.run.execution_policy["transport_timeout_seconds"])
+            if as_utc(clock()) >= capture_attempt.deadline_at - transport_budget:
+                _discovery_result(attempt, capture_attempt, "outcome_unknown", {},
+                    "capture_admission_expired", clock=clock)
+                return
         try:
-            search = (discovery or gdelt_research.discover)(attempt.question["query"], clock=clock)
+            if discovery is None and attempt.run.execution_policy:
+                search = gdelt_research.discover(attempt.question["query"], clock=clock,
+                    policy_version=attempt.contract["policy_version"])
+            else:
+                search = (discovery or gdelt_research.discover)(attempt.question["query"], clock=clock)
             batch = search.batch
             if type(batch) is not SourceBatch or len(batch.items) > 4:
                 raise SourceError("invalid_batch")
@@ -398,6 +452,12 @@ def _finish_discovery(attempt, capture_attempt, receipt, *, discovery, clock):
             with transaction.atomic():
                 SourceState.objects.select_for_update().get(pk=attempt.source_id)
                 theses._owner(str(attempt.run.owner_id), lock=True)
+                if attempt.run.execution_policy:
+                    at = as_utc(clock())
+                    if (batch.received_at < capture_attempt.admitted_at
+                            or batch.received_at > at or at >= capture_attempt.deadline_at
+                            or batch.received_at >= capture_attempt.deadline_at):
+                        raise SourceError("timeout")
                 receipt = ResearchDiscoveryReceipt.objects.create(attempt=attempt, capture=capture_attempt,
                     batch=_serialize_batch(batch), metadata=search.metadata, received_at=batch.received_at)
         except SourceError as error:
@@ -405,7 +465,17 @@ def _finish_discovery(attempt, capture_attempt, receipt, *, discovery, clock):
                 capture.fail_capture(capture_attempt.pk, error.code, clock=clock)
             except capture.CaptureFenced:
                 pass
-            _discovery_result(attempt, capture_attempt, "failed", {}, error.code, clock=clock)
+            except PermissionError:
+                if not attempt.run.execution_policy:
+                    raise
+                # A safe transport disposition still governs provider pacing.
+                # Retaining its code and delay does not process source content.
+                metadata = {"retry_after_seconds": error.retry_after_seconds}
+                _discovery_result(attempt, capture_attempt, "failed", metadata, error.code, clock=clock)
+                raise theses.ThesisConflict("A required research source permission was withdrawn") from None
+            metadata = ({"retry_after_seconds": error.retry_after_seconds}
+                        if attempt.run.execution_policy else {})
+            _discovery_result(attempt, capture_attempt, "failed", metadata, error.code, clock=clock)
             return
     try:
         batch = _deserialize_batch(receipt.batch)
@@ -427,7 +497,8 @@ def continue_research(actor_id, run_id, *, provider=None, discovery=None, clock=
     _gate()
     value = get_research(actor_id, run_id, clock=clock)
     if value["research"]["status"] in {"stale", "compiled", "plan_failed", "plan_uncertain",
-            "compile_failed", "compile_uncertain", "compiling", "discovery_failed", "discovery_uncertain", "no_evidence"}:
+            "compile_failed", "compile_uncertain", "compiling", "discovery_failed", "discovery_uncertain",
+            "source_exhausted", "source_deadline", "no_evidence"}:
         return value
     run = _record(actor_id, run_id)
     _capture_gate()
@@ -441,10 +512,11 @@ def continue_research(actor_id, run_id, *, provider=None, discovery=None, clock=
         return get_research(actor_id, run_id, clock=clock)
     for index, question in enumerate(result.document["questions"]):
         _discover(run, index, question, discovery=discovery, clock=clock)
-        saved = ResearchDiscoveryResult.objects.filter(attempt__run=run, attempt__question_index=index).first()
+        saved = ResearchDiscoveryResult.objects.filter(attempt__run=run, attempt__question_index=index,
+            status="captured").first()
         if saved is None or saved.status != "captured":
             return get_research(actor_id, run_id, clock=clock)
-    revisions = sorted({revision for result in ResearchDiscoveryResult.objects.filter(attempt__run=run)
+    revisions = sorted({revision for result in ResearchDiscoveryResult.objects.filter(attempt__run=run, status="captured")
         for revision in result.revision_ids})
     if not revisions:
         return get_research(actor_id, run_id, clock=clock)
