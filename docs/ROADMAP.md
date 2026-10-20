@@ -14,6 +14,8 @@ Research continuity update, 2026-10-19: final synthesis now receives the retaine
 
 Source recovery update, 2026-10-20: a longer diagnostic exposed an HTTP 429 response after 11.76 seconds. Explicitly opted-in [source recovery](RESEARCH_SOURCE_RECOVERY.md) now preserves the paid plan and successful searches, uses shared pacing/cooldown, retains numbered attempts and resumes eligible GETs within fixed bounds. The terminal can follow saved waits. Recorded tests establish recovery mechanics; successful live GDELT acquisition remains unverified. An explicitly configured alternative discovery provider is still needed for fallback. Neither source failure nor an empty search becomes a negative research finding.
 
+Pilot search-budget decision, 2026-10-20: the user approved USD 10 per month and USD 0.10 per investigation for search API usage, excluding model inference and subscription fees. [The confirmed limits](RESEARCH_SOURCE_RECOVERY.md#approved-pilot-search-budget) require monetary admission controls before paid fallback activation. Those controls, background research execution, monthly accounting scope and suitable provider terms remain outstanding; broader news-data spending is still open.
+
 ## Phase 0: reviewed contracts and internal research
 
 - Evaluate the [implemented text-grounded review card and guided refinement](THESIS_COMPILATION.md), including affected assets, causal paths, assumptions, catalysts, horizon, invalidation and counter-case/scenarios. Verify usefulness with a live model; selected retained evidence is available; verified canonical relationships and reviewed sourced monitoring scope remain outstanding. Agent proposals retain their labels after review.

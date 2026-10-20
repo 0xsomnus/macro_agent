@@ -66,3 +66,18 @@ Both resumable waiting and explicitly configured fallback are accepted goals. **
 The eventual fallback must retain the original failed attempts and exact research plan, identify the chosen source and scope, and admit a separately bounded lookup. It cannot silently replace sources, rerun paid planning, conceal coverage gaps or enable monitoring. Partial synthesis remains a separate open choice rather than an automatic response to missing evidence.
 
 The [recorded restart proof](../artifacts/research-recovery-trace-2026-10-20.md) demonstrates rate limiting, early continuation without a request, capture interruption and later adoption without another lookup. It uses no real model/source calls.
+
+## Approved pilot search budget
+
+Confirmed by the user on 2026-10-20:
+
+| Limit | Amount |
+| --- | --- |
+| Monthly search API usage | USD 10.00 |
+| Search API usage per investigation | USD 0.10 |
+
+These limits cover search API usage only. Model inference, subscription fees and other operating costs are separate. This is permission to use a suitably configured paid fallback within those limits, not approval of a particular provider or plan.
+
+The required budget guard must reserve a known maximum charge before each paid request and enforce both limits atomically across concurrent jobs. Retries and fallback requests consume the same investigation allowance; continuation and restart cannot replenish it. Uncertain charges remain reserved until reconciled. A request without a defensible maximum price cannot be admitted. Exhausted budgets leave saved work paused with a visible reason.
+
+**Current status:** this decision is documented; monetary enforcement, paid fallback and background research execution are not implemented. Existing request counts and source deadlines do not enforce a dollar ceiling. Before activation, resolve the monthly budget's shared/per-user scope and accounting period/reset timezone, pin the provider's price and billing rules, and verify its retention/model-processing terms. No subscription or paid search request was made by accepting this budget.
