@@ -169,7 +169,7 @@ def record_result(attempt, admission, status, metadata, code, *, clock):
         return result
 
 
-def _admit(run, index, question, *, clock):
+def _admit(run, index, question, *, clock, research_job_token=None):
     from .investigation import _draft_current
     source_id = "research-gdelt-" + run.id.hex + "-" + str(index)
     contract = gdelt_research.contract(source_id, question["query"],
@@ -185,7 +185,12 @@ def _admit(run, index, question, *, clock):
         source = sources[source_id]
         theses._owner(str(run.owner_id), lock=True)
         thesis = theses._record(str(run.owner_id), str(run.thesis_id), lock=True)
-        at = theses._instant(clock, thesis)
+        if research_job_token is not None:
+            from .research_jobs import protect_execution
+            at = protect_execution(str(run.owner_id), str(run.pk), research_job_token,
+                clock=clock, required_seconds=RECOVERY_POLICY["transport_timeout_seconds"] + 5)
+        else:
+            at = theses._instant(clock, thesis)
         if _permission_withdrawn(sources):
             raise theses.ThesisConflict("A required research source permission was withdrawn")
         if not _draft_current(run, thesis):
@@ -219,6 +224,9 @@ def _admit(run, index, question, *, clock):
         attempt = ResearchDiscoveryAttempt.objects.create(run=run, question_index=index,
             attempt_number=number, question=question, source_id=source_id, contract=contract,
             admitted_at=at, capture=admission)
+        if research_job_token is not None:
+            from .research_jobs import record_admission
+            record_admission(research_job_token, at, source_attempt=attempt)
         source.capture_sequence, source.active_capture = admission.sequence, admission.pk
         source.save(update_fields=("capture_sequence", "active_capture"))
         root.active_capture = admission
@@ -230,14 +238,15 @@ def _admit(run, index, question, *, clock):
         return attempt, admission
 
 
-def discover(run, index, question, *, discovery, clock):
+def discover(run, index, question, *, discovery, clock, research_job_token=None):
     try:
-        return _discover(run, index, question, discovery=discovery, clock=clock)
+        return _discover(run, index, question, discovery=discovery, clock=clock,
+            research_job_token=research_job_token)
     except PermissionError:
         raise theses.ThesisConflict("A required research source permission was withdrawn") from None
 
 
-def _discover(run, index, question, *, discovery, clock):
+def _discover(run, index, question, *, discovery, clock, research_job_token=None):
     from .investigation import _finish_discovery
     previous = _latest(run, index)
     if previous and not ResearchDiscoveryResult.objects.filter(attempt=previous).exists():
@@ -253,12 +262,14 @@ def _discover(run, index, question, *, discovery, clock):
                 "outcome_unknown" if outcome.status == "outcome_unknown" else "failed",
                 receipt.metadata if receipt else {}, outcome.code, clock=clock)
         else:
-            _finish_discovery(previous, admission, receipt, discovery=discovery, clock=clock)
+            _finish_discovery(previous, admission, receipt, discovery=discovery, clock=clock,
+                research_job_token=research_job_token)
         # Recovery first persists the original disposition. Do not immediately
         # turn an expired unknown exchange into another request in this turn.
         return
-    admitted = _admit(run, index, question, clock=clock)
+    admitted = _admit(run, index, question, clock=clock, research_job_token=research_job_token)
     if admitted is None:
         return
     attempt, admission = admitted
-    return _finish_discovery(attempt, admission, None, discovery=discovery, clock=clock)
+    return _finish_discovery(attempt, admission, None, discovery=discovery, clock=clock,
+        research_job_token=research_job_token)

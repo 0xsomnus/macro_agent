@@ -18,7 +18,7 @@ Resume later using the same plan and successful searches:
 .venv/bin/python tools/research_question.py --continue-run RESEARCH_UUID --wait
 ```
 
-Without `--wait`, the command advances eligible work once and displays its next eligible time. There is no unattended research daemon in this increment. `--show-run` and `--recover-command` remain read-only and reject `--wait`. A lost HTTP response stops the client; it does not automatically repeat a request that could have admitted compilation.
+Without `--wait`, the command advances eligible work once and displays its next eligible time. Explicit [background enrollment](RESEARCH_BACKGROUND.md) can now delegate remaining work to a separate operator process. `--show-run` and `--recover-command` remain read-only and reject `--wait`. A lost HTTP response stops the client; it does not automatically repeat a request that could have admitted compilation.
 
 Use `--one-shot-sources` only when starting a new run to reproduce the legacy contract. A saved run cannot switch policies. The HTTP start endpoint enables recovery only with strict `source_recovery: true`; omission preserves the old request identity and one-shot behavior.
 
@@ -80,4 +80,6 @@ These limits cover search API usage only. Model inference, subscription fees and
 
 The required budget guard must reserve a known maximum charge before each paid request and enforce both limits atomically across concurrent jobs. Retries and fallback requests consume the same investigation allowance; continuation and restart cannot replenish it. Uncertain charges remain reserved until reconciled. A request without a defensible maximum price cannot be admitted. Exhausted budgets leave saved work paused with a visible reason.
 
-**Current status:** this decision is documented; monetary enforcement, paid fallback and background research execution are not implemented. Existing request counts and source deadlines do not enforce a dollar ceiling. Before activation, resolve the monthly budget's shared/per-user scope and accounting period/reset timezone, pin the provider's price and billing rules, and verify its retention/model-processing terms. No subscription or paid search request was made by accepting this budget.
+The user clarified on 2026-10-21 that the monthly limit is **one shared pilot pool using UTC calendar months**. An investigation's lifetime limit does not reset at a month boundary.
+
+**Current status:** the [internal ledger and background runner](RESEARCH_BACKGROUND.md) implement reservations and due-work recovery. No paid search transport is connected, so a live end-to-end monetary guarantee remains unverified. Provider price/billing rules, retention/model-processing terms and actual fallback integration still precede paid activation. Existing model-call counts do not cap inference spending. No subscription or paid search request was made by accepting this budget.

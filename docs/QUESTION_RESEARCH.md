@@ -19,10 +19,10 @@ export MACRO_ENABLE_RESEARCH_DISCOVERY=1
 Research does not require a continuous watch or the synthetic setup flag. Before paying for planning, check that the metadata source works from the configured backend terminal:
 
 ```sh
-.venv/bin/python manage.py research_check_source --query "helium supply"
+.venv/bin/python manage.py research_check_source --query "helium supply" --recovery-policy
 ```
 
-This makes one bounded metadata request with no model key, model call, database write or retry. It prints a safe failure category or parsed candidate counts. A successful empty response is not evidence against an idea; successful acquisition does not establish coverage or source suitability. This check is separate from the paid graph, which can incur its planning charge before a source failure is discovered.
+This makes one bounded metadata request using the twenty-second recovery transport policy, with no model key, model call, database write or retry. It prints a safe failure category or parsed candidate counts. A successful empty response is not evidence against an idea; successful acquisition does not establish coverage or source suitability. This check is separate from the paid graph, which can incur its planning charge before a source failure is discovered.
 
 Then, from a second terminal:
 
@@ -50,7 +50,7 @@ flowchart LR
 
 The graph permits at most two model calls, three named questions, five search candidates per successful lookup and four selected reports per question. The complete evidence set contains at most twelve reports. Opted-in source recovery permits at most nine GET attempts across those questions. The search window is thirty days relative to acquisition, so a later retry is not an original-time historical snapshot. These bounds are pinned in the research request and adapter contract; they do not establish complete coverage or a dollar ceiling.
 
-The user approved [pilot search limits](RESEARCH_SOURCE_RECOVERY.md#approved-pilot-search-budget) of USD 10 per month and USD 0.10 per investigation, excluding model inference and subscription fees. The monetary guard and paid fallback are not implemented; provider terms and monthly accounting scope remain to be settled before activation.
+The user approved [pilot search limits](RESEARCH_SOURCE_RECOVERY.md#approved-pilot-search-budget) of USD 10 per UTC calendar month shared across the pilot, and USD 0.10 per investigation, excluding model inference and subscription fees. An internal reservation ledger now enforces these accounting bounds, while paid transport integration and provider terms remain outstanding. [Background enrollment](RESEARCH_BACKGROUND.md) separately delegates remaining work of already-planned recovery runs to a bounded operator process.
 
 Selection follows the provider's returned ranking within each planned question. The fifth result, duplicates and unsafe attribution URLs remain explicitly excluded in the trace. Reaching the candidate cap is visible. There is no independent semantic source-quality ranker or guarantee that contrary evidence was found. [GDELT's DOC documentation](https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/) describes its query and ranking behavior.
 

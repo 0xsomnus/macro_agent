@@ -78,6 +78,7 @@ MACRO_ENABLE_MONITORING_PROOF = False
 MACRO_ENABLE_NEWS_ANALYSIS = False
 MACRO_ENABLE_CONTINUOUS_DESK = False
 MACRO_ENABLE_RESEARCH_DISCOVERY = False
+MACRO_ENABLE_RESEARCH_BACKGROUND = False
 MACRO_MODEL_PROVIDER = os.environ.get("MACRO_MODEL_PROVIDER", "nanogpt")
 MACRO_MODEL_API_KEY = os.environ.get("MACRO_MODEL_API_KEY", "")
 # Internal research limits, recorded with every admission and configurable.

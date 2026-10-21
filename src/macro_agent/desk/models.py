@@ -177,3 +177,7 @@ from .synthesis_models import DailySynthesisAttempt, DailySynthesisResult  # noq
 from .investigation_models import (ResearchRun, ResearchPlanAttempt, ResearchPlanResult,
     ResearchDiscoveryAttempt, ResearchDiscoveryReceipt, ResearchDiscoveryResult,
     ResearchSourceState)  # noqa: E402,F401
+from .search_budget_models import (SearchBudgetRoot, SearchPriceContract,
+    SearchReservation, SearchSettlement)  # noqa: E402,F401
+from .research_job_models import (ResearchJob, ResearchJobRevocation,
+    ResearchJobLease, ResearchJobOutcome, ResearchJobAdmission)  # noqa: E402,F401

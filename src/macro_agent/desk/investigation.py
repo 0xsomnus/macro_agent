@@ -380,10 +380,13 @@ def _discovery_result(attempt, capture_attempt, status, metadata, code, *, clock
             "metadata": metadata, "stop_reason": code, "finished_at": theses._instant(clock, thesis)})[0]
 
 
-def _discover(run, index, question, *, discovery, clock):
+def _discover(run, index, question, *, discovery, clock, research_job_token=None):
     if run.execution_policy:
         from .investigation_recovery import discover
-        return discover(run, index, question, discovery=discovery, clock=clock)
+        return discover(run, index, question, discovery=discovery, clock=clock,
+            research_job_token=research_job_token)
+    if research_job_token is not None:
+        raise theses.ThesisConflict("Background continuation requires source recovery")
     from macro_agent.monitoring import gdelt_research
     source_id = "research-gdelt-" + run.id.hex + "-" + str(index)
     contract = gdelt_research.contract(source_id, question["query"])
@@ -422,7 +425,7 @@ def _discover(run, index, question, *, discovery, clock):
     return _finish_discovery(attempt, capture_attempt, receipt, discovery=discovery, clock=clock)
 
 
-def _finish_discovery(attempt, capture_attempt, receipt, *, discovery, clock):
+def _finish_discovery(attempt, capture_attempt, receipt, *, discovery, clock, research_job_token=None):
     from macro_agent.monitoring import gdelt_research
     if receipt is None:
         # A separate query lock is not held over transport. Admission identity
@@ -438,6 +441,10 @@ def _finish_discovery(attempt, capture_attempt, receipt, *, discovery, clock):
                 _discovery_result(attempt, capture_attempt, "outcome_unknown", {},
                     "capture_admission_expired", clock=clock)
                 return
+        if research_job_token is not None:
+            from .research_jobs import fence_dispatch
+            fence_dispatch(str(attempt.run.owner_id), str(attempt.run_id), research_job_token,
+                clock=clock, required_seconds=attempt.run.execution_policy["transport_timeout_seconds"])
         try:
             if discovery is None and attempt.run.execution_policy:
                 search = gdelt_research.discover(attempt.question["query"], clock=clock,
@@ -493,7 +500,8 @@ def _finish_discovery(attempt, capture_attempt, receipt, *, discovery, clock):
                 "capture_admission_expired", clock=clock)
 
 
-def continue_research(actor_id, run_id, *, provider=None, discovery=None, clock=timezone.now):
+def continue_research(actor_id, run_id, *, provider=None, discovery=None, clock=timezone.now,
+                      research_job_token=None):
     _gate()
     value = get_research(actor_id, run_id, clock=clock)
     if value["research"]["status"] in {"stale", "compiled", "plan_failed", "plan_uncertain",
@@ -506,12 +514,15 @@ def continue_research(actor_id, run_id, *, provider=None, discovery=None, clock=
         if not ResearchPlanResult.objects.filter(attempt__run=run, status="planned").exists():
             return value
     else:
+        if research_job_token is not None:
+            raise theses.ThesisConflict("Background continuation cannot admit research planning")
         _plan(run, provider=provider, clock=clock)
     result = ResearchPlanResult.objects.filter(attempt__run=run, status="planned").first()
     if result is None:
         return get_research(actor_id, run_id, clock=clock)
     for index, question in enumerate(result.document["questions"]):
-        _discover(run, index, question, discovery=discovery, clock=clock)
+        _discover(run, index, question, discovery=discovery, clock=clock,
+            research_job_token=research_job_token)
         saved = ResearchDiscoveryResult.objects.filter(attempt__run=run, attempt__question_index=index,
             status="captured").first()
         if saved is None or saved.status != "captured":
@@ -533,5 +544,5 @@ def continue_research(actor_id, run_id, *, provider=None, discovery=None, clock=
         return get_research(actor_id, run_id, clock=clock)
     compilation.compile_thesis(actor_id, str(run.thesis_id), _command(run, "compile"), run.initial_revision,
         run.model_id, run.provider, evidence_context_id=packet["evidence"]["id"], driver_review=True,
-        provider=provider, clock=clock)
+        provider=provider, clock=clock, research_job_token=research_job_token)
     return get_research(actor_id, run_id, clock=clock)

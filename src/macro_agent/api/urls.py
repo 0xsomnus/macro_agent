@@ -12,6 +12,7 @@ from .news_analysis_views import (
 
 from .lab_views import RecordedNewsView
 from .investigation_views import ResearchStartView, ResearchDetailView, ResearchCommandView, ResearchContinueView
+from .research_job_views import ResearchBackgroundView, ResearchBackgroundRevokeView
 from .news_publication_views import (
     NewsPublicationPreviewView, NewsPublishView, NewsPublicationDetailView,
     NewsPublicationCommandView, CurrentNewsBriefView,
@@ -32,6 +33,8 @@ urlpatterns = [
     path("research/", ResearchStartView.as_view(), name="research-start"),
     path("research/<uuid:run_id>/", ResearchDetailView.as_view(), name="research-detail"),
     path("research/<uuid:run_id>/continue/", ResearchContinueView.as_view(), name="research-continue"),
+    path("research/<uuid:run_id>/background/", ResearchBackgroundView.as_view(), name="research-background"),
+    path("research/<uuid:run_id>/background/revoke/", ResearchBackgroundRevokeView.as_view(), name="research-background-revoke"),
     path("research-commands/<uuid:command_id>/", ResearchCommandView.as_view(), name="research-command"),
     path("news-analyses/<uuid:analysis_id>/publication-preview/", NewsPublicationPreviewView.as_view(), name="news-publication-preview"),
     path("news-analyses/<uuid:analysis_id>/publish/", NewsPublishView.as_view(), name="news-publish"),

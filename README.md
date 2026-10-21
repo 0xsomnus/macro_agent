@@ -71,7 +71,7 @@ The example news is fictional and its relevance is predetermined for testing. Po
 After model setup, enable the local research and capture gates in the [question-research walkthrough](docs/QUESTION_RESEARCH.md), migrate and restart the backend. Check source reachability before starting paid planning:
 
 ```sh
-.venv/bin/python manage.py research_check_source --query "helium supply"
+.venv/bin/python manage.py research_check_source --query "helium supply" --recovery-policy
 ```
 
 This check needs no model key and saves no database records. Earlier live GDELT checks timed out; a longer diagnostic exposed rate limiting. Useful live acquisition remains unverified. Once the source check succeeds, run:
@@ -83,6 +83,8 @@ This check needs no model key and saves no database records. Earlier live GDELT 
 Choose a model and inspect the bounded request before starting. The result shows queries, selected and excluded source metadata, proposed drivers, exposure candidates and gaps. The first path uses headlines rather than article bodies. It preserves your exact question, makes no approval or watch, and can recover saved work without repeating an uncertain model call.
 
 New terminal runs enable [resumable source recovery](docs/RESEARCH_SOURCE_RECOVERY.md). Rate-limited lookups wait under saved bounds while reusing the paid plan and completed searches. `--wait` follows for up to five minutes; after that, resume with the displayed research ID. No alternative discovery source is configured yet.
+
+To let an already-planned investigation continue while you leave the terminal, use [background enrollment](docs/RESEARCH_BACKGROUND.md). A separate operator process follows its saved due times and can make the remaining compilation call. The same guide describes the shared pilot search-budget ledger; no paid search provider is connected yet.
 
 ## Try model compilation
 

@@ -335,7 +335,7 @@ def get_refinement_command(actor_id, thesis_id, command_id):
 
 def compile_thesis(actor_id, thesis_id, command_id, expected_revision, model_id, provider_id,
                    *, refinement_id=None, evidence_context_id=None, driver_review=False,
-                   provider=None, clock=timezone.now):
+                   provider=None, clock=timezone.now, research_job_token=None):
     _gate()
     if connection.in_atomic_block or not connection.get_autocommit():
         raise RuntimeError("compilation requires durable admission outside a caller transaction")
@@ -413,7 +413,16 @@ def compile_thesis(actor_id, thesis_id, command_id, expected_revision, model_id,
         submission, inputs = _refinement_context(thesis, refinement_id)
         # All aggregate admissions use this lock after owner and thesis locks.
         lock_model_budget()
-        at = service._instant(clock, thesis)
+        if research_job_token is not None:
+            from macro_agent.desk.research_jobs import protect_execution
+            run_id = context.content.get("question_research", {}).get("run_id") if context is not None else None
+            if run_id is None:
+                raise service.ThesisConflict("Background compilation requires the exact research context")
+            at = protect_execution(actor_id, run_id, research_job_token, clock=clock,
+                required_seconds=configuration["timeout_seconds"] + 5, command_id=command_id,
+                provider_id=provider_id, model_id=model_id, context=context)
+        else:
+            at = service._instant(clock, thesis)
         if context is not None and evidence.context_stale_reasons(context, at):
             raise service.ThesisConflict("Research evidence changed; prepare and review a fresh context")
         if not capacity_available(actor_id, at, configuration):
@@ -431,12 +440,19 @@ def compile_thesis(actor_id, thesis_id, command_id, expected_revision, model_id,
             configuration=configuration, messages=messages,
             prompt_digest=text_digest(canonical_json(messages)), created_at=at,
             deadline_at=at + timedelta(seconds=configuration["timeout_seconds"] + 5))
+        if research_job_token is not None:
+            from macro_agent.desk.research_jobs import record_admission
+            record_admission(research_job_token, at, compilation_attempt=attempt)
         AuditTransition.objects.create(thesis=thesis, kind="compilation_admitted", at=at,
             detail={"attempt_id": str(attempt.pk), "actor_id": actor_id,
                     "text_digest": thesis.latest_text.text_digest, "revision": revision,
                     "refinement_id": str(submission.pk) if submission else None,
                     "refinement_input_digest": text_digest(canonical_json(inputs))})
     # No database locks, transaction, tools, fact retrieval or implicit retry here.
+    if research_job_token is not None:
+        from macro_agent.desk.research_jobs import fence_dispatch
+        fence_dispatch(actor_id, run_id, research_job_token, clock=clock,
+            required_seconds=configuration["timeout_seconds"] + 5)
     metadata, document, status, reason = {}, None, "failed", "invalid_model_output"
     try:
         metadata = adapter.complete(model_id, messages)

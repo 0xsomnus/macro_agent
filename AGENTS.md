@@ -36,6 +36,8 @@ Read `README.md`, `docs/PRODUCT_DOCTRINE.md`, `docs/ROADMAP.md`, then the releva
 
 The optional driver-review profiles require typed evidence-linked proposals and complete exact-driver reassessment. Preserve legacy schema/hash identities when omitted. Price observation remains unavailable and entry not assessed in these profiles; analytical attention recommendations carry no publication or notification authority. See [driver review](docs/DRIVER_REVIEW.md).
 
+25. Follow [background research and search accounting](docs/RESEARCH_BACKGROUND.md). Worker enrollment is separate owner consent for an already-planned recovery run, with a pinned model configuration, bounded leases and exact immutable remote-admission provenance. Check the live lease inside admission and before fresh dispatch; revocation does not prove upstream cancellation. Never plan or resend admitted model work through recovery. Preserve the shared USD 10 UTC-calendar-month search ceiling and USD 0.10 investigation lifetime ceiling across providers, concurrency and restart. Reserve a reviewed maximum charge before paid search and retain unknown-charge holds until named-operator reconciliation. The internal ledger alone does not establish an integrated paid-transport guarantee or source rights; no paid provider is seeded. Model inference and subscription fees remain separate.
+
 ## No-go changes without a new ADR and user review
 
 Collapsing the three truth stores; automatic thesis edits; automatic canonical-edge promotion; general web search as the watcher; permanent multi-agent swarm; online model training; MVP Discovery; broker execution; production dependence on unreviewed data rights; or a dedicated graph DB selected without evidence.
