@@ -17,3 +17,7 @@ The original direction remains accepted, but its initial MVP sequencing is super
 For supported equity theses later, consider valuation during initial compilation and document method/data limits before claiming supported equity research. Official filings alone do not guarantee complete usable valuation inputs. Missing inputs or unsupported business methods require a visible limited result, not a universal DCF or an invented target. Relevant approved user assumptions remain distinguishable from agent-proposed assumptions.
 
 The method-aware, deterministic calculation boundary and on-demand refresh policy remain unchanged. No model calculation or contextual update may silently amend the user's thesis or its approved interpretation.
+
+## Equity research clarification, 2026-10-21
+
+The user confirmed that deferred equity research must include established analyst methods beyond valuation. The [equity analyst workflow](../THESIS_ENGINE.md#equity-analyst-workflow-deferred) specifies business/industry and competitive analysis, financial-report and earnings quality, segments/KPIs, driver-linked forecasts and scenarios, suitable valuation, expectations, catalysts, counter-evidence and a qualified conclusion. Dividend-discount models are also eligible where the business, payout policy and validated inputs support them. Preserve source revisions and reported-to-adjusted transformations; select depth by the research question rather than mechanically applying every method. This clarifies future scope without advancing equity implementation into the pilot.

@@ -1,6 +1,6 @@
 # Thesis engine
 
-Status, 2026-10-14: this document specifies intended behavior. The [current compiler](THESIS_COMPILATION.md) implements a text-grounded review card, exact saved answers, guided recompilation and explicit approval. Selected [source-backed compilation](SOURCED_RESEARCH.md) now exists; autonomous sourced research, verified causal relationships and the monitoring manifest below remain implementation work for the [weekly workflow test](WEEKLY_WORKFLOW_TEST.md). A structured proposal is not a verified investment argument.
+Status, 2026-10-21: this document specifies intended behavior. The [current compiler](THESIS_COMPILATION.md) implements a text-grounded review card, exact saved answers, guided recompilation and explicit approval. Selected [source-backed compilation](SOURCED_RESEARCH.md) and bounded [question-led headline research](QUESTION_RESEARCH.md) exist. General source discovery/setup, verified causal relationships, the monitoring manifest below and the equity analyst workflow remain implementation work. Live analytical usefulness still requires the [weekly workflow test](WEEKLY_WORKFLOW_TEST.md). A structured proposal is not a verified investment argument.
 
 ## Compilation contract
 
@@ -80,6 +80,22 @@ Completed briefs provide supported facts, impact hypotheses, counter-case, horiz
 Freeze an `AssessmentContextSnapshot` with exact thesis/interpretation activation, exposure, evidence, macro regime, knowledge, source manifest/coverage, rules, and run versions. Preserve late or superseded analysis for audit without activating it as current. Public availability and actual system receipt are separate; historical analysis may only use the versions eligible at the relevant replay cutoff. Modern-model knowledge of historical outcomes limits predictive claims even when retrieved evidence is correctly restricted.
 
 For example, if a user claims rate cuts always lift SPX, retrieve comparable regimes and ask why rates were cut, what was expected, and what changed. A current weak BTC/tech correlation should be displayed as a windowed observation, not presented as permanent disproof of a possible shared liquidity mechanism.
+
+## Equity analyst workflow, deferred
+
+Accepted direction, 2026-10-21: future equity research includes established fundamental analyst methods, with depth matched to the question, business and available evidence. Valuation is one part of this workflow. This specifies future scope and does not enable equity fundamentals in the pilot or require a complete model for every exploratory question.
+
+1. Define the research question, issuer and actual instrument, horizon where supplied, and material unknowns. Gather versioned filings and notes, releases, permitted transcripts/guidance, industry, competitor and macro evidence.
+2. Explain the business model, industry structure and competitive position, management and capital allocation. Examine material segments, KPIs, unit economics and macro transmission into revenue, costs and cash generation.
+3. Assess reporting quality separately from sustainable earnings quality. Reconcile reported and analyst-adjusted measures with explicit adjustment rationale; examine cash conversion, working capital, leverage, liquidity, dilution, restatements and comparability limits.
+4. Construct supported driver-linked forecasts for revenue, margins, working capital, capital investment and financing. Use coherent income-statement, balance-sheet and cash-flow projections where appropriate, with base/upside/downside scenarios and sensitivities. Distinguish management guidance, analyst assumptions and observed results.
+5. Select validated valuation methods appropriate to the business under [ADR 009](ADR/009-fundamental-valuation.md). Compare scenarios with dated market price and available expectations; use reverse valuation where supported. A good business does not by itself establish an attractive security price. Missing price, consensus or model inputs remain explicit.
+6. Present the differentiated argument, catalysts, downside, counter-evidence, risks and invalidation signposts. Link macro developments to business outcomes and the actual instrument. A qualified conclusion may be further research, no defensible thesis or no suitable trade; do not force a target, rating, probability or entry plan.
+7. Preserve evidence, adjustments, model and assumption revisions. Explain material changes to earnings outlook, explanation and valuation separately from observed price direction. Research alone starts no monitoring and changes no approved thesis.
+
+Every material financial input must retain its source field/passage, period, units, currency and revision, plus publication/receipt/known-at evidence or explicit gaps. Preserve reported values alongside normalization mappings and analyst adjustments; citations alone do not validate transformations. Calculations remain deterministic and reproducible. Show unavailable methods or evidence rather than substituting a fluent summary for completed analysis.
+
+Design references: CFA Institute's [research report essentials](https://www.cfainstitute.org/sites/default/files/-/media/documents/support/research-challenge/challenge/rc-equity-research-report-essentials.pdf), [company forecasting](https://www.cfainstitute.org/insights/professional-learning/refresher-readings/2026/company-analysis-forecasting) and [financial-report quality](https://www.cfainstitute.org/insights/professional-learning/refresher-readings/2026/evaluating-quality-financial-reports). These inform the workflow, not a single mandatory report format or a claim of certification.
 
 ## Fundamental valuation skill
 

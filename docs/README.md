@@ -36,7 +36,7 @@ Start with [Getting started](GETTING_STARTED.md) to run the current prototype. T
 | [Product specification](PRODUCT_SPEC.md) | Intended trader journeys and pilot acceptance scenarios |
 | [Roadmap](ROADMAP.md) | Current work, pilot gates, expansion and deferred capabilities |
 | [Driver review](DRIVER_REVIEW.md) | Required distinction between observed direction and explanatory support, including immediate material review |
-| [Thesis engine](THESIS_ENGINE.md) | Refinement, factual challenge, interpretation and user approval |
+| [Thesis engine](THESIS_ENGINE.md) | Refinement, user approval and the deferred fundamental equity analyst workflow |
 | [Monitoring and sources](MONITORING_AND_SOURCES.md) | Continuous capture, source rights, coverage and costs |
 | [Source options](SOURCE_OPTIONS.md) | Compare initial news feeds, published access and unresolved usage rights |
 | [First monitoring slice](MONITORING_SLICE.md) | Review capture-to-brief work, recovery and the remaining implementation choices |
@@ -51,7 +51,7 @@ Start with [Getting started](GETTING_STARTED.md) to run the current prototype. T
 | [Context continuity](CONTEXT_CONTINUITY.md) | Accepted internal runtime and daily-review directions, evidence/context contracts and remaining implementation choices |
 | [Domain model](DOMAIN_MODEL.md) | Theses, positions, events, knowledge, assessments and history |
 | [Event ontology](EVENT_ONTOLOGY.md) | Event families, revision semantics and provenance |
-| [Agent runtime](AGENT_RUNTIME.md) | Context assembly, specialist roles and bounded work |
+| [Agent runtime](AGENT_RUNTIME.md) | Context, bounded work and planned source setup with user approval preferences |
 | [Execution graphs](EXECUTION_GRAPHS.md) | Node contracts, budgets, failure paths and authority gates |
 | [Decision records](ADR/README.md) | Accepted decisions and their rationale |
 | [Stack comparison](STACK_OPTIONS.md) | Alternatives considered before selecting the application foundation |

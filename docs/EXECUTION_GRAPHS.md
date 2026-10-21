@@ -19,6 +19,27 @@ failure: identity/source gap -> user_review with coverage limit
 
 Distinguish factual error, unsupported mechanism, missing detail, and defensible disagreement. Proposals label user assumptions versus agent additions. Approval covers exact user text and concise interpretation of drivers, horizon, and signposts. Changes to interpretation semantics require approval; equivalent source/technical repairs can proceed with an audit trail. Additional agent hypotheses can be investigated without rewriting the trader's reasoning. Declined refinement leaves unobservable elements explicitly unresolved.
 
+## Source discovery and setup branch, planned
+
+Accepted direction, 2026-10-21; not implemented. Invoke for a named research gap or source need within an existing monitoring mandate, under [ADR 006](ADR/006-reusable-source-packs.md). This branch configures acquisition; it does not discover unsolicited trades or infer monitoring consent.
+
+```text
+named_gap -> bounded_source_discovery -> inspect_documentation_and_rights
+  -> select_supported_connection_method -> validate_typed_configuration
+  -> policy_admit_probe -> bounded_probe -> assess_evidence_fit
+  -> policy_admit_activation -> save_versioned_configuration
+  -> research_acquisition OR source_within_existing_monitoring_scope
+policy: delegated_and_in_scope -> recorded_automatic_approval
+        approval_required -> save_proposal_and_wait
+failure: unsupported_protocol -> isolated_adapter_proposal
+         unknown_rights/cost/credentials -> explicit_gap_or_required_decision
+         failed_probe/unsuitable_evidence -> retain_failure_and_reconsider_within_budget
+```
+
+Probe and activation are separately authorized actions; a diagnostic request must not bypass credential, rights or spending controls. Each admission pins the applicable policy, source configuration and approval basis, with protected current-state comparison and pre-dispatch revocation checks. Paid searches use protected maximum-charge reservations; uncertain calls are not automatically repeated. Bound discovery candidates, probes, elapsed time and aggregate cost before starting. Empty results, unavailable sources and exhausted allowance remain limitations, not evidence that no relevant driver exists.
+
+Source identity, claim support, revisions, freshness, correction behavior and intended use must be checked beyond parse success. Research can proceed with qualified evidence while uncovered questions remain visible; an unfamiliar asset does not itself require a coverage-onboarding workflow. Monitoring activation requires an existing explicit mandate and observable coverage limits. Capture thereafter uses deterministic feed/API scheduling, not a recurring general search loop. New adapter code cannot enter the live runtime through this configuration branch.
+
 ## G2: continuous monitoring and event analysis
 
 ```text

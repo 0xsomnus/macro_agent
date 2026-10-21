@@ -50,6 +50,10 @@ Bound publication protects owner, thesis and brief. Approval/exposure writers ad
 
 ## Contracts
 
+Planned source setup separates agent-generated configuration from executable adapters. Reusable feed, API and document readers accept typed, validated source configurations; adapters own protocol mechanics, while source-specific mappings preserve units, identities, revisions and provenance. A generic connection does not establish semantic correctness. Additional sources using supported methods can be admitted without a new application release under the user's [source approval policy](AGENT_RUNTIME.md#agent-led-source-setup-and-approval-preferences).
+
+Configuration admission protects the exact source/policy versions, entitlements, destination and credential scope, retention/model-use permissions and budget before dispatch. Recheck revocation and changed dependencies at subsequent admissions. Reject private/local network targets and unsafe redirect or DNS changes; bound responses, pagination, timeouts and credential forwarding. New executable connector code has a separate isolated validation and code-release boundary. Neither remote documentation nor a user source-approval preference can grant arbitrary code execution. These are future implementation requirements, not properties established by the current fixed adapter.
+
 | Boundary | Required record or behavior |
 | --- | --- |
 | Provider adapter | `SourceContractVersion`, native ID/revision, timestamps, payload hash, lawful retention, polling/feed method, latency and failure expectations, rate limits, and entitlement scope. A capability depends on validated input feasibility. |

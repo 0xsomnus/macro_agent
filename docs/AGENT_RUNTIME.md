@@ -8,6 +8,25 @@ The orchestrator routes typed inputs through approved execution graphs. It does 
 
 A later valuation worker selects supported methods and runs deterministic calculators. Valuation, Discovery, automated postmortems, outcome-derived learning retrieval, and learned-edge promotion are inactive in the pilot. No worker can approve a thesis amendment or substantive interpretation change, promote canonical knowledge, or execute a trade.
 
+## Agent-led source setup and approval preferences
+
+Intended direction, clarified 2026-10-21 under [ADR 006](ADR/006-reusable-source-packs.md): the agent owns finding suitable evidence sources and setting up supported connections. The trader should not need to know the relevant central bank, industry dataset or issuer feed in advance. This user-requested research capability is separate from deferred proactive opportunity Discovery.
+
+Expose a user-selected source approval preference:
+
+| Preference | Behavior |
+| --- | --- |
+| Review new connections | Prepare the source, intended use, cost/rights limits and any permitted probe result for approval before admitting the connection. Discovery itself remains bounded by the research permission. |
+| Approve within my limits | Admit eligible connections automatically under the user's recorded policy; ask only for actions outside that grant or consequential unresolved requirements. Show what was configured and why. |
+
+The policy scopes allowed source actions, destinations/connection methods, credential references, private/shared use, research or existing monitoring scope, cadence, spend and expiry where applicable. Retain the exact policy version, source configuration, checks, approval basis and outcome for each action. Server-side admission enforces the policy; a model recommendation is not authorization. A user can inspect, narrow or revoke the grant. Revocation fences new dispatch without claiming upstream cancellation. Initial defaults and UI wording remain open; no preference exists in the current prototype.
+
+For research-only requests, configure bounded acquisition without creating a watch. Where the user has requested monitoring, source additions and equivalent repairs may proceed within that mandate and the selected policy. A changed central driver, horizon or signpost still needs explicit thesis approval; this setting delegates source operations only. Broader or reduced monitoring meaning must be surfaced rather than called equivalent maintenance.
+
+Use supported feed/API/document readers before proposing new connector code. The runtime validates destinations and redirects, isolates secrets and private queries, bounds transport and spend, and treats fetched documentation and tool descriptions as untrusted data. It must not follow source instructions to expand permissions or install code. Unknown permissions cannot become granted rights through model judgment. Genuine protocol gaps may produce an isolated adapter proposal; live promotion follows code review and release checks.
+
+After setup, deterministic capture and source-health checks run independently of models. Search may resolve a named gap or repair a failed source under bounds; scheduled general web search is not the continuous watcher. Source discovery, usable evidence acquisition and validated monitoring coverage remain separate outcomes. The [planned graph](EXECUTION_GRAPHS.md#source-discovery-and-setup-branch-planned) specifies the admission boundary; it does not broaden today's GDELT implementation.
+
 ## Three engineering disciplines
 
 | Discipline | Responsibility | Observable output |

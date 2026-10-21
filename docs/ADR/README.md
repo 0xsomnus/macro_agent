@@ -1,6 +1,6 @@
 # Architectural decision records
 
-These records explain settled choices and rejected alternatives. Updated 2026-10-18 after delegated implementation of bounded question research and qualified driver publication. Status `Accepted` means the user established the direction or explicitly delegated its selection; it does not mean implementation, coverage, or legal review is complete. Dated amendments preserve earlier rationale while specifying revised pilot boundaries. A coding agent may propose a superseding ADR, but must not silently change an accepted decision.
+These records explain settled choices and rejected alternatives. Updated 2026-10-21 after source autonomy and deferred equity-workflow clarification. Status `Accepted` means the user established the direction or explicitly delegated its selection; it does not mean implementation, coverage, or legal review is complete. Dated amendments preserve earlier rationale while specifying revised pilot boundaries. A coding agent may propose a superseding ADR, but must not silently change an accepted decision.
 
 | ADR | Decision |
 | --- | --- |
@@ -9,10 +9,10 @@ These records explain settled choices and rejected alternatives. Updated 2026-10
 | [003](003-typed-graphs-and-review.md) | Typed graph semantics, reviewed edge changes, deferred graph DB |
 | [004](004-bounded-execution.md) | Explicit execution graphs and bounded on-demand workers |
 | [005](005-monitor-first.md) | Continuous desk and narrow paper pilot with global context; Discovery deferred |
-| [006](006-reusable-source-packs.md) | Reusable packs and provider-neutral data rights |
+| [006](006-reusable-source-packs.md) | Reusable sources, planned agent-led setup, user approval preferences and data rights |
 | [007](007-learning-without-online-training.md) | Basic records now; entire automated outcome-learning chain deferred |
 | [008](008-event-studies-and-legislation.md) | Event studies and specialised lifecycle machinery staged after pilot |
-| [009](009-fundamental-valuation.md) | Method-aware deterministic valuation with later equity expansion |
+| [009](009-fundamental-valuation.md) | Method-aware deterministic valuation within the deferred equity analyst workflow |
 | [010](010-product-authority.md) | Continuous desk, rough-thesis refinement, evidence, and user authority |
 | [011](011-materiality-and-continuous-desk.md) | Separate screening, investigation, and interruption; unknowns and cumulative evidence |
 | [012](012-pilot-learning-and-evaluation.md) | Learning deferral; independent misses review and fresh forward evaluation |
