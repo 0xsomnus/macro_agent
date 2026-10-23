@@ -7,6 +7,7 @@ Start with [Getting started](GETTING_STARTED.md) to run the current prototype. T
 | Guide | Use it for |
 | --- | --- |
 | [Getting started](GETTING_STARTED.md) | Install dependencies, create a local database and test your own inputs with recorded news |
+| [Testing roadmap and setup](TESTING_ROADMAP.md) | Follow source readiness, one real research test and the supervised paper week, with runnable setup and explicit pending work |
 | [Thesis compilation](THESIS_COMPILATION.md) | Configure a provider, review a structured thesis card, answer questions and explicitly recompile |
 | [Source-backed research](SOURCED_RESEARCH.md) | Freeze captured evidence, review sourced conflicts and compile without changing trader intent |
 | [Morning synthesis](MORNING_SYNTHESIS.md) | Interpret an exact retained review, retain the digest fallback and recover without resending |
